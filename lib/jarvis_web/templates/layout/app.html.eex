@@ -25,8 +25,10 @@
 
       <!-- Main nav -->
       <nav>
-        <div class="nav-wrapper">
-          <a href="#!" class="brand-logo" style="margin-left: 1rem"><i class="material-icons">home</i>Logo</a>
+        <div class="nav-wrapper" style="background: #ff9900;">
+          <a href="#!" class="brand-logo" style="margin: 0.1rem">
+            <img class="responsive-img" style="width: 8rem;" src="<%= Routes.static_path(@conn, "/images/logo_jarvis.svg") %>" alt="Phoenix Framework Logo"/>
+          </a>
           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down" style="margin: 0rem 1rem 1rem 1rem">
             <li><a href="sass.html">Sass</a></li>
