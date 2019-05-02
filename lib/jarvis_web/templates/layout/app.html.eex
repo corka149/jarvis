@@ -59,6 +59,12 @@
     <%= render @view_module, @view_template, assigns %>
   </main>
 
+  <footer class="footer">
+    <div>
+        <span><a href="https://github.com/corka149/jarvis">jARVIS -  Made by corka149</a></span>
+    </div>
+  </footer>
+
   <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   <script src="https://code.jquery.com/jquery-3.4.0.min.js"
     integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
