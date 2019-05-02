@@ -15,14 +15,13 @@
 
   <header>
     <section>
-      <!-- Dropdown structure -->
-      <ul id="dropdown1" class="dropdown-content">
-        <li><a href="#!">one</a></li>
-        <li><a href="#!">two</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">three</a></li>
+      <!-- Dropdown structure shopping list -->
+      <ul id="shoppinglist_dropdown_desktop" class="dropdown-content">
+        <li><a href="#!">Current</a></li>
+        <li><a href="#!">All lists</a></li>
       </ul>
 
+      <!-- DESKTOP -->
       <!-- Main nav -->
       <nav>
         <div class="nav-wrapper" style="background: #ff9900;">
@@ -31,22 +30,24 @@
           </a>
           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down" style="margin: 0rem 1rem 1rem 1rem">
-            <li><a href="sass.html">Sass</a></li>
-            <li><a href="badges.html">Components</a></li>
-            <li><a href="collapsible.html">Javascript</a></li>
-            <!-- Dropdown Trigger -->
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i
+            <!-- Dropdown shopping list -->
+            <li><a class="dropdown-trigger" href="#!" data-target="shoppinglist_dropdown_desktop">Shopping list<i
                   class="material-icons right">arrow_drop_down</i></a></li>
           </ul>
         </div>
       </nav>
 
+      <!-- MOBILE -->
+      <!-- Dropdown structure shopping list -->
+      <ul id="shoppinglist_dropdown_mobile" class="dropdown-content">
+        <li><a href="#!">Current</a></li>
+        <li><a href="#!">All lists</a></li>
+      </ul>
+
       <!-- Side nav -->
       <ul class="sidenav" id="mobile-demo">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i
+        <!-- Dropdown shopping list -->
+        <li><a class="dropdown-trigger" href="#!" data-target="shoppinglist_dropdown_mobile">Shopping list<i
           class="material-icons right">arrow_drop_down</i></a></li>
       </ul>
     </section>
