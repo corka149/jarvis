@@ -19,6 +19,13 @@ defmodule JarvisWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/auth", JarvisWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", JarvisWeb do
   #   pipe_through :api
