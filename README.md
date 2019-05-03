@@ -1,4 +1,4 @@
-# Jarvis
+# jARVIS
 
 To start your Phoenix server:
 
