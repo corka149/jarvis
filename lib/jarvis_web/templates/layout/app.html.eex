@@ -33,6 +33,15 @@
             <!-- Dropdown shopping list -->
             <li><a class="dropdown-trigger" href="#!" data-target="shoppinglist_dropdown_desktop">Shopping list<i
                   class="material-icons right">arrow_drop_down</i></a></li>
+              <%= if @conn.assigns[:user] do %>
+                <li>
+                  <a>Logout</a>
+                </li>
+              <% else %>
+                <li>
+                  <%= link "Sign in", to: Routes.auth_path(@conn, :request, "auth0") %>
+                </li>
+              <% end %>
           </ul>
         </div>
       </nav>
