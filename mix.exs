@@ -44,7 +44,8 @@ defmodule Jarvis.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:ueberauth, "~> 0.6"},
-      {:ueberauth_auth0, "~> 0.3"}
+      {:ueberauth_auth0, "~> 0.3"},
+      {:poison, "~> 4.0"}
     ]
   end
 
