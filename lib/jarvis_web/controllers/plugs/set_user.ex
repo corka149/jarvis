@@ -1,4 +1,4 @@
-defmodule Jarvis.Plugs.SetUser do
+defmodule JarvisWeb.Plugs.SetUser do
   import Plug.Conn
 
   alias Jarvis.Repo
