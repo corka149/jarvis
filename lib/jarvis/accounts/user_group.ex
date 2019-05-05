@@ -4,6 +4,7 @@ defmodule Jarvis.Accounts.UserGroup do
 
   schema "usergroups" do
     field :name, :string
+    belongs_to :user, Jarvis.Accounts.UserGroup
 
     timestamps()
   end

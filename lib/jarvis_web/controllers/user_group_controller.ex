@@ -17,7 +17,7 @@ defmodule JarvisWeb.UserGroupController do
   end
 
   def create(conn, %{"user_group" => user_group_params}) do
-    case Accounts.create_user_group(user_group_params) do
+    case Accounts.create_user_group(user_group_params, conn.assigns.user) do
       {:ok, user_group} ->
         conn
         |> put_flash(:info, "User group created successfully.")

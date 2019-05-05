@@ -7,6 +7,7 @@ defmodule Jarvis.Accounts.User do
     field :name, :string
     field :provider, :string
     field :token, :string
+    has_many :usergroups, Jarvis.Accounts.UserGroup
 
     timestamps()
   end

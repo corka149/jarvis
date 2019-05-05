@@ -7,6 +7,7 @@ defmodule Jarvis.Accounts do
   alias Jarvis.Repo
 
   alias Jarvis.Accounts.User
+  alias Jarvis.Accounts.UserGroup
 
   @doc """
   Returns the list of users.
@@ -138,15 +139,15 @@ defmodule Jarvis.Accounts do
 
   ## Examples
 
-      iex> create_user_group(%{field: value})
+      iex> create_user_group(%{field: value}, user)
       {:ok, %UserGroup{}}
 
-      iex> create_user_group(%{field: bad_value})
+      iex> create_user_group(%{field: bad_value}, user)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user_group(attrs \\ %{}) do
-    %UserGroup{}
+  def create_user_group(attrs \\ %{}, user) do
+    Ecto.build_assoc(user, :usergroups)
     |> UserGroup.changeset(attrs)
     |> Repo.insert()
   end
