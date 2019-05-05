@@ -4,6 +4,8 @@ defmodule JarvisWeb.UserGroupController do
   alias Jarvis.Accounts
   alias Jarvis.Accounts.UserGroup
 
+  plug JarvisWeb.Plugs.RequireAuth
+
   def index(conn, _params) do
     usergroups = Accounts.list_usergroups()
     render(conn, "index.html", usergroups: usergroups)
