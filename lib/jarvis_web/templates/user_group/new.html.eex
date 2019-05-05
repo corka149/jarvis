@@ -1,4 +1,4 @@
-<h1>New User group</h1>
+<h1>New ser group</h1>
 
 <%= render "form.html", Map.put(assigns, :action, Routes.user_group_path(@conn, :create)) %>
 

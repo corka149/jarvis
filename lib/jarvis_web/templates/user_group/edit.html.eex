@@ -1,4 +1,4 @@
-<h1>Edit User group</h1>
+<h1>Edit user group</h1>
 
 <%= render "form.html", Map.put(assigns, :action, Routes.user_group_path(@conn, :update, @user_group)) %>
 

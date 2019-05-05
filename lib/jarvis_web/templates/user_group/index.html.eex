@@ -1,4 +1,4 @@
-<h1>Listing Usergroups</h1>
+<h1>Listing user groups</h1>
 
 <table>
   <thead>
@@ -23,4 +23,4 @@
   </tbody>
 </table>
 
-<span><%= link "New User group", to: Routes.user_group_path(@conn, :new) %></span>
+<span><%= link "New user group", to: Routes.user_group_path(@conn, :new) %></span>
