@@ -35,6 +35,9 @@
                   class="material-icons right">arrow_drop_down</i></a></li>
             <%= if @conn.assigns[:user] do %>
               <li>
+                <%= link "User groups", to: Routes.user_group_path(@conn, :index) %>
+              </li>
+              <li>
                 <%= link "Logout", to: Routes.auth_path(@conn, :signout) %>
               </li>
             <% else %>
@@ -59,6 +62,9 @@
         <li><a class="dropdown-trigger" href="#!" data-target="shoppinglist_dropdown_mobile">Shopping list<i
           class="material-icons right">arrow_drop_down</i></a></li>
         <%= if @conn.assigns[:user] do %>
+          <li>
+            <%= link "User groups", to: Routes.user_group_path(@conn, :index) %>
+          </li>
           <li>
             <%= link "Logout", to: Routes.auth_path(@conn, :signout) %>
           </li>
