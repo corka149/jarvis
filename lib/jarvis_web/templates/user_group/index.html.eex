@@ -1,0 +1,26 @@
+<h1>Listing Usergroups</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for user_group <- @usergroups do %>
+    <tr>
+      <td><%= user_group.name %></td>
+
+      <td>
+        <%= link "Show", to: Routes.user_group_path(@conn, :show, user_group) %>
+        <%= link "Edit", to: Routes.user_group_path(@conn, :edit, user_group) %>
+        <%= link "Delete", to: Routes.user_group_path(@conn, :delete, user_group), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New User group", to: Routes.user_group_path(@conn, :new) %></span>

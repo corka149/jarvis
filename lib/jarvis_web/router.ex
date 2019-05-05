@@ -18,6 +18,7 @@ defmodule JarvisWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/usergroup", UserGroupController
   end
 
   scope "/auth", JarvisWeb do
