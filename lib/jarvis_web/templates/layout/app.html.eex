@@ -31,8 +31,9 @@
           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down" style="margin: 0rem 1rem 1rem 1rem">
             <!-- Dropdown shopping list -->
-            <li><a class="dropdown-trigger" href="#!" data-target="shoppinglist_dropdown_desktop">Shopping list<i
-                  class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="shoppinglist_dropdown_desktop">
+              <%= gettext("Shopping list") %>
+            <i class="material-icons right">arrow_drop_down</i></a></li>
             <%= if @conn.assigns[:user] do %>
               <li>
                 <%= link gettext("User groups"), to: Routes.user_group_path(@conn, :index) %>

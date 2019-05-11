@@ -1,9 +1,9 @@
-<h1>Listing user groups</h1>
+<h1><%= dgettext "accounts", "Listing user groups" %></h1>
 
 <table>
   <thead>
     <tr>
-      <th>Name</th>
+      <th><%= gettext "Name" %></th>
 
       <th></th>
     </tr>
@@ -14,13 +14,13 @@
       <td><%= user_group.name %></td>
 
       <td>
-        <%= link "Show", to: Routes.user_group_path(@conn, :show, user_group) %>
-        <%= link "Edit", to: Routes.user_group_path(@conn, :edit, user_group) %>
-        <%= link "Delete", to: Routes.user_group_path(@conn, :delete, user_group), method: :delete, data: [confirm: "Are you sure?"] %>
+        <%= link gettext("Show"), to: Routes.user_group_path(@conn, :show, user_group) %>
+        <%= link gettext("Edit"), to: Routes.user_group_path(@conn, :edit, user_group) %>
+        <%= link gettext("Delete"), to: Routes.user_group_path(@conn, :delete, user_group), method: :delete, data: [confirm: gettext("Are you sure?")] %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<span><%= link "New user group", to: Routes.user_group_path(@conn, :new) %></span>
+<span><%= link dgettext("accounts", "New user group"), to: Routes.user_group_path(@conn, :new) %></span>
