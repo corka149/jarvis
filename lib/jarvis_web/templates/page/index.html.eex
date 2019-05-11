@@ -1,4 +1,4 @@
 <section >
   <h1><%= gettext "Welcome to %{name}!", name: "jARVIS" %></h1>
-  <p>How can I help you?</p>
+  <p><%= gettext "How can I help you?" %></p>
 </section>

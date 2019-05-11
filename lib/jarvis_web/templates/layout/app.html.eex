@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jarvis · May I help you</title>
+  <title><%= gettext "Jarvis · May I help you" %></title>
   <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -17,8 +17,8 @@
     <section>
       <!-- Dropdown structure shopping list -->
       <ul id="shoppinglist_dropdown_desktop" class="dropdown-content">
-        <li><a href="#!">Current</a></li>
-        <li><a href="#!">All lists</a></li>
+        <li><a href="#!"><%= gettext "Current" %></a></li>
+        <li><a href="#!"><%= gettext "All lists" %></a></li>
       </ul>
 
       <!-- DESKTOP -->
@@ -35,14 +35,14 @@
                   class="material-icons right">arrow_drop_down</i></a></li>
             <%= if @conn.assigns[:user] do %>
               <li>
-                <%= link "User groups", to: Routes.user_group_path(@conn, :index) %>
+                <%= link gettext("User groups"), to: Routes.user_group_path(@conn, :index) %>
               </li>
               <li>
-                <%= link "Logout", to: Routes.auth_path(@conn, :signout) %>
+                <%= link gettext("Logout"), to: Routes.auth_path(@conn, :signout) %>
               </li>
             <% else %>
               <li>
-                <%= link "Sign in", to: Routes.auth_path(@conn, :request, "auth0") %>
+                <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :request, "auth0") %>
               </li>
             <% end %>
           </ul>
@@ -52,25 +52,26 @@
       <!-- MOBILE -->
       <!-- Dropdown structure shopping list -->
       <ul id="shoppinglist_dropdown_mobile" class="dropdown-content">
-        <li><a href="#!">Current</a></li>
-        <li><a href="#!">All lists</a></li>
+        <li><a href="#!"><%= gettext "Current" %></a></li>
+        <li><a href="#!"><%= gettext "All lists" %></a></li>
       </ul>
 
       <!-- Side nav -->
       <ul class="sidenav" id="mobile-demo">
         <!-- Dropdown shopping list -->
-        <li><a class="dropdown-trigger" href="#!" data-target="shoppinglist_dropdown_mobile">Shopping list<i
-          class="material-icons right">arrow_drop_down</i></a></li>
+        <li><a class="dropdown-trigger" href="#!" data-target="shoppinglist_dropdown_mobile">
+          <%= gettext("Shopping list") %>
+        <i class="material-icons right">arrow_drop_down</i></a></li>
         <%= if @conn.assigns[:user] do %>
           <li>
-            <%= link "User groups", to: Routes.user_group_path(@conn, :index) %>
+            <%= link gettext("User groups"), to: Routes.user_group_path(@conn, :index) %>
           </li>
           <li>
-            <%= link "Logout", to: Routes.auth_path(@conn, :signout) %>
+            <%= link gettext("Logout"), to: Routes.auth_path(@conn, :signout) %>
           </li>
         <% else %>
           <li>
-            <%= link "Sign in", to: Routes.auth_path(@conn, :request, "auth0") %>
+            <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :request, "auth0") %>
           </li>
         <% end %>
       </ul>

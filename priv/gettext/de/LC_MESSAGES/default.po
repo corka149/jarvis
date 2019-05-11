@@ -15,3 +15,48 @@ msgstr ""
 #: lib/jarvis_web/templates/page/index.html.eex:2
 msgid "Welcome to %{name}!"
 msgstr "Willkommen bei %{name}!"
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/app.html.eex:21
+#: lib/jarvis_web/templates/layout/app.html.eex:56
+msgid "All lists"
+msgstr "Alle Listen"
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/app.html.eex:20
+#: lib/jarvis_web/templates/layout/app.html.eex:55
+msgid "Current"
+msgstr "Aktuelle"
+
+#, elixir-format
+#: lib/jarvis_web/templates/page/index.html.eex:3
+msgid "How can I help you?"
+msgstr "Wie kann ich helfen"
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/app.html.eex:8
+msgid "Jarvis · May I help you"
+msgstr "jARVIS · Wie kann ich helfen"
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/app.html.eex:41
+#: lib/jarvis_web/templates/layout/app.html.eex:70
+msgid "Logout"
+msgstr "Abmelden"
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/app.html.eex:45
+#: lib/jarvis_web/templates/layout/app.html.eex:74
+msgid "Sign in"
+msgstr "Anmelden"
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/app.html.eex:38
+#: lib/jarvis_web/templates/layout/app.html.eex:67
+msgid "User groups"
+msgstr "Benutzergruppen"
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/app.html.eex:63
+msgid "Shopping list"
+msgstr "Einkaufsliste"
