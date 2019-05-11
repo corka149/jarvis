@@ -15,7 +15,8 @@ config :jarvis, JarvisWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "/ogYigSCve4T4V40gzDmNpQaGtg5eIy3BnBS2JpFv4wT35cwbFTBh5AcvWUw9Fdt",
   render_errors: [view: JarvisWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Jarvis.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Jarvis.PubSub, adapter: Phoenix.PubSub.PG2],
+  default_locale: "en", locales: ~w(en de)
 
 # Configures Elixir's Logger
 config :logger, :console,
