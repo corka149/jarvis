@@ -8,6 +8,8 @@ defmodule Jarvis.ShoppingLists do
 
   alias Jarvis.ShoppingLists.ShoppingList
 
+  alias Jarvis.Accounts
+
   @doc """
   Returns the list of shoppinglists.
 
@@ -42,15 +44,15 @@ defmodule Jarvis.ShoppingLists do
 
   ## Examples
 
-      iex> create_shopping_list(%{field: value})
+      iex> create_shopping_list(%{field: value}, %{name: "corka"})
       {:ok, %ShoppingList{}}
 
-      iex> create_shopping_list(%{field: bad_value})
+      iex> create_shopping_list(%{field: bad_value}, %{name: "corka"})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_shopping_list(attrs \\ %{}) do
-    %ShoppingList{}
+  def create_shopping_list(attrs \\ %{}, user_group) do
+    Ecto.build_assoc(user_group, :shoppinglists)
     |> ShoppingList.changeset(attrs)
     |> Repo.insert()
   end

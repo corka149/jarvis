@@ -16,6 +16,8 @@
   <%= date_input f, :planned_for %>
   <%= error_tag f, :planned_for %>
 
+  <%= select f, :belongs_to, @user_groups %>
+
   <div>
     <%= submit "Save" %>
   </div>
