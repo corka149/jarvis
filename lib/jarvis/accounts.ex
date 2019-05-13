@@ -119,6 +119,14 @@ defmodule Jarvis.Accounts do
   end
 
   @doc """
+  Returns all usergroups owned by a specific user.
+
+  """
+  def list_usergroups_by_owner(user_id) do
+    Repo.all(from ug in UserGroup, where: ug.user_id == ^user_id)
+  end
+
+  @doc """
   Gets a single user_group.
 
   Raises `Ecto.NoResultsError` if the User group does not exist.

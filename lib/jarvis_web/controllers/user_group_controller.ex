@@ -5,9 +5,10 @@ defmodule JarvisWeb.UserGroupController do
   alias Jarvis.Accounts.UserGroup
 
   plug JarvisWeb.Plugs.RequireAuth
+  plug :check_user_group_owner when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
-    usergroups = Accounts.list_usergroups()
+    usergroups = Accounts.list_usergroups_by_owner(conn.assigns.user.id)
     render(conn, "index.html", usergroups: usergroups)
   end
 
@@ -60,5 +61,18 @@ defmodule JarvisWeb.UserGroupController do
     conn
     |> put_flash(:info, "User group deleted successfully.")
     |> redirect(to: Routes.user_group_path(conn, :index))
+  end
+
+  def check_user_group_owner(conn, _params) do
+    %{params: %{"id" => user_group_id}} = conn
+
+    if Accounts.get_user_group!(user_group_id).user_id == conn.assigns.user.id do
+      conn
+    else
+      conn
+      |> put_flash(":error", dgettext("errors", "You are not allow to do this!"))
+      |> redirect(to: JarvisWeb.Router.Helpers.page_path(conn, :index))
+      |> halt()
+    end
   end
 end

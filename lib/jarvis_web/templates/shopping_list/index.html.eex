@@ -1,0 +1,28 @@
+<h1>Listing Shoppinglists</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Done</th>
+      <th>Planned for</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for shopping_list <- @shoppinglists do %>
+    <tr>
+      <td><%= shopping_list.done %></td>
+      <td><%= shopping_list.planned_for %></td>
+
+      <td>
+        <%= link "Show", to: Routes.shopping_list_path(@conn, :show, shopping_list) %>
+        <%= link "Edit", to: Routes.shopping_list_path(@conn, :edit, shopping_list) %>
+        <%= link "Delete", to: Routes.shopping_list_path(@conn, :delete, shopping_list), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Shopping list", to: Routes.shopping_list_path(@conn, :new) %></span>
