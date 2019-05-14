@@ -5,6 +5,7 @@
     <tr>
       <th>Done</th>
       <th>Planned for</th>
+      <th>Belongs to</th>
 
       <th></th>
     </tr>
@@ -14,6 +15,7 @@
     <tr>
       <td><%= shopping_list.done %></td>
       <td><%= shopping_list.planned_for %></td>
+      <td><%= shopping_list.usergroups.name %></td>
 
       <td>
         <%= link "Show", to: Routes.shopping_list_path(@conn, :show, shopping_list) %>

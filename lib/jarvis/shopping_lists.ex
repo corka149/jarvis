@@ -8,8 +8,6 @@ defmodule Jarvis.ShoppingLists do
 
   alias Jarvis.ShoppingLists.ShoppingList
 
-  alias Jarvis.Accounts
-
   @doc """
   Returns the list of shoppinglists.
 
@@ -21,6 +19,8 @@ defmodule Jarvis.ShoppingLists do
   """
   def list_shoppinglists do
     Repo.all(ShoppingList)
+    |> Repo.preload(:usergroups)
+    |> IO.inspect
   end
 
   @doc """
