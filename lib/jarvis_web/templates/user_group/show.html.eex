@@ -11,5 +11,5 @@
 
 </ul>
 
-<span><%= link gettext("Edit"), to: Routes.user_group_path(@conn, :edit, @user_group) %></span>
-<span><%= link gettext("Back"), to: Routes.user_group_path(@conn, :index) %></span>
+<span><%= link gettext("Edit"), to: Routes.user_group_path(@conn, :edit, @user_group), class: "btn orange" %></span>
+<span><%= link gettext("Back"), to: Routes.user_group_path(@conn, :index), class: "btn orange" %></span>

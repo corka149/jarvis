@@ -2,4 +2,4 @@
 
 <%= render "form.html", Map.put(assigns, :action, Routes.user_group_path(@conn, :create)) %>
 
-<span><%= link gettext("Back"), to: Routes.user_group_path(@conn, :index) %></span>
+<span><%= link gettext("Back"), to: Routes.user_group_path(@conn, :index), class: "btn orange" %></span>

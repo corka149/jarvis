@@ -19,6 +19,6 @@
   <%= select f, :belongs_to, @user_groups %>
 
   <div>
-    <%= submit "Save" %>
+    <%= submit gettext("Save"), class: "btn green"  %>
   </div>
 <% end %>

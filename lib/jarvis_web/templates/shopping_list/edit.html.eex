@@ -2,4 +2,4 @@
 
 <%= render "form.html", Map.put(assigns, :action, Routes.shopping_list_path(@conn, :update, @shopping_list)) %>
 
-<span><%= link "Back", to: Routes.shopping_list_path(@conn, :index) %></span>
+<span><%= link gettext("Back"), to: Routes.shopping_list_path(@conn, :index), class: "btn orange"  %></span>

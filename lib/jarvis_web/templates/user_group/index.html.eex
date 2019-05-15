@@ -14,13 +14,13 @@
       <td><%= user_group.name %></td>
 
       <td>
-        <%= link gettext("Show"), to: Routes.user_group_path(@conn, :show, user_group) %>
-        <%= link gettext("Edit"), to: Routes.user_group_path(@conn, :edit, user_group) %>
-        <%= link gettext("Delete"), to: Routes.user_group_path(@conn, :delete, user_group), method: :delete, data: [confirm: gettext("Are you sure?")] %>
+        <%= link gettext("Show"), to: Routes.user_group_path(@conn, :show, user_group), class: "btn orange" %>
+        <%= link gettext("Edit"), to: Routes.user_group_path(@conn, :edit, user_group), class: "btn orange" %>
+        <%= link gettext("Delete"), to: Routes.user_group_path(@conn, :delete, user_group), method: :delete, data: [confirm: gettext("Are you sure?")], class: "btn red" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<span><%= link dgettext("accounts", "New user group"), to: Routes.user_group_path(@conn, :new) %></span>
+<span><%= link dgettext("accounts", "New user group"), to: Routes.user_group_path(@conn, :new), class: "btn orange" %></span>
