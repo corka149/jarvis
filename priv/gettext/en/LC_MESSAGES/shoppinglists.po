@@ -1,0 +1,40 @@
+## `msgid`s in this file come from POT (.pot) files.
+##
+## Do not add, change, or remove `msgid`s manually here as
+## they're tied to the ones in the corresponding POT file
+## (with the same domain).
+##
+## Use `mix gettext.extract --merge` or `mix gettext.merge`
+## to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: en\n"
+"Plural-Forms: nplurals=2\n"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:8
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:20
+msgid "Belongs to"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:6
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:6
+msgid "Done"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:36
+msgid "New Shopping list"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:7
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:15
+msgid "Planned for"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:1
+msgid "Listing Shoppinglists"
+msgstr ""

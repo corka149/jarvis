@@ -20,7 +20,6 @@ defmodule Jarvis.ShoppingLists do
   def list_shoppinglists do
     Repo.all(ShoppingList)
     |> Repo.preload(:usergroup)
-    |> IO.inspect
   end
 
   @doc """
@@ -37,7 +36,7 @@ defmodule Jarvis.ShoppingLists do
       ** (Ecto.NoResultsError)
 
   """
-  def get_shopping_list!(id), do: Repo.get!(ShoppingList, id)
+  def get_shopping_list!(id), do: Repo.get!(ShoppingList, id) |> Repo.preload(:usergroup)
 
   @doc """
   Creates a shopping_list.

@@ -1,4 +1,4 @@
-<h1>Listing Shoppinglists</h1>
+<h1><%= dgettext("shoppinglists", "Listing Shoppinglists") %></h1>
 
 <table>
   <thead>
@@ -13,7 +13,13 @@
   <tbody>
 <%= for shopping_list <- @shoppinglists do %>
     <tr>
-      <td><%= shopping_list.done %></td>
+      <td>
+        <%= if shopping_list.done do %>
+          <i class="material-icons">check</i>
+        <% else %>
+          <i class="material-icons">close</i>
+        <% end %>
+      </td>
       <td><%= shopping_list.planned_for %></td>
       <td><%= shopping_list.usergroup.name %></td>
 

@@ -3,15 +3,23 @@
 <ul>
 
   <li>
-    <strong>Done:</strong>
-    <%= @shopping_list.done %>
+    <strong><%= dgettext("shoppinglists", "Done") %>:</strong>
+    <%= if @shopping_list.done do %>
+      <i class="material-icons">check</i>
+    <% else %>
+      <i class="material-icons">close</i>
+    <% end %>
   </li>
 
   <li>
-    <strong>Planned for:</strong>
+    <strong><%= dgettext("shoppinglists", "Planned for") %>:</strong>
     <%= @shopping_list.planned_for %>
   </li>
 
+  <li>
+    <strong><%= dgettext("shoppinglists", "Belongs to") %>:</strong>
+    <%= @shopping_list.usergroup.name %>
+  </li>
 </ul>
 
 <span><%= link gettext("Edit"), to: Routes.shopping_list_path(@conn, :edit, @shopping_list), class: "btn orange"  %></span>
