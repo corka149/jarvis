@@ -6,7 +6,7 @@ defmodule Jarvis.ShoppingLists.ShoppingList do
     field :done, :boolean, default: false
     field :planned_for, :date
     field :creator, :id
-    belongs_to :usergroups, Jarvis.Accounts.UserGroup, foreign_key: :belongs_to
+    belongs_to :usergroup, Jarvis.Accounts.UserGroup, foreign_key: :belongs_to
 
     timestamps()
   end

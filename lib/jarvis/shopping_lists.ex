@@ -19,7 +19,7 @@ defmodule Jarvis.ShoppingLists do
   """
   def list_shoppinglists do
     Repo.all(ShoppingList)
-    |> Repo.preload(:usergroups)
+    |> Repo.preload(:usergroup)
     |> IO.inspect
   end
 
