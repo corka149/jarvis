@@ -6,6 +6,8 @@ defmodule JarvisWeb.ShoppingListController do
 
   alias Jarvis.Accounts
 
+  plug JarvisWeb.Plugs.RequireAuth
+
   def index(conn, _params) do
     shoppinglists = ShoppingLists.list_shoppinglists()
     render(conn, "index.html", shoppinglists: shoppinglists)
@@ -38,9 +40,11 @@ defmodule JarvisWeb.ShoppingListController do
   end
 
   def edit(conn, %{"id" => id}) do
+    user_groups = Accounts.list_usergroups_by_owner(conn.assigns.user.id)
+                  |> Enum.map(fn ug -> {ug.name, ug.id} end)
     shopping_list = ShoppingLists.get_shopping_list!(id)
     changeset = ShoppingLists.change_shopping_list(shopping_list)
-    render(conn, "edit.html", shopping_list: shopping_list, changeset: changeset)
+    render(conn, "edit.html", shopping_list: shopping_list, changeset: changeset, user_groups: user_groups)
   end
 
   def update(conn, %{"id" => id, "shopping_list" => shopping_list_params}) do
