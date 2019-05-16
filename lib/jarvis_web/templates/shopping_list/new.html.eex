@@ -1,4 +1,4 @@
-<h1>New Shopping list</h1>
+<h1><%= dgettext("shoppinglists", "New Shopping list") %></h1>
 
 <%= f = form_for @changeset, Routes.shopping_list_path(@conn, :create) %>
   <%= if @changeset.action do %>

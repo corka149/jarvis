@@ -25,6 +25,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/templates/shopping_list/index.html.eex:36
+#: lib/jarvis_web/templates/shopping_list/new.html.eex:1
 msgid "New Shopping list"
 msgstr ""
 
@@ -37,4 +38,9 @@ msgstr ""
 #, elixir-format
 #: lib/jarvis_web/templates/shopping_list/index.html.eex:1
 msgid "Listing Shoppinglists"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/jarvis_web/templates/shopping_list/edit.html.eex:1
+msgid "Edit Shopping list"
 msgstr ""

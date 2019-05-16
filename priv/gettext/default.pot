@@ -56,8 +56,8 @@ msgid "User groups"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:37
-#: lib/jarvis_web/templates/layout/app.html.eex:68
+#: lib/jarvis_web/templates/layout/app.html.eex:38
+#: lib/jarvis_web/templates/layout/app.html.eex:69
 msgid "Shopping list"
 msgstr ""
 
@@ -68,8 +68,8 @@ msgid "Are you sure?"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/edit.html.eex:5
-#: lib/jarvis_web/templates/shopping_list/new.html.eex:5
+#: lib/jarvis_web/templates/shopping_list/edit.html.eex:29
+#: lib/jarvis_web/templates/shopping_list/new.html.eex:28
 #: lib/jarvis_web/templates/shopping_list/show.html.eex:26
 #: lib/jarvis_web/templates/user_group/edit.html.eex:5
 #: lib/jarvis_web/templates/user_group/new.html.eex:5
@@ -102,7 +102,8 @@ msgid "Name:"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/form.html.eex:22
+#: lib/jarvis_web/templates/shopping_list/edit.html.eex:24
+#: lib/jarvis_web/templates/shopping_list/new.html.eex:24
 #: lib/jarvis_web/templates/user_group/form.html.eex:13
 msgid "Save"
 msgstr ""
