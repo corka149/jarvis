@@ -43,15 +43,16 @@ defmodule Jarvis.ShoppingLists do
 
   ## Examples
 
-      iex> create_shopping_list(%{field: value}, %{name: "corka"})
+      iex> create_shopping_list(%{field: value}, %{name: "household"})
       {:ok, %ShoppingList{}}
 
-      iex> create_shopping_list(%{field: bad_value}, %{name: "corka"})
+      iex> create_shopping_list(%{field: bad_value}, %{name: "household"})
       {:error, %Ecto.Changeset{}}
 
   """
   def create_shopping_list(attrs \\ %{}, user_group) do
-    Ecto.build_assoc(user_group, :shoppinglists)
+    user_group
+    |> Ecto.build_assoc(:shoppinglists)
     |> ShoppingList.changeset(attrs)
     |> Repo.insert()
   end
@@ -61,14 +62,14 @@ defmodule Jarvis.ShoppingLists do
 
   ## Examples
 
-      iex> update_shopping_list(shopping_list, %{field: new_value})
+      iex> update_shopping_list(shopping_list, %{field: new_value}, %{name: "household"})
       {:ok, %ShoppingList{}}
 
-      iex> update_shopping_list(shopping_list, %{field: bad_value})
+      iex> update_shopping_list(shopping_list, %{field: bad_value}, %{name: "household"})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_shopping_list(%ShoppingList{} = shopping_list, attrs) do
+  def update_shopping_list(%ShoppingList{} = shopping_list, attrs, user_group) do
     shopping_list
     |> ShoppingList.changeset(attrs)
     |> Repo.update()

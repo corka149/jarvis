@@ -47,10 +47,11 @@ defmodule JarvisWeb.ShoppingListController do
     render(conn, "edit.html", shopping_list: shopping_list, changeset: changeset, user_groups: user_groups)
   end
 
-  def update(conn, %{"id" => id, "shopping_list" => shopping_list_params}) do
+  def update(conn, %{"id" => id, "shopping_list" => %{"belongs_to" => user_group_id} = shopping_list_params}) do
     shopping_list = ShoppingLists.get_shopping_list!(id)
+    user_group = Accounts.get_user_group!(user_group_id)
 
-    case ShoppingLists.update_shopping_list(shopping_list, shopping_list_params) do
+    case ShoppingLists.update_shopping_list(shopping_list, shopping_list_params, user_group) do
       {:ok, shopping_list} ->
         conn
         |> put_flash(:info, "Shopping list updated successfully.")
