@@ -7,6 +7,7 @@ defmodule Jarvis.ShoppingLists do
   alias Jarvis.Repo
 
   alias Jarvis.ShoppingLists.ShoppingList
+  alias Jarvis.ShoppingLists.Item
 
   @doc """
   Returns the list of shoppinglists.
@@ -102,5 +103,24 @@ defmodule Jarvis.ShoppingLists do
   """
   def change_shopping_list(%ShoppingList{} = shopping_list) do
     ShoppingList.changeset(shopping_list, %{})
+  end
+
+  @doc """
+  Creates a new item associated with a shopping list.
+  """
+  def create_item(attrs \\ %{}, shopping_list) do
+    shopping_list
+    |> Ecto.build_assoc(:items)
+    |> Item.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def get_item!(id) do
+    Repo.get!(Item, id)
+    |> Repo.preload(:shopping_list)
+  end
+
+  def delete_item(%Item{} = item) do
+    Repo.delete(item)
   end
 end
