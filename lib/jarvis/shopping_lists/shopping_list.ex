@@ -14,7 +14,7 @@ defmodule Jarvis.ShoppingLists.ShoppingList do
   @doc false
   def changeset(shopping_list, attrs) do
     shopping_list
-    |> cast(attrs, [:done, :planned_for])
-    |> validate_required([:done, :planned_for])
+    |> cast(attrs, [:done, :planned_for, :belongs_to])
+    |> validate_required([:done, :planned_for, :belongs_to])
   end
 end

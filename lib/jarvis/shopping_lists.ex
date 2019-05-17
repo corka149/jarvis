@@ -69,7 +69,7 @@ defmodule Jarvis.ShoppingLists do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_shopping_list(%ShoppingList{} = shopping_list, attrs, user_group) do
+  def update_shopping_list(%ShoppingList{} = shopping_list, attrs) do
     shopping_list
     |> ShoppingList.changeset(attrs)
     |> Repo.update()
