@@ -52,7 +52,8 @@ config :jarvis, JarvisWeb.Endpoint,
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/jarvis_web/views/.*(ex)$},
-      ~r{lib/jarvis_web/templates/.*(eex)$}
+      ~r{lib/jarvis_web/templates/.*(eex)$},
+      ~r{lib/jarvis_web/live/.*(ex)$}
     ]
   ]
 
