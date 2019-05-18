@@ -123,4 +123,11 @@ defmodule Jarvis.ShoppingLists do
   def delete_item(%Item{} = item) do
     Repo.delete(item)
   end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking item changes.
+  """
+  def change_item(item) do
+    Item.changeset(item, %{})
+  end
 end
