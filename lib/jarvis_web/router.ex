@@ -20,9 +20,14 @@ defmodule JarvisWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/usergroup", UserGroupController
-    resources "/shoppinglists", ShoppingListController
-    live "/items", ItemLive
+    resources "/usergroups", UserGroupController
+  end
+
+  scope "/shoppinglists", JarvisWeb do
+    pipe_through :browser
+
+    resources "/", ShoppingListController
+    live "/:id/items", ItemLive
   end
 
   scope "/auth", JarvisWeb do
