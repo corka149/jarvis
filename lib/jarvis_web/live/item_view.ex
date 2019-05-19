@@ -15,7 +15,7 @@ defmodule JarvisWeb.ItemLive do
 
     socket =  socket
               |> assign(%{changeset: ShoppingLists.change_item(%Item{})})
-              |> assign(:val, shopping_list_id)
+              |> assign(:shopping_list, ShoppingLists.get_shopping_list!(shopping_list_id))
     {:ok, socket}
   end
 
@@ -26,24 +26,35 @@ defmodule JarvisWeb.ItemLive do
     ItemView.render("index.html", assigns)
   end
 
-  def handle_event("save", %{"item" => item} = data, socket) do
-    IO.puts "================data"
-    IO.inspect data
-    IO.puts "================socket"
-    IO.inspect socket
-    IO.puts "================"
-    IO.inspect item
-    IO.puts "================"
-
-    {:noreply, socket}
-  end
-
-  def handle_event("validate", _data, socket) do
-    IO.puts "===== validated ====="
-    {:noreply, socket}
+  def handle_event("save",
+                  %{"item" => item} = data,
+                  %{assigns: %{shopping_list: shopping_list}} = socket) do
+    #IO.puts "================data"
+    #IO.inspect data
+    #IO.puts "================socket"
+    #IO.inspect socket
+    #IO.puts "================"
+    #IO.inspect item
+    #IO.puts "================"
+    case  ShoppingLists.create_item(item, shopping_list) do
+      {:ok, _} ->
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "item created")
+          |> assign(changeset: ShoppingLists.change_item(%Item{}))
+          |> IO.inspect
+        }
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {
+          :noreply,
+          socket
+          |> assign(changeset: changeset)
+        }
+    end
   end
 
   def handle_event("delete", _, socket) do
-    {:noreply, update(socket, :val, &(&1 - 1))}
+    {:noreply, socket}
   end
 end

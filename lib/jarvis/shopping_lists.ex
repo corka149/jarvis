@@ -126,8 +126,9 @@ defmodule Jarvis.ShoppingLists do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking item changes.
+  (Useful for validation)
   """
-  def change_item(item) do
-    Item.changeset(item, %{})
+  def change_item(item, attrs \\ %{}) do
+    Item.changeset(item, attrs)
   end
 end
