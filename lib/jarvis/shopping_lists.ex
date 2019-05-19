@@ -131,4 +131,11 @@ defmodule Jarvis.ShoppingLists do
   def change_item(item, attrs \\ %{}) do
     Item.changeset(item, attrs)
   end
+
+  @doc """
+  Lists all items that belong to a certain shopping list.
+  """
+  def list_items_by_shopping_list(%ShoppingList{id: id}) do
+    Repo.all(from it in Item, where: it.shopping_list_id == ^id)
+  end
 end

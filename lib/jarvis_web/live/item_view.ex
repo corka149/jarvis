@@ -8,14 +8,15 @@ defmodule JarvisWeb.ItemLive do
   @doc """
   Will be call first for new connections
   """
-  def mount(%{path_params: %{"id" => shopping_list_id}} = session, socket) do
-    IO.puts "================session"
-    IO.inspect session
-    IO.puts "================"
+  def mount(%{path_params: %{"id" => shopping_list_id}}, socket) do
+
+    shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
+    items = ShoppingLists.list_items_by_shopping_list(shopping_list)
 
     socket =  socket
               |> assign(%{changeset: ShoppingLists.change_item(%Item{})})
-              |> assign(:shopping_list, ShoppingLists.get_shopping_list!(shopping_list_id))
+              |> assign(:shopping_list, shopping_list)
+              |> assign(items: items)
     {:ok, socket}
   end
 
@@ -27,23 +28,18 @@ defmodule JarvisWeb.ItemLive do
   end
 
   def handle_event("save",
-                  %{"item" => item} = data,
+                  %{"item" => item},
                   %{assigns: %{shopping_list: shopping_list}} = socket) do
-    #IO.puts "================data"
-    #IO.inspect data
-    #IO.puts "================socket"
-    #IO.inspect socket
-    #IO.puts "================"
-    #IO.inspect item
-    #IO.puts "================"
+
     case  ShoppingLists.create_item(item, shopping_list) do
       {:ok, _} ->
+        items = ShoppingLists.list_items_by_shopping_list(shopping_list)
         {
           :noreply,
           socket
           |> put_flash(:info, "item created")
           |> assign(changeset: ShoppingLists.change_item(%Item{}))
-          |> IO.inspect
+          |> assign(items: items)
         }
       {:error, %Ecto.Changeset{} = changeset} ->
         {

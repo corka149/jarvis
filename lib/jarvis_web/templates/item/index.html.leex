@@ -1,11 +1,18 @@
-    <%= form_for @changeset, "#", [phx_submit: :save], fn f -> %>
-      <%= label f, :name %>
-      <%= text_input f, :name %>
-      <%= error_tag f, :name %>
-    
-      <%= label f, :amount %>
-      <%= number_input f, :amount %>
-      <%= error_tag f, :amount %>
-    
-      <%= submit "Save" %>
-    <% end %>
+<%= f = form_for @changeset, "#", [phx_submit: :save] %>
+  <%= label f, :name %>
+  <%= text_input f, :name %>
+  <%= error_tag f, :name %>
+
+  <%= label f, :amount %>
+  <%= number_input f, :amount %>
+  <%= error_tag f, :amount %>
+
+  <%= submit "Save", class: "btn green" %>
+  <span><%= link gettext("Back"), to: Routes.shopping_list_path(@socket, :index), class: "btn orange"  %></span>
+</form>
+
+<ul>
+  <%= for item <- @items do %>
+  <li><%= item.amount %> x <%= item.name %></li>
+  <% end %>
+</ul>
