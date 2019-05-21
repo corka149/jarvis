@@ -1,4 +1,6 @@
 <%= f = form_for @changeset, "#", [phx_submit: :save] %>
+  <%= hidden_input f, :id %>
+
   <%= label f, :name %>
   <%= text_input f, :name %>
   <%= error_tag f, :name %>
@@ -26,8 +28,12 @@
         <td><%= item.name %></td>
         <td><%= item.amount %> </td>
         <td>
-          <i class="material-icons right">edit</i>
-          <i class="material-icons right">delete</i>
+          <button phx-click="edit/<%= item.id %>" class="btn-floating btn-large waves-effect waves-light orange">
+            <i class="material-icons right">edit</i>
+          </button>
+          <button phx-click="delete/<%= item.id %>" class="btn-floating btn-large waves-effect waves-light red">
+            <i class="material-icons right">delete</i>
+          </button>
         </td>
       </tr>
     <% end %>
