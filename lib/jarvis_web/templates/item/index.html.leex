@@ -29,7 +29,6 @@
       <th><%= gettext "Name" %></th>
       <th><%= dgettext "shoppinglists", "Amount" %></th>
       <th>&nbsp;</th>
-      <th>&nbsp;</th>
     <tr>
   </thead>
 
@@ -43,12 +42,6 @@
             <button phx-click="delete/<%= item.id %>" class="btn-floating btn waves-effect waves-light red">
               <i class="material-icons">delete</i>
             </button>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </td>
-        <td>
-          <%= if !@shopping_list.done do %>
             <button phx-click="edit/<%= item.id %>" class="btn-floating btn waves-effect waves-light orange">
               <i class="material-icons">edit</i>
             </button>

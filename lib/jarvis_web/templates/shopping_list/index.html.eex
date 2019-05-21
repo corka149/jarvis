@@ -1,6 +1,6 @@
 <h1><%= dgettext("shoppinglists", "Listing Shoppinglists") %></h1>
 
-<table>
+<table class="responsive-table">
   <thead>
     <tr>
       <th><%= dgettext("shoppinglists", "Done") %></th>

@@ -1,6 +1,6 @@
 <h1><%= dgettext "accounts", "Listing user groups" %></h1>
 
-<table>
+<table class="responsive-table">
   <thead>
     <tr>
       <th><%= gettext "Name" %></th>
