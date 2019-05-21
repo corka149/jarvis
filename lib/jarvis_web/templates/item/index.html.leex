@@ -1,4 +1,12 @@
+
+<h2>
+  <%= dgettext "shoppinglists", "Shopping list for " %>
+  <%= @shopping_list.planned_for %>
+</h2>
+
 <%= f = form_for @changeset, "#", [phx_submit: :save] %>
+
+  <%= if !@shopping_list.done do %>
   <%= hidden_input f, :id %>
 
   <%= label f, :name %>
@@ -10,14 +18,16 @@
   <%= error_tag f, :amount %>
 
   <%= submit "Save", class: "btn green" %>
+  <% end %>
+
   <span><%= link gettext("Back"), to: Routes.shopping_list_path(@socket, :index), class: "btn orange"  %></span>
 </form>
 
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Amount</th>
+      <th><%= gettext "Name" %></th>
+      <th><%= dgettext "shoppinglists", "Amount" %></th>
       <th>&nbsp;</th>
     <tr>
   </thead>
@@ -28,12 +38,16 @@
         <td><%= item.name %></td>
         <td><%= item.amount %> </td>
         <td>
-          <button phx-click="edit/<%= item.id %>" class="btn-floating btn-large waves-effect waves-light orange">
-            <i class="material-icons right">edit</i>
-          </button>
-          <button phx-click="delete/<%= item.id %>" class="btn-floating btn-large waves-effect waves-light red">
-            <i class="material-icons right">delete</i>
-          </button>
+          <%= if !@shopping_list.done do %>
+            <button phx-click="edit/<%= item.id %>" class="btn-floating btn-large waves-effect waves-light orange">
+              <i class="material-icons right">edit</i>
+            </button>
+            <button phx-click="delete/<%= item.id %>" class="btn-floating btn-large waves-effect waves-light red">
+              <i class="material-icons right">delete</i>
+            </button>
+          <% else %>
+            &nbsp;
+          <% end %>
         </td>
       </tr>
     <% end %>
