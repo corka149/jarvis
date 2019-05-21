@@ -8,16 +8,17 @@
   <% end %>
 
 <label for="shopping_list_done">
-  <%= label f, :done %>
+  <%= label f, :done, dgettext("shoppinglists", "Done") %>
   <%= checkbox f, :done %>
   <span></span>
 </label>
   <%= error_tag f, :done %>
 
-  <%= label f, :planned_for %>
+  <%= label f, :planned_for, dgettext("shoppinglists", "Planned for") %>
   <%= date_input f, :planned_for %>
   <%= error_tag f, :planned_for %>
 
+  <%= label f, :belongs_to, dgettext("shoppinglists", "Belongs to") %>
   <%= select f, :belongs_to, @user_groups %>
 
   <div>

@@ -12,26 +12,32 @@ msgstr ""
 "Plural-Forms: nplurals=2\n"
 
 #, elixir-format
+#: lib/jarvis_web/templates/shopping_list/edit.html.eex:21
 #: lib/jarvis_web/templates/shopping_list/index.html.eex:8
-#: lib/jarvis_web/templates/shopping_list/show.html.eex:20
+#: lib/jarvis_web/templates/shopping_list/new.html.eex:21
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:27
 msgid "Belongs to"
 msgstr "Von"
 
 #, elixir-format
+#: lib/jarvis_web/templates/shopping_list/edit.html.eex:11
 #: lib/jarvis_web/templates/shopping_list/index.html.eex:6
-#: lib/jarvis_web/templates/shopping_list/show.html.eex:6
+#: lib/jarvis_web/templates/shopping_list/new.html.eex:11
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:5
 msgid "Done"
 msgstr "Erledigt"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:36
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:37
 #: lib/jarvis_web/templates/shopping_list/new.html.eex:1
 msgid "New Shopping list"
 msgstr "Neue Einkaufsliste"
 
 #, elixir-format
+#: lib/jarvis_web/templates/shopping_list/edit.html.eex:17
 #: lib/jarvis_web/templates/shopping_list/index.html.eex:7
-#: lib/jarvis_web/templates/shopping_list/show.html.eex:15
+#: lib/jarvis_web/templates/shopping_list/new.html.eex:17
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:18
 msgid "Planned for"
 msgstr "Geplant für"
 
@@ -40,7 +46,23 @@ msgstr "Geplant für"
 msgid "Listing Shoppinglists"
 msgstr "Übersicht Einkaufslisten"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/shopping_list/edit.html.eex:1
 msgid "Edit Shopping list"
 msgstr "Editiere Einkaufsliste"
+
+#, elixir-format
+#: lib/jarvis_web/templates/item/index.html.leex:16
+#: lib/jarvis_web/templates/item/index.html.leex:30
+msgid "Amount"
+msgstr "Betrag"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:27
+msgid "Items"
+msgstr "Gegenstände"
+
+#, elixir-format, fuzzy
+#: lib/jarvis_web/templates/item/index.html.leex:3
+msgid "Shopping list for "
+msgstr "Einkaufsliste für "

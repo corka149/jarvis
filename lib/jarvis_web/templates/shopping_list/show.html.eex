@@ -1,26 +1,35 @@
 <h1>Show Shopping list</h1>
 
-<ul>
+  <div class="row">
+    <div class="col s4">
+      <strong><%= dgettext("shoppinglists", "Done") %>:</strong>
+    </div>
+    <div class="col s8">
+      <%= if @shopping_list.done do %>
+        <i class="material-icons">check</i>
+      <% else %>
+        <i class="material-icons">close</i>
+      <% end %>
+    </div>
+  </div>
 
-  <li>
-    <strong><%= dgettext("shoppinglists", "Done") %>:</strong>
-    <%= if @shopping_list.done do %>
-      <i class="material-icons">check</i>
-    <% else %>
-      <i class="material-icons">close</i>
-    <% end %>
-  </li>
+  <div class="row">
+    <div class="col s4">
+      <strong><%= dgettext("shoppinglists", "Planned for") %>:</strong>
+    </div>
+    <div class="col s8">
+      <%= @shopping_list.planned_for %>
+    </div>
+  </div>
 
-  <li>
-    <strong><%= dgettext("shoppinglists", "Planned for") %>:</strong>
-    <%= @shopping_list.planned_for %>
-  </li>
-
-  <li>
-    <strong><%= dgettext("shoppinglists", "Belongs to") %>:</strong>
-    <%= @shopping_list.usergroup.name %>
-  </li>
-</ul>
+  <div class="row">
+    <div class="col s4">
+      <strong><%= dgettext("shoppinglists", "Belongs to") %>:</strong>
+    </div>
+    <div class="col s8">
+      <%= @shopping_list.usergroup.name %>
+    </div>
+  </div>
 
 <span><%= link gettext("Edit"), to: Routes.shopping_list_path(@conn, :edit, @shopping_list), class: "btn orange"  %></span>
 <span><%= link gettext("Back"), to: Routes.shopping_list_path(@conn, :index), class: "btn orange"  %></span>

@@ -129,7 +129,9 @@ defmodule Jarvis.ShoppingLists do
   an ID.
   """
   def create_or_update_item(attrs, shopping_list) do
+    IO.inspect attrs
     case attrs do
+      %{"id" => ""} -> create_item(attrs, shopping_list)
       %{"id" => id} -> get_item!(id) |> update_item(attrs)
       _             -> create_item(attrs, shopping_list)
     end

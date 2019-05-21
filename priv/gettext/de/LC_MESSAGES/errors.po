@@ -12,28 +12,28 @@ msgstr ""
 "Plural-Forms: nplurals=2\n"
 
 msgid "can't be blank"
-msgstr ""
+msgstr "darf nicht leer sein"
 
 msgid "has already been taken"
 msgstr ""
 
 msgid "is invalid"
-msgstr ""
+msgstr "ist ungültig"
 
 msgid "must be accepted"
 msgstr ""
 
 msgid "has invalid format"
-msgstr ""
+msgstr "hat ein invalides Format"
 
 msgid "has an invalid entry"
-msgstr ""
+msgstr "hat ein invaliden Eintrag"
 
 msgid "is reserved"
-msgstr ""
+msgstr "ist reserviert"
 
 msgid "does not match confirmation"
-msgstr ""
+msgstr "entspricht nicht Bestättigung"
 
 msgid "is still associated with this entry"
 msgstr ""
@@ -89,7 +89,7 @@ msgstr ""
 #, elixir-format
 #: lib/jarvis_web/templates/user_group/form.html.eex:4
 msgid "Oops, something went wrong! Please check the errors below."
-msgstr ""
+msgstr "Oops, etwas ist schief gelaufen! Siehe Fehler unten."
 
 #, elixir-format
 #: lib/jarvis_web/controllers/user_group_controller.ex:73

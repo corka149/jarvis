@@ -9,25 +9,26 @@
   <%= if !@shopping_list.done do %>
   <%= hidden_input f, :id %>
 
-  <%= label f, :name %>
+  <%= label f, :name, gettext("Name") %>
   <%= text_input f, :name %>
   <%= error_tag f, :name %>
 
-  <%= label f, :amount %>
+  <%= label f, :amount, dgettext("shoppinglists", "Amount") %>
   <%= number_input f, :amount %>
   <%= error_tag f, :amount %>
 
-  <%= submit "Save", class: "btn green" %>
+  <%= submit gettext("Save"), class: "btn green" %>
   <% end %>
 
   <span><%= link gettext("Back"), to: Routes.shopping_list_path(@socket, :index), class: "btn orange"  %></span>
 </form>
 
-<table>
+<table class="responsive-table">
   <thead>
     <tr>
       <th><%= gettext "Name" %></th>
       <th><%= dgettext "shoppinglists", "Amount" %></th>
+      <th>&nbsp;</th>
       <th>&nbsp;</th>
     <tr>
   </thead>
@@ -39,11 +40,17 @@
         <td><%= item.amount %> </td>
         <td>
           <%= if !@shopping_list.done do %>
-            <button phx-click="edit/<%= item.id %>" class="btn-floating btn-large waves-effect waves-light orange">
-              <i class="material-icons right">edit</i>
+            <button phx-click="delete/<%= item.id %>" class="btn-floating btn waves-effect waves-light red">
+              <i class="material-icons">delete</i>
             </button>
-            <button phx-click="delete/<%= item.id %>" class="btn-floating btn-large waves-effect waves-light red">
-              <i class="material-icons right">delete</i>
+          <% else %>
+            &nbsp;
+          <% end %>
+        </td>
+        <td>
+          <%= if !@shopping_list.done do %>
+            <button phx-click="edit/<%= item.id %>" class="btn-floating btn waves-effect waves-light orange">
+              <i class="material-icons">edit</i>
             </button>
           <% else %>
             &nbsp;

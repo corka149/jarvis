@@ -63,15 +63,16 @@ msgid "Shopping list"
 msgstr "Einkaufsliste"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:29
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:30
 #: lib/jarvis_web/templates/user_group/index.html.eex:19
 msgid "Are you sure?"
 msgstr "Bist du dir sicher?"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/edit.html.eex:29
-#: lib/jarvis_web/templates/shopping_list/new.html.eex:28
-#: lib/jarvis_web/templates/shopping_list/show.html.eex:26
+#: lib/jarvis_web/templates/item/index.html.leex:23
+#: lib/jarvis_web/templates/shopping_list/edit.html.eex:30
+#: lib/jarvis_web/templates/shopping_list/new.html.eex:29
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:35
 #: lib/jarvis_web/templates/user_group/edit.html.eex:5
 #: lib/jarvis_web/templates/user_group/new.html.eex:5
 #: lib/jarvis_web/templates/user_group/show.html.eex:15
@@ -79,20 +80,22 @@ msgid "Back"
 msgstr "Zurück"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:29
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:30
 #: lib/jarvis_web/templates/user_group/index.html.eex:19
 msgid "Delete"
 msgstr "Löschen"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:28
-#: lib/jarvis_web/templates/shopping_list/show.html.eex:25
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:29
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:34
 #: lib/jarvis_web/templates/user_group/index.html.eex:18
 #: lib/jarvis_web/templates/user_group/show.html.eex:14
 msgid "Edit"
 msgstr "Editieren"
 
 #, elixir-format
+#: lib/jarvis_web/templates/item/index.html.leex:12
+#: lib/jarvis_web/templates/item/index.html.leex:29
 #: lib/jarvis_web/templates/user_group/index.html.eex:6
 msgid "Name"
 msgstr ""
@@ -103,14 +106,15 @@ msgid "Name:"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/edit.html.eex:24
-#: lib/jarvis_web/templates/shopping_list/new.html.eex:24
+#: lib/jarvis_web/templates/item/index.html.leex:20
+#: lib/jarvis_web/templates/shopping_list/edit.html.eex:25
+#: lib/jarvis_web/templates/shopping_list/new.html.eex:25
 #: lib/jarvis_web/templates/user_group/form.html.eex:13
 msgid "Save"
 msgstr "Speichern"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:27
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:28
 #: lib/jarvis_web/templates/user_group/index.html.eex:17
 msgid "Show"
 msgstr "Details"
