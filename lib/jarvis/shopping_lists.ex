@@ -115,6 +115,26 @@ defmodule Jarvis.ShoppingLists do
     |> Repo.insert()
   end
 
+  @doc """
+  Updates an existing item associated with a shopping list.
+  """
+  def update_item(%Item{} = item, attrs) do
+    item
+    |> Item.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Creates a new item or update an existing one when attrs contains
+  an ID.
+  """
+  def create_or_update_item(attrs, shopping_list) do
+    case attrs do
+      %{"id" => id} -> get_item!(id) |> update_item(attrs)
+      _             -> create_item(attrs, shopping_list)
+    end
+  end
+
   def get_item!(id) do
     Repo.get!(Item, id)
     |> Repo.preload(:shopping_list)
