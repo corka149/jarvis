@@ -14,9 +14,18 @@
       <td><%= user_group.name %></td>
 
       <td>
-        <%= link gettext("Show"), to: Routes.user_group_path(@conn, :show, user_group), class: "btn orange" %>
-        <%= link gettext("Edit"), to: Routes.user_group_path(@conn, :edit, user_group), class: "btn orange" %>
-        <%= link gettext("Delete"), to: Routes.user_group_path(@conn, :delete, user_group), method: :delete, data: [confirm: gettext("Are you sure?")], class: "btn red" %>
+        <%= link raw("<i class='material-icons'>zoom_in</i>"), 
+          to: Routes.user_group_path(@conn, :show, user_group), 
+          class: "btn-floating btn waves-effect waves-light orange" %>
+
+        <%= link raw("<i class='material-icons'>edit</i>"), 
+          to: Routes.user_group_path(@conn, :edit, user_group), 
+          class: "btn-floating btn waves-effect waves-light orange" %>
+
+        <%= link raw("<i class='material-icons'>delete</i>"), 
+          to: Routes.user_group_path(@conn, :delete, user_group), 
+          method: :delete, data: [confirm: gettext("Are you sure?")], 
+          class: "btn-floating btn waves-effect waves-light red" %>
       </td>
     </tr>
 <% end %>
