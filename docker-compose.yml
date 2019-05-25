@@ -1,0 +1,30 @@
+
+version: "3"
+
+services:
+  jarvis:
+    image: jarvis:latest
+    ports:
+      - 4000:4000
+    networks:
+      - jarvis_network
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:11
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: jarvis_prod
+    networks:
+      - jarvis_network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+networks:
+  jarvis_network:
+
+volumes:
+  db-data:
