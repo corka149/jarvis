@@ -9,12 +9,31 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Building
 
-## Learn more
+Here is a bunch of links and notes for creating a release version with Distillery
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+### Links
+
+ * https://hexdocs.pm/distillery/guides/phoenix_walkthrough.html
+ * http://sgeos.github.io/phoenix/elixir/erlang/ecto/distillery/postgresql/mysql/2016/09/18/storing-elixir-release-configuration-in-environment-variables-with-distillery.html
+ * https://blog.leif.io/deploying-elixir-with-docker-part-2/
+
+### Steps
+
+  1. REPLACE_OS_VARS=true MIX_ENV=prod mix release
+  2. docker build -t jarvis:latest .
+
+## Configuration
+
+Important environment variables for prod release
+
+ * PORT
+ * SECRET_KEY_BASE
+ * DB_USERNAME
+ * DB_PASSWORD
+ * DB_NAME
+ * DB_HOST
+ * AUTH0_DOMAIN
+ * AUTH0_CLIENT_ID
+ * AUTH0_CLIENT_SECRET

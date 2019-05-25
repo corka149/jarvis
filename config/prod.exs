@@ -10,9 +10,12 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :jarvis, JarvisWeb.Endpoint,
-  http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  http: [:inet6, port: "${PORT}"],
+  url: [host: "localhost", port: "${PORT}"], # This is critical for ensuring web-sockets properly authorize.
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  server: true,
+  root: ".",
+  version: Application.spec(:jarvis, :vsn)
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -57,6 +60,7 @@ config :logger, level: :info
 # to start the server for all endpoints:
 #
 #     config :phoenix, :serve_endpoints, true
+config :phoenix, :serve_endpoints, true
 #
 # Alternatively, you can configure exactly which server to
 # start per endpoint:
@@ -65,6 +69,23 @@ config :logger, level: :info
 #
 # Note you can't rely on `System.get_env/1` when using releases.
 # See the releases documentation accordingly.
+
+# Corka: Let's go this way: http://sgeos.github.io/phoenix/elixir/erlang/ecto/distillery/postgresql/mysql/2016/09/18/storing-elixir-release-configuration-in-environment-variables-with-distillery.html
+config :jarvis, JarvisWeb.Endpoint,
+  secret_key_base: "${SECRET_KEY_BASE}"
+
+# Configure your database
+config :jarvis, Jarvis.Repo,
+  username: "${DB_USERNAME}",
+  password: "${DB_PASSWORD}",
+  database: "${DB_NAME}",
+  hostname: "${DB_HOST}",
+  pool_size: 15
+
+config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
+  domain: "${AUTH0_DOMAIN}",
+  client_id: "${AUTH0_CLIENT_ID}",
+  client_secret: "${AUTH0_CLIENT_SECRET}"
 
 # Finally import the config/prod.secret.exs which should be versioned
 # separately.
