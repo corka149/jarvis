@@ -4,7 +4,7 @@ defmodule Jarvis.MixProject do
   def project do
     [
       app: :jarvis,
-      version: "0.1.0",
+      version: "0.5.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -46,7 +46,8 @@ defmodule Jarvis.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:ueberauth, "~> 0.6"},
       {:ueberauth_auth0, "~> 0.3"},
-      {:poison, "~> 4.0"}
+      {:poison, "~> 4.0"},
+      {:distillery, "~> 2.0"}
     ]
   end
 

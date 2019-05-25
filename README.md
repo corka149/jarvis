@@ -18,11 +18,13 @@ Here is a bunch of links and notes for creating a release version with Distiller
  * https://hexdocs.pm/distillery/guides/phoenix_walkthrough.html
  * http://sgeos.github.io/phoenix/elixir/erlang/ecto/distillery/postgresql/mysql/2016/09/18/storing-elixir-release-configuration-in-environment-variables-with-distillery.html
  * https://blog.leif.io/deploying-elixir-with-docker-part-2/
+ * http://blog.firstiwaslike.com/elixir-deployments-with-distillery-running-ecto-migrations/
 
 ### Steps
 
-  1. REPLACE_OS_VARS=true MIX_ENV=prod mix release
-  2. docker build -t jarvis:latest .
+  1. npm run deploy --prefix assets && MIX_ENV=prod REPLACE_OS_VARS=true mix do phx.digest, release --env=prod
+  1. Adjust version number in Dockerfile?
+  1. docker build -t jarvis:latest .
 
 ## Configuration
 
