@@ -23,8 +23,7 @@ Here is a bunch of links and notes for creating a release version with Distiller
 ### Steps
 
   1. npm run deploy --prefix assets && MIX_ENV=prod REPLACE_OS_VARS=true mix do phx.digest, release --env=prod
-  1. Adjust version number in Dockerfile?
-  1. docker build -t jarvis:latest .
+  1. docker build --build-arg JARVIS_VERSION=0.5.0 -t jarvis:0.5.0 .
 
 ## Configuration
 
