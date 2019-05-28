@@ -8,7 +8,7 @@ defmodule JarvisWeb.ItemLive do
   @doc """
   Will be call first for new connections
   """
-  def mount(%{path_params: %{"id" => shopping_list_id}}, socket) do
+  def mount(%{current_user_id: user_id, shopping_list_id: shopping_list_id}, socket) do
 
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
