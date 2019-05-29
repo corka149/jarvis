@@ -17,7 +17,9 @@
     <section>
       <!-- Dropdown structure shopping list -->
       <ul id="shoppinglist_dropdown_desktop" class="dropdown-content">
-        <li><a href="#!"><%= gettext "Current" %></a></li>
+        <li>
+          <%= link gettext("Current"), to: Routes.shopping_list_path(@conn, :index_open_lists) %>
+        </li>
         <li>
           <%= link gettext("All lists"), to: Routes.shopping_list_path(@conn, :index) %>
         </li>
@@ -55,7 +57,9 @@
       <!-- MOBILE -->
       <!-- Dropdown structure shopping list -->
       <ul id="shoppinglist_dropdown_mobile" class="dropdown-content">
-        <li><a href="#!"><%= gettext "Current" %></a></li>
+        <li>
+          <%= link gettext("Current"), to: Routes.shopping_list_path(@conn, :index_open_lists) %>
+        </li>
         <li>
           <%= link gettext("All lists"), to: Routes.shopping_list_path(@conn, :index) %>
         </li>

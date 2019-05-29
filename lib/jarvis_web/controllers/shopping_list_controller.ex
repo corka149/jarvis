@@ -14,6 +14,11 @@ defmodule JarvisWeb.ShoppingListController do
     render(conn, "index.html", shoppinglists: shoppinglists)
   end
 
+  def index_open_lists(conn, _params) do
+    shoppinglists = ShoppingLists.list_open_shoppinglists()
+    render(conn, "index_open_lists.html", shoppinglists: shoppinglists)
+  end
+
   def new(conn, _params) do
     user_groups = Accounts.list_usergroups_by_owner(conn.assigns.user.id)
                   |> Enum.map(fn ug -> {ug.name, ug.id} end)
