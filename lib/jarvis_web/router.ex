@@ -26,7 +26,7 @@ defmodule JarvisWeb.Router do
   scope "/shoppinglists", JarvisWeb do
     pipe_through :browser
     resources "/", ShoppingListController
-    get "/:shopping_list_id/items", ItemController, :index
+    get "/:id/items", ItemController, :index
   end
 
   scope "/auth", JarvisWeb do

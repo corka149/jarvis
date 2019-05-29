@@ -1,8 +1,7 @@
 defmodule JarvisWeb.Plugs.SetUser do
   import Plug.Conn
 
-  alias Jarvis.Repo
-  alias Jarvis.Accounts.User
+  alias Jarvis.Accounts
 
   def init(_params) do
   end
@@ -11,7 +10,7 @@ defmodule JarvisWeb.Plugs.SetUser do
     user_id = get_session(conn, :user_id)
 
     cond do
-      user = user_id && Repo.get(User, user_id) ->
+      user = user_id && Accounts.get_user!(user_id) ->
         assign(conn, :user, user)
       true                                      ->
         assign(conn, :user, nil)

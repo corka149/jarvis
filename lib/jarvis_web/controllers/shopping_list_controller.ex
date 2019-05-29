@@ -7,6 +7,7 @@ defmodule JarvisWeb.ShoppingListController do
   alias Jarvis.Accounts
 
   plug JarvisWeb.Plugs.RequireAuth
+  plug JarvisWeb.Plugs.CheckListOwnerGroup when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
     shoppinglists = ShoppingLists.list_shoppinglists()
