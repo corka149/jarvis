@@ -206,4 +206,12 @@ defmodule Jarvis.Accounts do
   def change_user_group(%UserGroup{} = user_group) do
     UserGroup.changeset(user_group, %{})
   end
+
+  def add_user_to_group(user, group) do
+    user
+    |> Repo.preload(:member_of)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:member_of, [group])
+    |> Repo.update!()
+  end
 end
