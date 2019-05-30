@@ -3,8 +3,8 @@ defmodule Jarvis.Repo.Migrations.UserUsergroupsMapping do
 
   def change do
     create table(:users_usergroups) do
-      add :user_id, references(:users, on_delete: :nothing)
-      add :user_group_id, references(:usergroups, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :delete_all)
+      add :user_group_id, references(:usergroups, on_delete: :delete_all)
     end
 
     create index(:users_usergroups, [:user_id])

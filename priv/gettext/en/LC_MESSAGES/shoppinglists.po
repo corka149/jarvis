@@ -14,6 +14,7 @@ msgstr ""
 #, elixir-format
 #: lib/jarvis_web/templates/shopping_list/edit.html.eex:21
 #: lib/jarvis_web/templates/shopping_list/index.html.eex:8
+#: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:7
 #: lib/jarvis_web/templates/shopping_list/new.html.eex:21
 #: lib/jarvis_web/templates/shopping_list/show.html.eex:27
 msgid "Belongs to"
@@ -28,7 +29,7 @@ msgid "Done"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:37
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:49
 #: lib/jarvis_web/templates/shopping_list/new.html.eex:1
 msgid "New Shopping list"
 msgstr ""
@@ -36,6 +37,7 @@ msgstr ""
 #, elixir-format
 #: lib/jarvis_web/templates/shopping_list/edit.html.eex:17
 #: lib/jarvis_web/templates/shopping_list/index.html.eex:7
+#: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:6
 #: lib/jarvis_web/templates/shopping_list/new.html.eex:17
 #: lib/jarvis_web/templates/shopping_list/show.html.eex:18
 msgid "Planned for"
@@ -58,11 +60,11 @@ msgid "Amount"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:27
-msgid "Items"
+#: lib/jarvis_web/templates/item/index.html.leex:3
+msgid "Shopping list for "
 msgstr ""
 
 #, elixir-format, fuzzy
-#: lib/jarvis_web/templates/item/index.html.leex:3
-msgid "Shopping list for "
+#: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:1
+msgid "Open Shoppinglists"
 msgstr ""

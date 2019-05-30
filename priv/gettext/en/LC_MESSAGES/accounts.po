@@ -22,7 +22,7 @@ msgid "Listing user groups"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/user_group/index.html.eex:26
+#: lib/jarvis_web/templates/user_group/index.html.eex:35
 #: lib/jarvis_web/templates/user_group/new.html.eex:1
 msgid "New user group"
 msgstr ""

@@ -17,14 +17,15 @@ msgid "Welcome to %{name}!"
 msgstr "Welcome to %{name}!!"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:22
-#: lib/jarvis_web/templates/layout/app.html.eex:60
+#: lib/jarvis_web/templates/layout/app.html.eex:24
+#: lib/jarvis_web/templates/layout/app.html.eex:64
+#: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:32
 msgid "All lists"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:20
-#: lib/jarvis_web/templates/layout/app.html.eex:58
+#: lib/jarvis_web/templates/layout/app.html.eex:21
+#: lib/jarvis_web/templates/layout/app.html.eex:61
 msgid "Current"
 msgstr ""
 
@@ -39,32 +40,32 @@ msgid "Jarvis · May I help you"
 msgstr "jARVIS · May I help you"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:44
-#: lib/jarvis_web/templates/layout/app.html.eex:75
+#: lib/jarvis_web/templates/layout/app.html.eex:46
+#: lib/jarvis_web/templates/layout/app.html.eex:79
 msgid "Logout"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:48
-#: lib/jarvis_web/templates/layout/app.html.eex:79
+#: lib/jarvis_web/templates/layout/app.html.eex:50
+#: lib/jarvis_web/templates/layout/app.html.eex:83
 msgid "Sign in"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:41
-#: lib/jarvis_web/templates/layout/app.html.eex:72
+#: lib/jarvis_web/templates/layout/app.html.eex:43
+#: lib/jarvis_web/templates/layout/app.html.eex:76
 msgid "User groups"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:38
-#: lib/jarvis_web/templates/layout/app.html.eex:69
+#: lib/jarvis_web/templates/layout/app.html.eex:40
+#: lib/jarvis_web/templates/layout/app.html.eex:73
 msgid "Shopping list"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:30
-#: lib/jarvis_web/templates/user_group/index.html.eex:19
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:41
+#: lib/jarvis_web/templates/user_group/index.html.eex:27
 msgid "Are you sure?"
 msgstr ""
 
@@ -80,15 +81,7 @@ msgid "Back"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:30
-#: lib/jarvis_web/templates/user_group/index.html.eex:19
-msgid "Delete"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:29
 #: lib/jarvis_web/templates/shopping_list/show.html.eex:34
-#: lib/jarvis_web/templates/user_group/index.html.eex:18
 #: lib/jarvis_web/templates/user_group/show.html.eex:14
 msgid "Edit"
 msgstr ""
@@ -111,10 +104,4 @@ msgstr ""
 #: lib/jarvis_web/templates/shopping_list/new.html.eex:25
 #: lib/jarvis_web/templates/user_group/form.html.eex:13
 msgid "Save"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:28
-#: lib/jarvis_web/templates/user_group/index.html.eex:17
-msgid "Show"
 msgstr ""
