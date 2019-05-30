@@ -64,7 +64,7 @@ msgstr "Betrag"
 msgid "Shopping list for "
 msgstr "Einkaufsliste für "
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:1
 msgid "Open Shoppinglists"
 msgstr "Aktuelle Einkaufsliste"

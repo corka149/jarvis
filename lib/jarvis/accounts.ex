@@ -8,6 +8,7 @@ defmodule Jarvis.Accounts do
 
   alias Jarvis.Accounts.User
   alias Jarvis.Accounts.UserGroup
+  alias Jarvis.Accounts.UserUsergroup
 
   @doc """
   Returns the list of users.
@@ -207,11 +208,16 @@ defmodule Jarvis.Accounts do
     UserGroup.changeset(user_group, %{})
   end
 
-  def add_user_to_group(user, group) do
+  def add_user_to_group(%User{} = user, %UserGroup{} = group) do
     user
     |> Repo.preload(:member_of)
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:member_of, [group])
     |> Repo.update!()
+  end
+
+  def delete_user_from_group(%User{} = user, %UserGroup{} = group) do
+    from(u_ug in UserUsergroup, where: u_ug.user_id == ^user.id and u_ug.user_group_id == ^group.id)
+    Repo.delete_all(UserUsergroup)
   end
 end
