@@ -126,4 +126,61 @@ defmodule Jarvis.AccountsTest do
       assert %Ecto.Changeset{} = Accounts.change_user_group(user_group)
     end
   end
+
+  describe "invitations" do
+    alias Jarvis.Accounts.Invitation
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def invitation_fixture(attrs \\ %{}) do
+      {:ok, invitation} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Accounts.create_invitation()
+
+      invitation
+    end
+
+    test "list_invitations/0 returns all invitations" do
+      invitation = invitation_fixture()
+      assert Accounts.list_invitations() == [invitation]
+    end
+
+    test "get_invitation!/1 returns the invitation with given id" do
+      invitation = invitation_fixture()
+      assert Accounts.get_invitation!(invitation.id) == invitation
+    end
+
+    test "create_invitation/1 with valid data creates a invitation" do
+      assert {:ok, %Invitation{} = invitation} = Accounts.create_invitation(@valid_attrs)
+    end
+
+    test "create_invitation/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_invitation(@invalid_attrs)
+    end
+
+    test "update_invitation/2 with valid data updates the invitation" do
+      invitation = invitation_fixture()
+      assert {:ok, %Invitation{} = invitation} = Accounts.update_invitation(invitation, @update_attrs)
+    end
+
+    test "update_invitation/2 with invalid data returns error changeset" do
+      invitation = invitation_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_invitation(invitation, @invalid_attrs)
+      assert invitation == Accounts.get_invitation!(invitation.id)
+    end
+
+    test "delete_invitation/1 deletes the invitation" do
+      invitation = invitation_fixture()
+      assert {:ok, %Invitation{}} = Accounts.delete_invitation(invitation)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_invitation!(invitation.id) end
+    end
+
+    test "change_invitation/1 returns a invitation changeset" do
+      invitation = invitation_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_invitation(invitation)
+    end
+  end
 end

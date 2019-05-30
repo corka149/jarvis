@@ -21,6 +21,7 @@ defmodule JarvisWeb.Router do
 
     get "/", PageController, :index
     resources "/usergroups", UserGroupController
+    resources "/invitations", InvitationController
   end
 
   scope "/shoppinglists", JarvisWeb do

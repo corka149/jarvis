@@ -14,6 +14,10 @@
       <td><%= user_group.name %></td>
 
       <td>
+        <%= link raw("<i class='material-icons'>group_add</i>"), 
+          to: Routes.user_group_path(@conn, :show, user_group), 
+          class: "btn-floating btn waves-effect waves-light orange" %>
+
         <%= link raw("<i class='material-icons'>zoom_in</i>"), 
           to: Routes.user_group_path(@conn, :show, user_group), 
           class: "btn-floating btn waves-effect waves-light orange" %>
