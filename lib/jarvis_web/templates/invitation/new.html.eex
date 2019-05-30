@@ -1,5 +1,16 @@
 <h1>New Invitation</h1>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.invitation_path(@conn, :create)) %>
+<%= form_for @changeset, Routes.invitation_path(@conn, :create), fn f -> %>
+
+  <%= label f, :invitee_name, dgettext("accounts", "Name of invitee") %>
+  <%= text_input f, :invitee_name %>
+
+  <%= label f, :usergroup_id, dgettext("accounts", "Invite into group") %>
+  <%= select f, :usergroup_id, @user_groups %>
+
+  <div>
+    <%= submit gettext("Send"), class: "btn green" %>
+  </div>
+<% end %>
 
 <span><%= link "Back", to: Routes.invitation_path(@conn, :index) %></span>

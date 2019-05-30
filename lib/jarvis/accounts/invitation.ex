@@ -3,9 +3,10 @@ defmodule Jarvis.Accounts.Invitation do
   import Ecto.Changeset
 
   schema "invitations" do
-    field :host_id, :id
-    field :invitee_id, :id
-    field :usergroup_id, :id
+    belongs_to :host, Jarvis.Accounts.User
+    belongs_to :invitee, Jarvis.Accounts.User
+    belongs_to :usergroup, Jarvis.Accounts.UserGroup
+    field :invitee_name, :string
 
     timestamps()
   end
