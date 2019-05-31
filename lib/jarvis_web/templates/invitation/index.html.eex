@@ -1,4 +1,7 @@
-<h1>Listing Invitations</h1>
+<!--
+-- Created Invitations
+-->
+<h1>Created Invitations</h1>
 
 <table>
   <thead>
@@ -10,15 +13,57 @@
   <tbody>
 <%= for invitation <- @invitations do %>
     <tr>
+      <td>
+        <%= invitation.invitee_name %>
+      </td>
 
       <td>
-        <%= link "Show", to: Routes.invitation_path(@conn, :show, invitation) %>
-        <%= link "Edit", to: Routes.invitation_path(@conn, :edit, invitation) %>
-        <%= link "Delete", to: Routes.invitation_path(@conn, :delete, invitation), method: :delete, data: [confirm: "Are you sure?"] %>
+        <%= link raw("<i class='material-icons'>delete</i>"), 
+          to: Routes.invitation_path(@conn, :delete, invitation), 
+          method: :delete, data: [confirm: "Are you sure?"], 
+          class: "btn-floating btn waves-effect waves-light red" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<span><%= link "New Invitation", to: Routes.invitation_path(@conn, :new) %></span>
+<!--
+-- Received Invitations
+-->
+<h1>Received Invitations</h1>
+
+<table>
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for invitation <- @invitations do %>
+    <tr>
+      <td>
+        <%= invitation.invitee_name %>
+      </td>
+
+      <td>
+        <%= link raw("<i class='material-icons'>check</i>"), 
+          to: Routes.invitation_path(@conn, :delete, invitation), 
+          method: :delete, data: [confirm: "Are you sure?"], 
+          class: "btn-floating btn waves-effect waves-light green" %>
+
+        <%= link raw("<i class='material-icons'>delete</i>"), 
+          to: Routes.invitation_path(@conn, :delete, invitation), 
+          method: :delete, data: [confirm: "Are you sure?"], 
+          class: "btn-floating btn waves-effect waves-light red" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span>
+  <%= link dgettext("shoppinglists", "New invitation"), 
+    to: Routes.invitation_path(@conn, :new), class: "btn orange"  %>
+</span>

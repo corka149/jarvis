@@ -40,6 +40,13 @@ defmodule Jarvis.Accounts do
   def get_user!(id), do: Repo.get!(User, id) |> Repo.preload(:usergroups)
 
   @doc """
+  Fetches a single user by name.
+  """
+  def get_user_by_name(name) do
+    Repo.get_by(User, name: name)
+  end
+
+  @doc """
   Creates a user.
 
   ## Examples
@@ -264,8 +271,10 @@ defmodule Jarvis.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_invitation(attrs \\ %{}) do
-    %Invitation{}
+  def create_invitation(attrs \\ %{}, %UserGroup{} = user_group, %User{} = host, %User{} = invitee) do
+    changeset = Ecto.build_assoc(user_group, :invitations)
+    changeset = Ecto.build_assoc(invitee, :received_invatations, changeset)
+    Ecto.build_assoc(host, :created_invatations, changeset)
     |> Invitation.changeset(attrs)
     |> Repo.insert()
   end

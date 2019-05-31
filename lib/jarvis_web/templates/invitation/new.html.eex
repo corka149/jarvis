@@ -13,4 +13,4 @@
   </div>
 <% end %>
 
-<span><%= link "Back", to: Routes.invitation_path(@conn, :index) %></span>
+<span><%= link gettext("Back"), to: Routes.invitation_path(@conn, :index), class: "btn orange"  %></span>

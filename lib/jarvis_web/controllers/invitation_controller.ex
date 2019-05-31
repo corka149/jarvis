@@ -17,15 +17,17 @@ defmodule JarvisWeb.InvitationController do
   end
 
   def create(conn, %{"invitation" => invitation_params}) do
-    case Accounts.create_invitation(invitation_params) do
-      {:ok, invitation} ->
-        conn
-        |> put_flash(:info, "Invitation created successfully.")
-        |> redirect(to: Routes.invitation_path(conn, :show, invitation))
+    host = conn.assigns.user
+    user_group = invitation_params["usergroup_id"] |> Accounts.get_user_group!()
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+    case Accounts.get_user_by_name(invitation_params["invitee_name"]) do
+      nil -> nil
+      invitee -> Accounts.create_invitation(invitation_params, user_group, host, invitee)
     end
+
+    conn
+    |> put_flash(:info, dgettext("accounts", "Invitation created successfully."))
+    |> redirect(to: Routes.invitation_path(conn, :index))
   end
 
   def show(conn, %{"id" => id}) do

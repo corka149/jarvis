@@ -9,6 +9,8 @@ defmodule Jarvis.Accounts.User do
     field :token, :string
     has_many :usergroups, Jarvis.Accounts.UserGroup
     many_to_many :member_of, Jarvis.Accounts.UserGroup, join_through: "users_usergroups"
+    has_many :created_invatations, Jarvis.Accounts.Invitation, foreign_key: :host_id
+    has_many :received_invatations, Jarvis.Accounts.Invitation, foreign_key: :invitee_id
 
     timestamps()
   end

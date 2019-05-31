@@ -7,6 +7,7 @@ defmodule Jarvis.Accounts.UserGroup do
     belongs_to :user, Jarvis.Accounts.User
     has_many :shoppinglists, Jarvis.ShoppingLists.ShoppingList, foreign_key: :belongs_to
     many_to_many :has_member, Jarvis.Accounts.User, join_through: "users_usergroups"
+    has_many :invitations, Jarvis.Accounts.Invitation, foreign_key: :usergroup_id
 
     timestamps()
   end
