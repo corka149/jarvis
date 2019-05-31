@@ -17,17 +17,21 @@ defmodule JarvisWeb.InvitationController do
   end
 
   def create(conn, %{"invitation" => invitation_params}) do
-    host = conn.assigns.user
+    invite_user_to_group(conn.assigns.user, invitation_params)
+
+    conn
+    |> put_flash(:info, dgettext("accounts", "Invitation created successfully."))
+    |> redirect(to: Routes.invitation_path(conn, :index))
+  end
+
+  # Creates a new invatation if an user exists with the provided name.
+  defp invite_user_to_group(host, invitation_params) do
     user_group = invitation_params["usergroup_id"] |> Accounts.get_user_group!()
 
     case Accounts.get_user_by_name(invitation_params["invitee_name"]) do
       nil -> nil
       invitee -> Accounts.create_invitation(invitation_params, user_group, host, invitee)
     end
-
-    conn
-    |> put_flash(:info, dgettext("accounts", "Invitation created successfully."))
-    |> redirect(to: Routes.invitation_path(conn, :index))
   end
 
   def show(conn, %{"id" => id}) do
