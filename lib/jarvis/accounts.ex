@@ -246,11 +246,13 @@ defmodule Jarvis.Accounts do
   def list_invitations_by_host(%User{} = user) do
     from(inv in Invitation, where: inv.host_id == ^user.id)
     |> Repo.all()
+    |> Repo.preload([:usergroup, :invitee, :host])
   end
 
   def list_initations_by_invitee(%User{} = user) do
     from(inv in Invitation, where: inv.invitee_id == ^user.id)
     |> Repo.all()
+    |> Repo.preload([:usergroup, :invitee, :host])
   end
 
   @doc """
@@ -268,6 +270,26 @@ defmodule Jarvis.Accounts do
 
   """
   def get_invitation!(id), do: Repo.get!(Invitation, id) |> Repo.preload([:usergroup, :invitee, :host])
+
+
+  @doc """
+  Gets a single invitation.
+
+  ## Examples
+
+      iex> get_invitation!(123)
+      {:ok, %Invitation{}}
+
+      iex> get_invitation!(456)
+      {:error, "No matching record found"}
+
+  """
+  def get_invitation(id) do
+    case Repo.get(Invitation, id) do
+      nil         -> {:error, "No matching record found"}
+      invitation  -> {:ok, invitation |> Repo.preload([:usergroup, :invitee, :host])}
+    end
+  end
 
   @doc """
   Creates a invitation.

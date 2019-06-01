@@ -41,17 +41,15 @@ defmodule JarvisWeb.InvitationController do
   end
 
   def delete(conn, %{"id" => id}) do
-    invitation = Accounts.get_invitation!(id)
-    {:ok, _invitation} = Accounts.delete_invitation(invitation)
-
-    case Accounts.delete_invitation(invitation) do
-      {:ok, _invitation} ->
+    case Accounts.get_invitation(id) do
+      {:ok, invitation} ->
+        {:ok, _invitation} = Accounts.delete_invitation(invitation)
         conn
-        |> put_flash(:info, gettext("Invitation deleted successfully."))
+        |> put_flash(:info, dgettext("accounts", "Invitation deleted successfully."))
         |> redirect(to: Routes.invitation_path(conn, :index))
       {:error, _} ->
         conn
-        |> put_flash(:error, gettext("Could not delete invitation."))
+        |> put_flash(:error, dgettext("accounts", "Could not delete invitation."))
         |> redirect(to: Routes.invitation_path(conn, :index))
     end
 

@@ -14,7 +14,8 @@
     <table>
       <thead>
         <tr>
-          <th><%= gettext "Name" %></th>
+          <th><%= dgettext "accounts", "Invitee" %></th>
+          <th><%= dgettext "accounts", "Invited into" %></th>
         </tr>
       </thead>
       <tbody>
@@ -22,6 +23,9 @@
         <tr>
           <td>
             <%= invitation.invitee_name %>
+          </td>
+          <td>
+            <%= invitation.usergroup.name %>
           </td>
 
           <td>
@@ -46,7 +50,8 @@
     <table>
       <thead>
         <tr>
-          <th><%= gettext "Name" %></th>
+          <th><%= dgettext "accounts", "Host" %></th>
+          <th><%= dgettext "accounts", "Invited into" %></th>
         </tr>
       </thead>
       <tbody>
@@ -54,6 +59,9 @@
         <tr>
           <td>
             <%= invitation.invitee_name %>
+          </td>
+          <td>
+            <%= invitation.usergroup.name %>
           </td>
 
           <td>
