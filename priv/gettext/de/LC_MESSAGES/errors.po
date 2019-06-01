@@ -93,6 +93,11 @@ msgstr "Oops, etwas ist schief gelaufen! Siehe Fehler unten."
 
 #, elixir-format
 #: lib/jarvis_web/controllers/plugs/check_list_owner_group.ex:17
-#: lib/jarvis_web/controllers/user_group_controller.ex:73
+#: lib/jarvis_web/controllers/user_group_controller.ex:88
 msgid "You are not allow to do this!"
 msgstr "Nicht authorisiert!"
+
+#, elixir-format
+#: lib/jarvis_web/controllers/user_group_controller.ex:76
+msgid "Could not leave the group"
+msgstr "Konnte nicht die Gruppe verlassen."
