@@ -8,7 +8,7 @@ defmodule JarvisWeb.UserGroupController do
   plug :check_user_group_owner when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
-    usergroups = Accounts.list_usergroups_by_owner(conn.assigns.user.id)
+    usergroups = Accounts.list_usergroups_by_owner(conn.assigns.user)
     render(conn, "index.html", usergroups: usergroups)
   end
 
@@ -61,6 +61,21 @@ defmodule JarvisWeb.UserGroupController do
     conn
     |> put_flash(:info, "User group deleted successfully.")
     |> redirect(to: Routes.user_group_path(conn, :index))
+  end
+
+  def leave_group(conn, %{"id" => id}) do
+    user = conn.assigns.user
+    user_group = Accounts.get_user_group!(id)
+    case Accounts.delete_user_from_group(user, user_group) do
+      :ok ->
+        conn
+        |> put_flash(:ok, dgettext("accounts", "You left the group."))
+        |> redirect(to: Routes.invitation_path(conn, :index))
+      :error ->
+        conn
+        |> put_flash(:error, dgettext("errors", "Could not leave the group"))
+        |> redirect(to: Routes.invitation_path(conn, :index))
+    end
   end
 
   def check_user_group_owner(conn, _params) do

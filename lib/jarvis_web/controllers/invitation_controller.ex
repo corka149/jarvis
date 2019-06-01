@@ -5,13 +5,15 @@ defmodule JarvisWeb.InvitationController do
   alias Jarvis.Accounts.Invitation
 
   def index(conn, _params) do
-    received_invitations = Accounts.list_initations_by_invitee(conn.assigns.user)
-    created_invitations = Accounts.list_invitations_by_host(conn.assigns.user)
-    render(conn, "index.html", received_invitations: received_invitations, created_invitations: created_invitations)
+    render(conn, "index.html",
+      received_invitations: Accounts.list_initations_by_invitee(conn.assigns.user),
+      created_invitations:  Accounts.list_invitations_by_host(conn.assigns.user),
+      memberships:          Accounts.list_usergroups_by_membership(conn.assigns.user)
+    )
   end
 
   def new(conn, _params) do
-    user_groups = Accounts.list_usergroups_by_owner(conn.assigns.user.id)
+    user_groups = Accounts.list_usergroups_by_owner(conn.assigns.user)
                   |> Enum.map(fn ug -> {ug.name, ug.id} end)
     changeset = Accounts.change_invitation(%Invitation{})
     render(conn, "new.html", changeset: changeset, user_groups: user_groups)

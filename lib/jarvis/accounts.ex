@@ -127,11 +127,20 @@ defmodule Jarvis.Accounts do
   end
 
   @doc """
-  Returns all usergroups owned by a specific user.
+  Returns all user groups owned by a specific user.
 
   """
-  def list_usergroups_by_owner(user_id) do
-    Repo.all(from ug in UserGroup, where: ug.user_id == ^user_id)
+  def list_usergroups_by_owner(%User{} = user) do
+    Repo.all(from ug in UserGroup, where: ug.user_id == ^user.id)
+  end
+
+  @doc """
+  Returns all user groups in which an user has membership.
+  """
+  def list_usergroups_by_membership(user) do
+    from(u_ug in UserUsergroup, where: u_ug.user_id == ^user.id)
+    |> Repo.all()
+    |> Repo.preload([:user_group, :user])
   end
 
   @doc """
@@ -215,6 +224,9 @@ defmodule Jarvis.Accounts do
     UserGroup.changeset(user_group, %{})
   end
 
+  @doc """
+  Adds an user to a group and make him to a group member.
+  """
   def add_user_to_group(%User{} = user, %UserGroup{} = group) do
     user
     |> Repo.preload(:member_of)
@@ -223,9 +235,15 @@ defmodule Jarvis.Accounts do
     |> Repo.update()
   end
 
+  @doc """
+  Deletes the membership from an user to a group.
+  """
   def delete_user_from_group(%User{} = user, %UserGroup{} = group) do
-    from(u_ug in UserUsergroup, where: u_ug.user_id == ^user.id and u_ug.user_group_id == ^group.id)
-    Repo.delete_all(UserUsergroup)
+    query = from(u_ug in UserUsergroup, where: u_ug.user_id == ^user.id and u_ug.user_group_id == ^group.id)
+    case Repo.delete_all(query) do
+      {rows, _} when rows > 0 -> :ok
+      _                       -> :error
+    end
   end
 
   alias Jarvis.Accounts.Invitation

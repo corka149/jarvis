@@ -88,7 +88,31 @@
   </div>
 
   <div id="group_membership" class="col s12">
-    <h3><%= dgettext "accounts", "Group membership" %></h3>
+    <h3><%= dgettext "accounts", "Group memberships" %></h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th><%= dgettext "accounts", "Member of" %></th>
+        </tr>
+      </thead>
+      <tbody>
+    <%= for membership <- @memberships do %>
+        <tr>
+          <td>
+            <%= membership.user_group.name %>
+          </td>
+
+          <td>
+            <%= link raw("<i class='material-icons'>exit_to_app</i>"), 
+              to: Routes.user_group_path(@conn, :leave_group, membership.user_group), 
+              method: :delete, data: [confirm: gettext("Are you sure?")], 
+              class: "btn-floating btn waves-effect waves-light red" %>
+          </td>
+        </tr>
+    <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
 
