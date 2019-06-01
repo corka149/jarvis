@@ -17,7 +17,7 @@ defmodule JarvisWeb.ShoppingListController do
   end
 
   def index_open_lists(conn, _params) do
-    shoppinglists = ShoppingLists.list_open_shoppinglists()
+    shoppinglists = ShoppingLists.list_open_shoppinglists(conn.assigns.user)
     render(conn, "index_open_lists.html", shoppinglists: shoppinglists)
   end
 

@@ -36,12 +36,11 @@ defmodule Jarvis.ShoppingLists do
   end
 
   @doc """
-  Returns all shopping lists which are not done.
+  Returns all shopping lists which are not done for a specific user.
   """
-  def list_open_shoppinglists do
-    from(sl in ShoppingList, where: not sl.done)
-    |> Repo.all()
-    |> Repo.preload(:usergroup)
+  def list_open_shoppinglists(%User{} = user) do
+    Jarvis.ShoppingLists.list_shoppinglists_for_user(user)
+    |> Enum.filter(fn sl -> !sl.done end)
   end
 
   @doc """
