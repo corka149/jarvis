@@ -6,6 +6,7 @@ defmodule Jarvis.ShoppingLists do
   import Ecto.Query, warn: false
   alias Jarvis.Repo
 
+  alias Jarvis.Accounts.User
   alias Jarvis.ShoppingLists.ShoppingList
   alias Jarvis.ShoppingLists.Item
 
@@ -24,11 +25,22 @@ defmodule Jarvis.ShoppingLists do
   end
 
   @doc """
+  Returns all lists that an user created and all lists that
+  belongs to a group in which the user is a member.
+  """
+  def list_shoppinglists_for_user(%User{} = user) do
+    group_ids = Enum.map(user.usergroups, &(&1.id)) ++ Enum.map(user.member_of, &(&1.id))
+    from(sl in ShoppingList, where: sl.belongs_to in ^group_ids)
+    |> Repo.all()
+    |> Repo.preload(:usergroup)
+  end
+
+  @doc """
   Returns all shopping lists which are not done.
   """
   def list_open_shoppinglists do
-    query = from sl in ShoppingList, where: not sl.done
-    Repo.all(query)
+    from(sl in ShoppingList, where: not sl.done)
+    |> Repo.all()
     |> Repo.preload(:usergroup)
   end
 
