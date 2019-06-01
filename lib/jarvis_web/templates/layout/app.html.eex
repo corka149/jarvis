@@ -50,6 +50,12 @@
               <li>
                 <%= link gettext("Logout"), to: Routes.auth_path(@conn, :signout) %>
               </li>
+              <li>
+                <div style="font-size: 0.7rem; ; border-left: 0.1rem solid rgb(144,144,144); padding-left: 1rem;">
+                  <%= gettext "Sign in as" %>
+                  <%= @conn.assigns[:user].name %>
+                </div>
+              </li>
             <% else %>
               <li>
                 <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :request, "auth0") %>
@@ -87,6 +93,12 @@
           </li>
           <li>
             <%= link gettext("Logout"), to: Routes.auth_path(@conn, :signout) %>
+          </li>
+          <li>
+            <div class="center-align" style="font-size: 0.7rem; border-top: 0.1rem solid #000;">
+              <%= gettext "Sign in as" %>
+              <%= @conn.assigns[:user].name %>
+            </div>
           </li>
         <% else %>
           <li>
