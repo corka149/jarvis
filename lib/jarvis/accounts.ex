@@ -220,7 +220,7 @@ defmodule Jarvis.Accounts do
     |> Repo.preload(:member_of)
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:member_of, [group])
-    |> Repo.update!()
+    |> Repo.update()
   end
 
   def delete_user_from_group(%User{} = user, %UserGroup{} = group) do
@@ -267,7 +267,7 @@ defmodule Jarvis.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_invitation!(id), do: Repo.get!(Invitation, id)
+  def get_invitation!(id), do: Repo.get!(Invitation, id) |> Repo.preload([:usergroup, :invitee, :host])
 
   @doc """
   Creates a invitation.
@@ -283,8 +283,8 @@ defmodule Jarvis.Accounts do
   """
   def create_invitation(attrs \\ %{}, %UserGroup{} = user_group, %User{} = host, %User{} = invitee) do
     changeset = Ecto.build_assoc(user_group, :invitations)
-    changeset = Ecto.build_assoc(invitee, :received_invatations, changeset)
-    Ecto.build_assoc(host, :created_invatations, changeset)
+    changeset = Ecto.build_assoc(invitee, :received_invitations, changeset)
+    Ecto.build_assoc(host, :created_invitations, changeset)
     |> Invitation.changeset(attrs)
     |> Repo.insert()
   end

@@ -45,7 +45,17 @@ defmodule JarvisWeb.InvitationController do
     {:ok, _invitation} = Accounts.delete_invitation(invitation)
 
     conn
-    |> put_flash(:info, "Invitation deleted successfully.")
+    |> put_flash(:info, gettext("Invitation deleted successfully."))
+    |> redirect(to: Routes.invitation_path(conn, :index))
+  end
+
+  def accept(conn, %{"id" => id}) do
+    invitation = Accounts.get_invitation!(id)
+    {:ok, _} = Accounts.add_user_to_group(invitation.invitee, invitation.usergroup)
+    {:ok, _} = Accounts.delete_invitation(invitation)
+
+    conn
+    |> put_flash(:info, gettext("Accepted invitation."))
     |> redirect(to: Routes.invitation_path(conn, :index))
   end
 end

@@ -58,8 +58,8 @@
 
           <td>
             <%= link raw("<i class='material-icons'>check</i>"), 
-              to: Routes.invitation_path(@conn, :delete, invitation), 
-              method: :delete, data: [confirm: "Are you sure?"], 
+              to: Routes.invitation_path(@conn, :accept, invitation), 
+              data: [confirm: "Are you sure?"], 
               class: "btn-floating btn waves-effect waves-light green" %>
 
             <%= link raw("<i class='material-icons'>delete</i>"), 
