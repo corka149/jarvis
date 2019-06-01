@@ -118,5 +118,12 @@
 
 <span>
   <%= link dgettext("accounts", "New invitation"), 
-    to: Routes.invitation_path(@conn, :new), class: "btn orange"  %>
+    to: Routes.invitation_path(@conn, :new), 
+    class: "btn orange"  %>
+</span>
+
+<span>
+<%= link gettext("Back"), 
+  to: Routes.user_group_path(@conn, :index), 
+  class: "btn orange" %>
 </span>

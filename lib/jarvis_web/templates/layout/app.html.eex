@@ -43,11 +43,6 @@
                 <%= link gettext("User groups"), to: Routes.user_group_path(@conn, :index) %>
               </li>
               <li>
-                <%= link raw("<i class='material-icons'>group_add</i>"), 
-                  to: Routes.invitation_path(@conn, :index), 
-                  class: "waves-effect waves-light" %>
-              </li>
-              <li>
                 <%= link gettext("Logout"), to: Routes.auth_path(@conn, :signout) %>
               </li>
               <li>
@@ -85,11 +80,6 @@
           <i class="material-icons right">arrow_drop_down</i></a></li>
           <li>
             <%= link gettext("User groups"), to: Routes.user_group_path(@conn, :index) %>
-          </li>
-          <li>
-            <%= link raw("<i class='material-icons'>group_add</i>"), 
-              to: Routes.invitation_path(@conn, :index), 
-              class: "waves-effect waves-light" %>
           </li>
           <li>
             <%= link gettext("Logout"), to: Routes.auth_path(@conn, :signout) %>
