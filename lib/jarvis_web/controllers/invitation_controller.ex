@@ -5,8 +5,9 @@ defmodule JarvisWeb.InvitationController do
   alias Jarvis.Accounts.Invitation
 
   def index(conn, _params) do
-    invitations = Accounts.list_invitations()
-    render(conn, "index.html", invitations: invitations)
+    received_invitations = Accounts.list_initations_by_invitee(conn.assigns.user)
+    created_invitations = Accounts.list_invitations_by_host(conn.assigns.user)
+    render(conn, "index.html", received_invitations: received_invitations, created_invitations: created_invitations)
   end
 
   def new(conn, _params) do

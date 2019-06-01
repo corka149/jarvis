@@ -243,6 +243,16 @@ defmodule Jarvis.Accounts do
     Repo.all(Invitation)
   end
 
+  def list_invitations_by_host(%User{} = user) do
+    from(inv in Invitation, where: inv.host_id == ^user.id)
+    |> Repo.all()
+  end
+
+  def list_initations_by_invitee(%User{} = user) do
+    from(inv in Invitation, where: inv.invitee_id == ^user.id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single invitation.
 
