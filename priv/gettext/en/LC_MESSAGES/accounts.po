@@ -22,7 +22,7 @@ msgid "Listing user groups"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/user_group/index.html.eex:35
+#: lib/jarvis_web/templates/user_group/index.html.eex:39
 #: lib/jarvis_web/templates/user_group/new.html.eex:1
 msgid "New user group"
 msgstr ""
@@ -30,4 +30,78 @@ msgstr ""
 #, elixir-format
 #: lib/jarvis_web/templates/user_group/show.html.eex:2
 msgid "Show user group"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/controllers/invitation_controller.ex:47
+msgid "Could not delete invitation."
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/index.html.eex:5
+#: lib/jarvis_web/templates/invitation/index.html.eex:18
+msgid "Created Invitations"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/index.html.eex:11
+#: lib/jarvis_web/templates/invitation/index.html.eex:91
+msgid "Group membership"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/index.html.eex:59
+msgid "Host"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/controllers/invitation_controller.ex:24
+msgid "Invitation created successfully."
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/controllers/invitation_controller.ex:43
+msgid "Invitation deleted successfully."
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/new.html.eex:8
+msgid "Invite into group"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/index.html.eex:24
+#: lib/jarvis_web/templates/invitation/index.html.eex:60
+msgid "Invited into"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/index.html.eex:23
+msgid "Invitee"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/new.html.eex:5
+msgid "Name of invitee"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/new.html.eex:1
+msgid "New Invitation"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/index.html.eex:8
+#: lib/jarvis_web/templates/invitation/index.html.eex:54
+msgid "Received Invitations"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/controllers/invitation_controller.ex:59
+msgid "Accepted invitation."
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/jarvis_web/templates/invitation/index.html.eex:96
+msgid "New invitation"
 msgstr ""

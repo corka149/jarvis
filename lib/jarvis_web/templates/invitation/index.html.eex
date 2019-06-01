@@ -1,15 +1,21 @@
 <div class="col s12">
   <ul class="tabs">
-    <li class="tab col s4"><a class="active" href="#created_invitations">Created Invitations</a></li>
-    <li class="tab col s4"><a href="#received_invitations">Received Invitations</a></li>
-    <li class="tab col s4"><a href="#group_membership">Group membership</a></li>
+    <li class="tab col s4">
+      <a class="active" href="#created_invitations">
+        <%= dgettext "accounts", "Created Invitations" %></a></li>
+    <li class="tab col s4">
+      <a href="#received_invitations">
+        <%= dgettext "accounts", "Received Invitations" %></a></li>
+    <li class="tab col s4">
+      <a href="#group_membership">
+        <%= dgettext "accounts", "Group membership" %></a></li>
   </ul>
 
   <!--
   -- Created Invitations
   -->
   <div id="created_invitations" class="col s12">
-    <h3>Created Invitations</h3>
+    <h3><%= dgettext "accounts", "Created Invitations" %></h3>
 
     <table>
       <thead>
@@ -45,7 +51,7 @@
   -- Received Invitations
   -->
   <div id="received_invitations" class="col s12">
-    <h3>Received Invitations</h3>
+    <h3><%= dgettext "accounts", "Received Invitations" %></h3>
 
     <table>
       <thead>
@@ -67,12 +73,12 @@
           <td>
             <%= link raw("<i class='material-icons'>check</i>"), 
               to: Routes.invitation_path(@conn, :accept, invitation), 
-              data: [confirm: "Are you sure?"], 
+              data: [confirm: gettext("Are you sure?")], 
               class: "btn-floating btn waves-effect waves-light green" %>
 
             <%= link raw("<i class='material-icons'>delete</i>"), 
               to: Routes.invitation_path(@conn, :delete, invitation), 
-              method: :delete, data: [confirm: "Are you sure?"], 
+              method: :delete, data: [confirm: gettext("Are you sure?")], 
               class: "btn-floating btn waves-effect waves-light red" %>
           </td>
         </tr>
@@ -82,11 +88,11 @@
   </div>
 
   <div id="group_membership" class="col s12">
-    <h3>Group membership</h3>
+    <h3><%= dgettext "accounts", "Group membership" %></h3>
   </div>
 </div>
 
 <span>
-  <%= link dgettext("shoppinglists", "New invitation"), 
+  <%= link dgettext("accounts", "New invitation"), 
     to: Routes.invitation_path(@conn, :new), class: "btn orange"  %>
 </span>

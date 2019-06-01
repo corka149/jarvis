@@ -35,11 +35,6 @@ defmodule JarvisWeb.InvitationController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    invitation = Accounts.get_invitation!(id)
-    render(conn, "show.html", invitation: invitation)
-  end
-
   def delete(conn, %{"id" => id}) do
     case Accounts.get_invitation(id) do
       {:ok, invitation} ->
@@ -61,7 +56,7 @@ defmodule JarvisWeb.InvitationController do
     {:ok, _} = Accounts.delete_invitation(invitation)
 
     conn
-    |> put_flash(:info, gettext("Accepted invitation."))
+    |> put_flash(:info, dgettext("accounts", "Accepted invitation."))
     |> redirect(to: Routes.invitation_path(conn, :index))
   end
 end

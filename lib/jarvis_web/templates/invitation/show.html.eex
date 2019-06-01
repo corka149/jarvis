@@ -1,8 +1,0 @@
-<h1>Show Invitation</h1>
-
-<ul>
-
-</ul>
-
-<span><%= link "Edit", to: Routes.invitation_path(@conn, :edit, @invitation) %></span>
-<span><%= link "Back", to: Routes.invitation_path(@conn, :index) %></span>
