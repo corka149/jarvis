@@ -7,19 +7,21 @@
     </div>
   <% end %>
 
-<label for="shopping_list_done">
-  <%= label f, :done, dgettext("shoppinglists", "Done") %>
-  <%= checkbox f, :done %>
-  <span></span>
-</label>
+  <label for="shopping_list_done">
+    <%= label f, :done, dgettext("shoppinglists", "Done") %>
+    <%= checkbox f, :done %>
+    <span></span>
+  </label>
   <%= error_tag f, :done %>
 
   <%= label f, :planned_for, dgettext("shoppinglists", "Planned for") %>
   <%= date_input f, :planned_for %>
   <%= error_tag f, :planned_for %>
 
-  <%= label f, :belongs_to, dgettext("shoppinglists", "Belongs to") %>
-  <%= select f, :belongs_to, @user_groups %>
+  <label for="belongs_to"><%= dgettext("shoppinglists", "Belongs to") %></label>
+  <select id="belongs_to" disabled>
+    <option><%= @shopping_list.usergroup.name %></option>
+  </select>
 
   <div>
     <%= submit gettext("Save"), class: "btn green"  %>

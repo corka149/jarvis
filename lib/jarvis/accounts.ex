@@ -37,7 +37,10 @@ defmodule Jarvis.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id) |> Repo.preload(:usergroups)
+  def get_user!(id) do
+    Repo.get!(User, id)
+    |> Repo.preload([:usergroups, :member_of])
+  end
 
   @doc """
   Fetches a single user by name.
