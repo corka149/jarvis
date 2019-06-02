@@ -21,4 +21,5 @@ defmodule Jarvis.Accounts.User do
     |> cast(attrs, [:name, :email, :provider, :token])
     |> validate_required([:name, :email, :provider, :token])
   end
+
 end

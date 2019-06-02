@@ -160,7 +160,7 @@ defmodule Jarvis.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user_group!(id), do: Repo.get!(UserGroup, id)
+  def get_user_group!(id), do: Repo.get!(UserGroup, id) |> Repo.preload(:user)
 
   @doc """
   Creates a user_group.
@@ -377,5 +377,13 @@ defmodule Jarvis.Accounts do
   """
   def change_invitation(%Invitation{} = invitation) do
     Invitation.changeset(invitation, %{})
+  end
+
+  @doc """
+  Checks if an user is owner of an user group.
+  """
+  @spec is_group_owner(Jarvis.Accounts.User.t(), Jarvis.Accounts.UserGroup.t()) :: boolean
+  def is_group_owner(%Jarvis.Accounts.User{} = host, %Jarvis.Accounts.UserGroup{} = user_group) do
+    host.id == user_group.user.id
   end
 end

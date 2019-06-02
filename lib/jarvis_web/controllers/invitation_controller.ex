@@ -27,12 +27,12 @@ defmodule JarvisWeb.InvitationController do
     |> redirect(to: Routes.invitation_path(conn, :index))
   end
 
-  # Creates a new invatation if an user exists with the provided name.
+  # Creates a new invitation if an user exists with the provided name.
   defp invite_user_to_group(host, invitation_params) do
     user_group = invitation_params["usergroup_id"] |> Accounts.get_user_group!()
 
-    case Accounts.get_user_by_name(invitation_params["invitee_name"]) do
-      nil -> nil
+    case Accounts.is_group_owner(host, user_group) && Accounts.get_user_by_name(invitation_params["invitee_name"]) do
+      false -> nil
       invitee -> Accounts.create_invitation(invitation_params, user_group, host, invitee)
     end
   end
