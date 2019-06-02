@@ -17,13 +17,18 @@
   <%= number_input f, :amount %>
   <%= error_tag f, :amount %>
 
-  <%= submit gettext("Save"), class: "btn green" %>
+  <%= submit gettext("Save"), class: "btn waves-effect waves-light green" %>
   <% end %>
 
-  <span><%= link gettext("Back"), to: Routes.shopping_list_path(@socket, :index), class: "btn orange"  %></span>
+  <span><%= link gettext("Back"), to: Routes.shopping_list_path(@socket, :index), class: "btn waves-effect waves-light orange" %></span>
+  <span>
+    <button type="button" id="print-shopping-list" class="btn waves-effect waves-light orange">
+      <i class="material-icons">print</i>
+    </button>
+  </span>
 </form>
 
-<table class="responsive-table">
+<table id="open-shopping-list" class="responsive-table">
   <thead>
     <tr>
       <th><%= gettext "Name" %></th>
