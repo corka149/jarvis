@@ -54,11 +54,18 @@ defmodule JarvisWeb.InvitationController do
 
   def accept(conn, %{"id" => id}) do
     invitation = Accounts.get_invitation!(id)
-    {:ok, _} = Accounts.add_user_to_group(invitation.invitee, invitation.usergroup)
-    {:ok, _} = Accounts.delete_invitation(invitation)
 
-    conn
-    |> put_flash(:info, dgettext("accounts", "Accepted invitation."))
-    |> redirect(to: Routes.invitation_path(conn, :index))
+    if invitation.invitee.id == conn.assigns.user.id do
+      {:ok, _} = Accounts.add_user_to_group(invitation.invitee, invitation.usergroup)
+      {:ok, _} = Accounts.delete_invitation(invitation)
+      conn
+      |> put_flash(:info, dgettext("accounts", "Accepted invitation."))
+      |> redirect(to: Routes.invitation_path(conn, :index))
+    else
+      conn
+      |> put_flash(:error, dgettext("errors", "You are not allow to do this!"))
+      |> redirect(to: Routes.invitation_path(conn, :index))
+    end
   end
+
 end
