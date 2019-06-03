@@ -1,11 +1,15 @@
 defmodule JarvisWeb.UserGroupControllerTest do
-  use JarvisWeb.ConnCase
 
   alias Jarvis.Accounts
+  use JarvisWeb.ConnCase
+  use Plug.Test
 
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
+
+  @valid_attrs_group %{name: "some name"}
+  @valid_attrs_user %{email: "some email", name: "some name", provider: "some provider", token: "some token"}
 
   def fixture(:user_group) do
     {:ok, user_group} = Accounts.create_user_group(@create_attrs)
@@ -14,8 +18,10 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
   describe "index" do
     test "lists all usergroups", %{conn: conn} do
-      conn = get(conn, Routes.user_group_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Usergroups"
+      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      conn = init_test_session(conn, user_id: user.id)
+              |> get(Routes.user_group_path(conn, :index))
+      assert html_response(conn, 200) =~ "User groups"
     end
   end
 
