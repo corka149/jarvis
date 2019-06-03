@@ -75,11 +75,15 @@ defmodule Jarvis.AccountsTest do
     @update_attrs %{name: "some updated name"}
     @invalid_attrs %{name: nil}
 
+    @valid_attrs_user %{email: "some email", name: "some name", provider: "some provider", token: "some token"}
+
     def user_group_fixture(attrs \\ %{}) do
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+
       {:ok, user_group} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Accounts.create_user_group()
+        |> Accounts.create_user_group(user)
 
       user_group
     end
@@ -95,12 +99,14 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "create_user_group/1 with valid data creates a user_group" do
-      assert {:ok, %UserGroup{} = user_group} = Accounts.create_user_group(@valid_attrs)
+      {:ok, user} = Accounts.create_user(@valid_attrs_user)
+      assert {:ok, %UserGroup{} = user_group} = Accounts.create_user_group(@valid_attrs, user)
       assert user_group.name == "some name"
     end
 
     test "create_user_group/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Accounts.create_user_group(@invalid_attrs)
+      {:ok, user} = Accounts.create_user(@valid_attrs_user)
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_user_group(@invalid_attrs, user)
     end
 
     test "update_user_group/2 with valid data updates the user_group" do
