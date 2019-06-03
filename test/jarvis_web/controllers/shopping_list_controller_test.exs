@@ -1,20 +1,30 @@
 defmodule JarvisWeb.ShoppingListControllerTest do
-  use JarvisWeb.ConnCase
 
   alias Jarvis.ShoppingLists
+  use Plug.Test
+  use JarvisWeb.ConnCase
+
 
   @create_attrs %{done: true, planned_for: ~D[2010-04-17]}
   @update_attrs %{done: false, planned_for: ~D[2011-05-18]}
   @invalid_attrs %{done: nil, planned_for: nil}
 
+  @valid_attrs_group %{name: "some name"}
+  @valid_attrs_user %{email: "some email", name: "some name", provider: "some provider", token: "some token"}
+
   def fixture(:shopping_list) do
-    {:ok, shopping_list} = ShoppingLists.create_shopping_list(@create_attrs)
+    {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    group = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
+
+    {:ok, shopping_list} = ShoppingLists.create_shopping_list(@create_attrs, group)
     shopping_list
   end
 
   describe "index" do
     test "lists all shoppinglists", %{conn: conn} do
-      conn = get(conn, Routes.shopping_list_path(conn, :index))
+      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      conn = init_test_session(conn, user_id: user.id)
+      conn =  get(conn, Routes.shopping_list_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Shoppinglists"
     end
   end
@@ -38,6 +48,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
+      user = Jarvis.Accounts.create_user(@valid_attrs_user)
+      assign(conn, :user, user)
       conn = post(conn, Routes.shopping_list_path(conn, :create), shopping_list: @invalid_attrs)
       assert html_response(conn, 200) =~ "New Shopping list"
     end
