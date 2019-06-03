@@ -14,6 +14,8 @@ defmodule JarvisWeb.Plugs.RequireAuth do
 
   alias JarvisWeb.Router.Helpers
 
+  require Logger
+
   def init(_params) do
   end
 
@@ -21,6 +23,7 @@ defmodule JarvisWeb.Plugs.RequireAuth do
     if conn.assigns[:user] do
       conn
     else
+      Logger.warn("Request without authentication occured.")
       conn
       |> put_flash(:error, "You must be logged in.")
       |> redirect(to: Helpers.page_path(conn, :index))

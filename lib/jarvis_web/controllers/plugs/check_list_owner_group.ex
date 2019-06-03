@@ -7,6 +7,8 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
   alias Jarvis.ShoppingLists.ShoppingList
   alias Jarvis.Accounts.User
 
+  require Logger
+
   def init(_params) do
   end
 
@@ -14,6 +16,7 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
     if is_authorized(conn.assigns.user, shopping_list_id) do
       conn
     else
+      Logger.warn("User do not belong to owner group.")
       conn
       |> put_flash(:error, dgettext("errors", "You are not allow to do this!"))
       |> redirect(to: JarvisWeb.Router.Helpers.page_path(conn, :index))

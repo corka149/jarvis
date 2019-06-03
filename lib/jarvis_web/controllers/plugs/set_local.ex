@@ -7,7 +7,13 @@ defmodule JarvisWeb.Plugs.SetLocale do
   end
 
   def call(%{req_headers: req_headers} = conn, default: default) do
-    {_, client_lang} = Enum.find(req_headers, default, &is_accept_lang_header?/1)
+    header = Enum.find(req_headers, default, &is_accept_lang_header?/1)
+
+    client_lang = case header do
+      {_, client_lang}  -> client_lang
+      client_lang       -> client_lang
+    end
+
     Gettext.put_locale client_lang
     conn
   end
