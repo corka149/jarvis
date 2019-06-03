@@ -317,10 +317,10 @@ defmodule Jarvis.Accounts do
 
   ## Examples
 
-      iex> create_invitation(%{field: value})
+      iex> create_invitation(%{field: value}, %UserGroup{} = user_group, %User{} = host, %User{} = invitee)
       {:ok, %Invitation{}}
 
-      iex> create_invitation(%{field: bad_value})
+      iex> create_invitation(%{field: bad_value}, %UserGroup{} = user_group, %User{} = host, %User{} = invitee)
       {:error, %Ecto.Changeset{}}
 
   """
