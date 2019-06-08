@@ -74,7 +74,10 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     setup [:create_shopping_list]
 
     test "redirects when data is valid", %{conn: conn, shopping_list: shopping_list} do
-      conn = put(conn, Routes.shopping_list_path(conn, :update, shopping_list), shopping_list: @update_attrs)
+      group = Jarvis.ShoppingLists.get_shopping_list!(shopping_list.id).usergroup
+      user = Jarvis.Accounts.get_user_group!(group.id).user
+      conn =  init_test_session(conn, user_id: user.id)
+              |> put(Routes.shopping_list_path(conn, :update, shopping_list), shopping_list: @update_attrs)
       assert redirected_to(conn) == Routes.shopping_list_path(conn, :show, shopping_list)
 
       conn = get(conn, Routes.shopping_list_path(conn, :show, shopping_list))
