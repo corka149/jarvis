@@ -13,9 +13,6 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   @valid_attrs_user %{email: "some email", name: "some name", provider: "some provider", token: "some token"}
 
   def fixture(:shopping_list) do
-    {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
-    {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
-
     {:ok, shopping_list} = ShoppingLists.create_shopping_list(@create_attrs, group)
     shopping_list
   end

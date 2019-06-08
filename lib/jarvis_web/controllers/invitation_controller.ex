@@ -1,8 +1,10 @@
 defmodule JarvisWeb.InvitationController do
-  use JarvisWeb, :controller
-
   alias Jarvis.Accounts
   alias Jarvis.Accounts.Invitation
+
+  use JarvisWeb, :controller
+
+  plug JarvisWeb.Plugs.RequireAuth
 
   def index(conn, _params) do
     render(conn, "index.html",
@@ -32,7 +34,8 @@ defmodule JarvisWeb.InvitationController do
     user_group = invitation_params["usergroup_id"] |> Accounts.get_user_group!()
 
     case Accounts.is_group_owner(host, user_group) && Accounts.get_user_by_name(invitation_params["invitee_name"]) do
-      false -> nil
+      false   -> nil
+      nil     -> nil
       invitee -> Accounts.create_invitation(invitation_params, user_group, host, invitee)
     end
   end
