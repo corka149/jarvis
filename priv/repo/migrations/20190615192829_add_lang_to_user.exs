@@ -3,7 +3,7 @@ defmodule Jarvis.Repo.Migrations.AddLangToUser do
 
   def change do
     alter table(:users) do
-      add :default_language, :string, default: "de"
+      add :default_language, :string, default: "en"
     end
   end
 end
