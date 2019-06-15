@@ -27,25 +27,31 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
   describe "new user_group" do
     test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.user_group_path(conn, :new))
-      assert html_response(conn, 200) =~ "New User group"
+      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      conn = init_test_session(conn, user_id: user.id)
+              |> get(Routes.user_group_path(conn, :new))
+      assert html_response(conn, 200) =~ "New user group"
     end
   end
 
   describe "create user_group" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.user_group_path(conn, :create), user_group: @create_attrs)
+      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      conn = init_test_session(conn, user_id: user.id)
+              |> post(Routes.user_group_path(conn, :create), user_group: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.user_group_path(conn, :show, id)
 
       conn = get(conn, Routes.user_group_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show User group"
+      assert html_response(conn, 200) =~ "Show user group"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.user_group_path(conn, :create), user_group: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New User group"
+      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      conn = init_test_session(conn, user_id: user.id)
+              |> post(Routes.user_group_path(conn, :create), user_group: @invalid_attrs)
+      assert html_response(conn, 200) =~ "New user group"
     end
   end
 
@@ -53,8 +59,10 @@ defmodule JarvisWeb.UserGroupControllerTest do
     setup [:create_user_group]
 
     test "renders form for editing chosen user_group", %{conn: conn, user_group: user_group} do
-      conn = get(conn, Routes.user_group_path(conn, :edit, user_group))
-      assert html_response(conn, 200) =~ "Edit User group"
+      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      conn = init_test_session(conn, user_id: user.id)
+              |> get(Routes.user_group_path(conn, :edit, user_group))
+      assert html_response(conn, 200) =~ "Edit user group"
     end
   end
 
