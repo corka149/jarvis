@@ -20,6 +20,7 @@ defmodule JarvisWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/:language", PageController, :set_language
     delete "/usergroups/:id/leave", UserGroupController, :leave_group
     resources "/usergroups", UserGroupController
     get "/invitations/:id/accept", InvitationController, :accept

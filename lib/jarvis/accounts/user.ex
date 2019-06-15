@@ -11,6 +11,7 @@ defmodule Jarvis.Accounts.User do
     many_to_many :member_of, Jarvis.Accounts.UserGroup, join_through: "users_usergroups"
     has_many :created_invitations, Jarvis.Accounts.Invitation, foreign_key: :host_id
     has_many :received_invitations, Jarvis.Accounts.Invitation, foreign_key: :invitee_id
+    field :default_language, :string
 
     timestamps()
   end
@@ -18,7 +19,7 @@ defmodule Jarvis.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :provider, :token])
+    |> cast(attrs, [:name, :email, :provider, :token, :default_language])
     |> validate_required([:name, :email, :provider, :token])
   end
 
