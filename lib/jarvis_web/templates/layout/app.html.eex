@@ -111,8 +111,8 @@
           <a href="https://github.com/corka149/jarvis">jARVIS -  Made by corka149</a>
           &nbsp;|&nbsp;
           <i class="material-icons" style="font-size: 0.8rem;">language</i>            
-          <%= link gettext("DE"), to: Routes.page_path(@conn, :set_language, "de") %>
-          <%= link gettext("EN"), to: Routes.page_path(@conn, :set_language, "en") %>
+          <%= link gettext("DE"), to: Routes.page_path(@conn, :set_language, "de"), method: :post %>
+          <%= link gettext("EN"), to: Routes.page_path(@conn, :set_language, "en"), method: :post %>
         </span>
     </div>
   </footer>
