@@ -22,7 +22,7 @@ defmodule JarvisWeb.ShoppingListController do
   end
 
   def new(conn, _params) do
-    user_groups = Accounts.list_usergroups_by_owner(conn.assigns.user)
+    user_groups = Accounts.list_usergroups_by_membership(conn.assigns.user)
                   |> Enum.map(fn ug -> {ug.name, ug.id} end)
     changeset = ShoppingLists.change_shopping_list(%ShoppingList{})
     render(conn, "new.html", changeset: changeset, user_groups: user_groups)
@@ -48,7 +48,7 @@ defmodule JarvisWeb.ShoppingListController do
   end
 
   def edit(conn, %{"id" => id}) do
-    user_groups = Accounts.list_usergroups_by_owner(conn.assigns.user)
+    user_groups = Accounts.list_usergroups_by_membership(conn.assigns.user)
                   |> Enum.map(fn ug -> {ug.name, ug.id} end)
     shopping_list = ShoppingLists.get_shopping_list!(id)
     changeset = ShoppingLists.change_shopping_list(shopping_list)
