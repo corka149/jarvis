@@ -146,6 +146,14 @@ defmodule Jarvis.Accounts do
     |> Repo.preload([:user_group, :user])
   end
 
+  def list_usergroups_by_membership_or_owner(%User{} = user) do
+    owner_groups = list_usergroups_by_owner(user)
+      |> Enum.map(fn ug -> {ug.name, ug.id} end)
+    membership_groups = list_usergroups_by_membership(user)
+      |> Enum.map(fn uug -> {uug.user_group.name, uug.user_group.id} end)
+    owner_groups ++ membership_groups
+  end
+
   @doc """
   Gets a single user_group.
 
