@@ -12,7 +12,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 ## Building
 
   1. npm run deploy --prefix assets && MIX_ENV=prod REPLACE_OS_VARS=true mix do phx.digest, release --env=prod
-  1. docker build --build-arg JARVIS_VERSION=0.9.6 -t jarvis:0.9.6 .
+  1. docker build --build-arg JARVIS_VERSION=0.9.7 -t jarvis:0.9.7 .
 
 ## Configuration
 
