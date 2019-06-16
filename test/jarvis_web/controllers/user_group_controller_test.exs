@@ -12,8 +12,10 @@ defmodule JarvisWeb.UserGroupControllerTest do
   @valid_attrs_user %{email: "some email", name: "some name", provider: "some provider", token: "some token"}
 
   def fixture(:user_group) do
-    {:ok, user_group} = Accounts.create_user_group(@create_attrs)
+    {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, user_group} = Accounts.create_user_group(@create_attrs, user)
     user_group
+    |> Jarvis.Repo.preload(:user)
   end
 
   describe "index" do
@@ -59,8 +61,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
     setup [:create_user_group]
 
     test "renders form for editing chosen user_group", %{conn: conn, user_group: user_group} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
-      conn = init_test_session(conn, user_id: user.id)
+      conn = init_test_session(conn, user_id: user_group.user.id)
               |> get(Routes.user_group_path(conn, :edit, user_group))
       assert html_response(conn, 200) =~ "Edit user group"
     end
@@ -70,7 +71,8 @@ defmodule JarvisWeb.UserGroupControllerTest do
     setup [:create_user_group]
 
     test "redirects when data is valid", %{conn: conn, user_group: user_group} do
-      conn = put(conn, Routes.user_group_path(conn, :update, user_group), user_group: @update_attrs)
+      conn = init_test_session(conn, user_id: user_group.user.id)
+              |> put(Routes.user_group_path(conn, :update, user_group), user_group: @update_attrs)
       assert redirected_to(conn) == Routes.user_group_path(conn, :show, user_group)
 
       conn = get(conn, Routes.user_group_path(conn, :show, user_group))
@@ -78,8 +80,9 @@ defmodule JarvisWeb.UserGroupControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, user_group: user_group} do
-      conn = put(conn, Routes.user_group_path(conn, :update, user_group), user_group: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit User group"
+      conn = init_test_session(conn, user_id: user_group.user.id)
+              |> put(Routes.user_group_path(conn, :update, user_group), user_group: @invalid_attrs)
+      assert html_response(conn, 200) =~ "Edit user group"
     end
   end
 
@@ -87,7 +90,8 @@ defmodule JarvisWeb.UserGroupControllerTest do
     setup [:create_user_group]
 
     test "deletes chosen user_group", %{conn: conn, user_group: user_group} do
-      conn = delete(conn, Routes.user_group_path(conn, :delete, user_group))
+      conn = init_test_session(conn, user_id: user_group.user.id)
+              |> delete(Routes.user_group_path(conn, :delete, user_group))
       assert redirected_to(conn) == Routes.user_group_path(conn, :index)
       assert_error_sent 404, fn ->
         get(conn, Routes.user_group_path(conn, :show, user_group))
