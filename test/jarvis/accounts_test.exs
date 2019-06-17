@@ -6,7 +6,7 @@ defmodule Jarvis.AccountsTest do
   describe "users" do
     alias Jarvis.Accounts.User
 
-    @valid_attrs %{email: "some email", name: "some name", provider: "some provider", token: "some token"}
+    @valid_attrs %{email: "some email", name: "some name", provider: "some provider", token: "some token", default_language: "en"}
     @update_attrs %{email: "some updated email", name: "some updated name", provider: "some updated provider", token: "some updated token"}
     @invalid_attrs %{email: nil, name: nil, provider: nil, token: nil}
 
@@ -26,6 +26,8 @@ defmodule Jarvis.AccountsTest do
 
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
+              |> Jarvis.Repo.preload(:member_of)
+              |> Jarvis.Repo.preload(:usergroups)
       assert Accounts.get_user!(user.id) == user
     end
 
@@ -52,6 +54,8 @@ defmodule Jarvis.AccountsTest do
 
     test "update_user/2 with invalid data returns error changeset" do
       user = user_fixture()
+              |> Jarvis.Repo.preload(:member_of)
+              |> Jarvis.Repo.preload(:usergroups)
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
       assert user == Accounts.get_user!(user.id)
     end
@@ -95,6 +99,7 @@ defmodule Jarvis.AccountsTest do
 
     test "get_user_group!/1 returns the user_group with given id" do
       user_group = user_group_fixture()
+                    |> Jarvis.Repo.preload(:user)
       assert Accounts.get_user_group!(user_group.id) == user_group
     end
 
@@ -117,6 +122,7 @@ defmodule Jarvis.AccountsTest do
 
     test "update_user_group/2 with invalid data returns error changeset" do
       user_group = user_group_fixture()
+                    |> Jarvis.Repo.preload(:user)
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user_group(user_group, @invalid_attrs)
       assert user_group == Accounts.get_user_group!(user_group.id)
     end

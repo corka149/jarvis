@@ -16,7 +16,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
     {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
     {:ok, shopping_list} = ShoppingLists.create_shopping_list(@create_attrs, group)
-    shopping_list
+    {shopping_list, group, user}
   end
 
   describe "index" do
@@ -93,8 +93,9 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   describe "delete shopping_list" do
     setup [:create_shopping_list]
 
-    test "deletes chosen shopping_list", %{conn: conn, shopping_list: shopping_list} do
-      conn = delete(conn, Routes.shopping_list_path(conn, :delete, shopping_list))
+    test "deletes chosen shopping_list", %{conn: conn, shopping_list: shopping_list, user: user} do
+      conn = init_test_session(conn, user_id: user.id)
+              |> delete(Routes.shopping_list_path(conn, :delete, shopping_list))
       assert redirected_to(conn) == Routes.shopping_list_path(conn, :index)
       assert_error_sent 404, fn ->
         get(conn, Routes.shopping_list_path(conn, :show, shopping_list))
@@ -103,7 +104,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   end
 
   defp create_shopping_list(_) do
-    shopping_list = fixture(:shopping_list)
-    {:ok, shopping_list: shopping_list}
+    {shopping_list, group, user} = fixture(:shopping_list)
+    {:ok, shopping_list: shopping_list, group: group, user: user}
   end
 end
