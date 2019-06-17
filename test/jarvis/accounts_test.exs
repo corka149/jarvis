@@ -142,15 +142,19 @@ defmodule Jarvis.AccountsTest do
   describe "invitations" do
     alias Jarvis.Accounts.Invitation
 
-    @valid_attrs %{}
+    @valid_attrs %{invitee_name: "Alice"}
     @update_attrs %{}
     @invalid_attrs %{}
 
     def invitation_fixture(attrs \\ %{}) do
+      {:ok, host} = Accounts.create_user %{email: "some email", name: "Bob", provider: "some provider", token: "some token", default_language: "en"}
+      {:ok, invitee} = Accounts.create_user %{email: "some email", name: "Alice", provider: "some provider", token: "some token", default_language: "en"}
+      {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
+
       {:ok, invitation} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Accounts.create_invitation()
+        |> Accounts.create_invitation(user_group, host, invitee)
 
       invitation
     end
@@ -162,26 +166,31 @@ defmodule Jarvis.AccountsTest do
 
     test "get_invitation!/1 returns the invitation with given id" do
       invitation = invitation_fixture()
+                    |> Jarvis.Repo.preload(:host)
+                    |> Jarvis.Repo.preload(:usergroup)
+                    |> Jarvis.Repo.preload(:invitee)
       assert Accounts.get_invitation!(invitation.id) == invitation
     end
 
     test "create_invitation/1 with valid data creates a invitation" do
-      assert {:ok, %Invitation{} = invitation} = Accounts.create_invitation(@valid_attrs)
+      {:ok, host} = Accounts.create_user %{email: "some email", name: "Bob", provider: "some provider", token: "some token", default_language: "en"}
+      {:ok, invitee} = Accounts.create_user %{email: "some email", name: "Alice", provider: "some provider", token: "some token", default_language: "en"}
+      {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
+
+      assert {:ok, %Invitation{} = invitation} = Accounts.create_invitation(@valid_attrs, user_group, host, invitee)
     end
 
     test "create_invitation/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Accounts.create_invitation(@invalid_attrs)
+      {:ok, host} = Accounts.create_user %{email: "some email", name: "Bob", provider: "some provider", token: "some token", default_language: "en"}
+      {:ok, invitee} = Accounts.create_user %{email: "some email", name: "Alice", provider: "some provider", token: "some token", default_language: "en"}
+      {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
+
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_invitation(@invalid_attrs, user_group, host, invitee)
     end
 
     test "update_invitation/2 with valid data updates the invitation" do
       invitation = invitation_fixture()
       assert {:ok, %Invitation{} = invitation} = Accounts.update_invitation(invitation, @update_attrs)
-    end
-
-    test "update_invitation/2 with invalid data returns error changeset" do
-      invitation = invitation_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_invitation(invitation, @invalid_attrs)
-      assert invitation == Accounts.get_invitation!(invitation.id)
     end
 
     test "delete_invitation/1 deletes the invitation" do
