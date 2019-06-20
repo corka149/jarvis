@@ -38,10 +38,12 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   end
 
   describe "create shopping_list" do
-    test "redirects to show when data is valid", %{conn: conn} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    setup [:create_shopping_list]
+
+    test "redirects to show when data is valid", %{conn: conn, group: group, user: user} do
+      create_attrs = %{"done" => false, "planned_for" => DateTime.utc_now(), "belongs_to" => group.id}
       conn = init_test_session(conn, user_id: user.id)
-              |> post(Routes.shopping_list_path(conn, :create), shopping_list: @create_attrs)
+              |> post(Routes.shopping_list_path(conn, :create), shopping_list: create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.shopping_list_path(conn, :show, id)
@@ -50,10 +52,10 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       assert html_response(conn, 200) =~ "Show Shopping list"
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    test "renders errors when data is invalid", %{conn: conn, group: group, user: user} do
+      invalid_attrs = %{"done" => nil, "planned_for" => nil, "belongs_to" => group.id}
       conn = init_test_session(conn, user_id: user.id)
-              |> post(Routes.shopping_list_path(conn, :create), shopping_list: @invalid_attrs)
+              |> post(Routes.shopping_list_path(conn, :create), shopping_list: invalid_attrs)
       assert html_response(conn, 200) =~ "New Shopping list"
     end
   end
@@ -84,8 +86,9 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       assert html_response(conn, 200)
     end
 
-    test "renders errors when data is invalid", %{conn: conn, shopping_list: shopping_list} do
-      conn = put(conn, Routes.shopping_list_path(conn, :update, shopping_list), shopping_list: @invalid_attrs)
+    test "renders errors when data is invalid", %{conn: conn, shopping_list: shopping_list, user: user} do
+      conn = init_test_session(conn, user_id: user.id)
+              |> put(Routes.shopping_list_path(conn, :update, shopping_list), shopping_list: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Shopping list"
     end
   end

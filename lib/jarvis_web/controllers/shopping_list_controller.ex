@@ -38,7 +38,8 @@ defmodule JarvisWeb.ShoppingListController do
         |> redirect(to: Routes.shopping_list_path(conn, :show, shopping_list))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        user_groups = Accounts.list_usergroups_by_membership_or_owner(conn.assigns.user)
+        render(conn, "new.html", changeset: changeset, user_groups: user_groups)
     end
   end
 
