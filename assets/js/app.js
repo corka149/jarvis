@@ -26,14 +26,24 @@ function generatePdf() {
     let doc = new jsPDF();
     doc.autoTable({ 
         html: "#open-shopping-list",
-        didDrawCell: data => {
-            console.info(data)
-         },
-         columns: [{header: 'Name', dataKey: 0}, {header: 'Amound', dataKey: 1}]
+        // didDrawCell: data => {
+        //     console.info(data)
+        //  },
+         columns: [{header: 'Name', dataKey: 0}, {header: 'Amound', dataKey: 1}],
+         columnStyles: {0: {halign: 'right'}, 1: {halign: 'left'}},
+         headStyles: {0: {halign: 'right'}, 1: {halign: 'left'}}
     });
     let date = new Date();
-    let dateStr = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
+    const month = to_two_digits(date.getMonth() + 1);
+    const dateOfMonth = to_two_digits(date.getDate());
+    const hours = to_two_digits(date.getHours());
+    const minutes = to_two_digits(date.getMinutes());
+    let dateStr = `${date.getFullYear()}-${month}-${dateOfMonth}_${hours}-${minutes}`;
     doc.save(dateStr + "_shopping-list.pdf");
+}
+
+function to_two_digits(number) {
+    return number < 10 ? "0" + number : number;
 }
 
 function main() {
