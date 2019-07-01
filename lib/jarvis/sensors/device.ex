@@ -5,6 +5,7 @@ defmodule Jarvis.Sensors.Device do
   schema "devices" do
     field :location, :string
     field :name, :string
+    has_many :measurements, Jarvis.Sensors.Measurement
 
     timestamps()
   end

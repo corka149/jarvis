@@ -5,6 +5,7 @@ defmodule Jarvis.Sensors.Measurement do
   schema "measurements" do
     field :describition, :string
     field :value, :float
+    belongs_to :device, Jarvis.Sensors.Device
 
     timestamps()
   end
@@ -13,6 +14,6 @@ defmodule Jarvis.Sensors.Measurement do
   def changeset(measurement, attrs) do
     measurement
     |> cast(attrs, [:describition, :value])
-    |> validate_required([:describition, :value])
+    |> validate_required([:describition, :value, :device_id])
   end
 end
