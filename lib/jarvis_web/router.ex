@@ -43,6 +43,13 @@ defmodule JarvisWeb.Router do
     get "/:provider/callback", AuthController, :callback
   end
 
+  scope "/v1/sensors", JarvisWeb do
+    pipe_through :api
+
+    resources "/devices", DeviceController, except: [:new, :edit]
+    resources "/measurements", MeasurementController, except: [:new, :edit]
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", JarvisWeb do
   #   pipe_through :api
