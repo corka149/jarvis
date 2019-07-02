@@ -6,9 +6,9 @@ defmodule Jarvis.SensorsTest do
   describe "measurements" do
     alias Jarvis.Sensors.Measurement
 
-    @valid_attrs %{describition: "some describition", value: 120.5}
-    @update_attrs %{describition: "some updated describition", value: 456.7}
-    @invalid_attrs %{describition: nil, value: nil}
+    @valid_attrs %{description: "some description", value: 120.5}
+    @update_attrs %{description: "some updated description", value: 456.7}
+    @invalid_attrs %{description: nil, value: nil}
 
     def measurement_fixture(attrs \\ %{}) do
       {:ok, measurement} =
@@ -31,7 +31,7 @@ defmodule Jarvis.SensorsTest do
 
     test "create_measurement/1 with valid data creates a measurement" do
       assert {:ok, %Measurement{} = measurement} = Sensors.create_measurement(@valid_attrs)
-      assert measurement.describition == "some describition"
+      assert measurement.description == "some description"
       assert measurement.value == 120.5
     end
 
@@ -42,7 +42,7 @@ defmodule Jarvis.SensorsTest do
     test "update_measurement/2 with valid data updates the measurement" do
       measurement = measurement_fixture()
       assert {:ok, %Measurement{} = measurement} = Sensors.update_measurement(measurement, @update_attrs)
-      assert measurement.describition == "some updated describition"
+      assert measurement.description == "some updated description"
       assert measurement.value == 456.7
     end
 

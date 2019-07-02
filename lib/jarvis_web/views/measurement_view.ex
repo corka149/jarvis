@@ -12,7 +12,7 @@ defmodule JarvisWeb.MeasurementView do
 
   def render("measurement.json", %{measurement: measurement}) do
     %{id: measurement.id,
-      describition: measurement.describition,
+      description: measurement.description,
       value: measurement.value}
   end
 end

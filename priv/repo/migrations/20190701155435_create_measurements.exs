@@ -3,7 +3,7 @@ defmodule Jarvis.Repo.Migrations.CreateMeasurements do
 
   def change do
     create table(:measurements) do
-      add :describition, :string
+      add :description, :string
       add :value, :float
 
       timestamps()

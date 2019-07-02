@@ -3,7 +3,7 @@ defmodule Jarvis.Sensors.Measurement do
   import Ecto.Changeset
 
   schema "measurements" do
-    field :describition, :string
+    field :description, :string
     field :value, :float
     belongs_to :device, Jarvis.Sensors.Device
 
@@ -13,7 +13,7 @@ defmodule Jarvis.Sensors.Measurement do
   @doc false
   def changeset(measurement, attrs) do
     measurement
-    |> cast(attrs, [:describition, :value])
-    |> validate_required([:describition, :value, :device_id])
+    |> cast(attrs, [:description, :value])
+    |> validate_required([:description, :value, :device_id])
   end
 end

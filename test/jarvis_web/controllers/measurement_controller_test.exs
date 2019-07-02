@@ -5,14 +5,14 @@ defmodule JarvisWeb.MeasurementControllerTest do
   alias Jarvis.Sensors.Measurement
 
   @create_attrs %{
-    describition: "some describition",
+    description: "some description",
     value: 120.5
   }
   @update_attrs %{
-    describition: "some updated describition",
+    description: "some updated description",
     value: 456.7
   }
-  @invalid_attrs %{describition: nil, value: nil}
+  @invalid_attrs %{description: nil, value: nil}
 
   def fixture(:measurement) do
     {:ok, measurement} = Sensors.create_measurement(@create_attrs)
@@ -39,7 +39,7 @@ defmodule JarvisWeb.MeasurementControllerTest do
 
       assert %{
                "id" => id,
-               "describition" => "some describition",
+               "description" => "some description",
                "value" => 120.5
              } = json_response(conn, 200)["data"]
     end
@@ -61,7 +61,7 @@ defmodule JarvisWeb.MeasurementControllerTest do
 
       assert %{
                "id" => id,
-               "describition" => "some updated describition",
+               "description" => "some updated description",
                "value" => 456.7
              } = json_response(conn, 200)["data"]
     end
