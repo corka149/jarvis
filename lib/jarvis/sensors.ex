@@ -7,6 +7,7 @@ defmodule Jarvis.Sensors do
   alias Jarvis.Repo
 
   alias Jarvis.Sensors.Measurement
+  alias Jarvis.Sensors.Device
 
   @doc """
   Returns the list of measurements.
@@ -19,6 +20,16 @@ defmodule Jarvis.Sensors do
   """
   def list_measurements do
     Repo.all(Measurement)
+    |> Repo.preload(:device)
+  end
+
+  @doc """
+  Loads all measurements that belong to a certain device.
+  """
+  def list_measurements_by_device(%Device{} = device) do
+    from(measurements in Measurement, where: measurements.device_id == ^device.id)
+    |> Repo.all()
+    |> Repo.preload(:device)
   end
 
   @doc """
@@ -35,22 +46,22 @@ defmodule Jarvis.Sensors do
       ** (Ecto.NoResultsError)
 
   """
-  def get_measurement!(id), do: Repo.get!(Measurement, id)
+  def get_measurement!(id), do: Repo.get!(Measurement, id) |> Repo.preload(:device)
 
   @doc """
   Creates a measurement.
 
   ## Examples
 
-      iex> create_measurement(%{field: value})
+      iex> create_measurement(%{field: value}, %Device{})
       {:ok, %Measurement{}}
 
-      iex> create_measurement(%{field: bad_value})
+      iex> create_measurement(%{field: bad_value}, %Device{})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_measurement(attrs \\ %{}) do
-    %Measurement{}
+  def create_measurement(attrs \\ %{}, %Device{} = device) do
+    Ecto.build_assoc(device, :measurements)
     |> Measurement.changeset(attrs)
     |> Repo.insert()
   end
@@ -60,13 +71,23 @@ defmodule Jarvis.Sensors do
 
   ## Examples
 
-      iex> update_measurement(measurement, %{field: new_value})
+      iex> update_measurement(measurement, %{field: new_value}, %Device{})
       {:ok, %Measurement{}}
 
-      iex> update_measurement(measurement, %{field: bad_value})
+      iex> update_measurement(measurement, %{field: bad_value}, %Device{})
       {:error, %Ecto.Changeset{}}
 
   """
+  def update_measurement(%Measurement{} = measurement, attrs, %Device{} = device) do
+    change_set = Repo.get!(Measurement, measurement.id) |> Measurement.changeset(attrs)
+
+    device
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:measurements, [change_set])
+    |> Jarvis.Repo.update()
+  end
+
+
   def update_measurement(%Measurement{} = measurement, attrs) do
     measurement
     |> Measurement.changeset(attrs)
@@ -102,8 +123,6 @@ defmodule Jarvis.Sensors do
     Measurement.changeset(measurement, %{})
   end
 
-  alias Jarvis.Sensors.Device
-
   @doc """
   Returns the list of devices.
 
@@ -131,7 +150,7 @@ defmodule Jarvis.Sensors do
       ** (Ecto.NoResultsError)
 
   """
-  def get_device!(id), do: Repo.get!(Device, id)
+  def get_device!(id), do: Repo.get!(Device, id) |> Repo.preload(:measurements)
 
   @doc """
   Creates a device.
