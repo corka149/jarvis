@@ -1,0 +1,32 @@
+GET http://127.0.0.1:4000/v1/sensors/devices HTTP/1.1
+
+###
+
+POST http://127.0.0.1:4000/v1/sensors/devices HTTP/1.1
+content-type: application/json
+
+{
+    "device": {
+        "name": "temperature meter",
+        "location": "living room"
+    }
+}
+
+###
+
+GET http://127.0.0.1:4000/v1/sensors/devices/1 HTTP/1.1
+
+###
+
+PUT http://127.0.0.1:4000/v1/sensors/devices/1 HTTP/1.1
+content-type: application/json
+
+{
+    "device": {
+        "location": "kitchen"
+    }
+}
+
+###
+
+DELETE  http://127.0.0.1:4000/v1/sensors/devices/1 HTTP/1.1
