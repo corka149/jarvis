@@ -134,6 +134,7 @@ defmodule Jarvis.Sensors do
   """
   def list_devices do
     Repo.all(Device)
+    |> Repo.preload(:measurements)
   end
 
   @doc """

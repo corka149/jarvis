@@ -2,6 +2,7 @@ defmodule Jarvis.SensorsTest do
   use Jarvis.DataCase
 
   alias Jarvis.Sensors
+  alias Jarvis.Repo
 
   describe "measurements" do
     alias Jarvis.Sensors.Measurement
@@ -11,12 +12,15 @@ defmodule Jarvis.SensorsTest do
     @invalid_attrs %{description: nil, value: nil}
 
     def measurement_fixture(attrs \\ %{}) do
+      {:ok, device} = Sensors.create_device(%{location: "some updated location", name: "some updated name"})
+
       {:ok, measurement} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Sensors.create_measurement()
+        |> Sensors.create_measurement(device)
 
       measurement
+      |> Repo.preload(:device)
     end
 
     test "list_measurements/0 returns all measurements" do
@@ -30,13 +34,17 @@ defmodule Jarvis.SensorsTest do
     end
 
     test "create_measurement/1 with valid data creates a measurement" do
-      assert {:ok, %Measurement{} = measurement} = Sensors.create_measurement(@valid_attrs)
+      {:ok, device} = Sensors.create_device(%{location: "some updated location", name: "some updated name"})
+
+      assert {:ok, %Measurement{} = measurement} = Sensors.create_measurement(@valid_attrs, device)
       assert measurement.description == "some description"
       assert measurement.value == 120.5
     end
 
     test "create_measurement/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Sensors.create_measurement(@invalid_attrs)
+      {:ok, device} = Sensors.create_device(%{location: "some updated location", name: "some updated name"})
+
+      assert {:error, %Ecto.Changeset{}} = Sensors.create_measurement(@invalid_attrs, device)
     end
 
     test "update_measurement/2 with valid data updates the measurement" do
@@ -78,6 +86,7 @@ defmodule Jarvis.SensorsTest do
         |> Sensors.create_device()
 
       device
+      |> Repo.preload(:measurements)
     end
 
     test "list_devices/0 returns all devices" do
