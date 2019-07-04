@@ -3,6 +3,7 @@ defmodule JarvisWeb.MeasurementControllerTest do
 
   alias Jarvis.Sensors
   alias Jarvis.Sensors.Measurement
+  alias Jarvis.Repo
 
   @create_attrs %{
     description: "some description",
@@ -15,8 +16,10 @@ defmodule JarvisWeb.MeasurementControllerTest do
   @invalid_attrs %{description: nil, value: nil}
 
   def fixture(:measurement) do
-    {:ok, measurement} = Sensors.create_measurement(@create_attrs)
+    {:ok, device} = Sensors.create_device(%{location: "some updated location", name: "some updated name"})
+    {:ok, measurement} = Sensors.create_measurement(@create_attrs, device)
     measurement
+    |> Repo.preload(:device)
   end
 
   setup %{conn: conn} do
