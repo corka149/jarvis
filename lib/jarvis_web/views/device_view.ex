@@ -3,16 +3,22 @@ defmodule JarvisWeb.DeviceView do
   alias JarvisWeb.DeviceView
 
   def render("index.json", %{devices: devices}) do
-    %{data: render_many(devices, DeviceView, "device.json")}
+    %{
+      data: render_many(devices, DeviceView, "device.json")
+    }
   end
 
   def render("show.json", %{device: device}) do
-    %{data: render_one(device, DeviceView, "device.json")}
+    %{
+      data: render_one(device, DeviceView, "device.json")
+    }
   end
 
   def render("device.json", %{device: device}) do
-    %{id: device.id,
+    %{
+      id: device.id,
       name: device.name,
-      location: device.location}
+      location: device.location
+    }
   end
 end
