@@ -1,0 +1,45 @@
+GET http://127.0.0.1:4000/v1/sensors/measurements HTTP/1.1
+
+###
+
+POST http://127.0.0.1:4000/v1/sensors/measurements HTTP/1.1
+content-type: application/json
+
+{
+    "measurement": {
+        "description": "temperature",
+        "value": 29.7,
+        "device_id": 1
+    }
+}
+
+###
+
+GET http://127.0.0.1:4000/v1/sensors/measurements/1 HTTP/1.1
+
+###
+
+PUT http://127.0.0.1:4000/v1/sensors/measurements/1 HTTP/1.1
+content-type: application/json
+
+{
+    "measurement": {
+        "value": 27.9
+    }
+}
+
+###
+
+PUT http://127.0.0.1:4000/v1/sensors/measurements/1 HTTP/1.1
+content-type: application/json
+
+{
+    "measurement": {
+        "value": 22.9,
+        "device_id": 2
+    }
+}
+
+###
+
+DELETE  http://127.0.0.1:4000/v1/sensors/measurements/1 HTTP/1.1
