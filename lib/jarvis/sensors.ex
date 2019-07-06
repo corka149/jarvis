@@ -61,9 +61,14 @@ defmodule Jarvis.Sensors do
 
   """
   def create_measurement(attrs \\ %{}, %Device{} = device) do
-    Ecto.build_assoc(device, :measurements)
-    |> Measurement.changeset(attrs)
-    |> Repo.insert()
+    result = Ecto.build_assoc(device, :measurements)
+              |> Measurement.changeset(attrs)
+              |> Repo.insert()
+
+    case result do
+      {:ok, measurement}  -> measurement |> Repo.preload(:device)
+      error               -> error
+    end
   end
 
   @doc """
@@ -152,6 +157,26 @@ defmodule Jarvis.Sensors do
 
   """
   def get_device!(id), do: Repo.get!(Device, id) |> Repo.preload(:measurements)
+
+
+  @doc """
+  Gets a single device.
+
+  ## Examples
+
+      iex> get_device(123)
+      {:ok, %Device{}}
+
+      iex> get_device(456)
+      {:error, message}
+
+  """
+  def get_device(id) do
+    case Repo.get(Device, id) do
+      nil     -> {:error, "No device found with id #{id}"}
+      device  -> {:ok, device}
+    end
+  end
 
   @doc """
   Creates a device.

@@ -12,12 +12,11 @@ defmodule JarvisWeb.MeasurementController do
   end
 
   def create(conn, %{"measurement" => measurement_params}) do
-    with {:ok, %Measurement{} = measurement} <- Sensors.create_measurement(measurement_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.measurement_path(conn, :show, measurement))
-      |> render("show.json", measurement: measurement)
-    end
+    {:ok, device} = measurement_params
+                    |> Map.get("device_id")
+                    |> Sensors.get_device()
+
+    create_and_success(conn, measurement_params, device)
   end
 
   def show(conn, %{"id" => id}) do
@@ -38,6 +37,16 @@ defmodule JarvisWeb.MeasurementController do
 
     with {:ok, %Measurement{}} <- Sensors.delete_measurement(measurement) do
       send_resp(conn, :no_content, "")
+    end
+  end
+
+  # Creates a measurement entry and returns the json
+  defp create_and_success(conn, measurement_params, device) do
+    with {:ok, %Measurement{} = measurement} <- Sensors.create_measurement(measurement_params, device) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.measurement_path(conn, :show, measurement))
+      |> render("show.json", measurement: measurement)
     end
   end
 end
