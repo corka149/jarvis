@@ -16,7 +16,7 @@ defmodule JarvisWeb.MeasurementController do
                     |> Map.get("device_id")
                     |> Sensors.get_device()
 
-    create_and_success(conn, measurement_params, device)
+    create_and_201(conn, measurement_params, device)
   end
 
   def show(conn, %{"id" => id}) do
@@ -41,7 +41,7 @@ defmodule JarvisWeb.MeasurementController do
   end
 
   # Creates a measurement entry and returns the json
-  defp create_and_success(conn, measurement_params, device) do
+  defp create_and_201(conn, measurement_params, device) do
     with {:ok, %Measurement{} = measurement} <- Sensors.create_measurement(measurement_params, device) do
       conn
       |> put_status(:created)
