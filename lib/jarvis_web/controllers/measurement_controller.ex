@@ -12,7 +12,7 @@ defmodule JarvisWeb.MeasurementController do
   end
 
   def create(conn, %{"measurement" => measurement_params}) do
-    case get_device?(measurement_params) do
+    case get_device(measurement_params) do
       {:ok, device}     -> create_and_201(conn, measurement_params, device)
       {:error, reason}  -> conn |> bad_request(reason)
     end
@@ -26,9 +26,12 @@ defmodule JarvisWeb.MeasurementController do
   def update(conn, %{"id" => id, "measurement" => measurement_params}) do
     measurement = Sensors.get_measurement!(id)
 
-    with {:ok, %Measurement{} = measurement} <- Sensors.update_measurement(measurement, measurement_params) do
-      render(conn, "show.json", measurement: measurement)
+    {:ok, %Measurement{} = measurement} = case get_device(measurement_params) do
+      {:ok, device} -> Sensors.update_measurement(measurement, measurement_params, device)
+      _             -> Sensors.update_measurement(measurement, measurement_params)
     end
+
+    render(conn, "show.json", measurement: measurement)
   end
 
   def delete(conn, %{"id" => id}) do
@@ -50,7 +53,7 @@ defmodule JarvisWeb.MeasurementController do
   end
 
   # Checks if device id is available and return the referred device when id is available
-  defp get_device?(measurement_params) do
+  defp get_device(measurement_params) do
     case Map.get(measurement_params, "device_id") do
       nil       -> {:error, "No device id found."}
       device_id -> Sensors.get_device(device_id)
