@@ -12,11 +12,10 @@ defmodule JarvisWeb.MeasurementController do
   end
 
   def create(conn, %{"measurement" => measurement_params}) do
-    {:ok, device} = measurement_params
-                    |> Map.get("device_id")
-                    |> Sensors.get_device()
-
-    create_and_201(conn, measurement_params, device)
+    case get_device?(measurement_params) do
+      {:ok, device}     -> create_and_201(conn, measurement_params, device)
+      {:error, reason}  -> conn |> bad_request(reason)
+    end
   end
 
   def show(conn, %{"id" => id}) do
@@ -48,5 +47,17 @@ defmodule JarvisWeb.MeasurementController do
       |> put_resp_header("location", Routes.measurement_path(conn, :show, measurement))
       |> render("show.json", measurement: measurement)
     end
+  end
+
+  # Checks if device id is available and return the referred device when id is available
+  defp get_device?(measurement_params) do
+    case Map.get(measurement_params, "device_id") do
+      nil       -> {:error, "No device id found."}
+      device_id -> Sensors.get_device(device_id)
+    end
+  end
+
+  defp bad_request(conn, reason) do
+    conn |> put_status(400) |> render("error.json", error: reason)
   end
 end
