@@ -15,6 +15,13 @@ defmodule JarvisWeb.MeasurementView do
     }
   end
 
+  def render("error.json", %{error: reason}) do
+    %{
+      scope: "measurements",
+      error: reason
+    }
+  end
+
   def render("measurement.json", %{measurement: measurement}) do
     %{
       id: measurement.id,
