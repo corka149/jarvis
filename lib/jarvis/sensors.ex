@@ -61,14 +61,10 @@ defmodule Jarvis.Sensors do
 
   """
   def create_measurement(attrs \\ %{}, %Device{} = device) do
-    result = Ecto.build_assoc(device, :measurements)
-              |> Measurement.changeset(attrs)
-              |> Repo.insert()
-
-    case result do
-      {:ok, measurement}  -> {:ok, measurement |> Repo.preload(:device)}
-      error               -> error
-    end
+    Ecto.build_assoc(device, :measurements)
+    |> Measurement.changeset(attrs)
+    |> Repo.insert()
+    |> load_device_for_measurement()
   end
 
   @doc """
@@ -84,12 +80,14 @@ defmodule Jarvis.Sensors do
 
   """
   def update_measurement(%Measurement{} = measurement, attrs, %Device{} = device) do
-    change_set = Repo.get!(Measurement, measurement.id) |> Measurement.changeset(attrs)
+    change_set = Repo.get!(Measurement, measurement.id)
+                  |> Measurement.changeset(attrs)
 
     device
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:measurements, [change_set])
     |> Jarvis.Repo.update()
+    |> load_device_for_measurement()
   end
 
 
@@ -97,7 +95,15 @@ defmodule Jarvis.Sensors do
     measurement
     |> Measurement.changeset(attrs)
     |> Repo.update()
+    |> load_device_for_measurement()
   end
+
+
+  @doc """
+  Loads the device for a measurement. Takes {:ok, measurement} or {:error, ...}
+  """
+  def load_device_for_measurement({:ok, %Measurement{} = measurement}), do: {:ok, measurement |> Repo.preload(:device)}
+  def load_device_for_measurement(error), do: error
 
   @doc """
   Deletes a Measurement.
