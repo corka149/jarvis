@@ -66,7 +66,7 @@ defmodule Jarvis.Sensors do
               |> Repo.insert()
 
     case result do
-      {:ok, measurement}  -> measurement |> Repo.preload(:device)
+      {:ok, measurement}  -> {:ok, measurement |> Repo.preload(:device)}
       error               -> error
     end
   end
