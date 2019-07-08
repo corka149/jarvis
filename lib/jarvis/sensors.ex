@@ -84,6 +84,7 @@ defmodule Jarvis.Sensors do
                   |> Measurement.changeset(attrs)
 
     device
+    |> Repo.preload(:measurements)
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:measurements, [change_set])
     |> Jarvis.Repo.update()

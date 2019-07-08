@@ -15,8 +15,10 @@ defmodule JarvisWeb.MeasurementControllerTest do
   }
   @invalid_attrs %{description: nil, value: nil}
 
+  @device_attrs %{location: "some updated location", name: "some updated name"}
+
   def fixture(:measurement) do
-    {:ok, device} = Sensors.create_device(%{location: "some updated location", name: "some updated name"})
+    {:ok, device} = Sensors.create_device(@device_attrs)
     {:ok, measurement} = Sensors.create_measurement(@create_attrs, device)
     measurement
     |> Repo.preload(:device)
@@ -35,7 +37,9 @@ defmodule JarvisWeb.MeasurementControllerTest do
 
   describe "create measurement" do
     test "renders measurement when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.measurement_path(conn, :create), measurement: @create_attrs)
+      {:ok, device} = Sensors.create_device(@device_attrs)
+      create_attrs = Map.put(@create_attrs, :device_id, device.id)
+      conn = post(conn, Routes.measurement_path(conn, :create), measurement: create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.measurement_path(conn, :show, id))
@@ -48,7 +52,9 @@ defmodule JarvisWeb.MeasurementControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.measurement_path(conn, :create), measurement: @invalid_attrs)
+      {:ok, device} = Sensors.create_device(@device_attrs)
+      invalid_attrs = Map.put(@invalid_attrs, :device_id, device.id)
+      conn = post(conn, Routes.measurement_path(conn, :create), measurement: invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -56,22 +62,37 @@ defmodule JarvisWeb.MeasurementControllerTest do
   describe "update measurement" do
     setup [:create_measurement]
 
-    test "renders measurement when data is valid", %{conn: conn, measurement: %Measurement{id: id} = measurement} do
+    test "renders measurement when data is valid with old device", %{conn: conn, measurement: %Measurement{id: id} = measurement} do
       conn = put(conn, Routes.measurement_path(conn, :update, measurement), measurement: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.measurement_path(conn, :show, id))
-
       assert %{
                "id" => id,
                "description" => "some updated description",
-               "value" => 456.7
+               "value" => 456.7,
+             } = json_response(conn, 200)["data"]
+    end
+
+    test "renders measurement when data is valid with new device", %{conn: conn, measurement: %Measurement{id: id} = measurement} do
+      {:ok, device} = Sensors.create_device(@device_attrs)
+      update_attrs = Map.put(@update_attrs, :device_id, device.id)
+      conn = put(conn, Routes.measurement_path(conn, :update, measurement), measurement: update_attrs)
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+
+      conn = get(conn, Routes.measurement_path(conn, :show, id))
+      device_id = device.id
+      assert %{
+               "id" => id,
+               "description" => "some updated description",
+               "value" => 456.7,
+               "device_id" => ^device_id
              } = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, measurement: measurement} do
       conn = put(conn, Routes.measurement_path(conn, :update, measurement), measurement: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
+      assert json_response(conn, 400)["error"] != %{}
     end
   end
 

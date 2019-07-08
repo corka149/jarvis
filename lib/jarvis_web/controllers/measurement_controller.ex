@@ -26,12 +26,14 @@ defmodule JarvisWeb.MeasurementController do
   def update(conn, %{"id" => id, "measurement" => measurement_params}) do
     measurement = Sensors.get_measurement!(id)
 
-    {:ok, %Measurement{} = measurement} = case get_device(measurement_params) do
+    update_result = case get_device(measurement_params) do
       {:ok, device} -> Sensors.update_measurement(measurement, measurement_params, device)
       _             -> Sensors.update_measurement(measurement, measurement_params)
     end
-
-    render(conn, "show.json", measurement: measurement)
+    case update_result do
+      {:ok, %Measurement{} = measurement} -> render(conn, "show.json", measurement: measurement)
+      {:error, _}                         -> conn |> bad_request("Error while updating measurement")
+    end
   end
 
   def delete(conn, %{"id" => id}) do
