@@ -80,17 +80,20 @@ defmodule Jarvis.Sensors do
 
   """
   def update_measurement(%Measurement{} = measurement, attrs, %Device{} = device) do
-    change_set = Repo.get!(Measurement, measurement.id)
-                  |> Measurement.changeset(attrs)
+    add_measurement_to_device measurement, device
 
-    device
-    |> Repo.preload(:measurements)
-    |> Ecto.Changeset.change()
-    |> Ecto.Changeset.put_assoc(:measurements, [change_set])
-    |> Jarvis.Repo.update()
-    |> load_device_for_measurement()
+    get_measurement!(measurement.id)
+    |> update_measurement(attrs)
   end
 
+  defp add_measurement_to_device(%Measurement{} = measurement, %Device{} = device) do
+    device = device |> Repo.preload(:measurements)
+
+    device
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:measurements, [measurement | device.measurements])
+    |> Repo.update!()
+  end
 
   def update_measurement(%Measurement{} = measurement, attrs) do
     measurement

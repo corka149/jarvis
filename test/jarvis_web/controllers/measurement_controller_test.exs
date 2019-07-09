@@ -81,12 +81,12 @@ defmodule JarvisWeb.MeasurementControllerTest do
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.measurement_path(conn, :show, id))
-      device_id = device.id
+      device = %{"id" => device.id, "location" => device.location, "name" => device.name}
       assert %{
                "id" => id,
                "description" => "some updated description",
                "value" => 456.7,
-               "device_id" => ^device_id
+               "device" => ^device
              } = json_response(conn, 200)["data"]
     end
 

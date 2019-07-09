@@ -8,7 +8,6 @@ defmodule JarvisWeb.UserGroupControllerTest do
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
 
-  @valid_attrs_group %{name: "some name"}
   @valid_attrs_user %{email: "some email", name: "some name", provider: "some provider", token: "some token"}
 
   def fixture(:user_group) do
