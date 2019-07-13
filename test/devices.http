@@ -8,7 +8,8 @@ content-type: application/json
 {
     "device": {
         "name": "temperature meter",
-        "location": "living room"
+        "location": "living room",
+        "external_id": "f8379a95-2287-41d6-a925-52fa4b0b5cc3"
     }
 }
 
