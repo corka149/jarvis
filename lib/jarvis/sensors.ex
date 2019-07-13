@@ -61,8 +61,6 @@ defmodule Jarvis.Sensors do
 
   """
   def create_measurement(attrs \\ %{}, %Device{} = device) do
-    attrs = Map.put(attrs, :external_id, Ecto.UUID.bingenerate())
-
     Ecto.build_assoc(device, :measurements)
     |> Measurement.changeset(attrs)
     |> Repo.insert()
