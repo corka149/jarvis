@@ -15,7 +15,7 @@ defmodule JarvisWeb.MeasurementControllerTest do
   }
   @invalid_attrs %{description: nil, value: nil}
 
-  @device_attrs %{location: "some updated location", name: "some updated name"}
+  @device_attrs %{location: "some updated location", name: "some updated name", external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"}
 
   def fixture(:measurement) do
     {:ok, device} = Sensors.create_device(@device_attrs)

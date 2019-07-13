@@ -6,13 +6,15 @@ defmodule JarvisWeb.DeviceControllerTest do
 
   @create_attrs %{
     location: "some location",
-    name: "some name"
+    name: "some name",
+    external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"
   }
   @update_attrs %{
     location: "some updated location",
-    name: "some updated name"
+    name: "some updated name",
+    external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"
   }
-  @invalid_attrs %{location: nil, name: nil}
+  @invalid_attrs %{location: nil, name: nil, external_id: nil}
 
   def fixture(:device) do
     {:ok, device} = Sensors.create_device(@create_attrs)
