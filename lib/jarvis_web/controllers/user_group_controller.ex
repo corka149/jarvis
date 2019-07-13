@@ -21,7 +21,7 @@ defmodule JarvisWeb.UserGroupController do
     case Accounts.create_user_group(user_group_params, conn.assigns.user) do
       {:ok, user_group} ->
         conn
-        |> put_flash(:info, "User group created successfully.")
+        |> put_flash(:info, dgettext("accounts", "User group created successfully."))
         |> redirect(to: Routes.user_group_path(conn, :show, user_group))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -46,7 +46,7 @@ defmodule JarvisWeb.UserGroupController do
     case Accounts.update_user_group(user_group, user_group_params) do
       {:ok, user_group} ->
         conn
-        |> put_flash(:info, "User group updated successfully.")
+        |> put_flash(:info, dgettext("accounts", "User group updated successfully."))
         |> redirect(to: Routes.user_group_path(conn, :show, user_group))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -59,7 +59,7 @@ defmodule JarvisWeb.UserGroupController do
     {:ok, _user_group} = Accounts.delete_user_group(user_group)
 
     conn
-    |> put_flash(:info, "User group deleted successfully.")
+    |> put_flash(:info, dgettext("accounts", "User group deleted successfully."))
     |> redirect(to: Routes.user_group_path(conn, :index))
   end
 

@@ -22,7 +22,7 @@ msgid "Listing user groups"
 msgstr "Übersicht der Benutzergruppen"
 
 #, elixir-format
-#: lib/jarvis_web/templates/user_group/index.html.eex:39
+#: lib/jarvis_web/templates/user_group/index.html.eex:36
 #: lib/jarvis_web/templates/user_group/new.html.eex:1
 msgid "New user group"
 msgstr "Neue Benutzergruppe"
@@ -33,7 +33,7 @@ msgid "Show user group"
 msgstr "Zeige Benutzergruppe"
 
 #, elixir-format
-#: lib/jarvis_web/controllers/invitation_controller.ex:49
+#: lib/jarvis_web/controllers/invitation_controller.ex:52
 msgid "Could not delete invitation."
 msgstr "Einladung konnte nicht gelöscht werden."
 
@@ -54,12 +54,12 @@ msgid "Host"
 msgstr "Einladener"
 
 #, elixir-format
-#: lib/jarvis_web/controllers/invitation_controller.ex:26
+#: lib/jarvis_web/controllers/invitation_controller.ex:28
 msgid "Invitation created successfully."
 msgstr "Einladung erfolgreich erstellt"
 
 #, elixir-format
-#: lib/jarvis_web/controllers/invitation_controller.ex:45
+#: lib/jarvis_web/controllers/invitation_controller.ex:48
 msgid "Invitation deleted successfully."
 msgstr "Einladung erfolgreich gelöscht"
 
@@ -96,7 +96,7 @@ msgid "Received Invitations"
 msgstr "Erhaltene Einladungen"
 
 #, elixir-format
-#: lib/jarvis_web/controllers/invitation_controller.ex:61
+#: lib/jarvis_web/controllers/invitation_controller.ex:65
 msgid "Accepted invitation."
 msgstr "Einladung angenommen."
 
@@ -105,8 +105,9 @@ msgstr "Einladung angenommen."
 msgid "New invitation"
 msgstr "Neue Einladung"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/invitation/index.html.eex:91
+#: lib/jarvis_web/templates/user_group/index.html.eex:42
 msgid "Group memberships"
 msgstr "Mitgliedschaften"
 
@@ -119,3 +120,18 @@ msgstr "Mitglied von"
 #: lib/jarvis_web/controllers/user_group_controller.ex:72
 msgid "You left the group."
 msgstr "Du hast die Gruppe verlassen."
+
+#, elixir-format
+#: lib/jarvis_web/controllers/user_group_controller.ex:24
+msgid "User group created successfully."
+msgstr "Benutzergruppe erfolgreich erstellt."
+
+#, elixir-format
+#: lib/jarvis_web/controllers/user_group_controller.ex:62
+msgid "User group deleted successfully."
+msgstr "Benutzergruppe erfolgreich gelöscht."
+
+#, elixir-format
+#: lib/jarvis_web/controllers/user_group_controller.ex:49
+msgid "User group updated successfully."
+msgstr "Benutzergruppe erfolgreich aktualisiert."

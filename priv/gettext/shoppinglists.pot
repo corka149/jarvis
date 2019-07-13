@@ -54,7 +54,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/templates/item/index.html.leex:16
-#: lib/jarvis_web/templates/item/index.html.leex:30
+#: lib/jarvis_web/templates/item/index.html.leex:35
 msgid "Amount"
 msgstr ""
 
