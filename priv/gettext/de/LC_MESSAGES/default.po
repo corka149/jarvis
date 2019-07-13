@@ -119,4 +119,4 @@ msgstr "Senden"
 #: lib/jarvis_web/templates/layout/app.html.eex:55
 #: lib/jarvis_web/templates/layout/app.html.eex:99
 msgid "Sign in as"
-msgstr "Angemeldet als"
+msgstr "Angemeldet als "

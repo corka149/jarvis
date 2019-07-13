@@ -118,5 +118,5 @@ msgstr ""
 #, elixir-format, fuzzy
 #: lib/jarvis_web/templates/layout/app.html.eex:55
 #: lib/jarvis_web/templates/layout/app.html.eex:99
-msgid "Sign in as"
+msgid "Sign in as "
 msgstr ""

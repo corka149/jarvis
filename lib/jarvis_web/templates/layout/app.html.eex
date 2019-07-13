@@ -112,6 +112,7 @@
           &nbsp;|&nbsp;
           <i class="material-icons" style="font-size: 0.8rem;">language</i>            
           <%= link gettext("DE"), to: Routes.page_path(@conn, :set_language, "de"), method: :post %>
+          &nbsp;
           <%= link gettext("EN"), to: Routes.page_path(@conn, :set_language, "en"), method: :post %>
         </span>
     </div>
