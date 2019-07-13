@@ -1,10 +1,10 @@
 <h1>Show Shopping list</h1>
 
-  <div class="row">
-    <div class="col s4">
-      <strong><%= dgettext("shoppinglists", "Done") %>:</strong>
+  <div>
+    <div>
+      <strong style="font-weight: bold;"><%= dgettext("shoppinglists", "Done") %>:</strong>
     </div>
-    <div class="col s8">
+    <div>
       <%= if @shopping_list.done do %>
         <i class="material-icons">check</i>
       <% else %>
@@ -13,20 +13,20 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col s4">
-      <strong><%= dgettext("shoppinglists", "Planned for") %>:</strong>
+  <div>
+    <div>
+      <strong style="font-weight: bold;"><%= dgettext("shoppinglists", "Planned for") %>:</strong>
     </div>
-    <div class="col s8">
+    <div>
       <%= @shopping_list.planned_for %>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col s4">
-      <strong><%= dgettext("shoppinglists", "Belongs to") %>:</strong>
+  <div>
+    <div>
+      <strong style="font-weight: bold;"><%= dgettext("shoppinglists", "Belongs to") %>:</strong>
     </div>
-    <div class="col s8">
+    <div>
       <%= @shopping_list.usergroup.name %>
     </div>
   </div>
