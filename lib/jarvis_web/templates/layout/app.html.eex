@@ -105,7 +105,7 @@
     <%= render @view_module, @view_template, assigns %>
   </main>
 
-  <footer class="footer">
+  <footer>
     <div>
         <span style="color: #429add;"" >
           <a href="https://github.com/corka149/jarvis">jARVIS -  Made by corka149</a>
