@@ -40,4 +40,13 @@ defmodule JarvisWeb.DeviceController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def get_by_external_id(conn, %{"external_id" => external_id}) do
+    case Sensors.get_device_by_external_id(external_id) do
+      nil     -> conn
+                  |> put_status(:not_found)
+                  |> render("error.json", error: "Nothing found.")
+      device  -> render(conn, "show.json", device: device)
+    end
+  end
 end

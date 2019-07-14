@@ -46,6 +46,7 @@ defmodule JarvisWeb.Router do
   scope "/v1/sensors", JarvisWeb do
     pipe_through :api
 
+    get "/devices/external_id/:external_id", DeviceController, :get_by_external_id
     resources "/devices", DeviceController, except: [:new, :edit]
     resources "/measurements", MeasurementController, except: [:new, :edit]
   end
