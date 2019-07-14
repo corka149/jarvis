@@ -140,7 +140,6 @@ defmodule Jarvis.SensorsTest do
     end
 
     test "get_device_by_external_id when external id does not exist" do
-      device = device_fixture()
       external_id = Ecto.UUID.generate()
       assert nil == Sensors.get_device_by_external_id(external_id)
     end
