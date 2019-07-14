@@ -189,6 +189,27 @@ defmodule Jarvis.Sensors do
   end
 
   @doc """
+  Returns a device by external id.
+
+  ## Examples
+
+      iex> get_device_by_external_id("f8379a95-2287-41d6-a925-52fa4b0b5cc3")
+      %Device{}
+
+      iex> get_device_by_external_id("0bc920de-34cf-4e8c-838f-015aba6c1afa")
+      nil
+  """
+  def get_device_by_external_id(external_id) do
+    devices = from( d in Device, where: d.external_id == ^external_id)
+              |> Jarvis.Repo.all()
+
+    case devices do
+      [device | _]  -> device
+      _             -> nil
+    end
+  end
+
+  @doc """
   Creates a device.
 
   ## Examples
