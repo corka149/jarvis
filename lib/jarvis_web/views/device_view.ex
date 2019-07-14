@@ -14,6 +14,13 @@ defmodule JarvisWeb.DeviceView do
     }
   end
 
+  def render("error.json", %{error: reason}) do
+    %{
+      scope: "devices",
+      error: reason
+    }
+  end
+
   def render("device.json", %{device: device}) do
     %{
       id: device.id,
