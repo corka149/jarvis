@@ -25,7 +25,7 @@
 
       <td>
         <%= link raw("<i class='material-icons'>shopping_cart</i>"), 
-          to: Routes.item_path(@conn, :index, shopping_list), 
+          to: Routes.live_path(@conn, JarvisWeb.ItemLive, shopping_list.id), 
           class: "btn-floating btn waves-effect waves-light orange" %>
 
         <%= link raw("<i class='material-icons'>zoom_in</i>"), 
