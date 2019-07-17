@@ -24,7 +24,7 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
     end
   end
 
-  defp is_authorized(%User{} = user, shopping_list_id) do
+  def is_authorized(%User{} = user, shopping_list_id) do
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
 
     is_group_member(user.usergroups, shopping_list) or

@@ -32,7 +32,7 @@ defmodule JarvisWeb.Router do
 
     get "/open", ShoppingListController, :index_open_lists
     resources "/", ShoppingListController
-    get "/:id/items", ItemController, :index
+    live "/:id/items", ItemLive, session: [:user_id , :path_params]
   end
 
   scope "/auth", JarvisWeb do
