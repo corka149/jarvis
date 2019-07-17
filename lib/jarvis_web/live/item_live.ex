@@ -1,28 +1,26 @@
 defmodule JarvisWeb.ItemLive do
   use Phoenix.LiveView
 
+  import JarvisWeb.Gettext
+
   alias JarvisWeb.ItemView
   alias Jarvis.Accounts
   alias Jarvis.Accounts.User
   alias Jarvis.ShoppingLists
   alias Jarvis.ShoppingLists.Item
+  alias JarvisWeb.Plugs.CheckListOwnerGroup
+  alias JarvisWeb.Router.Helpers, as: Routes
 
   @doc """
   Will be call first for new connections
   """
   def mount(%{path_params: %{"id" => shopping_list_id}, user_id: user_id}, socket) do
-    user = Accounts.get_user!(user_id)
-    set_lang(user)
-
-    shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
-    items = ShoppingLists.list_items_by_shopping_list(shopping_list)
-
-    socket =  socket
-              |> assign(:user, user)
-              |> assign(%{changeset: ShoppingLists.change_item(%Item{})})
-              |> assign(:shopping_list, shopping_list)
-              |> assign(items: items)
-    {:ok, socket}
+    if is_user_authorized?(shopping_list_id, user_id) do
+      Accounts.get_user!(user_id) |> set_lang()
+      mount_is_allowed(socket, shopping_list_id)
+    else
+      redirect_to_landing_page(socket)
+    end
   end
 
   @doc """
@@ -31,6 +29,10 @@ defmodule JarvisWeb.ItemLive do
   def render(assigns) do
     ItemView.render("index.html", assigns)
   end
+
+    ####################################
+   #   Handle messages from client    #
+  ####################################
 
   def handle_event("save",
                   %{"item" => item},
@@ -71,6 +73,29 @@ defmodule JarvisWeb.ItemLive do
     }
   end
 
+    ####################################
+   #             Helpers              #
+  ####################################
+
+  defp mount_is_allowed(socket, shopping_list_id) do
+    shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
+    items = ShoppingLists.list_items_by_shopping_list(shopping_list)
+
+    socket =  socket
+                |> assign(%{changeset: ShoppingLists.change_item(%Item{})})
+                |> assign(:shopping_list, shopping_list)
+                |> assign(items: items)
+      {:ok, socket}
+  end
+
+  defp redirect_to_landing_page(socket) do
+    { :stop,
+      socket
+      |> put_flash(:error, dgettext("errors", "You are not allow to do this!"))
+      |> redirect(to: Routes.page_path(socket, :index))
+    }
+  end
+
   defp display_success(socket, shopping_list) do
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
     socket = socket
@@ -82,5 +107,12 @@ defmodule JarvisWeb.ItemLive do
 
   defp set_lang(%User{} = user) do
     Gettext.put_locale user.default_language
+    user
+  end
+
+  defp is_user_authorized?(nil, _), do: false
+
+  defp is_user_authorized?(user_id, shopping_list_id) do
+    Accounts.get_user!(user_id) |> CheckListOwnerGroup.is_authorized(shopping_list_id)
   end
 end
