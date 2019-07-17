@@ -3,6 +3,7 @@ defmodule JarvisWeb.ItemLive do
 
   alias JarvisWeb.ItemView
   alias Jarvis.Accounts
+  alias Jarvis.Accounts.User
   alias Jarvis.ShoppingLists
   alias Jarvis.ShoppingLists.Item
 
@@ -11,6 +12,7 @@ defmodule JarvisWeb.ItemLive do
   """
   def mount(%{path_params: %{"id" => shopping_list_id}, user_id: user_id}, socket) do
     user = Accounts.get_user!(user_id)
+    set_lang(user)
 
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
@@ -76,5 +78,9 @@ defmodule JarvisWeb.ItemLive do
             |> assign(changeset: ShoppingLists.change_item(%Item{}))
             |> assign(items: items)
     {:noreply, socket}
+  end
+
+  defp set_lang(%User{} = user) do
+    Gettext.put_locale user.default_language
   end
 end
