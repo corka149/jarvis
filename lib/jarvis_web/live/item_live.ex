@@ -15,7 +15,7 @@ defmodule JarvisWeb.ItemLive do
   Will be call first for new connections
   """
   def mount(%{path_params: %{"id" => shopping_list_id}, user_id: user_id}, socket) do
-    if is_user_authorized?(shopping_list_id, user_id) do
+    if is_user_authorized?(user_id, shopping_list_id) do
       Accounts.get_user!(user_id) |> set_lang()
       mount_is_allowed(socket, shopping_list_id)
     else
