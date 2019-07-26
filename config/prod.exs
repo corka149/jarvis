@@ -11,7 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :jarvis, JarvisWeb.Endpoint,
   http: [:inet6, port: "${PORT}"],
-  url: [host: "localhost", port: "${PORT}"], # This is critical for ensuring web-sockets properly authorize.
+  url: [host: "${HOST}", port: "${PORT}"], # This is critical for ensuring web-sockets properly authorize.
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   root: ".",
