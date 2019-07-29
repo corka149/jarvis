@@ -1,4 +1,4 @@
-<h1><%= dgettext "accounts", "New user group" %></h1>
+<h3><%= dgettext "accounts", "New user group" %></h3>
 
 <%= render "form.html", Map.put(assigns, :action, Routes.user_group_path(@conn, :create)) %>
 

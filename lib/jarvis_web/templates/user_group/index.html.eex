@@ -1,4 +1,4 @@
-<h1><%= dgettext "accounts", "Listing user groups" %></h1>
+<h3><%= dgettext "accounts", "Listing user groups" %></h3>
 
 <table class="responsive-table">
   <thead>

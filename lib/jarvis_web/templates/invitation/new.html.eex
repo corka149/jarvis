@@ -1,4 +1,4 @@
-<h1><%= dgettext "accounts", "New Invitation" %></h1>
+<h3><%= dgettext "accounts", "New Invitation" %></h3>
 
 <%= form_for @changeset, Routes.invitation_path(@conn, :create), fn f -> %>
 

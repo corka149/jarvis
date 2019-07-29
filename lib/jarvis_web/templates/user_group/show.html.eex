@@ -1,6 +1,6 @@
-<h1>
+<h3>
   <%= dgettext "accounts", "Show user group" %>
-</h1>
+</h3>
 
 <ul>
 

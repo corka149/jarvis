@@ -28,33 +28,34 @@
   </span>
 </form>
 
-<table id="open-shopping-list" class="responsive-table">
-  <thead>
-    <tr>
-      <th><%= gettext "Name" %></th>
-      <th><%= dgettext "shoppinglists", "Amount" %></th>
-      <th>&nbsp;</th>
-    <tr>
-  </thead>
 
-  <tbody>
-    <%= for item <- @items do %>
-      <tr>
-        <td><%= item.name %></td>
-        <td><%= item.amount %> </td>
-        <td>
-          <%= if !@shopping_list.done do %>
-            <button phx-click="delete/<%= item.id %>" class="btn-floating btn waves-effect waves-light red">
-              <i class="material-icons">delete</i>
-            </button>
-            <button phx-click="edit/<%= item.id %>" class="btn-floating btn waves-effect waves-light orange">
-              <i class="material-icons">edit</i>
-            </button>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <table id="open-shopping-list">
+      <thead>
+        <tr>
+          <th><%= gettext "Name" %></th>
+          <th><%= dgettext "shoppinglists", "Amount" %></th>
+          <th>&nbsp;</th>
+        <tr>
+      </thead>
+
+      <tbody>
+        <%= for item <- @items do %>
+          <tr>
+            <td style="font-size: 1.2rem;"><%= item.name %></td>
+            <td style="font-size: 1.2rem;"><%= item.amount %> </td>
+            <td>
+              <%= if !@shopping_list.done do %>
+                <button phx-click="delete/<%= item.id %>" class="btn-floating btn waves-effect waves-light red">
+                  <i class="material-icons">delete</i>
+                </button>
+                <button phx-click="edit/<%= item.id %>" class="btn-floating btn waves-effect waves-light orange">
+                  <i class="material-icons">edit</i>
+                </button>
+              <% else %>
+                &nbsp;
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>

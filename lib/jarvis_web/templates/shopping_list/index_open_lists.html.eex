@@ -1,6 +1,6 @@
-<h1><%= dgettext("shoppinglists", "Open Shoppinglists") %></h1>
+<h3><%= dgettext("shoppinglists", "Open Shoppinglists") %></h3>
 
-<table class="responsive-table">
+<table>
   <thead>
     <tr>
       <th><%= dgettext("shoppinglists", "Planned for") %></th>
@@ -12,8 +12,8 @@
   <tbody>
 <%= for shopping_list <- @shoppinglists do %>
     <tr>
-      <td><%= shopping_list.planned_for %></td>
-      <td><%= shopping_list.usergroup.name %></td>
+      <td style="font-size: 1.2rem;"><%= shopping_list.planned_for %></td>
+      <td style="font-size: 1.2rem;"><%= shopping_list.usergroup.name %></td>
 
       <td>
         <%= link raw("<i class='material-icons'>shopping_cart</i>"), 
