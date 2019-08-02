@@ -26,7 +26,8 @@ defmodule JarvisWeb.MeasurementView do
     %{
       id: measurement.id,
       description: measurement.description,
-      value: measurement.value
+      value: measurement.value,
+      inserted_at: measurement.inserted_at
     }
   end
 
