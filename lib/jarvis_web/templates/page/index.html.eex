@@ -1,3 +1,8 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    window.createSocket();
+  });
+</script>
 <section >
   <h3><%= gettext "Welcome to %{name}!", name: "jARVIS" %></h3>
   <p><%= gettext "How can I help you?" %></p>

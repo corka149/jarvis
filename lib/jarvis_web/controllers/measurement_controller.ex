@@ -3,6 +3,7 @@ defmodule JarvisWeb.MeasurementController do
 
   alias Jarvis.Sensors
   alias Jarvis.Sensors.Measurement
+  alias JarvisWeb.Endpoint
 
   action_fallback JarvisWeb.FallbackController
 
@@ -46,12 +47,20 @@ defmodule JarvisWeb.MeasurementController do
 
   # Creates a measurement entry and returns the json
   defp create_and_201(conn, measurement_params, device) do
+
     with {:ok, %Measurement{} = measurement} <- Sensors.create_measurement(measurement_params, device) do
+      publish_new_measurement(measurement)
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.measurement_path(conn, :show, measurement))
       |> render("show.json", measurement: measurement)
     end
+  end
+
+  defp publish_new_measurement(%Measurement{} = measurement) do
+    measurement = JarvisWeb.MeasurementView.render("measurement.json", %{measurement: measurement})
+    Endpoint.broadcast!("measurement", "measurement:new", measurement)
   end
 
   # Checks if device id is available and return the referred device when id is available
