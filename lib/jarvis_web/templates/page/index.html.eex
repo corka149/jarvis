@@ -5,6 +5,11 @@
 </script>
 <section >
   <h3><%= gettext "Welcome to %{name}!", name: "jARVIS" %></h3>
+
+
+  <canvas id="myChart" width="400" height="400"></canvas>
+
+
   <p><%= gettext "How can I help you?" %></p>
   <img class="responsive-img" src="<%= Routes.static_path(@conn, "/images/jarvis.png") %>" alt="Phoenix Framework Logo"/>
 </section>
