@@ -15,6 +15,6 @@ defmodule JarvisWeb.MeasurementChannel do
 
   defp list_measurements_since_datetime(_datetime) do
     measurements = Sensors.list_measurements()
-    MeasurementView.render("index.json", %{measurements: measurements})
+    MeasurementView.render("chart_list.json", measurements: measurements)
   end
 end

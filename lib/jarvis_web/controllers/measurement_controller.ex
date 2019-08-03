@@ -59,7 +59,7 @@ defmodule JarvisWeb.MeasurementController do
   end
 
   defp publish_new_measurement(%Measurement{} = measurement) do
-    measurement = JarvisWeb.MeasurementView.render("measurement.json", %{measurement: measurement})
+    measurement = render("chart_single.json", measurement: measurement)
     Endpoint.broadcast!("measurement", "measurement:new", measurement)
   end
 

@@ -39,4 +39,24 @@ defmodule JarvisWeb.MeasurementView do
       device: render_one(measurement.device, DeviceView, "device.json")
     }
   end
+
+    #######################################
+   ############# For chart view ##########
+  #######################################
+  def render("chart_list.json", %{measurements: measurements}) do
+    %{
+      data: render_many(measurements, MeasurementView, "chart_single.json")
+    }
+  end
+
+  def render("chart_single.json", %{measurement: measurement}) do
+    %{
+      description: measurement.description,
+      location: measurement.device.location,
+      dataset: %{
+        y: measurement.inserted_at,
+        x: measurement.value
+      }
+    }
+  end
 end
