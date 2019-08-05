@@ -43,6 +43,7 @@ defmodule JarvisWeb.MeasurementView do
     #######################################
    ############# For chart view ##########
   #######################################
+
   def render("chart_list.json", %{measurements: measurements}) do
     %{
       data: render_many(measurements, MeasurementView, "chart_single.json")
