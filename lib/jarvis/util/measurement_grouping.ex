@@ -1,17 +1,24 @@
 defmodule Jarvis.MeasurementGrouping do
 
   alias Jarvis.Sensors.Measurement
+  alias Jarvis.Sensors.Device
 
-  def group_by_description(measurements) do
-    do_group_by_description(measurements, %{})
+  def group_measurements(measurements) do
+    do_grouping(measurements, %{})
   end
 
-  defp do_group_by_description([], %{} = accumulator_map), do: accumulator_map
+  defp do_grouping([], accumulator_map), do: accumulator_map
 
-  defp do_group_by_description([%Measurement{} = measurement | tail], %{} = accumulator_map) do
-    described_measurements = Map.get(accumulator_map, measurement.description, [])
-    mapped = Map.put(accumulator_map, measurement.description, [measurement | described_measurements])
-    do_group_by_description(tail, mapped)
+  defp do_grouping([%Measurement{} = measurement | tail], accumulator_map) do
+    accumulator_map = put_in_path(measurement, accumulator_map)
+    do_grouping(tail, accumulator_map)
   end
 
+  defp put_in_path(%Measurement{description: description, device: %Device{location: location}} = measurement, accumulator_map) do
+    case get_in(accumulator_map, [description, location]) do
+      nil ->  accumulator_map = put_in(accumulator_map, [description], %{location => []})
+              put_in(accumulator_map, [description, location], [measurement])
+      _   ->  update_in(accumulator_map, [description, location], &([measurement | &1]))
+    end
+  end
 end
