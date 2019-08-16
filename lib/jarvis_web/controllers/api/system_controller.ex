@@ -5,6 +5,7 @@ defmodule JarvisWeb.Api.SystemController do
 
   def ready(conn, _params) do
     conn
+    |> put_resp_content_type("text/plain")
     |> resp(:ok, "jARVIS is ready")
   end
 
