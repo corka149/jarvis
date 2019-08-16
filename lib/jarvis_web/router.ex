@@ -16,6 +16,10 @@ defmodule JarvisWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # ### ### ### ### ### #
+  #        Browser      #
+  # ### ### ### ### ### #
+
   scope "/", JarvisWeb do
     pipe_through :browser
 
@@ -41,6 +45,22 @@ defmodule JarvisWeb.Router do
     get "/signout", AuthController, :signout
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
+  end
+
+  # ### ### ### ### ### #
+  #          Api        #
+  # ### ### ### ### ### #
+
+  scope "/v1/system", JarvisWeb do
+    pipe_through :api
+
+    get "/ready", Api.SystemController, :ready
+  end
+
+  scope "/v1/shoppinglists", JarvisWeb do
+    pipe_through :api
+
+    get "/open", Api.ShoppingListApiController , :list_open_lists
   end
 
   scope "/v1/sensors", JarvisWeb do
