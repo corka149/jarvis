@@ -44,6 +44,15 @@ defmodule Jarvis.ShoppingLists do
   end
 
   @doc """
+  Returns every open shopping list.
+  """
+  def list_open_shoppinglists() do
+    from(sl in ShoppingList, where: not(sl.done))
+    |> Repo.all()
+    |> Repo.preload([:usergroup, :items])
+  end
+
+  @doc """
   Gets a single shopping_list.
 
   Raises `Ecto.NoResultsError` if the Shopping list does not exist.
