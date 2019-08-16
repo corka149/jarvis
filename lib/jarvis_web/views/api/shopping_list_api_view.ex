@@ -5,9 +5,7 @@ defmodule JarvisWeb.Api.ShoppingListApiView do
   alias JarvisWeb.Api.ItemApiView
 
   def render("index.json", %{shopping_lists: shopping_lists}) do
-    %{
-      data: render_many(shopping_lists, ShoppingListApiView, "show.json")
-    }
+    render_many(shopping_lists, ShoppingListApiView, "show.json")
   end
 
   def render("show.json", %{shopping_list_api: shopping_list}) do
