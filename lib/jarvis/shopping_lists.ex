@@ -106,7 +106,7 @@ defmodule Jarvis.ShoppingLists do
   end
 
   @doc """
-  Deletes a ShoppingList.
+  Deletes a ShoppingList and its items.
 
   ## Examples
 
@@ -118,6 +118,9 @@ defmodule Jarvis.ShoppingLists do
 
   """
   def delete_shopping_list(%ShoppingList{} = shopping_list) do
+    shopping_list = Repo.preload(shopping_list, :items)
+    Enum.each(shopping_list.items, fn item -> delete_item(item) end)
+
     Repo.delete(shopping_list)
   end
 
