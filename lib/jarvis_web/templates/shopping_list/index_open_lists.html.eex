@@ -1,5 +1,9 @@
 <h3><%= dgettext("shoppinglists", "Open Shoppinglists") %></h3>
 
+<div>
+  <span class="right"><%= link gettext("All lists"), to: Routes.shopping_list_path(@conn, :index), class: "btn orange"  %></span>
+</div>
+
 <table>
   <thead>
     <tr>
@@ -28,5 +32,3 @@
 <% end %>
   </tbody>
 </table>
-
-<span><%= link gettext("All lists"), to: Routes.shopping_list_path(@conn, :index), class: "btn orange"  %></span>
