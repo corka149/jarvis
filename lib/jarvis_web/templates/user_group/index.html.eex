@@ -1,5 +1,19 @@
 <h3><%= dgettext "accounts", "Listing user groups" %></h3>
 
+<div>
+  <span class="right">
+    <%= link dgettext("accounts", "New user group"), 
+      to: Routes.user_group_path(@conn, :new), 
+      class: "btn waves-effect waves-light orange" %>
+  <span>
+
+  </span class="right">
+    <%= link dgettext("accounts", "Group memberships"), 
+      to: Routes.invitation_path(@conn, :index), 
+      class: "btn waves-effect waves-light orange" %>
+  </span>
+</div>
+
 <table class="responsive-table">
   <thead>
     <tr>
@@ -31,15 +45,3 @@
 <% end %>
   </tbody>
 </table>
-
-<span>
-  <%= link dgettext("accounts", "New user group"), 
-    to: Routes.user_group_path(@conn, :new), 
-    class: "btn waves-effect waves-light orange" %>
-<span>
-
-</span>
-  <%= link dgettext("accounts", "Group memberships"), 
-    to: Routes.invitation_path(@conn, :index), 
-    class: "btn waves-effect waves-light orange" %>
-</span>

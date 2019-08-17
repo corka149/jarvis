@@ -1,5 +1,9 @@
 <h3><%= dgettext("shoppinglists", "Listing Shoppinglists") %></h3>
 
+<div>
+  <span class="right"><%= link dgettext("shoppinglists", "New Shopping list"), to: Routes.shopping_list_path(@conn, :new), class: "btn orange"  %></span>
+</div>
+
 <table>
   <thead>
     <tr>
@@ -45,5 +49,3 @@
 <% end %>
   </tbody>
 </table>
-
-<span><%= link dgettext("shoppinglists", "New Shopping list"), to: Routes.shopping_list_path(@conn, :new), class: "btn orange"  %></span>
