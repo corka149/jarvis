@@ -10,6 +10,7 @@ defmodule JarvisWeb.Api.ShoppingListApiController do
 
     conn
     |> put_status(:ok)
+    |> put_resp_header("Access-Control-Allow-Origin", "*")
     |> render("index.json", shopping_lists: open_lists)
   end
 
