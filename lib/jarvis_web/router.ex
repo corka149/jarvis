@@ -51,18 +51,6 @@ defmodule JarvisWeb.Router do
   #          Api        #
   # ### ### ### ### ### #
 
-  scope "/v1/system", JarvisWeb do
-    pipe_through :api
-
-    get "/ready", Api.SystemController, :ready
-  end
-
-  scope "/v1/shoppinglists", JarvisWeb do
-    pipe_through :api
-
-    get "/open", Api.ShoppingListApiController , :list_open_lists
-  end
-
   scope "/v1/sensors", JarvisWeb do
     pipe_through :api
 
