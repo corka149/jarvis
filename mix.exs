@@ -20,7 +20,7 @@ defmodule Jarvis.MixProject do
   def application do
     [
       mod: {Jarvis.Application, []},
-      extra_applications: [:logger, :runtime_tools, :ueberauth, :ueberauth_auth0]
+      extra_applications: [:logger, :runtime_tools, :ueberauth, :ueberauth_auth0, :httpotion]
     ]
   end
 
@@ -47,7 +47,8 @@ defmodule Jarvis.MixProject do
       {:ueberauth, "~> 0.6"},
       {:ueberauth_auth0, "~> 0.3"},
       {:poison, "~> 4.0"},
-      {:distillery, "~> 2.0"}
+      {:distillery, "~> 2.0"},
+      {:httpotion, "~> 3.1"}
     ]
   end
 
