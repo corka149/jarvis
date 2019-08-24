@@ -1,13 +1,13 @@
-<script>
+<%# <script>
   document.addEventListener("DOMContentLoaded", function() {
     window.createSocket();
   });
-</script>
+</script> %>
 <section >
   <h3><%= gettext "Welcome to %{name}!", name: "jARVIS" %></h3>
 
 
-  <canvas id="myChart" width="400" height="400"></canvas>
+  <%# <canvas id="myChart" width="400" height="400"></canvas> %>
 
 
   <p><%= gettext "How can I help you?" %></p>
