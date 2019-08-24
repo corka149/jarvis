@@ -10,8 +10,8 @@ defmodule Jarvis.ShoppingLists do
   alias Jarvis.ShoppingLists.ShoppingList
   alias Jarvis.ShoppingLists.Item
 
-  alias Jarvis.ShoppingLists.App.Config
-  alias Jarvis.ShoppingLists.App.VisionClient
+  alias Jarvis.ShoppingLists.Vision.Config
+  alias Jarvis.ShoppingLists.Vision.Client
 
   @doc """
   Returns the list of shoppinglists.
@@ -199,6 +199,6 @@ defmodule Jarvis.ShoppingLists do
   end
 
   defp sync_vision() do
-    Task.async(fn -> Config.from_env |> VisionClient.post_open_lists end)
+    Task.async(fn -> Config.from_env |> Client.post_open_lists end)
   end
 end

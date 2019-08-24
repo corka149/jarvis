@@ -1,16 +1,16 @@
-defmodule Jarvis.ShoppingLists.App.Config do
+defmodule Jarvis.ShoppingLists.Vision.Config do
   @moduledoc """
   Represents all necessary configurations for talking to Vision
   """
 
-  alias Jarvis.ShoppingLists.App.Config
+  alias Jarvis.ShoppingLists.Vision.Config
 
   defstruct host: "http://127.0.0.1:5000", username: "default_user", password: "default_password"
 
   def from_env() do
-    host = Application.get_env(:jarvis, Jarvis.ShoppingLists.App.VisionClient)[:host]
-    username = Application.get_env(:jarvis, Jarvis.ShoppingLists.App.VisionClient)[:username]
-    password = Application.get_env(:jarvis, Jarvis.ShoppingLists.App.VisionClient)[:password]
+    host = Application.get_env(:jarvis, Jarvis.ShoppingLists.Vision)[:host]
+    username = Application.get_env(:jarvis, Jarvis.ShoppingLists.Vision)[:username]
+    password = Application.get_env(:jarvis, Jarvis.ShoppingLists.Vision)[:password]
     %Config{host: host, username: username, password: password}
   end
 

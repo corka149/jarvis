@@ -1,7 +1,7 @@
-defmodule Jarvis.ShoppingLists.App.VisionClient do
+defmodule Jarvis.ShoppingLists.Vision.Client do
 
   alias Jarvis.ShoppingLists
-  alias Jarvis.ShoppingLists.App.Config
+  alias Jarvis.ShoppingLists.Vision.Config
   alias JarvisWeb.Api.ShoppingListApiView
 
   @doc """

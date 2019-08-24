@@ -82,7 +82,7 @@ config :jarvis, Jarvis.Repo,
   hostname: "${DB_HOST}",
   pool_size: 15
 
-config :jarvis, Jarvis.ShoppingLists.App.VisionClient,
+config :jarvis, Jarvis.ShoppingLists.Vision,
   host: "${VISION_HOST}",
   username: "${VISION_USERNAME}",
   password: "${VISION_PASSWORD}"
