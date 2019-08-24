@@ -7,6 +7,13 @@ defmodule Jarvis.ShoppingLists.App.Config do
 
   defstruct host: "http://127.0.0.1:5000", username: "default_user", password: "default_password"
 
+  def from_env() do
+    host = Application.get_env(:jarvis, Jarvis.ShoppingLists.App.VisionClient)[:host]
+    username = Application.get_env(:jarvis, Jarvis.ShoppingLists.App.VisionClient)[:username]
+    password = Application.get_env(:jarvis, Jarvis.ShoppingLists.App.VisionClient)[:password]
+    %Config{host: host, username: username, password: password}
+  end
+
   def build(options \\ []) do
     update_with_options(%Config{}, options)
   end

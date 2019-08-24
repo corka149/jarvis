@@ -82,6 +82,11 @@ config :jarvis, Jarvis.Repo,
   hostname: "${DB_HOST}",
   pool_size: 15
 
+config :jarvis, Jarvis.ShoppingLists.App.VisionClient,
+  host: "${VISION_HOST}",
+  username: "${VISION_USERNAME}",
+  password: "${VISION_PASSWORD}"
+
 config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
   domain: "${AUTH0_DOMAIN}",
   client_id: "${AUTH0_CLIENT_ID}",
