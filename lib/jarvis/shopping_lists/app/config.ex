@@ -15,8 +15,9 @@ defmodule Jarvis.ShoppingLists.App.Config do
 
   defp update_with_options(config, [{k, v} | tail] = _options) do
     if Map.has_key?(config, k) do
-      Map.put(config, k, v)
+      Map.put(config, k, v) |> update_with_options(tail)
+    else
+      update_with_options(config, tail)
     end
-    update_with_options(config, tail)
   end
 end
