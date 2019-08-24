@@ -10,6 +10,9 @@ defmodule Jarvis.ShoppingLists do
   alias Jarvis.ShoppingLists.ShoppingList
   alias Jarvis.ShoppingLists.Item
 
+  alias Jarvis.ShoppingLists.App.Config
+  alias Jarvis.ShoppingLists.App.VisionClient
+
   @doc """
   Returns the list of shoppinglists.
 
@@ -161,11 +164,14 @@ defmodule Jarvis.ShoppingLists do
   an ID.
   """
   def create_or_update_item(attrs, shopping_list) do
-    case attrs do
+
+    item = case attrs do
       %{"id" => ""} -> create_item(attrs, shopping_list)
       %{"id" => id} -> get_item!(id) |> update_item(attrs)
       _             -> create_item(attrs, shopping_list)
     end
+    sync_vision()
+    item
   end
 
   def get_item!(id) do
@@ -190,5 +196,9 @@ defmodule Jarvis.ShoppingLists do
   """
   def list_items_by_shopping_list(%ShoppingList{id: id}) do
     Repo.all(from it in Item, where: it.shopping_list_id == ^id)
+  end
+
+  defp sync_vision() do
+    Task.async(fn -> Config.from_env |> VisionClient.post_open_lists end)
   end
 end
