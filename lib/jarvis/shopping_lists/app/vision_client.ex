@@ -8,7 +8,7 @@ defmodule Jarvis.ShoppingLists.App.VisionClient do
   Posts all open shopping lists to Vision.
   """
   def post_open_lists(config \\ %Config{}) do
-    %{host: host, username: username, pasword: password} = config
+    %{host: host, username: username, password: password} = config
     credentials = {username, password}
     sl_json = create_shoppinglist_json()
     HTTPotion.post host <> "/v1/shoppinglists/open", [body: sl_json, headers: headers(), basic_auth: credentials]
