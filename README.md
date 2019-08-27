@@ -35,3 +35,6 @@ Important environment variables for prod release
  * AUTH0_DOMAIN
  * AUTH0_CLIENT_ID
  * AUTH0_CLIENT_SECRET
+ * VISION_HOST
+ * VISION_USERNAME
+ * VISION_PASSWORD
