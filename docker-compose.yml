@@ -3,7 +3,7 @@ version: "2"
 
 services:
   jarvis:
-    image: jarvis:2.2.1
+    image: jarvis:2.4.1
     ports:
       - 4000:4000
     environment:
@@ -18,6 +18,9 @@ services:
       AUTH0_DOMAIN: $AUTH0_DOMAIN
       AUTH0_CLIENT_ID: $AUTH0_CLIENT_ID
       AUTH0_CLIENT_SECRET: $AUTH0_CLIENT_SECRET
+      VISION_HOST: https://vision-by-corka.herokuapp.com/
+      VISION_USERNAME: $VISION_USERNAME
+      VISION_PASSWORD: $VISION_PASSWORD
     networks:
       - jarvis_network
     depends_on:

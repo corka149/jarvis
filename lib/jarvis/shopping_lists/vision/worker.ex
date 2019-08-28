@@ -11,7 +11,9 @@ defmodule Jarvis.ShoppingLists.Vision.Worker do
   Starts the syncing process with Vision.
   """
   def start_link do
-    Task.start_link(fn -> loop_post() end)
+    delay = 30
+    config = Config.from_env
+    Task.start_link(fn -> loop_post(delay, config) end)
   end
 
   def child_spec(_opts) do
