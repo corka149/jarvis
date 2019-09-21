@@ -46,8 +46,8 @@ defmodule Jarvis.ShoppingLists do
   @doc """
   Returns every open shopping list.
   """
-  def list_open_shoppinglists() do
-    from(sl in ShoppingList, where: not(sl.done))
+  def list_open_shoppinglists_of_today() do
+    from(sl in ShoppingList, where: not(sl.done) and sl.planned_for == ^Date.utc_today())
     |> Repo.all()
     |> Repo.preload([:usergroup, :items])
   end
