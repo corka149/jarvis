@@ -1,6 +1,27 @@
-FROM bitwalker/alpine-elixir-phoenix AS build
+FROM elixir:1.9.1-alpine AS build
 
 COPY . .
+
+RUN \
+    mkdir -p /opt/app && \
+    chmod -R 777 /opt/app && \
+    apk update && \
+    apk --no-cache --update add \
+      git \
+      make \
+      g++ \
+      wget \
+      curl \
+      inotify-tools \
+      nodejs \
+      nodejs-npm && \
+    npm install npm -g --no-progress && \
+    update-ca-certificates --fresh && \
+    rm -rf /var/cache/apk/*
+
+ENV PATH=./node_modules/.bin:$PATH
+
+RUN mix do local.hex --force, local.rebar --force
 
 RUN export MIX_ENV=prod && \
     npm run deploy --prefix assets && \

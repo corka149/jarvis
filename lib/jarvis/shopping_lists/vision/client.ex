@@ -22,6 +22,9 @@ defmodule Jarvis.ShoppingLists.Vision.Client do
     ["Content-Type": "application/json"]
   end
 
+  @doc """
+  Creates a json with all open shipping lists for the current day.
+  """
   def create_shoppinglist_json do
     s_lists = ShoppingLists.list_open_shoppinglists_of_today()
     if length(s_lists) > 0 do
