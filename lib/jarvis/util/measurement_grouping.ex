@@ -1,4 +1,4 @@
-defmodule Jarvis.MeasurementGrouping do
+defmodule Jarvis.Util.MeasurementGrouping do
 
   alias Jarvis.Sensors.Measurement
   alias Jarvis.Sensors.Device

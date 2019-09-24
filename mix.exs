@@ -4,7 +4,7 @@ defmodule Jarvis.MixProject do
   def project do
     [
       app: :jarvis,
-      version: "2.4.2",
+      version: "2.4.3",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
