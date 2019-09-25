@@ -47,7 +47,12 @@ defmodule Jarvis.MixProject do
       {:ueberauth, "~> 0.6"},
       {:ueberauth_auth0, "~> 0.3"},
       {:poison, "~> 4.0"},
-      {:httpotion, "~> 3.1"}
+      {:httpotion, "~> 3.1"},
+
+      # linting
+      {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
+      # type checking
+      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
     ]
   end
 

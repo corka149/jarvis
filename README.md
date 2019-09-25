@@ -11,6 +11,7 @@ Portal for managing household (like housekeeping book) and smart home.
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
+  * Run startPostgres.sh
   * Create and migrate your database with `mix ecto.setup`
   * Install Node.js dependencies with `cd assets && npm install`
   * Start Phoenix endpoint with `mix phx.server`
@@ -23,7 +24,7 @@ Just run `mix docker`. It will take care everything for you. :)
 
 ## Configuration
 
-Important environment variables for prod release
+Important environment variables for prod release:
 
  * PORT
  * SECRET_KEY_BASE
@@ -37,3 +38,11 @@ Important environment variables for prod release
  * VISION_HOST
  * VISION_USERNAME
  * VISION_PASSWORD
+
+## Important notes
+
+Execute the following as often as possible and fix what you can:
+
+ * `mix test` - for ExUnit tests
+ * `mix dialyzer` - for type checking
+ * `mix credo` - for linting
