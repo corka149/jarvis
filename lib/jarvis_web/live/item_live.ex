@@ -14,7 +14,18 @@ defmodule JarvisWeb.ItemLive do
   @doc """
   Will be call first for new connections
   """
-  def mount(%{path_params: %{"id" => shopping_list_id}, user_id: user_id}, socket) do
+  @impl true
+  def mount(%{user_id: user_id}, socket) do
+    {:ok, socket |> assign(:user_id, user_id)}
+  end
+
+  @doc """
+  The handle_params/3 callback is invoked after mount/2.
+  https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:handle_params/3
+  """
+  @impl true
+  def handle_params(%{"id" => shopping_list_id}, _uri, socket) do
+    user_id = socket.assigns[:user_id]
     if is_user_authorized?(user_id, shopping_list_id) do
       Accounts.get_user!(user_id) |> set_lang()
       mount_is_allowed(socket, shopping_list_id)
@@ -26,6 +37,7 @@ defmodule JarvisWeb.ItemLive do
   @doc """
   Renders the static HTML after mounting the session.
   """
+  @impl true
   def render(assigns) do
     ItemView.render("index.html", assigns)
   end
@@ -34,6 +46,7 @@ defmodule JarvisWeb.ItemLive do
    #   Handle messages from client    #
   ####################################
 
+  @impl true
   def handle_event("save",
                   %{"item" => item},
                   %{assigns: %{shopping_list: shopping_list}} = socket) do
@@ -47,6 +60,7 @@ defmodule JarvisWeb.ItemLive do
     end
   end
 
+  @impl true
   def handle_event("delete/" <> id, _, %{assigns: %{shopping_list: shopping_list}} = socket) do
     id
     |> String.to_integer()
@@ -58,6 +72,7 @@ defmodule JarvisWeb.ItemLive do
     {:noreply, assign(socket, items: items)}
   end
 
+  @impl true
   def handle_event("edit/" <> id, _, %{assigns: %{shopping_list: shopping_list}} = socket) do
     item = id
            |> String.to_integer()
@@ -85,7 +100,7 @@ defmodule JarvisWeb.ItemLive do
                 |> assign(%{changeset: ShoppingLists.change_item(%Item{})})
                 |> assign(:shopping_list, shopping_list)
                 |> assign(items: items)
-      {:ok, socket}
+      {:noreply, socket}
   end
 
   defp redirect_to_landing_page(socket) do
