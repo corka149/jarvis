@@ -24,6 +24,7 @@ ENV PATH=./node_modules/.bin:$PATH
 RUN mix do local.hex --force, local.rebar --force
 
 RUN export MIX_ENV=prod && \
+    npm install --prefix assets && \
     npm run deploy --prefix assets && \
     mix deps.get && \
     mix release
