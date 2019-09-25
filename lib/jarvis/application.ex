@@ -6,6 +6,9 @@ defmodule Jarvis.Application do
   use Application
 
   def start(_type, _args) do
+    Jarvis.Util.ApplicationInfo.print_banner()
+    Jarvis.Util.ApplicationInfo.print_application_env()
+
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
@@ -21,9 +24,6 @@ defmodule Jarvis.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Jarvis.Supervisor]
     Supervisor.start_link(children, opts)
-
-    Jarvis.Util.ApplicationInfo.print_banner()
-    Jarvis.Util.ApplicationInfo.print_application_env()
   end
 
   # Tell Phoenix to update the endpoint configuration
