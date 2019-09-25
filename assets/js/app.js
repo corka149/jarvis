@@ -11,12 +11,13 @@ import css from "../css/app.css"
 //
 import "phoenix_html"
 import LiveSocket from "phoenix_live_view"
+import {Socket} from "phoenix"
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-import "./socket"
+import "./socket";
 
-let liveSocket = new LiveSocket("/live")
+let liveSocket = new LiveSocket("/live", Socket)
 liveSocket.connect()
 
 function generatePdf() {
