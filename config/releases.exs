@@ -27,7 +27,6 @@ config :jarvis, Jarvis.ShoppingLists.Vision,
   username: System.fetch_env!("VISION_USERNAME"),
   password: System.fetch_env!("VISION_PASSWORD")
 
-config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
-  domain: System.fetch_env!("AUTH0_DOMAIN"),
-  client_id: System.fetch_env!("AUTH0_CLIENT_ID"),
-  client_secret: System.fetch_env!("AUTH0_CLIENT_SECRET")
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
+  client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")

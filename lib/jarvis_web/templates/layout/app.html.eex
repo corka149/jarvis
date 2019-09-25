@@ -53,7 +53,7 @@
               </li>
             <% else %>
               <li>
-                <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :request, "auth0") %>
+                <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :request, "github") %>
               </li>
             <% end %>
           </ul>
@@ -92,7 +92,7 @@
           </li>
         <% else %>
           <li>
-            <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :request, "auth0") %>
+            <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :request, "github") %>
           </li>
         <% end %>
       </ul>

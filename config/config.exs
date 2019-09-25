@@ -31,13 +31,12 @@ config :phoenix, :json_library, Jason
 
 config :ueberauth, Ueberauth,
   providers: [
-    auth0: {Ueberauth.Strategy.Auth0, []}
+    github: {Ueberauth.Strategy.Github, []}
   ]
 
-config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
-  domain: System.get_env("AUTH0_DOMAIN"),
-  client_id: System.get_env("AUTH0_CLIENT_ID"),
-  client_secret: System.get_env("AUTH0_CLIENT_SECRET")
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: System.get_env("GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
 
 config :phoenix,
   template_engines: [leex: Phoenix.LiveView.Engine]

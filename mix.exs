@@ -4,7 +4,7 @@ defmodule Jarvis.MixProject do
   def project do
     [
       app: :jarvis,
-      version: "2.4.3",
+      version: "2.5.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -20,7 +20,7 @@ defmodule Jarvis.MixProject do
   def application do
     [
       mod: {Jarvis.Application, []},
-      extra_applications: [:logger, :runtime_tools, :ueberauth, :ueberauth_auth0, :httpotion]
+      extra_applications: [:logger, :runtime_tools, :ueberauth, :ueberauth_github, :httpotion]
     ]
   end
 
@@ -45,7 +45,7 @@ defmodule Jarvis.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:ueberauth, "~> 0.6"},
-      {:ueberauth_auth0, "~> 0.3"},
+      {:ueberauth_github, "~> 0.7"},
       {:poison, "~> 4.0"},
       {:httpotion, "~> 3.1"},
 
