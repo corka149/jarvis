@@ -1,4 +1,8 @@
 defmodule Jarvis.Tasks do
+  @moduledoc """
+  Task for for performing ecto.migrate.
+  """
+
   def migrate do
     {:ok, _} = Application.ensure_all_started(:jarvis)
 

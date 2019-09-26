@@ -1,4 +1,9 @@
 defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
+  @moduledoc """
+  Authorization plug for checking if a request has the permission to access
+  the a shoppling list.
+  """
+
   import Plug.Conn
   import Phoenix.Controller
   import JarvisWeb.Gettext

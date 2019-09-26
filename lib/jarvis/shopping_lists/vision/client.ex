@@ -1,4 +1,8 @@
 defmodule Jarvis.ShoppingLists.Vision.Client do
+  @moduledoc """
+  Client for communicating with Vision.
+  """
+
   alias Jarvis.ShoppingLists
   alias Jarvis.ShoppingLists.Vision.Config
   alias JarvisWeb.Api.ShoppingListApiView

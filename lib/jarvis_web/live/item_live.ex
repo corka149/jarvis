@@ -1,4 +1,8 @@
 defmodule JarvisWeb.ItemLive do
+  @moduledoc """
+  Endpoint for handling the live view of items.
+  """
+
   use Phoenix.LiveView
 
   import JarvisWeb.Gettext

@@ -1,4 +1,7 @@
 defmodule Mix.Tasks.Docker do
+  @moduledoc """
+  Creates an docker image with jARVIS.
+  """
   use Mix.Task
 
   @shortdoc "Creates a docker image with tags"

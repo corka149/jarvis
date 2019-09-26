@@ -1,4 +1,7 @@
 defmodule JarvisWeb.Plugs.SetUser do
+  @moduledoc """
+  Plug for setting the user from user_id contained in the connection.
+  """
   import Plug.Conn
 
   alias Jarvis.Accounts
