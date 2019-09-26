@@ -49,6 +49,8 @@ defmodule Jarvis.MixProject do
       {:poison, "~> 4.0"},
       {:httpotion, "~> 3.1"},
 
+      {:hackney, "1.15.2" , override: true}, 
+
       # linting
       {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
       # type checking
