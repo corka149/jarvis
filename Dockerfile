@@ -41,5 +41,7 @@ LABEL maintainer="corka149 <corka149@mailbox.org>"
 
 COPY --from=build /jarvis .
 
+EXPOSE 4000
+
 ENTRYPOINT ["/jarvis/bin/jarvis"]
 CMD ["start"]
