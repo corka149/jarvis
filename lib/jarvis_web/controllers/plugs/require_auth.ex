@@ -24,6 +24,7 @@ defmodule JarvisWeb.Plugs.RequireAuth do
       conn
     else
       Logger.warn("Request without authentication occured.")
+
       conn
       |> put_flash(:error, "You must be logged in.")
       |> redirect(to: Helpers.page_path(conn, :index))

@@ -42,6 +42,7 @@ Important environment variables for prod release:
 
 Execute the following as often as possible and fix what you can:
 
+ * `mix format` - formats code
  * `mix test` - for ExUnit tests
  * `mix dialyzer` - for type checking
  * `mix credo` - for linting

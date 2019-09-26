@@ -80,7 +80,7 @@ defmodule Jarvis.Sensors do
 
   """
   def update_measurement(%Measurement{} = measurement, attrs, %Device{} = device) do
-    add_measurement_to_device measurement, device
+    add_measurement_to_device(measurement, device)
 
     get_measurement!(measurement.id)
     |> update_measurement(attrs)
@@ -102,11 +102,12 @@ defmodule Jarvis.Sensors do
     |> load_device_for_measurement()
   end
 
-
   @doc """
   Loads the device for a measurement. Takes {:ok, measurement} or {:error, ...}
   """
-  def load_device_for_measurement({:ok, %Measurement{} = measurement}), do: {:ok, measurement |> Repo.preload(:device)}
+  def load_device_for_measurement({:ok, %Measurement{} = measurement}),
+    do: {:ok, measurement |> Repo.preload(:device)}
+
   def load_device_for_measurement(error), do: error
 
   @doc """
@@ -168,7 +169,6 @@ defmodule Jarvis.Sensors do
   """
   def get_device!(id), do: Repo.get!(Device, id) |> Repo.preload(:measurements)
 
-
   @doc """
   Gets a single device.
 
@@ -183,8 +183,8 @@ defmodule Jarvis.Sensors do
   """
   def get_device(id) do
     case Repo.get(Device, id) do
-      nil     -> {:error, "No device found with id #{id}"}
-      device  -> {:ok, device}
+      nil -> {:error, "No device found with id #{id}"}
+      device -> {:ok, device}
     end
   end
 
@@ -200,12 +200,13 @@ defmodule Jarvis.Sensors do
       nil
   """
   def get_device_by_external_id(external_id) do
-    devices = from( d in Device, where: d.external_id == ^external_id)
-              |> Jarvis.Repo.all()
+    devices =
+      from(d in Device, where: d.external_id == ^external_id)
+      |> Jarvis.Repo.all()
 
     case devices do
-      [device | _]  -> device
-      _             -> nil
+      [device | _] -> device
+      _ -> nil
     end
   end
 

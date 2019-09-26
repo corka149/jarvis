@@ -14,11 +14,11 @@ defmodule JarvisWeb.PageController do
         conn
         |> put_flash(:info, gettext("Language updated!"))
         |> redirect(to: Helpers.page_path(conn, :index))
+
       {:error, _} ->
         conn
         |> put_flash(:error, gettext("Couldn't update default language"))
         |> redirect(to: Helpers.page_path(conn, :index))
     end
-
   end
 end

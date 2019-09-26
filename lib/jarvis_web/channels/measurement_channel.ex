@@ -9,9 +9,9 @@ defmodule JarvisWeb.MeasurementChannel do
     {:ok, %{"measurements" => measurements}, socket}
   end
 
-  #def handle_in(_topic, _message, socket) do
+  # def handle_in(_topic, _message, socket) do
   #  {:reply, :ok, socket}
-  #end
+  # end
 
   defp list_measurements_since_datetime(_datetime) do
     measurements = Sensors.list_measurements()

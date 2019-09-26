@@ -17,6 +17,7 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
       conn
     else
       Logger.warn("User do not belong to owner group.")
+
       conn
       |> put_flash(:error, dgettext("errors", "You are not allow to do this!"))
       |> redirect(to: JarvisWeb.Router.Helpers.page_path(conn, :index))
@@ -28,7 +29,7 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
 
     is_group_member(user.usergroups, shopping_list) or
-    is_group_member(user.member_of, shopping_list)
+      is_group_member(user.member_of, shopping_list)
   end
 
   defp is_group_member(user_groups, %ShoppingList{} = shopping_list) do

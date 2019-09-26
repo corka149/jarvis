@@ -7,6 +7,5 @@ defmodule Jarvis.Repo.Migrations.CreateUsergroups do
 
       timestamps()
     end
-
   end
 end

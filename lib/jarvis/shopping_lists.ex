@@ -29,7 +29,8 @@ defmodule Jarvis.ShoppingLists do
   belongs to a group in which the user is a member.
   """
   def list_shoppinglists_for_user(%User{} = user) do
-    group_ids = Enum.map(user.usergroups, &(&1.id)) ++ Enum.map(user.member_of, &(&1.id))
+    group_ids = Enum.map(user.usergroups, & &1.id) ++ Enum.map(user.member_of, & &1.id)
+
     from(sl in ShoppingList, where: sl.belongs_to in ^group_ids)
     |> Repo.all()
     |> Repo.preload(:usergroup)
@@ -47,7 +48,7 @@ defmodule Jarvis.ShoppingLists do
   Returns every open shopping list.
   """
   def list_open_shoppinglists_of_today() do
-    from(sl in ShoppingList, where: not(sl.done) and sl.planned_for == ^Date.utc_today())
+    from(sl in ShoppingList, where: not sl.done and sl.planned_for == ^Date.utc_today())
     |> Repo.all()
     |> Repo.preload([:usergroup, :items])
   end
@@ -161,11 +162,10 @@ defmodule Jarvis.ShoppingLists do
   an ID.
   """
   def create_or_update_item(attrs, shopping_list) do
-
     case attrs do
       %{"id" => ""} -> create_item(attrs, shopping_list)
       %{"id" => id} -> get_item!(id) |> update_item(attrs)
-      _             -> create_item(attrs, shopping_list)
+      _ -> create_item(attrs, shopping_list)
     end
   end
 
@@ -192,5 +192,4 @@ defmodule Jarvis.ShoppingLists do
   def list_items_by_shopping_list(%ShoppingList{id: id}) do
     Repo.all(from it in Item, where: it.shopping_list_id == ^id)
   end
-
 end

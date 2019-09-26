@@ -90,18 +90,18 @@ defmodule JarvisWeb.DeviceControllerTest do
   describe "getting device" do
     setup [:create_device]
 
-    test "get device by existing external id", %{conn: conn, device: device}  do
+    test "get device by existing external id", %{conn: conn, device: device} do
       url = Routes.device_path(conn, :get_by_external_id, device.external_id)
       conn = get(conn, url)
 
       assert %{
-        "id" => id,
-        "location" => "some location",
-        "name" => "some name"
-      } = json_response(conn, 200)["data"]
+               "id" => id,
+               "location" => "some location",
+               "name" => "some name"
+             } = json_response(conn, 200)["data"]
     end
 
-    test "get device by not existing external id", %{conn: conn}  do
+    test "get device by not existing external id", %{conn: conn} do
       url = Routes.device_path(conn, :get_by_external_id, Ecto.UUID.generate())
 
       response = get(conn, url)

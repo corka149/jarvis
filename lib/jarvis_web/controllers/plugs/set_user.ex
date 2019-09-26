@@ -14,11 +14,10 @@ defmodule JarvisWeb.Plugs.SetUser do
     cond do
       user = user_id && Accounts.get_user!(user_id) ->
         assign(conn, :user, user)
-      true                                      ->
+
+      true ->
         Logger.warn("Could not assign an user to the connection.")
         assign(conn, :user, nil)
     end
-
   end
-
 end

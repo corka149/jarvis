@@ -11,7 +11,8 @@ use Mix.Config
 # before starting your production server.
 config :jarvis, JarvisWeb.Endpoint,
   http: [:inet6, port: "${PORT}"],
-  url: [host: "${HOST}", port: "${PORT}"], # This is critical for ensuring web-sockets properly authorize.
+  # This is critical for ensuring web-sockets properly authorize.
+  url: [host: "${HOST}", port: "${PORT}"],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   root: ".",
@@ -71,8 +72,7 @@ config :phoenix, :serve_endpoints, true
 # See the releases documentation accordingly.
 
 # Corka: Let's go this way: http://sgeos.github.io/phoenix/elixir/erlang/ecto/distillery/postgresql/mysql/2016/09/18/storing-elixir-release-configuration-in-environment-variables-with-distillery.html
-config :jarvis, JarvisWeb.Endpoint,
-  secret_key_base: "${SECRET_KEY_BASE}"
+config :jarvis, JarvisWeb.Endpoint, secret_key_base: "${SECRET_KEY_BASE}"
 
 # Configure your database
 config :jarvis, Jarvis.Repo,

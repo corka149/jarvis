@@ -15,5 +15,4 @@ defmodule JarvisWeb.Api.ShoppingListApiView do
       items: render_many(shopping_list.items, ItemApiView, "show.json")
     }
   end
-
 end

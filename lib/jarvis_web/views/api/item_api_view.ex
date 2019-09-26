@@ -7,5 +7,4 @@ defmodule JarvisWeb.Api.ItemApiView do
       amount: item.amount
     }
   end
-
 end

@@ -3,8 +3,4 @@ defmodule Jarvis.MeasurementGroupingTest do
 
   alias Jarvis.Util.MeasurementGrouping
   alias Jarvis.Sensors.Measurement
-
-
-
-
 end

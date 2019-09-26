@@ -26,6 +26,7 @@ defmodule JarvisWeb.ItemLive do
   @impl true
   def handle_params(%{"id" => shopping_list_id}, _uri, socket) do
     user_id = socket.assigns[:user_id]
+
     if is_user_authorized?(user_id, shopping_list_id) do
       Accounts.get_user!(user_id) |> set_lang()
       mount_is_allowed(socket, shopping_list_id)
@@ -42,15 +43,16 @@ defmodule JarvisWeb.ItemLive do
     ItemView.render("index.html", assigns)
   end
 
-    ####################################
-   #   Handle messages from client    #
+  ####################################
+  #   Handle messages from client    #
   ####################################
 
   @impl true
-  def handle_event("save",
-                  %{"item" => item},
-                  %{assigns: %{shopping_list: shopping_list}} = socket) do
-
+  def handle_event(
+        "save",
+        %{"item" => item},
+        %{assigns: %{shopping_list: shopping_list}} = socket
+      ) do
     case ShoppingLists.create_or_update_item(item, shopping_list) do
       {:ok, _} ->
         display_success(socket, shopping_list)
@@ -74,9 +76,10 @@ defmodule JarvisWeb.ItemLive do
 
   @impl true
   def handle_event("edit/" <> id, _, %{assigns: %{shopping_list: shopping_list}} = socket) do
-    item = id
-           |> String.to_integer()
-           |> ShoppingLists.get_item!()
+    item =
+      id
+      |> String.to_integer()
+      |> ShoppingLists.get_item!()
 
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
 
@@ -88,40 +91,44 @@ defmodule JarvisWeb.ItemLive do
     }
   end
 
-    ####################################
-   #             Helpers              #
+  ####################################
+  #             Helpers              #
   ####################################
 
   defp mount_is_allowed(socket, shopping_list_id) do
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
 
-    socket =  socket
-                |> assign(%{changeset: ShoppingLists.change_item(%Item{})})
-                |> assign(:shopping_list, shopping_list)
-                |> assign(items: items)
-      {:noreply, socket}
+    socket =
+      socket
+      |> assign(%{changeset: ShoppingLists.change_item(%Item{})})
+      |> assign(:shopping_list, shopping_list)
+      |> assign(items: items)
+
+    {:noreply, socket}
   end
 
   defp redirect_to_landing_page(socket) do
-    { :stop,
-      socket
-      |> put_flash(:error, dgettext("errors", "You are not allow to do this!"))
-      |> redirect(to: Routes.page_path(socket, :index))
-    }
+    {:stop,
+     socket
+     |> put_flash(:error, dgettext("errors", "You are not allow to do this!"))
+     |> redirect(to: Routes.page_path(socket, :index))}
   end
 
   defp display_success(socket, shopping_list) do
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
-    socket = socket
-            |> put_flash(:info, "item saved")
-            |> assign(changeset: ShoppingLists.change_item(%Item{}))
-            |> assign(items: items)
+
+    socket =
+      socket
+      |> put_flash(:info, "item saved")
+      |> assign(changeset: ShoppingLists.change_item(%Item{}))
+      |> assign(items: items)
+
     {:noreply, socket}
   end
 
   defp set_lang(%User{} = user) do
-    Gettext.put_locale user.default_language
+    Gettext.put_locale(user.default_language)
     user
   end
 

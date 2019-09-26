@@ -48,8 +48,7 @@ defmodule Jarvis.MixProject do
       {:ueberauth_github, "~> 0.7"},
       {:poison, "~> 4.0"},
       {:httpotion, "~> 3.1"},
-
-      {:hackney, "1.15.2" , override: true}, 
+      {:hackney, "1.15.2", override: true},
 
       # linting
       {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},

@@ -6,8 +6,19 @@ defmodule Jarvis.AccountsTest do
   describe "users" do
     alias Jarvis.Accounts.User
 
-    @valid_attrs %{email: "some email", name: "some name", provider: "some provider", token: "some token", default_language: "en"}
-    @update_attrs %{email: "some updated email", name: "some updated name", provider: "some updated provider", token: "some updated token"}
+    @valid_attrs %{
+      email: "some email",
+      name: "some name",
+      provider: "some provider",
+      token: "some token",
+      default_language: "en"
+    }
+    @update_attrs %{
+      email: "some updated email",
+      name: "some updated name",
+      provider: "some updated provider",
+      token: "some updated token"
+    }
     @invalid_attrs %{email: nil, name: nil, provider: nil, token: nil}
 
     def user_fixture(attrs \\ %{}) do
@@ -25,9 +36,11 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "get_user!/1 returns the user with given id" do
-      user = user_fixture()
-              |> Jarvis.Repo.preload(:member_of)
-              |> Jarvis.Repo.preload(:usergroups)
+      user =
+        user_fixture()
+        |> Jarvis.Repo.preload(:member_of)
+        |> Jarvis.Repo.preload(:usergroups)
+
       assert Accounts.get_user!(user.id) == user
     end
 
@@ -53,9 +66,11 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "update_user/2 with invalid data returns error changeset" do
-      user = user_fixture()
-              |> Jarvis.Repo.preload(:member_of)
-              |> Jarvis.Repo.preload(:usergroups)
+      user =
+        user_fixture()
+        |> Jarvis.Repo.preload(:member_of)
+        |> Jarvis.Repo.preload(:usergroups)
+
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
       assert user == Accounts.get_user!(user.id)
     end
@@ -79,7 +94,12 @@ defmodule Jarvis.AccountsTest do
     @update_attrs %{name: "some updated name"}
     @invalid_attrs %{name: nil}
 
-    @valid_attrs_user %{email: "some email", name: "some name", provider: "some provider", token: "some token"}
+    @valid_attrs_user %{
+      email: "some email",
+      name: "some name",
+      provider: "some provider",
+      token: "some token"
+    }
 
     def user_group_fixture(attrs \\ %{}) do
       {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
@@ -98,8 +118,10 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "get_user_group!/1 returns the user_group with given id" do
-      user_group = user_group_fixture()
-                    |> Jarvis.Repo.preload(:user)
+      user_group =
+        user_group_fixture()
+        |> Jarvis.Repo.preload(:user)
+
       assert Accounts.get_user_group!(user_group.id) == user_group
     end
 
@@ -116,13 +138,18 @@ defmodule Jarvis.AccountsTest do
 
     test "update_user_group/2 with valid data updates the user_group" do
       user_group = user_group_fixture()
-      assert {:ok, %UserGroup{} = user_group} = Accounts.update_user_group(user_group, @update_attrs)
+
+      assert {:ok, %UserGroup{} = user_group} =
+               Accounts.update_user_group(user_group, @update_attrs)
+
       assert user_group.name == "some updated name"
     end
 
     test "update_user_group/2 with invalid data returns error changeset" do
-      user_group = user_group_fixture()
-                    |> Jarvis.Repo.preload(:user)
+      user_group =
+        user_group_fixture()
+        |> Jarvis.Repo.preload(:user)
+
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user_group(user_group, @invalid_attrs)
       assert user_group == Accounts.get_user_group!(user_group.id)
     end
@@ -147,8 +174,24 @@ defmodule Jarvis.AccountsTest do
     @invalid_attrs %{}
 
     def invitation_fixture(attrs \\ %{}) do
-      {:ok, host} = Accounts.create_user %{email: "some email", name: "Bob", provider: "some provider", token: "some token", default_language: "en"}
-      {:ok, invitee} = Accounts.create_user %{email: "some email", name: "Alice", provider: "some provider", token: "some token", default_language: "en"}
+      {:ok, host} =
+        Accounts.create_user(%{
+          email: "some email",
+          name: "Bob",
+          provider: "some provider",
+          token: "some token",
+          default_language: "en"
+        })
+
+      {:ok, invitee} =
+        Accounts.create_user(%{
+          email: "some email",
+          name: "Alice",
+          provider: "some provider",
+          token: "some token",
+          default_language: "en"
+        })
+
       {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
 
       {:ok, invitation} =
@@ -165,32 +208,70 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "get_invitation!/1 returns the invitation with given id" do
-      invitation = invitation_fixture()
-                    |> Jarvis.Repo.preload(:host)
-                    |> Jarvis.Repo.preload(:usergroup)
-                    |> Jarvis.Repo.preload(:invitee)
+      invitation =
+        invitation_fixture()
+        |> Jarvis.Repo.preload(:host)
+        |> Jarvis.Repo.preload(:usergroup)
+        |> Jarvis.Repo.preload(:invitee)
+
       assert Accounts.get_invitation!(invitation.id) == invitation
     end
 
     test "create_invitation/1 with valid data creates a invitation" do
-      {:ok, host} = Accounts.create_user %{email: "some email", name: "Bob", provider: "some provider", token: "some token", default_language: "en"}
-      {:ok, invitee} = Accounts.create_user %{email: "some email", name: "Alice", provider: "some provider", token: "some token", default_language: "en"}
+      {:ok, host} =
+        Accounts.create_user(%{
+          email: "some email",
+          name: "Bob",
+          provider: "some provider",
+          token: "some token",
+          default_language: "en"
+        })
+
+      {:ok, invitee} =
+        Accounts.create_user(%{
+          email: "some email",
+          name: "Alice",
+          provider: "some provider",
+          token: "some token",
+          default_language: "en"
+        })
+
       {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
 
-      assert {:ok, %Invitation{} = invitation} = Accounts.create_invitation(@valid_attrs, user_group, host, invitee)
+      assert {:ok, %Invitation{} = invitation} =
+               Accounts.create_invitation(@valid_attrs, user_group, host, invitee)
     end
 
     test "create_invitation/1 with invalid data returns error changeset" do
-      {:ok, host} = Accounts.create_user %{email: "some email", name: "Bob", provider: "some provider", token: "some token", default_language: "en"}
-      {:ok, invitee} = Accounts.create_user %{email: "some email", name: "Alice", provider: "some provider", token: "some token", default_language: "en"}
+      {:ok, host} =
+        Accounts.create_user(%{
+          email: "some email",
+          name: "Bob",
+          provider: "some provider",
+          token: "some token",
+          default_language: "en"
+        })
+
+      {:ok, invitee} =
+        Accounts.create_user(%{
+          email: "some email",
+          name: "Alice",
+          provider: "some provider",
+          token: "some token",
+          default_language: "en"
+        })
+
       {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
 
-      assert {:error, %Ecto.Changeset{}} = Accounts.create_invitation(@invalid_attrs, user_group, host, invitee)
+      assert {:error, %Ecto.Changeset{}} =
+               Accounts.create_invitation(@invalid_attrs, user_group, host, invitee)
     end
 
     test "update_invitation/2 with valid data updates the invitation" do
       invitation = invitation_fixture()
-      assert {:ok, %Invitation{} = invitation} = Accounts.update_invitation(invitation, @update_attrs)
+
+      assert {:ok, %Invitation{} = invitation} =
+               Accounts.update_invitation(invitation, @update_attrs)
     end
 
     test "delete_invitation/1 deletes the invitation" do

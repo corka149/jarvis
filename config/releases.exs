@@ -2,7 +2,8 @@ import Config
 
 config :jarvis, JarvisWeb.Endpoint,
   http: [:inet6, port: System.fetch_env!("PORT")],
-  url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("PORT")], # This is critical for ensuring web-sockets properly authorize.
+  # This is critical for ensuring web-sockets properly authorize.
+  url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("PORT")],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   root: ".",
@@ -12,8 +13,7 @@ config :logger, level: :info
 
 config :phoenix, :serve_endpoints, true
 
-config :jarvis, JarvisWeb.Endpoint,
-  secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
+config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
 config :jarvis, Jarvis.Repo,
   username: System.fetch_env!("DB_USERNAME"),

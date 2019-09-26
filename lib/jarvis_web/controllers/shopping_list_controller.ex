@@ -10,8 +10,9 @@ defmodule JarvisWeb.ShoppingListController do
   plug JarvisWeb.Plugs.CheckListOwnerGroup when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
-    shoppinglists = conn.assigns.user
-                    |> ShoppingLists.list_shoppinglists_for_user()
+    shoppinglists =
+      conn.assigns.user
+      |> ShoppingLists.list_shoppinglists_for_user()
 
     render(conn, "index.html", shoppinglists: shoppinglists)
   end
@@ -52,7 +53,12 @@ defmodule JarvisWeb.ShoppingListController do
     user_groups = Accounts.list_usergroups_by_membership_or_owner(conn.assigns.user)
     shopping_list = ShoppingLists.get_shopping_list!(id)
     changeset = ShoppingLists.change_shopping_list(shopping_list)
-    render(conn, "edit.html", shopping_list: shopping_list, changeset: changeset, user_groups: user_groups)
+
+    render(conn, "edit.html",
+      shopping_list: shopping_list,
+      changeset: changeset,
+      user_groups: user_groups
+    )
   end
 
   def update(conn, %{"id" => id, "shopping_list" => shopping_list_params}) do

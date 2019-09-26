@@ -12,7 +12,12 @@ defmodule Jarvis.SensorsTest do
     @invalid_attrs %{description: nil, value: nil}
 
     def measurement_fixture(attrs \\ %{}) do
-      {:ok, device} = Sensors.create_device(%{location: "some updated location", name: "some updated name", external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"})
+      {:ok, device} =
+        Sensors.create_device(%{
+          location: "some updated location",
+          name: "some updated name",
+          external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"
+        })
 
       {:ok, measurement} =
         attrs
@@ -34,22 +39,37 @@ defmodule Jarvis.SensorsTest do
     end
 
     test "create_measurement/1 with valid data creates a measurement" do
-      {:ok, device} = Sensors.create_device(%{location: "some updated location", name: "some updated name", external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"})
+      {:ok, device} =
+        Sensors.create_device(%{
+          location: "some updated location",
+          name: "some updated name",
+          external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"
+        })
 
-      assert {:ok, %Measurement{} = measurement} = Sensors.create_measurement(@valid_attrs, device)
+      assert {:ok, %Measurement{} = measurement} =
+               Sensors.create_measurement(@valid_attrs, device)
+
       assert measurement.description == "some description"
       assert measurement.value == 120.5
     end
 
     test "create_measurement/1 with invalid data returns error changeset" do
-      {:ok, device} = Sensors.create_device(%{location: "some updated location", name: "some updated name", external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"})
+      {:ok, device} =
+        Sensors.create_device(%{
+          location: "some updated location",
+          name: "some updated name",
+          external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"
+        })
 
       assert {:error, %Ecto.Changeset{}} = Sensors.create_measurement(@invalid_attrs, device)
     end
 
     test "update_measurement/2 with valid data updates the measurement" do
       measurement = measurement_fixture()
-      assert {:ok, %Measurement{} = measurement} = Sensors.update_measurement(measurement, @update_attrs)
+
+      assert {:ok, %Measurement{} = measurement} =
+               Sensors.update_measurement(measurement, @update_attrs)
+
       assert measurement.description == "some updated description"
       assert measurement.value == 456.7
     end
@@ -75,8 +95,16 @@ defmodule Jarvis.SensorsTest do
   describe "devices" do
     alias Jarvis.Sensors.Device
 
-    @valid_attrs %{location: "some location", name: "some name", external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"}
-    @update_attrs %{location: "some updated location", name: "some updated name", external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"}
+    @valid_attrs %{
+      location: "some location",
+      name: "some name",
+      external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"
+    }
+    @update_attrs %{
+      location: "some updated location",
+      name: "some updated name",
+      external_id: "f8379a95-2287-41d6-a925-52fa4b0b5cc3"
+    }
     @invalid_attrs %{location: nil, name: nil, external_id: nil}
 
     def device_fixture(attrs \\ %{}) do

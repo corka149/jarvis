@@ -1,5 +1,4 @@
 defmodule JarvisWeb.Plugs.SetLocale do
-
   @accept_lang "accept-language"
 
   def init(params) do
@@ -9,13 +8,14 @@ defmodule JarvisWeb.Plugs.SetLocale do
   def call(%{req_headers: req_headers} = conn, default: default) do
     header = Enum.find(req_headers, default, &is_accept_lang_header?/1)
 
-    client_lang = if !!conn.assigns[:user] do
-      conn.assigns.user.default_language
-    else
-      fetch_accept_lang header
-    end
+    client_lang =
+      if !!conn.assigns[:user] do
+        conn.assigns.user.default_language
+      else
+        fetch_accept_lang(header)
+      end
 
-    Gettext.put_locale client_lang
+    Gettext.put_locale(client_lang)
     conn
   end
 

@@ -147,10 +147,14 @@ defmodule Jarvis.Accounts do
   end
 
   def list_usergroups_by_membership_or_owner(%User{} = user) do
-    owner_groups = list_usergroups_by_owner(user)
+    owner_groups =
+      list_usergroups_by_owner(user)
       |> Enum.map(fn ug -> {ug.name, ug.id} end)
-    membership_groups = list_usergroups_by_membership(user)
+
+    membership_groups =
+      list_usergroups_by_membership(user)
       |> Enum.map(fn uug -> {uug.user_group.name, uug.user_group.id} end)
+
     owner_groups ++ membership_groups
   end
 
@@ -250,10 +254,14 @@ defmodule Jarvis.Accounts do
   Deletes the membership from an user to a group.
   """
   def delete_user_from_group(%User{} = user, %UserGroup{} = group) do
-    query = from(u_ug in UserUsergroup, where: u_ug.user_id == ^user.id and u_ug.user_group_id == ^group.id)
+    query =
+      from(u_ug in UserUsergroup,
+        where: u_ug.user_id == ^user.id and u_ug.user_group_id == ^group.id
+      )
+
     case Repo.delete_all(query) do
       {rows, _} when rows > 0 -> :ok
-      _                       -> :error
+      _ -> :error
     end
   end
 
@@ -298,8 +306,8 @@ defmodule Jarvis.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_invitation!(id), do: Repo.get!(Invitation, id) |> Repo.preload([:usergroup, :invitee, :host])
-
+  def get_invitation!(id),
+    do: Repo.get!(Invitation, id) |> Repo.preload([:usergroup, :invitee, :host])
 
   @doc """
   Gets a single invitation.
@@ -315,8 +323,8 @@ defmodule Jarvis.Accounts do
   """
   def get_invitation(id) do
     case Repo.get(Invitation, id) do
-      nil         -> {:error, "No matching record found"}
-      invitation  -> {:ok, invitation |> Repo.preload([:usergroup, :invitee, :host])}
+      nil -> {:error, "No matching record found"}
+      invitation -> {:ok, invitation |> Repo.preload([:usergroup, :invitee, :host])}
     end
   end
 
@@ -332,9 +340,15 @@ defmodule Jarvis.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_invitation(attrs \\ %{}, %UserGroup{} = user_group, %User{} = host, %User{} = invitee) do
+  def create_invitation(
+        attrs \\ %{},
+        %UserGroup{} = user_group,
+        %User{} = host,
+        %User{} = invitee
+      ) do
     changeset = Ecto.build_assoc(user_group, :invitations)
     changeset = Ecto.build_assoc(invitee, :received_invitations, changeset)
+
     Ecto.build_assoc(host, :created_invitations, changeset)
     |> Invitation.changeset(attrs)
     |> Repo.insert()

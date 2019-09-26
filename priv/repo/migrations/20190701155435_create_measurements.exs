@@ -8,6 +8,5 @@ defmodule Jarvis.Repo.Migrations.CreateMeasurements do
 
       timestamps()
     end
-
   end
 end

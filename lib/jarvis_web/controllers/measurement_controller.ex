@@ -14,8 +14,8 @@ defmodule JarvisWeb.MeasurementController do
 
   def create(conn, %{"measurement" => measurement_params}) do
     case get_device(measurement_params) do
-      {:ok, device}     -> create_and_201(conn, measurement_params, device)
-      {:error, reason}  -> conn |> bad_request(reason)
+      {:ok, device} -> create_and_201(conn, measurement_params, device)
+      {:error, reason} -> conn |> bad_request(reason)
     end
   end
 
@@ -27,13 +27,15 @@ defmodule JarvisWeb.MeasurementController do
   def update(conn, %{"id" => id, "measurement" => measurement_params}) do
     measurement = Sensors.get_measurement!(id)
 
-    update_result = case get_device(measurement_params) do
-      {:ok, device} -> Sensors.update_measurement(measurement, measurement_params, device)
-      _             -> Sensors.update_measurement(measurement, measurement_params)
-    end
+    update_result =
+      case get_device(measurement_params) do
+        {:ok, device} -> Sensors.update_measurement(measurement, measurement_params, device)
+        _ -> Sensors.update_measurement(measurement, measurement_params)
+      end
+
     case update_result do
       {:ok, %Measurement{} = measurement} -> render(conn, "show.json", measurement: measurement)
-      {:error, _}                         -> conn |> bad_request("Error while updating measurement")
+      {:error, _} -> conn |> bad_request("Error while updating measurement")
     end
   end
 
@@ -47,8 +49,8 @@ defmodule JarvisWeb.MeasurementController do
 
   # Creates a measurement entry and returns the json
   defp create_and_201(conn, measurement_params, device) do
-
-    with {:ok, %Measurement{} = measurement} <- Sensors.create_measurement(measurement_params, device) do
+    with {:ok, %Measurement{} = measurement} <-
+           Sensors.create_measurement(measurement_params, device) do
       publish_new_measurement(measurement)
 
       conn
@@ -66,7 +68,7 @@ defmodule JarvisWeb.MeasurementController do
   # Checks if device id is available and return the referred device when id is available
   defp get_device(measurement_params) do
     case Map.get(measurement_params, "device_id") do
-      nil       -> {:error, "No device id found."}
+      nil -> {:error, "No device id found."}
       device_id -> Sensors.get_device(device_id)
     end
   end

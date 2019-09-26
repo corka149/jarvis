@@ -66,11 +66,13 @@ defmodule JarvisWeb.UserGroupController do
   def leave_group(conn, %{"id" => id}) do
     user = conn.assigns.user
     user_group = Accounts.get_user_group!(id)
+
     case Accounts.delete_user_from_group(user, user_group) do
       :ok ->
         conn
         |> put_flash(:ok, dgettext("accounts", "You left the group."))
         |> redirect(to: Routes.invitation_path(conn, :index))
+
       :error ->
         conn
         |> put_flash(:error, dgettext("errors", "Could not leave the group"))

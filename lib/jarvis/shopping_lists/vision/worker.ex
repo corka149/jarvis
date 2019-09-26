@@ -12,7 +12,7 @@ defmodule Jarvis.ShoppingLists.Vision.Worker do
   """
   def start_link do
     delay = 30
-    config = Config.from_env
+    config = Config.from_env()
     Task.start_link(fn -> loop_post(delay, config) end)
   end
 

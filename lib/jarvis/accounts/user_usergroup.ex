@@ -5,5 +5,4 @@ defmodule Jarvis.Accounts.UserUsergroup do
     belongs_to :user_group, Jarvis.Accounts.UserGroup
     belongs_to :user, Jarvis.Accounts.User
   end
-
 end
