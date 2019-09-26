@@ -404,7 +404,6 @@ defmodule Jarvis.Accounts do
   @doc """
   Checks if an user is owner of an user group.
   """
-  @spec is_group_owner(Jarvis.Accounts.User.t(), Jarvis.Accounts.UserGroup.t()) :: boolean
   def is_group_owner(%Jarvis.Accounts.User{} = host, %Jarvis.Accounts.UserGroup{} = user_group) do
     host.id == user_group.user.id
   end
