@@ -1,8 +1,8 @@
 defmodule JarvisWeb.Api.ShoppingListApiView do
   use JarvisWeb, :view
 
-  alias JarvisWeb.Api.ShoppingListApiView
   alias JarvisWeb.Api.ItemApiView
+  alias JarvisWeb.Api.ShoppingListApiView
 
   def render("index.json", %{shopping_lists: shopping_lists}) do
     render_many(shopping_lists, ShoppingListApiView, "show.json")

@@ -3,6 +3,7 @@ defmodule JarvisWeb.UserGroupController do
 
   alias Jarvis.Accounts
   alias Jarvis.Accounts.UserGroup
+  alias JarvisWeb.Router.Helpers
 
   plug JarvisWeb.Plugs.RequireAuth
   plug :check_user_group_owner when action in [:edit, :update, :delete]
@@ -88,7 +89,7 @@ defmodule JarvisWeb.UserGroupController do
     else
       conn
       |> put_flash(":error", dgettext("errors", "You are not allow to do this!"))
-      |> redirect(to: JarvisWeb.Router.Helpers.page_path(conn, :index))
+      |> redirect(to: Helpers.page_path(conn, :index))
       |> halt()
     end
   end

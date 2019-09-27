@@ -1,4 +1,7 @@
 defmodule JarvisWeb.MeasurementChannel do
+  @moduledoc """
+  Channel for sending measurements.
+  """
   use JarvisWeb, :channel
 
   alias Jarvis.Sensors

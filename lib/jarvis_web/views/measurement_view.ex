@@ -1,7 +1,8 @@
 defmodule JarvisWeb.MeasurementView do
   use JarvisWeb, :view
-  alias JarvisWeb.MeasurementView
+
   alias JarvisWeb.DeviceView
+  alias JarvisWeb.MeasurementView
 
   def render("index.json", %{measurements: measurements}) do
     %{

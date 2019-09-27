@@ -1,4 +1,7 @@
 defmodule Jarvis.Accounts.User do
+  @moduledoc """
+  Database module for the entity user.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

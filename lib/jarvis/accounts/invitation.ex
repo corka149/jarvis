@@ -1,4 +1,7 @@
 defmodule Jarvis.Accounts.Invitation do
+  @moduledoc """
+  Database module for the entity invitation.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

@@ -2,8 +2,8 @@ defmodule JarvisWeb.AuthController do
   use JarvisWeb, :controller
   plug Ueberauth
 
-  alias Jarvis.Repo
   alias Jarvis.Accounts.User
+  alias Jarvis.Repo
   alias JarvisWeb.Router.Helpers
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
@@ -21,7 +21,7 @@ defmodule JarvisWeb.AuthController do
   def signout(conn, _params) do
     conn
     |> configure_session(drop: true)
-    |> redirect(to: JarvisWeb.Router.Helpers.page_path(conn, :index))
+    |> redirect(to: Helpers.page_path(conn, :index))
   end
 
   defp signin(conn, changeset) do

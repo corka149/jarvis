@@ -1,9 +1,9 @@
 defmodule JarvisWeb.MeasurementControllerTest do
   use JarvisWeb.ConnCase
 
+  alias Jarvis.Repo
   alias Jarvis.Sensors
   alias Jarvis.Sensors.Measurement
-  alias Jarvis.Repo
 
   @create_attrs %{
     description: "some description",

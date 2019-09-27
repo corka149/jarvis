@@ -1,4 +1,7 @@
 defmodule Jarvis.Sensors.Measurement do
+  @moduledoc """
+  Database module for the entity measurement.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

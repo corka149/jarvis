@@ -8,9 +8,10 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
   import Phoenix.Controller
   import JarvisWeb.Gettext
 
+  alias Jarvis.Accounts.User
   alias Jarvis.ShoppingLists
   alias Jarvis.ShoppingLists.ShoppingList
-  alias Jarvis.Accounts.User
+  alias JarvisWeb.Router.Helpers
 
   require Logger
 
@@ -25,7 +26,7 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
 
       conn
       |> put_flash(:error, dgettext("errors", "You are not allow to do this!"))
-      |> redirect(to: JarvisWeb.Router.Helpers.page_path(conn, :index))
+      |> redirect(to: Helpers.page_path(conn, :index))
       |> halt()
     end
   end

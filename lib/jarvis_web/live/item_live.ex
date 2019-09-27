@@ -7,11 +7,11 @@ defmodule JarvisWeb.ItemLive do
 
   import JarvisWeb.Gettext
 
-  alias JarvisWeb.ItemView
   alias Jarvis.Accounts
   alias Jarvis.Accounts.User
   alias Jarvis.ShoppingLists
   alias Jarvis.ShoppingLists.Item
+  alias JarvisWeb.ItemView
   alias JarvisWeb.Plugs.CheckListOwnerGroup
   alias JarvisWeb.Router.Helpers, as: Routes
 

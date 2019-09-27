@@ -1,4 +1,7 @@
 defmodule Jarvis.ShoppingLists.Item do
+  @moduledoc """
+  Database module for the entity item.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

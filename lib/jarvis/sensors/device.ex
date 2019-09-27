@@ -1,4 +1,7 @@
 defmodule Jarvis.Sensors.Device do
+  @moduledoc """
+  Database module for the entity device.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

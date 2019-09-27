@@ -6,8 +6,8 @@ defmodule Jarvis.Sensors do
   import Ecto.Query, warn: false
   alias Jarvis.Repo
 
-  alias Jarvis.Sensors.Measurement
   alias Jarvis.Sensors.Device
+  alias Jarvis.Sensors.Measurement
 
   @doc """
   Returns the list of measurements.

@@ -1,6 +1,6 @@
 defmodule JarvisWeb.PageController do
-  alias JarvisWeb.Router.Helpers
   alias Jarvis.Accounts
+  alias JarvisWeb.Router.Helpers
 
   use JarvisWeb, :controller
 

@@ -1,8 +1,8 @@
 defmodule Jarvis.SensorsTest do
   use Jarvis.DataCase
 
-  alias Jarvis.Sensors
   alias Jarvis.Repo
+  alias Jarvis.Sensors
 
   describe "measurements" do
     alias Jarvis.Sensors.Measurement

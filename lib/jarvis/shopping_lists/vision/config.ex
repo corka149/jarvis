@@ -7,7 +7,7 @@ defmodule Jarvis.ShoppingLists.Vision.Config do
 
   defstruct host: "http://127.0.0.1:5000", username: "default_user", password: "default_password"
 
-  def from_env() do
+  def from_env do
     host = Application.get_env(:jarvis, Jarvis.ShoppingLists.Vision)[:host]
     username = Application.get_env(:jarvis, Jarvis.ShoppingLists.Vision)[:username]
     password = Application.get_env(:jarvis, Jarvis.ShoppingLists.Vision)[:password]

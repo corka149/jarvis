@@ -1,6 +1,10 @@
 defmodule Jarvis.Util.MeasurementGrouping do
-  alias Jarvis.Sensors.Measurement
+  @moduledoc """
+  Module for grouping and re-ordering measurements.
+  """
+
   alias Jarvis.Sensors.Device
+  alias Jarvis.Sensors.Measurement
 
   def group_measurements(measurements) do
     do_grouping(measurements, %{})

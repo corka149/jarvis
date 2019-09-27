@@ -4,7 +4,7 @@ defmodule Jarvis.Util.ApplicationInfo do
   """
   require Logger
 
-  def print_banner() do
+  def print_banner do
     banner = ~S"
 ===== ===== ===== ===== ===== ===== ===== =====
        _  ___     ____  _    __ ____ _____
@@ -19,7 +19,7 @@ defmodule Jarvis.Util.ApplicationInfo do
     Logger.info(banner)
   end
 
-  def print_application_env() do
+  def print_application_env do
     app_configs = Application.get_all_env(:jarvis)
     do_print_app(app_configs)
     ueberauth = Application.get_all_env(:ueberauth)
