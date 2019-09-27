@@ -1,0 +1,26 @@
+
+version: "3"
+
+services:
+  vision:
+    image: vision:latest
+    ports:
+      - 8000:8000
+    networks:
+      - jarvis_network
+
+  postgres:
+    image: postgres:11
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: jarvis_dev
+    networks:
+      - jarvis_network
+
+networks:
+  jarvis_network:
+
+volumes:
+  db-data:
