@@ -44,7 +44,7 @@ defmodule JarvisWeb.ItemLiveTest do
     assert render_submit(view, :save, %{item: %{name: "bread", amount: 2}}) =~ "bread"
   end
 
-  test "delete item", %{conn: conn, shopping_list: shopping_list} do
+  test "delete an item", %{conn: conn, shopping_list: shopping_list} do
     {:ok, view, _html} = live(conn, item_live_path(conn, shopping_list))
 
     assert render_submit(view, :save, %{item: %{name: "apple wine", amount: 5}}) =~ "apple wine"
@@ -52,6 +52,19 @@ defmodule JarvisWeb.ItemLiveTest do
     assert render_click(view, "delete/" <> Integer.to_string(id)) =~ "<h2>\nShopping list for 2010-04-17</h2>"
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
     assert length(items) == 0
+  end
+
+  test "update an item", %{conn: conn, shopping_list: shopping_list} do
+    {:ok, view, _html} = live(conn, item_live_path(conn, shopping_list))
+    assert render_submit(view, :save, %{item: %{name: "apple wine", amount: 5}}) =~ "apple wine"
+
+    %{id: id} = ShoppingLists.list_items_by_shopping_list(shopping_list) |> List.first()
+    assert render_click(view, "edit/" <> Integer.to_string(id)) =~ "apple wine"
+    assert render_submit(view, :save, %{item: %{id: id, name: "beer", amount: 3}}) =~ "beer"
+
+    %{name: name, amount: amount} = ShoppingLists.list_items_by_shopping_list(shopping_list) |> List.first()
+    assert "beer" = name
+    assert 3 = amount
   end
 
   defp item_live_path(conn, shopping_list) do
