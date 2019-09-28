@@ -51,10 +51,14 @@ defmodule Jarvis.MixProject do
       {:httpotion, "~> 3.1"},
       {:hackney, "1.15.2", override: true},
 
-      # linting
+      # tools
+      ## linting
       {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
-      # type checking
-      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
+      ## type checking
+      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
+
+      # testing
+      {:floki, "~> 0.23.0", only: :test}
     ]
   end
 
