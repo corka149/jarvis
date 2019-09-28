@@ -3,7 +3,7 @@ version: "2"
 
 services:
   jarvis:
-    image: jarvis:2.4.1
+    image: jarvis:2.5.1
     ports:
       - 4000:4000
     environment:
