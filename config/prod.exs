@@ -10,9 +10,9 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :jarvis, JarvisWeb.Endpoint,
-  http: [:inet6, port: "${PORT}"],
+  http: [:inet6, port: System.fetch_env!("PORT")],
   # This is critical for ensuring web-sockets properly authorize.
-  url: [host: "${HOST}", port: "${PORT}"],
+  url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("PORT")],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   root: ".",
@@ -72,24 +72,24 @@ config :phoenix, :serve_endpoints, true
 # See the releases documentation accordingly.
 
 # Corka: Let's go this way: http://sgeos.github.io/phoenix/elixir/erlang/ecto/distillery/postgresql/mysql/2016/09/18/storing-elixir-release-configuration-in-environment-variables-with-distillery.html
-config :jarvis, JarvisWeb.Endpoint, secret_key_base: "${SECRET_KEY_BASE}"
+config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
 # Configure your database
 config :jarvis, Jarvis.Repo,
-  username: "${DB_USERNAME}",
-  password: "${DB_PASSWORD}",
-  database: "${DB_NAME}",
-  hostname: "${DB_HOST}",
+  username: System.fetch_env!("DB_USERNAME"),
+  password: System.fetch_env!("DB_PASSWORD"),
+  database: System.fetch_env!("DB_NAME"),
+  hostname: System.fetch_env!("DB_HOST"),
   pool_size: 15
 
 config :jarvis, Jarvis.ShoppingLists.Vision,
-  host: "${VISION_HOST}",
-  username: "${VISION_USERNAME}",
-  password: "${VISION_PASSWORD}"
+  host: System.fetch_env!("VISION_HOST"),
+  username: System.fetch_env!("VISION_USERNAME"),
+  password: System.fetch_env!("VISION_PASSWORD")
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: "${GITHUB_CLIENT_ID}",
-  client_secret: "${GITHUB_CLIENT_SECRET}"
+  client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
+  client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")
 
 # Finally import the config/prod.secret.exs which should be versioned
 # separately.
