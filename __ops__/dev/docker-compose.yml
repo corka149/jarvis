@@ -21,3 +21,6 @@ services:
 
 networks:
   jarvis_network:
+
+volumes:
+  db-data:

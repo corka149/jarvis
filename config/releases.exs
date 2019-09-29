@@ -2,31 +2,18 @@ import Config
 
 config :jarvis, JarvisWeb.Endpoint,
   http: [:inet6, port: System.fetch_env!("PORT")],
-  secret_key_base: System.fetch_env!("SECRET_KEY_BASE"),
-  render_errors: [view: JarvisWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Jarvis.PubSub, adapter: Phoenix.PubSub.PG2],
-  default_locale: "en",
-  locales: ~w(en de),
   # This is critical for ensuring web-sockets properly authorize.
   url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("PORT")],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   root: ".",
-  version: Application.spec(:jarvis, :vsn),
-  live_view: [
-    signing_salt: "ezaqAmnsfJfnwFXMTaUdBE+9kZKfAWyw"
-  ]
+  version: Application.spec(:jarvis, :vsn)
 
 config :logger, level: :info
 
 config :phoenix, :serve_endpoints, true
 
-config :phoenix, :json_library, Jason
-
-config :ueberauth, Ueberauth,
-  providers: [
-    github: {Ueberauth.Strategy.Github, []}
-  ]
+config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
 config :jarvis, Jarvis.Repo,
   username: System.fetch_env!("DB_USERNAME"),
