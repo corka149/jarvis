@@ -11,7 +11,13 @@ defmodule Jarvis.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      dialyzer: [plt_add_apps: [:mix]]
+      dialyzer: [plt_add_apps: [:mix]],
+      releases: [
+         prod: [
+          strip_beams: false
+         ]
+      ],
+      default_release: :prod
     ]
   end
 
