@@ -38,12 +38,12 @@ ENV VISION_PASSWORD=${VISION_PASSWORD}
 
 RUN mix do local.hex --force, local.rebar --force
 
-RUN export MIX_ENV=prod && \
-    mix deps.get && \
-    mix phx.digest && \
-    npm install --prefix assets && \
-    npm run deploy --prefix assets && \
-    mix release
+ENV MIX_ENV=prod
+RUN mix deps.get
+RUN npm install --prefix assets
+RUN npm run deploy --prefix assets
+RUN mix phx.digest
+RUN mix release
 
 RUN mkdir /jarvis && \
     cp -r _build/prod/rel/jarvis /jarvis
