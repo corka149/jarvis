@@ -40,6 +40,7 @@ RUN mix do local.hex --force, local.rebar --force
 
 RUN export MIX_ENV=prod && \
     mix deps.get && \
+    mix phx.digest && \
     npm install --prefix assets && \
     npm run deploy --prefix assets && \
     mix release
