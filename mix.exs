@@ -13,11 +13,11 @@ defmodule Jarvis.MixProject do
       deps: deps(),
       dialyzer: [plt_add_apps: [:mix]],
       releases: [
-         prod: [
+         jarvis: [
           strip_beams: false
          ]
       ],
-      default_release: :prod
+      default_release: :jarvis
     ]
   end
 

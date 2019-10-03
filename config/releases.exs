@@ -30,3 +30,5 @@ config :jarvis, Jarvis.ShoppingLists.Vision,
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
   client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")
+
+import_config "#{Mix.env()}.exs"
