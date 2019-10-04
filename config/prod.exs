@@ -1,5 +1,20 @@
 import Config
 
+# ##### ##### ##### ##### ##### ##### ##### ##### ##### #####
+# ##### ##### ##### ##### ##### ##### ##### ##### ##### #####
+#                   !!! WARNING !!!
+# This file IS ONLY still here for debugging MIX_ENV=prod
+#
+# ##### ##### ##### ##### ##### ##### ##### ##### ##### #####
+# ##### ##### ##### ##### ##### ##### ##### ##### ##### #####
+
+
+
+
+
+
+
+
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.
@@ -90,7 +105,3 @@ config :jarvis, Jarvis.ShoppingLists.Vision,
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.get_env("GITHUB_CLIENT_ID"),
   client_secret: System.get_env("GITHUB_CLIENT_SECRET")
-
-# Finally import the config/prod.secret.exs which should be versioned
-# separately.
-import_config "prod.secret.exs"
