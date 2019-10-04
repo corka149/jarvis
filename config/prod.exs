@@ -10,9 +10,9 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :jarvis, JarvisWeb.Endpoint,
-  http: [:inet6, port: System.fetch_env!("PORT")],
+  http: [:inet6, port: System.get_env("PORT") || 4000],
   # This is critical for ensuring web-sockets properly authorize.
-  url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("PORT")],
+  url: [host: System.get_env("HOST") || "localhost", port: System.get_env("PORT") || 4000],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   root: ".",
@@ -72,24 +72,24 @@ config :phoenix, :serve_endpoints, true
 # See the releases documentation accordingly.
 
 # Corka: Let's go this way: http://sgeos.github.io/phoenix/elixir/erlang/ecto/distillery/postgresql/mysql/2016/09/18/storing-elixir-release-configuration-in-environment-variables-with-distillery.html
-config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
+config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Configure your database
 config :jarvis, Jarvis.Repo,
-  username: System.fetch_env!("DB_USERNAME"),
-  password: System.fetch_env!("DB_PASSWORD"),
-  database: System.fetch_env!("DB_NAME"),
-  hostname: System.fetch_env!("DB_HOST"),
+  username: System.get_env("DB_USERNAME") || "postgres",
+  password: System.get_env("DB_PASSWORD") || "secret",
+  database: System.get_env("DB_NAME") || "jarvis_dev",
+  hostname: System.get_env("DB_HOST") || "localhost",
   pool_size: 15
 
 config :jarvis, Jarvis.ShoppingLists.Vision,
-  host: System.fetch_env!("VISION_HOST"),
-  username: System.fetch_env!("VISION_USERNAME"),
-  password: System.fetch_env!("VISION_PASSWORD")
+  host: System.get_env("VISION_HOST") || "http://localhost:8000",
+  username: System.get_env("VISION_USERNAME") || "default_user",
+  password: System.get_env("VISION_PASSWORD") || "default_password"
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
-  client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")
+  client_id: System.get_env("GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
 
 # Finally import the config/prod.secret.exs which should be versioned
 # separately.
