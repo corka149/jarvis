@@ -19,7 +19,6 @@ defmodule Jarvis.Application do
       JarvisWeb.Endpoint,
       # Starts a worker by calling: Jarvis.Worker.start_link(arg)
       # {Jarvis.Worker, arg},
-      Jarvis.ShoppingLists.Vision.Worker
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

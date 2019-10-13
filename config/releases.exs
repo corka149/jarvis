@@ -22,11 +22,6 @@ config :jarvis, Jarvis.Repo,
   hostname: System.fetch_env!("DB_HOST"),
   pool_size: 15
 
-config :jarvis, Jarvis.ShoppingLists.Vision,
-  host: System.fetch_env!("VISION_HOST"),
-  username: System.fetch_env!("VISION_USERNAME"),
-  password: System.fetch_env!("VISION_PASSWORD")
-
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
   client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")

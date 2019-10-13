@@ -35,9 +35,6 @@ Important environment variables for prod release:
  * DB_HOST
  * GITHUB_CLIENT_ID
  * GITHUB_CLIENT_SECRET
- * VISION_HOST
- * VISION_USERNAME
- * VISION_PASSWORD
 
 ## Important notes
 

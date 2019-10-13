@@ -74,8 +74,3 @@ config :jarvis, Jarvis.Repo,
   database: "jarvis_dev",
   hostname: "localhost",
   pool_size: 10
-
-config :jarvis, Jarvis.ShoppingLists.Vision,
-  host: "http://127.0.0.1:5000",
-  username: "default_user",
-  password: "default_password"
