@@ -4,7 +4,6 @@ defmodule JarvisWeb.AuthController do
 
   alias Jarvis.Accounts.User
   alias Jarvis.Repo
-  alias JarvisWeb.Router.Helpers
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     user_params = %{
@@ -21,21 +20,17 @@ defmodule JarvisWeb.AuthController do
   def signout(conn, _params) do
     conn
     |> configure_session(drop: true)
-    |> redirect(to: Helpers.page_path(conn, :index))
   end
 
   defp signin(conn, changeset) do
     case insert_or_update_user(changeset) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "Welcome #{user.name}!")
         |> put_session(:user_id, user.id)
-        |> redirect(to: Helpers.page_path(conn, :index))
+        |> send_resp(:no_content, "")
 
       {:error, _reason} ->
-        conn
-        |> put_flash(:error, "Error signing in")
-        |> redirect(to: Helpers.page_path(conn, :index))
+        send_resp(conn, 403, "Error signing in")
     end
   end
 
