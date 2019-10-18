@@ -19,13 +19,6 @@ defmodule JarvisWeb.Router do
   #        Browser      #
   # ### ### ### ### ### #
 
-  scope "/", JarvisWeb do
-    pipe_through :browser
-
-    get "/invitations/:id/accept", InvitationController, :accept
-    resources "/invitations", InvitationController
-  end
-
   scope "/shoppinglists", JarvisWeb do
     pipe_through :browser
 
@@ -57,7 +50,10 @@ defmodule JarvisWeb.Router do
     pipe_through :api
 
     delete "/usergroups/:id/leave", UserGroupController, :leave_group
-    resources "/usergroups", UserGroupController
+    resources "/usergroups", UserGroupController, except: [:new, :edit]
+
+    get "/invitations/:id/accept", InvitationController, :accept
+    resources "/invitations", InvitationController, except: [:new, :edit, :update, :show]
   end
 
   # Other scopes may use custom stacks.

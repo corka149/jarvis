@@ -11,6 +11,11 @@ defmodule JarvisWeb.DeviceController do
     render(conn, "index.json", devices: devices)
   end
 
+  def show(conn, %{"id" => id}) do
+    device = Sensors.get_device!(id)
+    render(conn, "show.json", device: device)
+  end
+
   def create(conn, %{"device" => device_params}) do
     with {:ok, %Device{} = device} <- Sensors.create_device(device_params) do
       conn
@@ -18,11 +23,6 @@ defmodule JarvisWeb.DeviceController do
       |> put_resp_header("location", Routes.device_path(conn, :show, device))
       |> render("show.json", device: device)
     end
-  end
-
-  def show(conn, %{"id" => id}) do
-    device = Sensors.get_device!(id)
-    render(conn, "show.json", device: device)
   end
 
   def update(conn, %{"id" => id, "device" => device_params}) do
