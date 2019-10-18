@@ -1,8 +1,6 @@
 defmodule JarvisWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :jarvis
 
-  socket "/live", Phoenix.LiveView.Socket
-
   socket "/socket", JarvisWeb.UserSocket,
     websocket: true,
     longpoll: false

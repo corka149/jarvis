@@ -2,13 +2,6 @@
 version: "3"
 
 services:
-  vision:
-    image: vision:latest
-    ports:
-      - 8000:8000
-    networks:
-      - jarvis_network
-
   postgres:
     image: postgres:11
     ports:

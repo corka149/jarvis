@@ -5,7 +5,6 @@ defmodule JarvisWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
-    plug Phoenix.LiveView.Flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug JarvisWeb.Plugs.SetUser
@@ -36,7 +35,6 @@ defmodule JarvisWeb.Router do
 
     get "/open", ShoppingListController, :index_open_lists
     resources "/", ShoppingListController
-    live "/:id/items", ItemLive, session: [:user_id]
   end
 
   scope "/auth", JarvisWeb do

@@ -1,11 +1,12 @@
 # jARVIS
 
-Portal for managing household (like housekeeping book) and smart home.
+Portal for managing household (like housekeeping book).
 
 ## Version history
 
   1. Version is the implementation of the the shopping list and user + user groups.
   2. Version targets the connecting of sensor devices and measuring for monitoring the flat/house.
+  3. Version marks the end of any work targeting smart home. In this version frontend and backend should be separated.
 
 
 To start your Phoenix server:
@@ -34,9 +35,6 @@ Important environment variables for prod release:
  * DB_HOST
  * GITHUB_CLIENT_ID
  * GITHUB_CLIENT_SECRET
- * VISION_HOST
- * VISION_USERNAME
- * VISION_PASSWORD
 
 ## Important notes
 

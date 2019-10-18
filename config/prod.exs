@@ -97,11 +97,6 @@ config :jarvis, Jarvis.Repo,
   hostname: System.get_env("DB_HOST") || "localhost",
   pool_size: 15
 
-config :jarvis, Jarvis.ShoppingLists.Vision,
-  host: System.get_env("VISION_HOST") || "http://localhost:8000",
-  username: System.get_env("VISION_USERNAME") || "default_user",
-  password: System.get_env("VISION_PASSWORD") || "default_password"
-
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.get_env("GITHUB_CLIENT_ID"),
   client_secret: System.get_env("GITHUB_CLIENT_SECRET")
