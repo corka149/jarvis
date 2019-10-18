@@ -9,12 +9,10 @@ defmodule JarvisWeb.Plugs.RequireAuth do
   (The list at the end represents the functions for which the plug should be applied.)
   """
 
-  import Plug.Conn
-  import Phoenix.Controller
-
-  alias JarvisWeb.Router.Helpers
-
   require Logger
+
+  import Plug.Conn
+  import JarvisWeb.Gettext
 
   def init(_params) do
   end
@@ -26,8 +24,7 @@ defmodule JarvisWeb.Plugs.RequireAuth do
       Logger.warn("Request without authentication occured.")
 
       conn
-      |> put_flash(:error, "You must be logged in.")
-      |> redirect(to: Helpers.page_path(conn, :index))
+      |> send_resp(401, dgettext("errors", "You must be logged in"))
       |> halt()
     end
   end

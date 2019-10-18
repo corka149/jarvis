@@ -5,13 +5,11 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
   """
 
   import Plug.Conn
-  import Phoenix.Controller
   import JarvisWeb.Gettext
 
   alias Jarvis.Accounts.User
   alias Jarvis.ShoppingLists
   alias Jarvis.ShoppingLists.ShoppingList
-  alias JarvisWeb.Router.Helpers
 
   require Logger
 
@@ -25,8 +23,7 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
       Logger.warn("User do not belong to owner group.")
 
       conn
-      |> put_flash(:error, dgettext("errors", "You are not allow to do this!"))
-      |> redirect(to: Helpers.page_path(conn, :index))
+      |> send_resp(403, dgettext("errors", "You are not allow to do this"))
       |> halt()
     end
   end
