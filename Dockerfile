@@ -12,22 +12,14 @@ RUN \
       g++ \
       wget \
       curl \
-      inotify-tools \
-      nodejs \
-      nodejs-npm && \
-    npm install npm -g --no-progress && \
+      inotify-tools && \
     update-ca-certificates --fresh && \
     rm -rf /var/cache/apk/*
-
-ENV PATH=./node_modules/.bin:$PATH
 
 RUN mix do local.hex --force, local.rebar --force
 
 ENV MIX_ENV=prod
 RUN mix deps.get && \
-	npm install --prefix assets && \
-	npm run deploy --prefix assets && \
-	mix phx.digest && \
 	mix release
 
 RUN mkdir /jarvis && \

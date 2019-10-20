@@ -63,7 +63,7 @@ defmodule Jarvis.MixProject do
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
 
       # testing
-      {:floki, "~> 0.23.0", only: :test}
+
     ]
   end
 
