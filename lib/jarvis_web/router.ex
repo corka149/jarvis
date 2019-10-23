@@ -13,6 +13,7 @@ defmodule JarvisWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug JarvisWeb.Plugs.SetUser
   end
 
   # ### ### ### ### ### #

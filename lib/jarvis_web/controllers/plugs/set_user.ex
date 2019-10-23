@@ -12,6 +12,7 @@ defmodule JarvisWeb.Plugs.SetUser do
   end
 
   def call(conn, _params) do
+    conn = fetch_session(conn)
     user_id = get_session(conn, :user_id)
 
     if user = user_id && Accounts.get_user!(user_id) do
