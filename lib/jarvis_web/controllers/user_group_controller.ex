@@ -9,8 +9,8 @@ defmodule JarvisWeb.UserGroupController do
   plug :check_user_group_owner when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
-    usergroups = Accounts.list_usergroups_by_owner(conn.assigns.user)
-    render(conn, "index.json", usergroups: usergroups)
+    user_groups = Accounts.list_usergroups_by_owner(conn.assigns.user)
+    render(conn, "index.json", user_groups: user_groups)
   end
 
   def show(conn, %{"id" => id}) do
