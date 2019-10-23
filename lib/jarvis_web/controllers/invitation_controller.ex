@@ -1,6 +1,5 @@
 defmodule JarvisWeb.InvitationController do
   alias Jarvis.Accounts
-  alias Jarvis.Accounts.Invitation
 
   use JarvisWeb, :controller
 

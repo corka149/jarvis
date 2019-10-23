@@ -2,7 +2,6 @@ defmodule JarvisWeb.ShoppingListController do
   use JarvisWeb, :controller
 
   alias Jarvis.ShoppingLists
-  alias Jarvis.ShoppingLists.ShoppingList
 
   alias Jarvis.Accounts
 
