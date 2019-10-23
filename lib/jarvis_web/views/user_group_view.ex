@@ -1,6 +1,6 @@
 defmodule JarvisWeb.UserGroupView do
   @moduledoc """
-  This view represents all "html.eex" and "html.leex" files in the directory "templates/user_group".
+  This view represents all possible response structure.
   """
   use JarvisWeb, :view
 
@@ -19,7 +19,7 @@ defmodule JarvisWeb.UserGroupView do
 
   def render("error.json", %{error: reason}) do
     %{
-      scope: "devices",
+      scope: "user_groups",
       error: reason
     }
   end
