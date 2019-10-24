@@ -8,7 +8,6 @@ defmodule JarvisWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug JarvisWeb.Plugs.SetUser
-    plug JarvisWeb.Plugs.SetLocale, default: "en"
   end
 
   pipeline :api do
@@ -45,12 +44,9 @@ defmodule JarvisWeb.Router do
   scope "/v1/shoppinglists", JarvisWeb do
     pipe_through :api
 
-    get "/open", ShoppingListController, :index_open_lists
-    resources "/", ShoppingListController, except: [:new, :edit]
+    get "/shoppinglists/open", ShoppingListController, :index_open_lists
+    resources "/shoppinglists/", ShoppingListController, except: [:new, :edit]
+    resources "/items/", ItemController, except: [:new, :edit]
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", JarvisWeb do
-  #   pipe_through :api
-  # end
 end
