@@ -35,21 +35,13 @@ defmodule JarvisWeb.InvitationControllerTest do
         init_test_session(conn, user_id: user.id)
         |> get(Routes.invitation_path(conn, :index))
 
-      assert html_response(conn, 200) =~ "Created Invitations"
-      assert html_response(conn, 200) =~ "Group membership"
-      assert html_response(conn, 200) =~ "Received Invitations"
-    end
-  end
+      invitation_overview = json_response(conn, 200)
 
-  describe "new invitation" do
-    setup [:create_invitation]
-
-    test "renders form", %{conn: conn, user: user} do
-      conn =
-        init_test_session(conn, user_id: user.id)
-        |> get(Routes.invitation_path(conn, :new))
-
-      assert html_response(conn, 200) =~ "New Invitation"
+      assert %{
+        "received_invitations" => _received_invitations,
+        "created_invitations" => _created_invitations,
+        "memberships" => _memberships
+      } = invitation_overview
     end
   end
 
@@ -71,17 +63,18 @@ defmodule JarvisWeb.InvitationControllerTest do
         init_test_session(conn, user_id: user.id)
         |> post(Routes.invitation_path(conn, :create), invitation: create_attrs)
 
-      assert redirected_to(conn) == Routes.invitation_path(conn, :index)
+      response(conn, 204)
     end
 
-    test "renders errors when data is invalid", %{conn: conn, user: user, group: group} do
+    test "Invite an not existing user and get no error (security reason)",
+      %{conn: conn, user: user, group: group} do
       invalid_attrs = %{invitee_name: "Not existing user", usergroup_id: group.id}
 
       conn =
         init_test_session(conn, user_id: user.id)
         |> post(Routes.invitation_path(conn, :create), invitation: invalid_attrs)
 
-      assert redirected_to(conn) == Routes.invitation_path(conn, :index)
+      response(conn, 204)
     end
   end
 
@@ -93,7 +86,27 @@ defmodule JarvisWeb.InvitationControllerTest do
         init_test_session(conn, user_id: user.id)
         |> delete(Routes.invitation_path(conn, :delete, invitation))
 
-      assert redirected_to(conn) == Routes.invitation_path(conn, :index)
+        response(conn, 204)
+    end
+  end
+
+  describe "accept invitation" do
+    setup [:create_invitation]
+
+    test "authorized accept of invitation", %{conn: conn, invitation: invitation} do
+      conn =
+        init_test_session(conn, user_id: invitation.invitee_id)
+        |> get(Routes.invitation_path(conn, :accept, invitation))
+
+      response(conn, 204)
+    end
+
+    test "accept invitation of someone else and get rejection", %{conn: conn, invitation: invitation, user: user} do
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> get(Routes.invitation_path(conn, :accept, invitation))
+
+      response(conn, 403)
     end
   end
 
