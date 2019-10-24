@@ -38,10 +38,10 @@ defmodule JarvisWeb.InvitationControllerTest do
       invitation_overview = json_response(conn, 200)
 
       assert %{
-        "received_invitations" => _received_invitations,
-        "created_invitations" => _created_invitations,
-        "memberships" => _memberships
-      } = invitation_overview
+               "received_invitations" => _received_invitations,
+               "created_invitations" => _created_invitations,
+               "memberships" => _memberships
+             } = invitation_overview
     end
   end
 
@@ -67,7 +67,7 @@ defmodule JarvisWeb.InvitationControllerTest do
     end
 
     test "Invite an not existing user and get no error (security reason)",
-      %{conn: conn, user: user, group: group} do
+         %{conn: conn, user: user, group: group} do
       invalid_attrs = %{invitee_name: "Not existing user", usergroup_id: group.id}
 
       conn =
@@ -86,7 +86,7 @@ defmodule JarvisWeb.InvitationControllerTest do
         init_test_session(conn, user_id: user.id)
         |> delete(Routes.invitation_path(conn, :delete, invitation))
 
-        response(conn, 204)
+      response(conn, 204)
     end
   end
 
@@ -101,7 +101,11 @@ defmodule JarvisWeb.InvitationControllerTest do
       response(conn, 204)
     end
 
-    test "accept invitation of someone else and get rejection", %{conn: conn, invitation: invitation, user: user} do
+    test "accept invitation of someone else and get rejection", %{
+      conn: conn,
+      invitation: invitation,
+      user: user
+    } do
       conn =
         init_test_session(conn, user_id: user.id)
         |> get(Routes.invitation_path(conn, :accept, invitation))

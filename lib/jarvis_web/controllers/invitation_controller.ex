@@ -48,9 +48,9 @@ defmodule JarvisWeb.InvitationController do
 
     case Accounts.is_group_owner(host, user_group) &&
            Accounts.get_user_by_name(invitation_params["invitee_name"]) do
-      false     -> nil
-      nil       -> nil
-      invitee   -> Accounts.create_invitation(invitation_params, user_group, host, invitee)
+      false -> nil
+      nil -> nil
+      invitee -> Accounts.create_invitation(invitation_params, user_group, host, invitee)
     end
   end
 end

@@ -16,7 +16,7 @@ defmodule Jarvis.Application do
       # Start the Ecto repository
       Jarvis.Repo,
       # Start the endpoint when the application starts
-      JarvisWeb.Endpoint,
+      JarvisWeb.Endpoint
       # Starts a worker by calling: Jarvis.Worker.start_link(arg)
       # {Jarvis.Worker, arg},
     ]

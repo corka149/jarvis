@@ -13,7 +13,7 @@ defmodule JarvisWeb.UserGroupView do
   def render("show.json", %{user_group: user_group}) do
     %{
       id: user_group.id,
-      name: user_group.name,
+      name: user_group.name
     }
   end
 

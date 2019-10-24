@@ -13,9 +13,9 @@ defmodule Jarvis.MixProject do
       deps: deps(),
       dialyzer: [plt_add_apps: [:mix]],
       releases: [
-         jarvis: [
+        jarvis: [
           strip_beams: false
-         ]
+        ]
       ],
       default_release: :jarvis
     ]
@@ -60,10 +60,9 @@ defmodule Jarvis.MixProject do
       ## linting
       {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
       ## type checking
-      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
 
       # testing
-
     ]
   end
 

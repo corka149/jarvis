@@ -54,7 +54,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
         |> post(Routes.user_group_path(conn, :create), user_group: @invalid_attrs)
 
       response_body = json_response(conn, 422)
-      assert %{"errors"  => %{"name" => ["can't be blank"]}} = response_body
+      assert %{"errors" => %{"name" => ["can't be blank"]}} = response_body
     end
   end
 
@@ -75,8 +75,8 @@ defmodule JarvisWeb.UserGroupControllerTest do
         init_test_session(conn, user_id: user_group.user.id)
         |> put(Routes.user_group_path(conn, :update, user_group), user_group: @invalid_attrs)
 
-        response_body = json_response(conn, 422)
-        assert %{"errors"  => %{"name" => ["can't be blank"]}} = response_body
+      response_body = json_response(conn, 422)
+      assert %{"errors" => %{"name" => ["can't be blank"]}} = response_body
     end
   end
 

@@ -20,10 +20,11 @@ defmodule JarvisWeb.UserGroupController do
 
   def create(conn, %{"user_group" => user_group_params}) do
     with {:ok, user_group} <- Accounts.create_user_group(user_group_params, conn.assigns.user) do
-        conn
-        |> put_status(:created)
-        |> put_resp_header("location", Routes.user_group_path(conn, :show, user_group))
-        render(conn, "show.json", user_group: user_group)
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.user_group_path(conn, :show, user_group))
+
+      render(conn, "show.json", user_group: user_group)
     end
   end
 
@@ -37,9 +38,10 @@ defmodule JarvisWeb.UserGroupController do
   end
 
   def delete(conn, %{"id" => id}) do
-    {:ok, _user_group} =  id
-                          |>Accounts.get_user_group!()
-                          |> Accounts.delete_user_group()
+    {:ok, _user_group} =
+      id
+      |> Accounts.get_user_group!()
+      |> Accounts.delete_user_group()
 
     send_resp(conn, :no_content, "")
   end
