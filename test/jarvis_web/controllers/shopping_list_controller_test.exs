@@ -30,26 +30,19 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :index))
 
-      assert html_response(conn, 200) =~ "Listing Shoppinglists"
-    end
-  end
-
-  describe "new shopping_list" do
-    test "renders form", %{conn: conn} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
-
-      conn =
-        init_test_session(conn, user_id: user.id)
-        |> get(Routes.shopping_list_path(conn, :new))
-
-      assert html_response(conn, 200) =~ "New Shopping list"
+      shoppinglists = json_response(conn, 200)
+      assert is_list(shoppinglists)
     end
   end
 
   describe "create shopping_list" do
     setup [:create_shopping_list]
 
-    test "redirects to show when data is valid", %{conn: conn, group: group, user: user} do
+    test "returns shopping_list to show when data is valid", %{
+      conn: conn,
+      group: group,
+      user: user
+    } do
       create_attrs = %{
         "done" => false,
         "planned_for" => DateTime.utc_now(),
@@ -60,11 +53,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         init_test_session(conn, user_id: user.id)
         |> post(Routes.shopping_list_path(conn, :create), shopping_list: create_attrs)
 
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.shopping_list_path(conn, :show, id)
-
-      conn = get(conn, Routes.shopping_list_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Shopping list"
+      new_shoppinglist = json_response(conn, 201)
+      assert create_attrs = new_shoppinglist
     end
 
     test "renders errors when data is invalid", %{conn: conn, group: group, user: user} do
@@ -74,25 +64,14 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         init_test_session(conn, user_id: user.id)
         |> post(Routes.shopping_list_path(conn, :create), shopping_list: invalid_attrs)
 
-      assert html_response(conn, 200) =~ "New Shopping list"
-    end
-  end
+      error_msg = json_response(conn, 422)
 
-  describe "edit shopping_list" do
-    setup [:create_shopping_list]
-
-    test "renders form for editing chosen shopping_list", %{
-      conn: conn,
-      shopping_list: shopping_list
-    } do
-      group = Jarvis.ShoppingLists.get_shopping_list!(shopping_list.id).usergroup
-      user = Jarvis.Accounts.get_user_group!(group.id).user
-
-      conn =
-        init_test_session(conn, user_id: user.id)
-        |> get(Routes.shopping_list_path(conn, :edit, shopping_list))
-
-      assert html_response(conn, 200) =~ "Edit Shopping list"
+      assert %{
+               "errors" => %{
+                 "done" => ["can't be blank"],
+                 "planned_for" => ["can't be blank"]
+               }
+             } = error_msg
     end
   end
 
@@ -109,10 +88,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
           shopping_list: @update_attrs
         )
 
-      assert redirected_to(conn) == Routes.shopping_list_path(conn, :show, shopping_list)
-
-      conn = get(conn, Routes.shopping_list_path(conn, :show, shopping_list))
-      assert html_response(conn, 200)
+      update_shoppinglist = json_response(conn, 200)
+      assert %{"done" => false, "planned_for" => "2011-05-18"} = update_shoppinglist
     end
 
     test "renders errors when data is invalid", %{
@@ -126,7 +103,10 @@ defmodule JarvisWeb.ShoppingListControllerTest do
           shopping_list: @invalid_attrs
         )
 
-      assert html_response(conn, 200) =~ "Edit Shopping list"
+      error_msg = json_response(conn, 422)
+
+      assert %{"errors" => %{"done" => ["can't be blank"], "planned_for" => ["can't be blank"]}} =
+               error_msg
     end
   end
 
@@ -138,7 +118,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         init_test_session(conn, user_id: user.id)
         |> delete(Routes.shopping_list_path(conn, :delete, shopping_list))
 
-      assert redirected_to(conn) == Routes.shopping_list_path(conn, :index)
+      response(conn, 204)
 
       assert_error_sent 404, fn ->
         get(conn, Routes.shopping_list_path(conn, :show, shopping_list))

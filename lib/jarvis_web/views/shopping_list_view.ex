@@ -6,16 +6,16 @@ defmodule JarvisWeb.ShoppingListView do
 
   alias JarvisWeb.ShoppingListView
 
-  def render("index.json", %{shoppinglists: shoppinglists}) do
-    render_many(shoppinglists, ShoppingListView, "show.json")
+  def render("index.json", %{shopping_lists: shopping_lists}) do
+    render_many(shopping_lists, ShoppingListView, "show.json")
   end
 
-  def render("show.json", %{shoppinglist: shoppinglist}) do
+  def render("show.json", %{shopping_list: shopping_list}) do
     %{
-      id: shoppinglist.id,
-      done: shoppinglist.done,
-      planned_for: shoppinglist.planned_for,
-      creator: shoppinglist.creator,
+      id: shopping_list.id,
+      done: shopping_list.done,
+      planned_for: shopping_list.planned_for,
+      creator: shopping_list.creator,
     }
   end
 

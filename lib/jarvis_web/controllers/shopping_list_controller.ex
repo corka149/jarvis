@@ -5,6 +5,8 @@ defmodule JarvisWeb.ShoppingListController do
 
   alias Jarvis.Accounts
 
+  action_fallback JarvisWeb.FallbackController
+
   plug JarvisWeb.Plugs.RequireAuth
   plug JarvisWeb.Plugs.CheckListOwnerGroup when action in [:edit, :update, :delete]
 
@@ -13,12 +15,12 @@ defmodule JarvisWeb.ShoppingListController do
       conn.assigns.user
       |> ShoppingLists.list_shoppinglists_for_user()
 
-    render(conn, "index.json", shoppinglists: shoppinglists)
+    render(conn, "index.json", shopping_lists: shoppinglists)
   end
 
   def index_open_lists(conn, _params) do
     shoppinglists = ShoppingLists.list_open_shoppinglists(conn.assigns.user)
-    render(conn, "index.json", shoppinglists: shoppinglists)
+    render(conn, "index.json", shopping_lists: shoppinglists)
   end
 
   def show(conn, %{"id" => id}) do
