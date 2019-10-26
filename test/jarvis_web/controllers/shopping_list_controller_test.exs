@@ -22,6 +22,11 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     {shopping_list, group, user}
   end
 
+  defp create_shopping_list(_) do
+    {shopping_list, group, user} = fixture(:shopping_list)
+    {:ok, shopping_list: shopping_list, group: group, user: user}
+  end
+
   describe "index" do
     test "lists all shoppinglists", %{conn: conn} do
       {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
@@ -124,10 +129,5 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         get(conn, Routes.shopping_list_path(conn, :show, shopping_list))
       end
     end
-  end
-
-  defp create_shopping_list(_) do
-    {shopping_list, group, user} = fixture(:shopping_list)
-    {:ok, shopping_list: shopping_list, group: group, user: user}
   end
 end

@@ -44,9 +44,9 @@ defmodule JarvisWeb.Router do
   scope "/v1/shoppinglists", JarvisWeb do
     pipe_through :api
 
-    get "/shoppinglists/open", ShoppingListController, :index_open_lists
-    resources "/shoppinglists/", ShoppingListController, except: [:new, :edit]
-    resources "/items/", ItemController, except: [:new, :edit]
+    get "/open", ShoppingListController, :index_open_lists
+    resources "/", ShoppingListController, except: [:new, :edit]
+    resources "/:shopping_list_id/items/", ItemController, except: [:new, :edit]
   end
 
 end
