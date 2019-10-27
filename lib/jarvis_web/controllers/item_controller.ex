@@ -20,14 +20,14 @@ defmodule JarvisWeb.ItemController do
     render(conn, "show.json", item: item)
   end
 
-  def create(conn, %{"shopping_list_id" => shopping_list_id, "items" => items_params}) do
-    items_params = Map.put items_params, "shopping_list_id", shopping_list_id
+  def create(conn, %{"shopping_list_id" => shopping_list_id, "item" => items_params}) do
+    shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
     with {:ok, item} <-
-           ShoppingLists.create_item(items_params) do
+           ShoppingLists.create_item(items_params, shopping_list) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.item_path(conn, :show, item))
-      |> render("show.json", items: item)
+      |> put_resp_header("location", Routes.item_path(conn, :show, shopping_list_id, item))
+      |> render("show.json", item: item)
     end
   end
 
