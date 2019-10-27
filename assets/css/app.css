@@ -1,24 +1,4 @@
 /* This file is for your main application css. */
 
-@import "./phoenix.css";
-@import "../../deps/phoenix_live_view/assets/css/live_view.css";
-
-html {
-  height: 100%;
-}
-
-body {
-  height: 100%;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-}
-
-footer {
-  left: 0;  
-  width: 100%;
-  background-color: #ff9900;
-  color: white;
-  text-align: center;
-  font-size: 1rem;
-  margin-top: 10px; 
-}
+/* @import "./phoenix.css";
+@import "../../deps/phoenix_live_view/assets/css/live_view.css"; */
