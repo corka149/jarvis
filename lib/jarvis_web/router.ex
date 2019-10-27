@@ -49,4 +49,9 @@ defmodule JarvisWeb.Router do
     resources "/:shopping_list_id/items/", ItemController, except: [:new, :edit]
   end
 
+  scope "/v1/finances", JarvisWeb do
+    pipe_through :api
+
+    resources "/categories", CategoryController, except: [:new, :edit]
+  end
 end

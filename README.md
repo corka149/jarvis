@@ -4,9 +4,11 @@ Portal for managing household (like housekeeping book).
 
 ## Version history
 
-  1. Version is the implementation of the the shopping list and user + user groups.
-  2. Version targets the connecting of sensor devices and measuring for monitoring the flat/house.
-  3. Version marks the end of any work targeting smart home. In this version frontend and backend should be separated.
+1. Version is the implementation of the the shopping list and user + user groups.
+2. Version targets the connecting of sensor devices and measuring for monitoring the flat/house.
+3. Version: 
+    1. Marks the end of any work targeting smart home. In this version frontend and backend should be separated.
+    2. Added finance domain
 
 
 To start your Phoenix server:
@@ -21,7 +23,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Building
 
-Just run `mix docker`. It will take care everything for you. :)
+Just run `mix docker`. It will take care of everything for you. :)
 
 ## Configuration
 
