@@ -28,7 +28,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   end
 
   describe "index" do
-    test "lists all shoppinglists", %{conn: conn} do
+    test "lists all shopping_lists", %{conn: conn} do
       {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
@@ -37,6 +37,18 @@ defmodule JarvisWeb.ShoppingListControllerTest do
 
       shoppinglists = json_response(conn, 200)
       assert is_list(shoppinglists)
+    end
+  end
+
+  describe "show shopping_list" do
+    setup [:create_shopping_list]
+
+    test "show a single shopping list", %{conn: conn, user: user, shopping_list: shopping_list} do
+      conn = init_test_session(conn, user_id: user.id)
+             |> get(Routes.shopping_list_path(conn, :show, shopping_list))
+      response_shopping_list = json_response(conn, 200)
+
+      assert shopping_list = response_shopping_list
     end
   end
 
