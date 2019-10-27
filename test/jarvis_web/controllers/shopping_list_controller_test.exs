@@ -40,7 +40,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     end
   end
 
-  describe "show shopping_list" do
+  describe "show" do
     setup [:create_shopping_list]
 
     test "show a single shopping list", %{conn: conn, user: user, shopping_list: shopping_list} do
@@ -48,7 +48,12 @@ defmodule JarvisWeb.ShoppingListControllerTest do
              |> get(Routes.shopping_list_path(conn, :show, shopping_list))
       response_shopping_list = json_response(conn, 200)
 
-      assert shopping_list = response_shopping_list
+      assert %{
+        "creator" => nil,
+        "done" => true,
+        "id" => _id,
+        "planned_for" => "2010-04-17"
+      } = response_shopping_list
     end
   end
 
@@ -71,7 +76,12 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         |> post(Routes.shopping_list_path(conn, :create), shopping_list: create_attrs)
 
       new_shoppinglist = json_response(conn, 201)
-      assert create_attrs = new_shoppinglist
+      assert %{
+        "creator" => nil,
+        "done" => false,
+        "id" => _id,
+        "planned_for" => "2019-10-27"
+      } = new_shoppinglist
     end
 
     test "renders errors when data is invalid", %{conn: conn, group: group, user: user} do
