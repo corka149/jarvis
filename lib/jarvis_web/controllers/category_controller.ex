@@ -6,13 +6,16 @@ defmodule JarvisWeb.CategoryController do
 
   action_fallback JarvisWeb.FallbackController
 
+  plug JarvisWeb.Plugs.RequireAuth
+
   def index(conn, _params) do
     categories = Finances.list_categories()
     render(conn, "index.json", categories: categories)
   end
 
   def create(conn, %{"category" => category_params}) do
-    with {:ok, %Category{} = category} <- Finances.create_category(category_params) do
+
+    with {:ok, %Category{} = category} <- Finances.create_category(category_params, conn.assigns.user) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.category_path(conn, :show, category))

@@ -1,5 +1,6 @@
 defmodule JarvisWeb.CategoryControllerTest do
   use JarvisWeb.ConnCase
+  use Plug.Test
 
   alias Jarvis.Finances
   alias Jarvis.Finances.Category
@@ -12,13 +13,27 @@ defmodule JarvisWeb.CategoryControllerTest do
   }
   @invalid_attrs %{name: nil}
 
+  @valid_attrs_user %{
+    email: "some email",
+    name: "some name",
+    provider: "some provider",
+    token: "some token"
+  }
+
   def fixture(:category) do
-    {:ok, category} = Finances.create_category(@create_attrs)
+    {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, category} = Finances.create_category(@create_attrs, creator)
     category
   end
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    conn_without_auth = conn
+    conn = conn
+            |> put_req_header("accept", "application/json")
+            |> init_test_session(user_id: creator.id)
+
+    {:ok, conn: conn, conn_without_auth: conn_without_auth, creator: creator}
   end
 
   describe "index" do
@@ -44,6 +59,11 @@ defmodule JarvisWeb.CategoryControllerTest do
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.category_path(conn, :create), category: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
+    end
+
+    test "renders errors when when request is without authentication", %{conn_without_auth: conn} do
+      conn = post(conn, Routes.category_path(conn, :create), category: @invalid_attrs)
+      response conn, 401
     end
   end
 
