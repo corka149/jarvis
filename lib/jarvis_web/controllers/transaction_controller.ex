@@ -2,9 +2,12 @@ defmodule JarvisWeb.TransactionController do
   use JarvisWeb, :controller
 
   alias Jarvis.Finances
+  alias Jarvis.Finances.Category
   alias Jarvis.Finances.Transaction
 
   action_fallback JarvisWeb.FallbackController
+
+  plug JarvisWeb.Plugs.RequireAuth
 
   def index(conn, _params) do
     transactions = Finances.list_transactions()
@@ -12,7 +15,9 @@ defmodule JarvisWeb.TransactionController do
   end
 
   def create(conn, %{"transaction" => transaction_params}) do
-    with {:ok, %Transaction{} = transaction} <- Finances.create_transaction(transaction_params) do
+    category = get_category(transaction_params)
+
+    with {:ok, %Transaction{} = transaction} <- Finances.create_transaction(transaction_params, conn.assigns.user, category) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.transaction_path(conn, :show, transaction))
@@ -40,4 +45,11 @@ defmodule JarvisWeb.TransactionController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  defp get_category(%{"category_id" => category_id} = _transaction_params) do
+    Jarvis.Finances.get_category!(category_id)
+  end
+
+  defp get_category(_), do: %Category{}
+
 end

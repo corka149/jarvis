@@ -140,10 +140,10 @@ defmodule Jarvis.Finances do
 
   ## Examples
 
-      iex> create_transaction(%{field: value})
+      iex> create_transaction(%{field: value}, creator, category)
       {:ok, %Transaction{}}
 
-      iex> create_transaction(%{field: bad_value})
+      iex> create_transaction(%{field: bad_value}, category, category)
       {:error, %Ecto.Changeset{}}
 
   """

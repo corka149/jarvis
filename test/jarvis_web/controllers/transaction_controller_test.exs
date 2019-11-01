@@ -1,5 +1,6 @@
 defmodule JarvisWeb.TransactionControllerTest do
   use JarvisWeb.ConnCase
+  use Plug.Test
 
   alias Jarvis.Finances
   alias Jarvis.Finances.Transaction
@@ -18,13 +19,30 @@ defmodule JarvisWeb.TransactionControllerTest do
   }
   @invalid_attrs %{description: nil, executed_on: nil, recurring: nil, value: nil}
 
+  @valid_attrs_user %{
+    email: "some email",
+    name: "some name",
+    provider: "some provider",
+    token: "some token"
+  }
+  @valid_attrs_category %{name: "some name"}
+
   def fixture(:transaction) do
-    {:ok, transaction} = Finances.create_transaction(@create_attrs)
+    {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
+    {:ok, transaction} = Finances.create_transaction(@create_attrs, creator, category)
     transaction
   end
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
+
+    conn = conn
+            |> put_req_header("accept", "application/json")
+            |> init_test_session(user_id: creator.id)
+
+    {:ok, conn: conn, category: category}
   end
 
   describe "index" do
@@ -35,8 +53,9 @@ defmodule JarvisWeb.TransactionControllerTest do
   end
 
   describe "create transaction" do
-    test "renders transaction when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.transaction_path(conn, :create), transaction: @create_attrs)
+    test "renders transaction when data is valid", %{conn: conn, category: category} do
+      create_attrs = Map.put @create_attrs, :category_id, category.id
+      conn = post(conn, Routes.transaction_path(conn, :create), transaction: create_attrs)
       assert %{"id" => id} = json_response(conn, 201)
 
       conn = get(conn, Routes.transaction_path(conn, :show, id))
