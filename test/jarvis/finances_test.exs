@@ -10,11 +10,20 @@ defmodule Jarvis.FinancesTest do
     @update_attrs %{name: "some updated name"}
     @invalid_attrs %{name: nil}
 
+    @valid_attrs_user %{
+      email: "some email",
+      name: "some name",
+      provider: "some provider",
+      token: "some token"
+    }
+
     def category_fixture(attrs \\ %{}) do
+      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+
       {:ok, category} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Finances.create_category()
+        |> Finances.create_category(creator)
 
       category
     end
@@ -30,12 +39,15 @@ defmodule Jarvis.FinancesTest do
     end
 
     test "create_category/1 with valid data creates a category" do
-      assert {:ok, %Category{} = category} = Finances.create_category(@valid_attrs)
+      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+
+      assert {:ok, %Category{} = category} = Finances.create_category(@valid_attrs, creator)
       assert category.name == "some name"
     end
 
     test "create_category/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Finances.create_category(@invalid_attrs)
+      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      assert {:error, %Ecto.Changeset{}} = Finances.create_category(@invalid_attrs, creator)
     end
 
     test "update_category/2 with valid data updates the category" do

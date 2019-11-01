@@ -7,6 +7,7 @@ defmodule Jarvis.Finances do
   alias Jarvis.Repo
 
   alias Jarvis.Finances.Category
+  alias Jarvis.Accounts.User
 
   @doc """
   Returns the list of categories.
@@ -42,15 +43,16 @@ defmodule Jarvis.Finances do
 
   ## Examples
 
-      iex> create_category(%{field: value})
+      iex> create_category(%{field: value}, creator)
       {:ok, %Category{}}
 
-      iex> create_category(%{field: bad_value})
+      iex> create_category(%{field: bad_value}, creator)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_category(attrs \\ %{}) do
-    %Category{}
+  def create_category(attrs \\ %{}, %User{} = creator) do
+    creator
+    |> Ecto.build_assoc(:categories)
     |> Category.changeset(attrs)
     |> Repo.insert()
   end

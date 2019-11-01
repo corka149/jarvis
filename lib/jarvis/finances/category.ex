@@ -13,7 +13,7 @@ defmodule Jarvis.Finances.Category do
   @doc false
   def changeset(category, attrs) do
     category
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :created_by])
+    |> validate_required([:name, :created_by])
   end
 end
