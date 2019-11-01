@@ -80,7 +80,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         "creator" => nil,
         "done" => false,
         "id" => _id,
-        "planned_for" => "2019-10-27"
+        "planned_for" => _planned_for
       } = new_shoppinglist
     end
 

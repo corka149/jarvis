@@ -4,6 +4,8 @@ defmodule Jarvis.Finances.Category do
 
   schema "categories" do
     field :name, :string
+    has_many :transactions, Jarvis.Finances.Transaction
+    belongs_to :creator, Jarvis.Accounts.User, foreign_key: :created_by
 
     timestamps()
   end

@@ -7,6 +7,8 @@ defmodule Jarvis.Finances.Transaction do
     field :executed_on, :naive_datetime
     field :recurring, :boolean, default: false
     field :value, :float
+    belongs_to :category, Jarvis.Finances.Category
+    belongs_to :creator, Jarvis.Accounts.User, foreign_key: :created_by
 
     timestamps()
   end
