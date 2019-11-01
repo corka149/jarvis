@@ -16,7 +16,7 @@ defmodule Jarvis.Finances.Transaction do
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:description, :value, :recurring, :executed_on])
-    |> validate_required([:description, :value, :recurring, :executed_on])
+    |> cast(attrs, [:description, :value, :recurring, :executed_on, :created_by])
+    |> validate_required([:description, :value, :recurring, :executed_on, :created_by])
   end
 end
