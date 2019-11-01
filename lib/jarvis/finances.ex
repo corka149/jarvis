@@ -147,9 +147,11 @@ defmodule Jarvis.Finances do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_transaction(attrs \\ %{}, %User{} = creator) do
+  def create_transaction(attrs \\ %{}, %User{} = creator, %Category{} = category) do
+    category_changeset = category |> Ecto.build_assoc(:transactions)
+
     creator
-    |> Ecto.build_assoc(:transactions)
+    |> Ecto.build_assoc(:transactions, category_changeset)
     |> Transaction.changeset(attrs)
     |> Repo.insert()
   end

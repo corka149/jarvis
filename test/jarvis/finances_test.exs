@@ -3,19 +3,19 @@ defmodule Jarvis.FinancesTest do
 
   alias Jarvis.Finances
 
+  @valid_attrs_user %{
+    email: "some email",
+    name: "some name",
+    provider: "some provider",
+    token: "some token"
+  }
+
   describe "categories" do
     alias Jarvis.Finances.Category
 
     @valid_attrs %{name: "some name"}
     @update_attrs %{name: "some updated name"}
     @invalid_attrs %{name: nil}
-
-    @valid_attrs_user %{
-      email: "some email",
-      name: "some name",
-      provider: "some provider",
-      token: "some token"
-    }
 
     def category_fixture(attrs \\ %{}) do
       {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
@@ -81,20 +81,24 @@ defmodule Jarvis.FinancesTest do
     @update_attrs %{description: "some updated description", executed_on: ~N[2011-05-18 15:01:01], recurring: false, value: 456.7}
     @invalid_attrs %{description: nil, executed_on: nil, recurring: nil, value: nil}
 
+    @valid_attrs_category %{name: "some name"}
+
     def transaction_fixture(attrs \\ %{}) do
       {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
 
       {:ok, transaction} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Finances.create_transaction(creator)
+        |> Finances.create_transaction(creator, category)
 
       transaction
     end
 
     setup _ do
       {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
-      %{creator: creator}
+      {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
+      %{creator: creator, category: category}
     end
 
     test "list_transactions/0 returns all transactions" do
@@ -107,16 +111,16 @@ defmodule Jarvis.FinancesTest do
       assert Finances.get_transaction!(transaction.id) == transaction
     end
 
-    test "create_transaction/1 with valid data creates a transaction", %{creator: creator} do
-      assert {:ok, %Transaction{} = transaction} = Finances.create_transaction(@valid_attrs, creator)
+    test "create_transaction/1 with valid data creates a transaction", %{creator: creator, category: category} do
+      assert {:ok, %Transaction{} = transaction} = Finances.create_transaction(@valid_attrs, creator, category)
       assert transaction.description == "some description"
       assert transaction.executed_on == ~N[2010-04-17 14:00:00]
       assert transaction.recurring == true
       assert transaction.value == 120.5
     end
 
-    test "create_transaction/1 with invalid data returns error changeset", %{creator: creator} do
-      assert {:error, %Ecto.Changeset{}} = Finances.create_transaction(@invalid_attrs, creator)
+    test "create_transaction/1 with invalid data returns error changeset", %{creator: creator, category: category} do
+      assert {:error, %Ecto.Changeset{}} = Finances.create_transaction(@invalid_attrs, creator, category)
     end
 
     test "update_transaction/2 with valid data updates the transaction" do
