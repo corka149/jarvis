@@ -10,16 +10,19 @@ defmodule Jarvis.Finances do
   alias Jarvis.Accounts.User
 
   @doc """
-  Returns the list of categories.
+  Returns the list of categories that belong to an user.
+  For security reason it is not possible to get a transaction
+  without user_id.
 
   ## Examples
 
-      iex> list_categories()
+      iex> list_categories(user)
       [%Category{}, ...]
 
   """
-  def list_categories do
-    Repo.all(Category)
+  def list_categories(%User{} = user) do
+    from(cate in Category, where: cate.created_by == ^user.id)
+    |> Repo.all()
   end
 
   @doc """
@@ -107,16 +110,19 @@ defmodule Jarvis.Finances do
   alias Jarvis.Finances.Transaction
 
   @doc """
-  Returns the list of transactions.
+  Returns the list of transactions that belong to an user.
+  For security reason it is not possible to get a transaction
+  without user_id.
 
   ## Examples
 
-      iex> list_transactions()
+      iex> list_transactions(user)
       [%Transaction{}, ...]
 
   """
-  def list_transactions do
-    Repo.all(Transaction)
+  def list_transactions(%User{} = user) do
+    from(transact in Transaction, where: transact.created_by == ^user.id)
+    |> Repo.all()
   end
 
   @doc """
