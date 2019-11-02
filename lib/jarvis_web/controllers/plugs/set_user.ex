@@ -8,9 +8,13 @@ defmodule JarvisWeb.Plugs.SetUser do
 
   require Logger
 
+  @behaviour Plug
+
+  @impl true
   def init(_params) do
   end
 
+  @impl true
   def call(conn, _params) do
     conn = fetch_session(conn)
     user_id = get_session(conn, :user_id)
@@ -18,7 +22,7 @@ defmodule JarvisWeb.Plugs.SetUser do
     if user = user_id && Accounts.get_user!(user_id) do
       assign(conn, :user, user)
     else
-      Logger.warn("Could not assign an user to the connection.")
+      Logger.info("Could not assign an user to the connection.")
       assign(conn, :user, nil)
     end
   end

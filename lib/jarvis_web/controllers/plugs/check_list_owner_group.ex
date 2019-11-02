@@ -13,14 +13,18 @@ defmodule JarvisWeb.Plugs.CheckListOwnerGroup do
 
   require Logger
 
+  @behaviour Plug
+
+  @impl true
   def init(_params) do
   end
 
+  @impl true
   def call(%{path_params: %{"id" => shopping_list_id}} = conn, _params) do
     if is_authorized(conn.assigns.user, shopping_list_id) do
       conn
     else
-      Logger.warn("User do not belong to owner group.")
+      Logger.info("User do not belong to owner group.")
 
       conn
       |> send_resp(403, dgettext("errors", "You are not allow to do this"))
