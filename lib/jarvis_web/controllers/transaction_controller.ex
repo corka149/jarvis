@@ -8,9 +8,10 @@ defmodule JarvisWeb.TransactionController do
   action_fallback JarvisWeb.FallbackController
 
   plug JarvisWeb.Plugs.RequireAuth
+  plug JarvisWeb.Plugs.CreatorOnly, %{query_function: &Finances.get_transaction!/1} when action in [:show, :update, :delete]
 
   def index(conn, _params) do
-    transactions = Finances.list_transactions()
+    transactions = Finances.list_transactions(conn.assigns.user)
     render(conn, "index.json", transactions: transactions)
   end
 

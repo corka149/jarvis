@@ -7,7 +7,7 @@ defmodule JarvisWeb.ShoppingListController do
   action_fallback JarvisWeb.FallbackController
 
   plug JarvisWeb.Plugs.RequireAuth
-  plug JarvisWeb.Plugs.CheckListOwnerGroup when action in [:edit, :update, :delete]
+  plug JarvisWeb.Plugs.CheckListOwnerGroup when action in [:show, :update, :delete]
 
   def index(conn, _params) do
     shoppinglists =
