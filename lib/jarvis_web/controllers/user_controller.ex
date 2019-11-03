@@ -2,14 +2,12 @@ defmodule JarvisWeb.UserController do
   use JarvisWeb, :controller
 
   alias Jarvis.Accounts.User
-  alias JarvisWeb.UserController
-
-  @behaviour JarvisWeb.AuthorizationBorder
+  alias Jarvis.Accounts.UserAuthorization
 
   action_fallback JarvisWeb.FallbackController
 
   plug JarvisWeb.Plugs.RequireAuthentication
-  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: UserController} when action in [:show, :update, :delete]
+  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: UserAuthorization} when action in [:show, :update, :delete]
 
   def create(conn, %{"user" => _user_params}) do
     user = %User{}
@@ -30,10 +28,5 @@ defmodule JarvisWeb.UserController do
 
   def delete(conn, %{"id" => _id}) do
     conn
-  end
-
-  @impl JarvisWeb.AuthorizationBorder
-  def is_allowed_to_cross?(user, requested_user_id) do
-    user.id == requested_user_id
   end
 end

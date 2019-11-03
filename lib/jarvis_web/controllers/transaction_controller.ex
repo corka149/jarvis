@@ -4,14 +4,12 @@ defmodule JarvisWeb.TransactionController do
   alias Jarvis.Finances
   alias Jarvis.Finances.Category
   alias Jarvis.Finances.Transaction
-  alias JarvisWeb.TransactionController
-
-  @behaviour JarvisWeb.AuthorizationBorder
+  alias Jarvis.Finances.TransactionAuthorization
 
   action_fallback JarvisWeb.FallbackController
 
   plug JarvisWeb.Plugs.RequireAuthentication
-  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: TransactionController} when action in [:show, :update, :delete]
+  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: TransactionAuthorization} when action in [:show, :update, :delete]
 
   def index(conn, _params) do
     transactions = Finances.list_transactions(conn.assigns.user)
@@ -49,13 +47,6 @@ defmodule JarvisWeb.TransactionController do
       send_resp(conn, :no_content, "")
     end
   end
-
-  @impl JarvisWeb.AuthorizationBorder
-  def is_allowed_to_cross?(user, transaction_id) do
-    transaction = Finances.get_transaction! transaction_id
-    transaction.created_by == user.id
-  end
-
 
   ## Private functions
 
