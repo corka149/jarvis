@@ -1,6 +1,7 @@
+![jARVIS logo](https://raw.githubusercontent.com/corka149/jarvis/master/assets/static/images/logo_jarvis.png)
 # jARVIS
 
-Portal for managing household (like housekeeping book).
+> Portal for managing household (like housekeeping book).
 
 ![Build result](https://travis-ci.org/corka149/jarvis.svg?branch=master)
 
