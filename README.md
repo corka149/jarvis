@@ -2,6 +2,8 @@
 
 Portal for managing household (like housekeeping book).
 
+![Build result](https://travis-ci.org/corka149/jarvis.svg?branch=master)
+
 ## Version history
 
 1. Version is the implementation of the the shopping list and user + user groups.
