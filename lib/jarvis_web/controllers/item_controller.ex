@@ -6,7 +6,7 @@ defmodule JarvisWeb.ItemController do
 
   action_fallback JarvisWeb.FallbackController
 
-  plug JarvisWeb.Plugs.RequireAuth
+  plug JarvisWeb.Plugs.RequireAuthentication
 
   def index(conn, %{"shopping_list_id" => shopping_list_id}) do
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)

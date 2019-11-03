@@ -5,7 +5,7 @@ defmodule JarvisWeb.UserGroupController do
 
   action_fallback JarvisWeb.FallbackController
 
-  plug JarvisWeb.Plugs.RequireAuth
+  plug JarvisWeb.Plugs.RequireAuthentication
   plug :check_user_group_owner when action in [:edit, :update, :delete]
 
   def index(conn, _params) do

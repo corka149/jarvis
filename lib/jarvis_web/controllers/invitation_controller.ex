@@ -5,7 +5,7 @@ defmodule JarvisWeb.InvitationController do
 
   action_fallback JarvisWeb.FallbackController
 
-  plug JarvisWeb.Plugs.RequireAuth
+  plug JarvisWeb.Plugs.RequireAuthentication
 
   def index(conn, _params) do
     render(conn, "index.json",

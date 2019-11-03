@@ -34,6 +34,8 @@ defmodule JarvisWeb.Router do
   scope "/v1/accounts", JarvisWeb do
     pipe_through :api
 
+    resources "/users", UserController, except: [:index, :new, :edit]
+
     delete "/usergroups/:id/leave", UserGroupController, :leave_group
     resources "/usergroups", UserGroupController, except: [:new, :edit]
 

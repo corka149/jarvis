@@ -1,10 +1,10 @@
-defmodule JarvisWeb.Plugs.CreatorOnly do
+defmodule JarvisWeb.Plugs.RequireAuthorization do
   @moduledoc """
   Operates on structs that have a created_by field which represents the creator.
   Examples are Jarvis.Finances.Category or Jarvis.Finances.Transaction.
 
       iex> # Usage
-      iex> plug JarvisWeb.Plugs.CreatorOnly, %{query_function: &Finances.get_transaction!/1} when action in [:show, :update, :delete]
+      iex> plug JarvisWeb.Plugs.RequireAuthorization, %{query_function: &Finances.get_transaction!/1} when action in [:show, :update, :delete]
   """
 
   require Logger
@@ -20,17 +20,12 @@ defmodule JarvisWeb.Plugs.CreatorOnly do
   end
 
   @impl true
-  def call(%{path_params: %{"id" => id}} = conn, %{query_function: query_function} = _params) do
-    if is_owner? id, conn.assigns.user, query_function do
+  def call(%{path_params: %{"id" => id}} = conn, %{authorization_border: border} = _params) do
+    if border.is_allowed_to_cross?(conn.assigns.user, id) do
       conn
     else
       reject conn
     end
-  end
-
-  defp is_owner?(target_id, user, query_function) do
-    target = query_function.(target_id)
-    target.created_by == user.id
   end
 
   defp reject(conn) do

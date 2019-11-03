@@ -1,13 +1,17 @@
 defmodule JarvisWeb.ShoppingListController do
   use JarvisWeb, :controller
 
-  alias Jarvis.ShoppingLists
   alias Jarvis.Accounts
+  alias Jarvis.ShoppingLists
+  alias Jarvis.ShoppingLists.ShoppingList
+  alias JarvisWeb.ShoppingListController
+
+  @behaviour JarvisWeb.AuthorizationBorder
 
   action_fallback JarvisWeb.FallbackController
 
-  plug JarvisWeb.Plugs.RequireAuth
-  plug JarvisWeb.Plugs.CheckListOwnerGroup when action in [:show, :update, :delete]
+  plug JarvisWeb.Plugs.RequireAuthentication
+  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: ShoppingListController} when action in [:show, :update, :delete]
 
   def index(conn, _params) do
     shoppinglists =
@@ -54,5 +58,17 @@ defmodule JarvisWeb.ShoppingListController do
     {:ok, _shopping_list} = ShoppingLists.delete_shopping_list(shopping_list)
 
     send_resp(conn, :no_content, "")
+  end
+
+  @impl JarvisWeb.AuthorizationBorder
+  def is_allowed_to_cross?(user, shopping_list_id) do
+    shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
+
+    is_group_member(user.usergroups, shopping_list) or
+      is_group_member(user.member_of, shopping_list)
+  end
+
+  defp is_group_member(user_groups, %ShoppingList{} = shopping_list) do
+    Enum.any?(user_groups, fn group -> group.id == shopping_list.usergroup.id end)
   end
 end

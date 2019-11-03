@@ -1,10 +1,10 @@
-defmodule JarvisWeb.Plugs.RequireAuth do
+defmodule JarvisWeb.Plugs.RequireAuthentication do
   @moduledoc """
   Use this plug in a controller, when authentication is require to access routes.
 
   E.g. for adding it to a controller:
   ```
-  plug JarvisWeb.Plugs.RequireAuth when action in [:new, :edit; :delete]
+  plug JarvisWeb.Plugs.RequireAuthentication when action in [:new, :edit; :delete]
   ```
   (The list at the end represents the functions for which the plug should be applied.)
   """

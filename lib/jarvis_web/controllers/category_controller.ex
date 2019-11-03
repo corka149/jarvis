@@ -3,11 +3,14 @@ defmodule JarvisWeb.CategoryController do
 
   alias Jarvis.Finances
   alias Jarvis.Finances.Category
+  alias JarvisWeb.CategoryController
+
+  @behaviour JarvisWeb.AuthorizationBorder
 
   action_fallback JarvisWeb.FallbackController
 
-  plug JarvisWeb.Plugs.RequireAuth
-  plug JarvisWeb.Plugs.CreatorOnly, %{query_function: &Finances.get_category!/1} when action in [:show, :update, :delete]
+  plug JarvisWeb.Plugs.RequireAuthentication
+  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: CategoryController} when action in [:show, :update, :delete]
 
   def index(conn, _params) do
     categories = Finances.list_categories(conn.assigns.user)
@@ -43,5 +46,11 @@ defmodule JarvisWeb.CategoryController do
     with {:ok, %Category{}} <- Finances.delete_category(category) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  @impl JarvisWeb.AuthorizationBorder
+  def is_allowed_to_cross?(user, category_id) do
+    category = Finances.get_category! category_id
+    category.created_by == user.id
   end
 end
