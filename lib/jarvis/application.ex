@@ -5,11 +5,7 @@ defmodule Jarvis.Application do
 
   use Application
 
-  alias Jarvis.Util.ApplicationInfo
-
   def start(_type, _args) do
-    ApplicationInfo.print_banner()
-    ApplicationInfo.print_application_env()
 
     # List all child processes to be supervised
     children = [
