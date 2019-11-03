@@ -55,6 +55,14 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         "planned_for" => "2010-04-17"
       } = response_shopping_list
     end
+
+    test "show a single shopping list without authorization", %{conn: conn, shopping_list: shopping_list} do
+      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      conn = init_test_session(conn, user_id: user.id)
+             |> get(Routes.shopping_list_path(conn, :show, shopping_list))
+
+      response(conn, 403) =~ "You are not allow to do this"
+    end
   end
 
   describe "create shopping_list" do
