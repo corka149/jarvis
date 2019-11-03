@@ -42,6 +42,9 @@ defmodule JarvisWeb.InvitationController do
     end
   end
 
+
+  ## Private functions
+
   # Creates a new invitation if an user exists with the provided name.
   defp invite_user_to_group(host, invitation_params) do
     user_group = invitation_params["usergroup_id"] |> Accounts.get_user_group!()

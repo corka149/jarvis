@@ -48,6 +48,7 @@ defmodule JarvisWeb.TransactionController do
     end
   end
 
+
   ## Private functions
 
   defp get_category(%{"category_id" => category_id} = _transaction_params) do
