@@ -101,6 +101,14 @@ defmodule JarvisWeb.TransactionControllerTest do
               |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
+
+    test "try update without authorization", %{conn: conn, transaction: transaction} do
+      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      conn = conn
+              |> init_test_session(user_id: creator.id)
+              |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
+      response(conn, 403) =~ "You are not allow to do this"
+    end
   end
 
   describe "delete transaction" do
