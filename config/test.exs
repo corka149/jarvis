@@ -12,7 +12,7 @@ config :logger, level: :warn
 # Configure your database
 config :jarvis, Jarvis.Repo,
   username: "postgres",
-  password: "secret",
+  password: "",
   database: "jarvis_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
