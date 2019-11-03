@@ -2,6 +2,7 @@ defmodule Jarvis.FinancesTest do
   use Jarvis.DataCase
 
   alias Jarvis.Finances
+  alias Jarvis.Accounts
 
   @valid_attrs_user %{
     email: "some email",
@@ -30,7 +31,8 @@ defmodule Jarvis.FinancesTest do
 
     test "list_categories/0 returns all categories" do
       category = category_fixture()
-      assert Finances.list_categories() == [category]
+      user = Accounts.get_user!(category.created_by)
+      assert Finances.list_categories(user) == [category]
     end
 
     test "get_category!/1 returns the category with given id" do
@@ -103,7 +105,8 @@ defmodule Jarvis.FinancesTest do
 
     test "list_transactions/0 returns all transactions" do
       transaction = transaction_fixture()
-      assert Finances.list_transactions() == [transaction]
+      user = Accounts.get_user!(transaction.created_by)
+      assert Finances.list_transactions(user) == [transaction]
     end
 
     test "get_transaction!/1 returns the transaction with given id" do

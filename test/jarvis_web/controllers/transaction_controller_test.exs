@@ -79,7 +79,9 @@ defmodule JarvisWeb.TransactionControllerTest do
     setup [:create_transaction]
 
     test "renders transaction when data is valid", %{conn: conn, transaction: %Transaction{id: id} = transaction} do
-      conn = put(conn, Routes.transaction_path(conn, :update, transaction), transaction: @update_attrs)
+      conn = conn
+              |> init_test_session(user_id: transaction.created_by)
+              |> put(Routes.transaction_path(conn, :update, transaction), transaction: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)
 
       conn = get(conn, Routes.transaction_path(conn, :show, id))
@@ -94,7 +96,9 @@ defmodule JarvisWeb.TransactionControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, transaction: transaction} do
-      conn = put(conn, Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
+      conn = conn
+              |> init_test_session(user_id: transaction.created_by)
+              |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -103,12 +107,20 @@ defmodule JarvisWeb.TransactionControllerTest do
     setup [:create_transaction]
 
     test "deletes chosen transaction", %{conn: conn, transaction: transaction} do
-      conn = delete(conn, Routes.transaction_path(conn, :delete, transaction))
+      conn = conn
+              |> init_test_session(user_id: transaction.created_by)
+              |> delete(Routes.transaction_path(conn, :delete, transaction))
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
         get(conn, Routes.transaction_path(conn, :show, transaction))
       end
+    end
+
+    test "try delete chosen transaction without owning it", %{conn: conn, transaction: transaction} do
+      conn = conn
+              |> delete(Routes.transaction_path(conn, :delete, transaction))
+      assert response(conn, 403)
     end
   end
 
