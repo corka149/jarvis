@@ -8,7 +8,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
   @invalid_attrs %{name: nil}
 
   @valid_attrs_user %{
-    email: "some email",
+    email: "someemail@test.xyz",
     name: "some name",
     provider: "some provider",
     token: "some token"

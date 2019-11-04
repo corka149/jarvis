@@ -7,14 +7,14 @@ defmodule Jarvis.AccountsTest do
     alias Jarvis.Accounts.User
 
     @valid_attrs %{
-      email: "some email",
+      email: "someemail@test.xyz",
       name: "some name",
       provider: "some provider",
       token: "some token",
       default_language: "en"
     }
     @update_attrs %{
-      email: "some updated email",
+      email: "someupdatedemail@test.xyz",
       name: "some updated name",
       provider: "some updated provider",
       token: "some updated token"
@@ -46,7 +46,7 @@ defmodule Jarvis.AccountsTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
-      assert user.email == "some email"
+      assert user.email == "someemail@test.xyz"
       assert user.name == "some name"
       assert user.provider == "some provider"
       assert user.token == "some token"
@@ -59,7 +59,7 @@ defmodule Jarvis.AccountsTest do
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
       assert {:ok, %User{} = user} = Accounts.update_user(user, @update_attrs)
-      assert user.email == "some updated email"
+      assert user.email == "someupdatedemail@test.xyz"
       assert user.name == "some updated name"
       assert user.provider == "some updated provider"
       assert user.token == "some updated token"
@@ -95,7 +95,7 @@ defmodule Jarvis.AccountsTest do
     @invalid_attrs %{name: nil}
 
     @valid_attrs_user %{
-      email: "some email",
+      email: "someemail@test.xyz",
       name: "some name",
       provider: "some provider",
       token: "some token"
@@ -176,7 +176,7 @@ defmodule Jarvis.AccountsTest do
     def invitation_fixture(attrs \\ %{}) do
       {:ok, host} =
         Accounts.create_user(%{
-          email: "some email",
+          email: "someemail@test.xyz",
           name: "Bob",
           provider: "some provider",
           token: "some token",
@@ -185,7 +185,7 @@ defmodule Jarvis.AccountsTest do
 
       {:ok, invitee} =
         Accounts.create_user(%{
-          email: "some email",
+          email: "someemail@test.xyz",
           name: "Alice",
           provider: "some provider",
           token: "some token",
@@ -220,7 +220,7 @@ defmodule Jarvis.AccountsTest do
     test "create_invitation/1 with valid data creates a invitation" do
       {:ok, host} =
         Accounts.create_user(%{
-          email: "some email",
+          email: "someemail@test.xyz",
           name: "Bob",
           provider: "some provider",
           token: "some token",
@@ -229,7 +229,7 @@ defmodule Jarvis.AccountsTest do
 
       {:ok, invitee} =
         Accounts.create_user(%{
-          email: "some email",
+          email: "someemail@test.xyz",
           name: "Alice",
           provider: "some provider",
           token: "some token",
@@ -245,7 +245,7 @@ defmodule Jarvis.AccountsTest do
     test "create_invitation/1 with invalid data returns error changeset" do
       {:ok, host} =
         Accounts.create_user(%{
-          email: "some email",
+          email: "someemail@test.xyz",
           name: "Bob",
           provider: "some provider",
           token: "some token",
@@ -254,7 +254,7 @@ defmodule Jarvis.AccountsTest do
 
       {:ok, invitee} =
         Accounts.create_user(%{
-          email: "some email",
+          email: "someemail@test.xyz",
           name: "Alice",
           provider: "some provider",
           token: "some token",

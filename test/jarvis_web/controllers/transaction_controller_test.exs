@@ -20,7 +20,7 @@ defmodule JarvisWeb.TransactionControllerTest do
   @invalid_attrs %{description: nil, executed_on: nil, recurring: nil, value: nil}
 
   @valid_attrs_user %{
-    email: "some email",
+    email: "someemail@test.xyz",
     name: "some name",
     provider: "some provider",
     token: "some token"

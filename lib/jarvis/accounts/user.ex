@@ -25,6 +25,11 @@ defmodule Jarvis.Accounts.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:name, :email, :provider, :token, :default_language])
+    |> validate_format(:email, email_validation())
     |> validate_required([:name, :email, :provider, :token])
+  end
+
+  def email_validation do
+    ~r/^[_a-z0-9-]+(.[a-z0-9-]+)@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/
   end
 end

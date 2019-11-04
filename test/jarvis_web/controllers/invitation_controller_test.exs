@@ -8,7 +8,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
   @valid_attrs_group %{name: "some name"}
   @valid_attrs_user %{
-    email: "some email",
+    email: "someemail@test.xyz",
     name: "some name",
     provider: "some provider",
     token: "some token"
@@ -51,7 +51,7 @@ defmodule JarvisWeb.InvitationControllerTest do
     test "redirects to show when data is valid", %{conn: conn, group: group} do
       {_, user} =
         Jarvis.Accounts.create_user(%{
-          email: "some email",
+          email: "someemail@test.xyz",
           name: "Bob",
           provider: "some provider",
           token: "some token"

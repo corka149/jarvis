@@ -5,15 +5,15 @@ defmodule JarvisWeb.UserControllerTest do
   alias Jarvis.Accounts.User
 
   @create_attrs %{
-    email: "some email",
+    email: "someemail@test.xyz",
     name: "some name"
   }
   @update_attrs %{
-    email: "some updated email",
+    email: "someupdatedemail@test.xyz",
     name: "some updated name"
   }
   @invalid_attrs %{
-    email: "some email",
+    email: "someemail@test.xyz",
     name: nil
   }
 

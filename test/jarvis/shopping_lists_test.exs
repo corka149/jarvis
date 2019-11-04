@@ -12,7 +12,7 @@ defmodule Jarvis.ShoppingListsTest do
 
     @valid_attrs_group %{name: "some name"}
     @valid_attrs_user %{
-      email: "some email",
+      email: "someemail@test.xyz",
       name: "some name",
       provider: "some provider",
       token: "some token"
