@@ -27,6 +27,7 @@ defmodule Jarvis.Accounts.User do
     |> cast(attrs, [:name, :email, :provider, :token, :default_language])
     |> validate_format(:email, email_validation())
     |> validate_required([:name, :email, :provider, :token])
+    |> unique_constraint(:email)
   end
 
   def email_validation do
