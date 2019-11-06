@@ -1,6 +1,8 @@
 defmodule Jarvis.FinancesTest do
   use Jarvis.DataCase
 
+  import Jarvis.TestHelper
+
   alias Jarvis.Finances
   alias Jarvis.Accounts
 
@@ -19,7 +21,9 @@ defmodule Jarvis.FinancesTest do
     @invalid_attrs %{name: nil}
 
     def category_fixture(attrs \\ %{}) do
-      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, creator} = @valid_attrs_user
+                        |> update_with_unique_email()
+                        |> Jarvis.Accounts.create_user()
 
       {:ok, category} =
         attrs
@@ -27,6 +31,13 @@ defmodule Jarvis.FinancesTest do
         |> Finances.create_category(creator)
 
       category
+    end
+
+    setup _ do
+      {:ok, creator} = @valid_attrs_user
+                        |> update_with_unique_email()
+                        |> Jarvis.Accounts.create_user()
+      %{creator: creator}
     end
 
     test "list_categories/0 returns all categories" do
@@ -40,15 +51,12 @@ defmodule Jarvis.FinancesTest do
       assert Finances.get_category!(category.id) == category
     end
 
-    test "create_category/1 with valid data creates a category" do
-      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
-
+    test "create_category/1 with valid data creates a category", %{creator: creator} do
       assert {:ok, %Category{} = category} = Finances.create_category(@valid_attrs, creator)
       assert category.name == "some name"
     end
 
-    test "create_category/1 with invalid data returns error changeset" do
-      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    test "create_category/1 with invalid data returns error changeset", %{creator: creator} do
       assert {:error, %Ecto.Changeset{}} = Finances.create_category(@invalid_attrs, creator)
     end
 
@@ -86,7 +94,9 @@ defmodule Jarvis.FinancesTest do
     @valid_attrs_category %{name: "some name"}
 
     def transaction_fixture(attrs \\ %{}) do
-      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, creator} = @valid_attrs_user
+                        |> update_with_unique_email()
+                        |> Jarvis.Accounts.create_user()
       {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
 
       {:ok, transaction} =
@@ -98,7 +108,9 @@ defmodule Jarvis.FinancesTest do
     end
 
     setup _ do
-      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, creator} = @valid_attrs_user
+                        |> update_with_unique_email()
+                        |> Jarvis.Accounts.create_user()
       {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
       %{creator: creator, category: category}
     end

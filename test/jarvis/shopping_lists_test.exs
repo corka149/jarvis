@@ -19,7 +19,7 @@ defmodule Jarvis.ShoppingListsTest do
     }
 
     def shopping_list_fixture(attrs \\ %{}) do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
       {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
 
       {:ok, shopping_list} =
@@ -47,7 +47,7 @@ defmodule Jarvis.ShoppingListsTest do
     end
 
     test "create_shopping_list/1 with valid data creates a shopping_list" do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
       {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
 
       assert {:ok, %ShoppingList{} = shopping_list} =
@@ -58,7 +58,7 @@ defmodule Jarvis.ShoppingListsTest do
     end
 
     test "create_shopping_list/1 with invalid data returns error changeset" do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
       {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
 
       assert {:error, %Ecto.Changeset{}} =

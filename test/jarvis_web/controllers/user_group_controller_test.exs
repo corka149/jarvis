@@ -1,5 +1,8 @@
 defmodule JarvisWeb.UserGroupControllerTest do
   alias Jarvis.Accounts
+
+  import Jarvis.TestHelper
+
   use JarvisWeb.ConnCase
   use Plug.Test
 
@@ -15,7 +18,8 @@ defmodule JarvisWeb.UserGroupControllerTest do
   }
 
   def fixture(:user_group) do
-    {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, user} = update_with_unique_email(@valid_attrs_user)
+                  |>Jarvis.Accounts.create_user()
     {:ok, user_group} = Accounts.create_user_group(@create_attrs, user)
 
     user_group
@@ -24,7 +28,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
   describe "index" do
     test "lists all usergroups", %{conn: conn} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
         init_test_session(conn, user_id: user.id)
@@ -37,7 +41,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
   describe "create user_group" do
     test "redirects to show when data is valid", %{conn: conn} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
         init_test_session(conn, user_id: user.id)
@@ -47,7 +51,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
         init_test_session(conn, user_id: user.id)

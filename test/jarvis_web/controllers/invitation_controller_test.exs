@@ -1,6 +1,8 @@
 defmodule JarvisWeb.InvitationControllerTest do
   alias Jarvis.Accounts
 
+  import Jarvis.TestHelper
+
   use JarvisWeb.ConnCase
   use Plug.Test
 
@@ -22,14 +24,14 @@ defmodule JarvisWeb.InvitationControllerTest do
   end
 
   def fixture(:user_and_group) do
-    {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
-    {_, _} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
+    {:ok, user} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
+    {:ok, _} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
     user |> Jarvis.Repo.preload(:usergroups)
   end
 
   describe "index" do
     test "lists all invitations", %{conn: conn} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
         init_test_session(conn, user_id: user.id)

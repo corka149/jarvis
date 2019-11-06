@@ -2,6 +2,8 @@ defmodule JarvisWeb.CategoryControllerTest do
   use JarvisWeb.ConnCase
   use Plug.Test
 
+  import Jarvis.TestHelper
+
   alias Jarvis.Finances
   alias Jarvis.Finances.Category
 
@@ -21,7 +23,7 @@ defmodule JarvisWeb.CategoryControllerTest do
   }
 
   def fixture(:category) do
-    {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, creator} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
     {:ok, category} = Finances.create_category(@create_attrs, creator)
     category
   end

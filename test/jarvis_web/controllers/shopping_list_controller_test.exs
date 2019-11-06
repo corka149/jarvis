@@ -1,5 +1,8 @@
 defmodule JarvisWeb.ShoppingListControllerTest do
   alias Jarvis.ShoppingLists
+
+  import Jarvis.TestHelper
+
   use Plug.Test
   use JarvisWeb.ConnCase
 
@@ -16,7 +19,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   }
 
   def fixture(:shopping_list) do
-    {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, user} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
     {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
     {:ok, shopping_list} = ShoppingLists.create_shopping_list(@create_attrs, group)
     {shopping_list, group, user}
@@ -29,7 +32,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
 
   describe "index" do
     test "lists all shopping_lists", %{conn: conn} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
         init_test_session(conn, user_id: user.id)
@@ -57,7 +60,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     end
 
     test "show a single shopping list without authorization", %{conn: conn, shopping_list: shopping_list} do
-      {_, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
       conn = init_test_session(conn, user_id: user.id)
              |> get(Routes.shopping_list_path(conn, :show, shopping_list))
 

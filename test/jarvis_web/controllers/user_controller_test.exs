@@ -2,11 +2,15 @@ defmodule JarvisWeb.UserControllerTest do
   use JarvisWeb.ConnCase
   use Plug.Test
 
+  import Jarvis.TestHelper
+
   alias Jarvis.Accounts.User
 
   @create_attrs %{
     email: "someemail@test.xyz",
-    name: "some name"
+    name: "some name",
+    provider: "dummy",
+    token: "dummy"
   }
   @update_attrs %{
     email: "someupdatedemail@test.xyz",
@@ -18,10 +22,8 @@ defmodule JarvisWeb.UserControllerTest do
   }
 
   def fixture(:user) do
-    create_attrs = @create_attrs
-                    |> Map.put(:provider, "dummy")
-                    |> Map.put(:token, "dummy")
-    {:ok, user} = Jarvis.Accounts.create_user(create_attrs)
+    {:ok, user} = update_with_unique_email(@create_attrs)
+                  |>Jarvis.Accounts.create_user()
     user
   end
 

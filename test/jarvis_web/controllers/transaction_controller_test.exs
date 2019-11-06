@@ -2,6 +2,8 @@ defmodule JarvisWeb.TransactionControllerTest do
   use JarvisWeb.ConnCase
   use Plug.Test
 
+  import Jarvis.TestHelper
+
   alias Jarvis.Finances
   alias Jarvis.Finances.Transaction
 
@@ -28,7 +30,7 @@ defmodule JarvisWeb.TransactionControllerTest do
   @valid_attrs_category %{name: "some name"}
 
   def fixture(:transaction) do
-    {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, creator} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
     {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
     {:ok, transaction} = Finances.create_transaction(@create_attrs, creator, category)
     transaction
@@ -103,7 +105,8 @@ defmodule JarvisWeb.TransactionControllerTest do
     end
 
     test "try update without authorization", %{conn: conn, transaction: transaction} do
-      {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, creator} =  update_with_unique_email(@valid_attrs_user)
+                        |> Jarvis.Accounts.create_user()
       conn = conn
               |> init_test_session(user_id: creator.id)
               |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)

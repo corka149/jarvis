@@ -1,6 +1,8 @@
 defmodule Jarvis.AccountsTest do
   use Jarvis.DataCase
 
+  import Jarvis.TestHelper
+
   alias Jarvis.Accounts
 
   describe "users" do
@@ -25,6 +27,7 @@ defmodule Jarvis.AccountsTest do
       {:ok, user} =
         attrs
         |> Enum.into(@valid_attrs)
+        |> update_with_unique_email()
         |> Accounts.create_user()
 
       user
@@ -45,8 +48,9 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
-      assert user.email == "someemail@test.xyz"
+      assert {:ok, %User{} = user} =  update_with_unique_email(@valid_attrs)
+                                      |> Accounts.create_user()
+      assert String.contains? user.email, "someemail@test.xyz"
       assert user.name == "some name"
       assert user.provider == "some provider"
       assert user.token == "some token"
@@ -102,7 +106,8 @@ defmodule Jarvis.AccountsTest do
     }
 
     def user_group_fixture(attrs \\ %{}) do
-      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = update_with_unique_email(@valid_attrs_user)
+                    |>Jarvis.Accounts.create_user()
 
       {:ok, user_group} =
         attrs
@@ -126,7 +131,8 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "create_user_group/1 with valid data creates a user_group" do
-      {:ok, user} = Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = update_with_unique_email(@valid_attrs_user)
+                    |>Jarvis.Accounts.create_user()
       assert {:ok, %UserGroup{} = user_group} = Accounts.create_user_group(@valid_attrs, user)
       assert user_group.name == "some name"
     end
@@ -174,23 +180,23 @@ defmodule Jarvis.AccountsTest do
     @invalid_attrs %{}
 
     def invitation_fixture(attrs \\ %{}) do
-      {:ok, host} =
-        Accounts.create_user(%{
-          email: "someemail@test.xyz",
-          name: "Bob",
-          provider: "some provider",
-          token: "some token",
-          default_language: "en"
-        })
+      {:ok, host} = %{
+        email: "someemail@test.xyz",
+        name: "Bob",
+        provider: "some provider",
+        token: "some token",
+        default_language: "en"
+      } |> update_with_unique_email()
+        |> Accounts.create_user()
 
-      {:ok, invitee} =
-        Accounts.create_user(%{
-          email: "someemail@test.xyz",
-          name: "Alice",
-          provider: "some provider",
-          token: "some token",
-          default_language: "en"
-        })
+      {:ok, invitee} = %{
+        email: "someemail@test.xyz",
+        name: "Alice",
+        provider: "some provider",
+        token: "some token",
+        default_language: "en"
+      } |> update_with_unique_email()
+        |> Accounts.create_user()
 
       {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
 
@@ -199,42 +205,27 @@ defmodule Jarvis.AccountsTest do
         |> Enum.into(@valid_attrs)
         |> Accounts.create_invitation(user_group, host, invitee)
 
-      invitation
+      %{invitation: invitation, host: host, invitee: invitee}
     end
 
     test "list_invitations/0 returns all invitations" do
-      invitation = invitation_fixture()
+      %{invitation: invitation} = invitation_fixture()
       assert Accounts.list_invitations() == [invitation]
     end
 
     test "get_invitation!/1 returns the invitation with given id" do
-      invitation =
-        invitation_fixture()
-        |> Jarvis.Repo.preload(:host)
-        |> Jarvis.Repo.preload(:usergroup)
-        |> Jarvis.Repo.preload(:invitee)
+      %{invitation: invitation} = invitation_fixture()
+
+      invitation = invitation
+                    |> Jarvis.Repo.preload(:host)
+                    |> Jarvis.Repo.preload(:usergroup)
+                    |> Jarvis.Repo.preload(:invitee)
 
       assert Accounts.get_invitation!(invitation.id) == invitation
     end
 
     test "create_invitation/1 with valid data creates a invitation" do
-      {:ok, host} =
-        Accounts.create_user(%{
-          email: "someemail@test.xyz",
-          name: "Bob",
-          provider: "some provider",
-          token: "some token",
-          default_language: "en"
-        })
-
-      {:ok, invitee} =
-        Accounts.create_user(%{
-          email: "someemail@test.xyz",
-          name: "Alice",
-          provider: "some provider",
-          token: "some token",
-          default_language: "en"
-        })
+      %{host: host, invitee: invitee} = invitation_fixture()
 
       {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
 
@@ -243,23 +234,7 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "create_invitation/1 with invalid data returns error changeset" do
-      {:ok, host} =
-        Accounts.create_user(%{
-          email: "someemail@test.xyz",
-          name: "Bob",
-          provider: "some provider",
-          token: "some token",
-          default_language: "en"
-        })
-
-      {:ok, invitee} =
-        Accounts.create_user(%{
-          email: "someemail@test.xyz",
-          name: "Alice",
-          provider: "some provider",
-          token: "some token",
-          default_language: "en"
-        })
+      %{host: host, invitee: invitee} = invitation_fixture()
 
       {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
 
@@ -268,20 +243,20 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "update_invitation/2 with valid data updates the invitation" do
-      invitation = invitation_fixture()
+      %{invitation: invitation} = invitation_fixture()
 
       assert {:ok, %Invitation{} = invitation} =
                Accounts.update_invitation(invitation, @update_attrs)
     end
 
     test "delete_invitation/1 deletes the invitation" do
-      invitation = invitation_fixture()
+      %{invitation: invitation} = invitation_fixture()
       assert {:ok, %Invitation{}} = Accounts.delete_invitation(invitation)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_invitation!(invitation.id) end
     end
 
     test "change_invitation/1 returns a invitation changeset" do
-      invitation = invitation_fixture()
+      %{invitation: invitation} = invitation_fixture()
       assert %Ecto.Changeset{} = Accounts.change_invitation(invitation)
     end
   end

@@ -1,5 +1,8 @@
 defmodule JarvisWeb.ItemControllerTest do
   alias Jarvis.ShoppingLists
+
+  import Jarvis.TestHelper
+
   use Plug.Test
   use JarvisWeb.ConnCase
 
@@ -20,7 +23,7 @@ defmodule JarvisWeb.ItemControllerTest do
   }
 
   def fixture(:item) do
-    {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, user} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
     {:ok, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
     {:ok, shopping_list} = ShoppingLists.create_shopping_list(@valid_attrs_shopping_list, group)
     {:ok, item} = ShoppingLists.create_item(@create_attrs, shopping_list)
