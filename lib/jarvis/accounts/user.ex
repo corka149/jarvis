@@ -33,7 +33,6 @@ defmodule Jarvis.Accounts.User do
     |> validate_required([:name, :email, :provider, :token])
     |> unique_constraint(:email)
     |> validate_jarvis_password()
-    |> put_pass_hash()
   end
 
   defp validate_jarvis_password(%{changes: %{provider: "jarvis" = provider}} = changeset) do
@@ -41,6 +40,7 @@ defmodule Jarvis.Accounts.User do
     validate_length(changeset, :password, min: 8, max: 50)
     |> validate_required([:password])
     |> validate_format(:password, password_validation(), message: password_rules())
+    |> put_pass_hash()
   end
 
   defp validate_jarvis_password(changeset) do
