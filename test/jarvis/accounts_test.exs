@@ -13,7 +13,7 @@ defmodule Jarvis.AccountsTest do
       name: "some name",
       provider: "some provider",
       token: "some token",
-      default_language: "en"
+      default_language: "en",
     }
     @update_attrs %{
       email: "someupdatedemail@test.xyz",
@@ -54,6 +54,22 @@ defmodule Jarvis.AccountsTest do
       assert user.name == "some name"
       assert user.provider == "some provider"
       assert user.token == "some token"
+    end
+
+    test "create_user/1 with valid data creates a user for provider jarvis" do
+      assert {:ok, %User{} = user} =  %{@valid_attrs | provider: "jarvis"}
+                                      |> Map.put(:password, "THIS#15-password")
+                                      |> update_with_unique_email()
+                                      |> Accounts.create_user()
+      assert String.contains? user.email, "someemail@test.xyz"
+      assert user.name == "some name"
+      assert user.provider == "jarvis"
+      assert user.token == "some token"
+    end
+
+    test "create_user/1 for provider without password returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = %{@valid_attrs | provider: "jarvis"}
+                                            |> Accounts.create_user()
     end
 
     test "create_user/1 with invalid data returns error changeset" do

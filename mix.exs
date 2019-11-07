@@ -55,6 +55,7 @@ defmodule Jarvis.MixProject do
       {:poison, "~> 4.0"},
       {:httpotion, "~> 3.1"},
       {:hackney, "1.15.2", override: true},
+      {:argon2_elixir, "~> 2.0"},
 
       # tools
       ## linting

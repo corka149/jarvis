@@ -10,7 +10,8 @@ defmodule JarvisWeb.UserControllerTest do
     email: "someemail@test.xyz",
     name: "some name",
     provider: "dummy",
-    token: "dummy"
+    token: "dummy",
+    password: "THIS_15_password"
   }
   @update_attrs %{
     email: "someupdatedemail@test.xyz",
