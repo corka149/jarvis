@@ -50,6 +50,13 @@ defmodule Jarvis.Accounts do
   end
 
   @doc """
+  Fetches a single user by email.
+  """
+  def get_user_by_email(email) do
+    Repo.get_by(User, email: email)
+  end
+
+  @doc """
   Creates a user.
 
   ## Examples

@@ -2,6 +2,7 @@ defmodule JarvisWeb.AuthController do
   use JarvisWeb, :controller
   plug Ueberauth
 
+  alias Jarvis.Accounts
   alias Jarvis.Accounts.User
   alias Jarvis.Repo
 
@@ -14,7 +15,7 @@ defmodule JarvisWeb.AuthController do
     }
 
     changeset = User.changeset(%User{}, user_params)
-    signin(conn, changeset)
+    signin_by_provider(conn, changeset)
   end
 
   def signout(conn, _params) do
@@ -22,22 +23,44 @@ defmodule JarvisWeb.AuthController do
     |> configure_session(drop: true)
   end
 
-  defp signin(conn, changeset) do
-    case insert_or_update_user(changeset) do
-      {:ok, user} ->
-        conn
-        |> put_session(:user_id, user.id)
-        |> send_resp(:no_content, "")
-
-      {:error, _reason} ->
-        send_resp(conn, 403, "Error signing in")
-    end
+  def signin_by_jarvis(conn, params) do
+    params
+    |> verify_user()
+    |> signin(conn)
   end
 
+  defp signin_by_provider(conn, changeset) do
+    changeset
+    |> insert_or_update_user()
+    |> signin(conn)
+  end
+
+  # Adds or updates user from oauth provider
   defp insert_or_update_user(changeset) do
     case Repo.get_by(User, email: changeset.changes.email) do
       nil -> Repo.insert(changeset)
       user -> {:ok, user}
     end
+  end
+
+  # Adds cookie
+  defp signin({:ok, user}, conn) do
+    conn
+    |> put_session(:user_id, user.id)
+    |> send_resp(:no_content, "")
+  end
+  # Or not
+  defp signin({:error, _reason}, conn) do
+    send_resp(conn, 403, "Error signing in")
+  end
+
+  # Check credentials for jarvis user
+  defp verify_user(%{"password" => password, "email" => email}) do
+    email
+    |> Accounts.get_user_by_email()
+    |> Argon2.check_pass(password)
+  end
+  defp verify_user(_) do
+    {:error, "missing credentials"}
   end
 end

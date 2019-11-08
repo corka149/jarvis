@@ -20,8 +20,9 @@ defmodule JarvisWeb.Router do
   # ### ### ### ### ### #
 
   scope "/auth", JarvisWeb do
-    pipe_through :browser
+    pipe_through :api
 
+    post "/signin", AuthController, :signin_by_jarvis
     get "/signout", AuthController, :signout
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback

@@ -1,0 +1,40 @@
+
+POST http://127.0.0.1:4000/v1/accounts/users HTTP/1.1
+content-type: application/json
+
+{
+    "user": {
+        "name": " Bob",
+        "email": "bob2@test.xyz",
+        "password": "THIS_15_password"
+    }
+}
+
+###
+
+GET http://127.0.0.1:4000/v1/accounts/users/1 HTTP/1.1
+
+###
+
+PUT http://127.0.0.1:4000/v1/accounts/users/1 HTTP/1.1
+content-type: application/json
+
+{
+    "user": {
+        "name": "Alice"
+    }
+}
+
+###
+
+DELETE  http://127.0.0.1:4000/v1/accounts/users/1 HTTP/1.1
+
+###
+
+POST http://127.0.0.1:4000/auth/signin HTTP/1.1
+content-type: application/json
+
+{
+    "email": "bob@test.xyz",
+    "password": "THIS_15_password"
+}
