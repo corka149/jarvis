@@ -7,6 +7,9 @@ RUN \
     chmod -R 777 /opt/app && \
     apk update && \
     apk --no-cache --update add \
+      make \
+      gcc \
+      libc-dev \
       git \
       make \
       g++ \

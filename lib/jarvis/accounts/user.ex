@@ -14,6 +14,7 @@ defmodule Jarvis.Accounts.User do
     field :provider, :string
     field :token, :string
     field :password, :string
+    field :password_hash, :string
     has_many :usergroups, Jarvis.Accounts.UserGroup
     many_to_many :member_of, Jarvis.Accounts.UserGroup, join_through: "users_usergroups"
     has_many :created_invitations, Jarvis.Accounts.Invitation, foreign_key: :host_id
@@ -52,12 +53,7 @@ defmodule Jarvis.Accounts.User do
   end
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
-    %{
-      password: _,
-      password_hash: password_hash
-    } = Argon2.add_hash(password)
-
-    change(changeset, %{password: password_hash})
+  change(changeset, Argon2.add_hash(password))
   end
 
   defp put_pass_hash(changeset), do: changeset
