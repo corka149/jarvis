@@ -2,11 +2,13 @@
 defmodule JarvisWeb.ItemController do
   use JarvisWeb, :controller
 
+  alias Jarvis.ItemAuthorization
   alias Jarvis.ShoppingLists
 
   action_fallback JarvisWeb.FallbackController
 
   plug JarvisWeb.Plugs.RequireAuthentication
+  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: ItemAuthorization} when action in [:show, :update, :delete]
 
   def index(conn, %{"shopping_list_id" => shopping_list_id}) do
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)

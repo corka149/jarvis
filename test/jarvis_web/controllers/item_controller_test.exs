@@ -133,6 +133,20 @@ defmodule JarvisWeb.ItemControllerTest do
         }
       } = update_item
     end
+
+    test "update item without authorization and expect rejection", %{
+      conn: conn,
+      shopping_list: shopping_list,
+      item: item
+    } do
+      {:ok, another_user} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
+
+      conn = init_test_session(conn, user_id: another_user.id)
+              |> put(Routes.item_path(conn, :update, shopping_list.id, item),
+                  item: @invalid_attrs)
+
+      assert response(conn, 403) =~ "You are not allow to do this"
+    end
   end
 
   describe "delete item" do
