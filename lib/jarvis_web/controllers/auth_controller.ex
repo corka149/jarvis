@@ -21,6 +21,7 @@ defmodule JarvisWeb.AuthController do
   def signout(conn, _params) do
     conn
     |> configure_session(drop: true)
+    |> send_resp(:ok, "Bye!")
   end
 
   def signin_by_jarvis(conn, params) do
