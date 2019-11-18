@@ -1,6 +1,7 @@
 
 version: "3"
 
+
 services:
   postgres:
     image: postgres:11
@@ -12,8 +13,6 @@ services:
     networks:
       - jarvis_network
 
+
 networks:
   jarvis_network:
-
-volumes:
-  db-data:

@@ -38,3 +38,9 @@ content-type: application/json
     "email": "bob@test.xyz",
     "password": "THIS_15_password"
 }
+
+
+###
+
+GET http://127.0.0.1:4000/auth/signout HTTP/1.1
+Cookie: Idea-fd497060=b8dd64bf-69dc-422a-b191-dacd09bbf275; Idea-652a9d3f=4bdca5ae-9569-4397-b73a-307012e14a98; _ga=GA1.1.2025059052.1566145433; _jarvis_key=SFMyNTY.g3QAAAABbQAAAAd1c2VyX2lkYQE.ASP9yuhrQaCia604x5TioCKPvteoqlxJMC976cuWMuc
