@@ -34,4 +34,15 @@ defmodule JarvisWeb.AuthControllerTest do
     assert response(signin_response, 403) =~ "Error signing in"
   end
 
+  test "sign out from session", %{conn: conn, user: user} do
+    credentials = %{"email" => user.email, "password" => @user_password}
+    signin_response = post(conn, Routes.auth_path(conn, :signin_by_jarvis), credentials)
+    get_user_conn = get(signin_response, Routes.user_path(conn, :show, user.id))
+    response get_user_conn, 200
+
+    signout_response = get(get_user_conn, Routes.auth_path(conn, :signout))
+    assert response(signout_response, 204) =~ ""
+    get_user_conn = get(signout_response, Routes.user_path(conn, :show, user.id))
+    response get_user_conn, 401
+  end
 end
