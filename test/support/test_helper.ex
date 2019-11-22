@@ -1,4 +1,8 @@
 defmodule Jarvis.TestHelper do
+  @moduledoc """
+  Collection of functions for testing ONLY.
+  """
+
   @doc """
   Updates a map with user params with a unique email address
   """

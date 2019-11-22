@@ -1,4 +1,7 @@
 defmodule Jarvis.Finances.Transaction do
+  @moduledoc """
+  Database module for the entity transaction.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

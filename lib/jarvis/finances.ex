@@ -6,8 +6,8 @@ defmodule Jarvis.Finances do
   import Ecto.Query, warn: false
   alias Jarvis.Repo
 
-  alias Jarvis.Finances.Category
   alias Jarvis.Accounts.User
+  alias Jarvis.Finances.Category
 
   @doc """
   Returns the list of categories that belong to an user.

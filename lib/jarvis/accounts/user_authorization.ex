@@ -1,4 +1,7 @@
 defmodule Jarvis.Accounts.UserAuthorization do
+  @moduledoc """
+  Defines who can access users.
+  """
   @behaviour JarvisWeb.AuthorizationBorder
 
   @impl JarvisWeb.AuthorizationBorder

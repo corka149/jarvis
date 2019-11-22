@@ -8,7 +8,7 @@ defmodule JarvisWeb.ItemControllerTest do
 
   @create_attrs %{amount: 2, name: "apples"}
   @update_attrs %{amount: 5, name: "cherries"}
-  @invalid_attrs %{amount: nil, name: 12345}
+  @invalid_attrs %{amount: nil, name: 12_345}
 
   @valid_attrs_shopping_list %{
     done: true,

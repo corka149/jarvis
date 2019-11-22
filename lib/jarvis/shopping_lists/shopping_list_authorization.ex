@@ -1,4 +1,7 @@
 defmodule Jarvis.ShoppingLists.ShoppingListAuthorization do
+  @moduledoc """
+  Defines who can access shopping lists.
+  """
   alias Jarvis.ShoppingLists
   alias Jarvis.ShoppingLists.ShoppingList
 

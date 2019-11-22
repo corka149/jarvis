@@ -3,8 +3,8 @@ defmodule Jarvis.FinancesTest do
 
   import Jarvis.TestHelper
 
-  alias Jarvis.Finances
   alias Jarvis.Accounts
+  alias Jarvis.Finances
 
   @valid_attrs_user %{
     email: "someemail@test.xyz",

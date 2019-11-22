@@ -1,4 +1,7 @@
 defmodule Jarvis.Finances.Category do
+  @moduledoc """
+  Database module for the entity category.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

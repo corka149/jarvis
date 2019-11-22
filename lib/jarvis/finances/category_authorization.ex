@@ -1,4 +1,7 @@
 defmodule Jarvis.Finances.CategoryAuthorization do
+  @moduledoc """
+  Defines who can access categories.
+  """
   alias Jarvis.Finances
 
   @behaviour JarvisWeb.AuthorizationBorder

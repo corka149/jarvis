@@ -1,4 +1,7 @@
 defmodule Jarvis.Finances.TransactionAuthorization do
+  @moduledoc """
+  Defines who can access transactions.
+  """
   alias Jarvis.Finances
 
   @behaviour JarvisWeb.AuthorizationBorder
