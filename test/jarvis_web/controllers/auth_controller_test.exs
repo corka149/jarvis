@@ -1,5 +1,4 @@
 defmodule JarvisWeb.AuthControllerTest do
-
   use JarvisWeb.ConnCase
   use Plug.Test
 
@@ -16,8 +15,9 @@ defmodule JarvisWeb.AuthControllerTest do
   setup %{conn: conn} do
     {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
-    conn = conn
-            |> put_req_header("accept", "application/json")
+    conn =
+      conn
+      |> put_req_header("accept", "application/json")
 
     {:ok, conn: conn, user: user}
   end
@@ -38,11 +38,11 @@ defmodule JarvisWeb.AuthControllerTest do
     credentials = %{"email" => user.email, "password" => @user_password}
     signin_response = post(conn, Routes.auth_path(conn, :signin_by_jarvis), credentials)
     get_user_conn = get(signin_response, Routes.user_path(conn, :show, user.id))
-    response get_user_conn, 200
+    response(get_user_conn, 200)
 
     signout_response = get(get_user_conn, Routes.auth_path(conn, :signout))
     assert response(signout_response, 204) =~ ""
     get_user_conn = get(signout_response, Routes.user_path(conn, :show, user.id))
-    response get_user_conn, 401
+    response(get_user_conn, 401)
   end
 end

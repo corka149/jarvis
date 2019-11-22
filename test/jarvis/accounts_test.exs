@@ -13,7 +13,7 @@ defmodule Jarvis.AccountsTest do
       name: "some name",
       provider: "some provider",
       token: "some token",
-      default_language: "en",
+      default_language: "en"
     }
     @update_attrs %{
       email: "someupdatedemail@test.xyz",
@@ -48,28 +48,33 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      assert {:ok, %User{} = user} =  update_with_unique_email(@valid_attrs)
-                                      |> Accounts.create_user()
-      assert String.contains? user.email, "someemail@test.xyz"
+      assert {:ok, %User{} = user} =
+               update_with_unique_email(@valid_attrs)
+               |> Accounts.create_user()
+
+      assert String.contains?(user.email, "someemail@test.xyz")
       assert user.name == "some name"
       assert user.provider == "some provider"
       assert user.token == "some token"
     end
 
     test "create_user/1 with valid data creates a user for provider jarvis" do
-      assert {:ok, %User{} = user} =  %{@valid_attrs | provider: "jarvis"}
-                                      |> Map.put(:password, "THIS#15-password")
-                                      |> update_with_unique_email()
-                                      |> Accounts.create_user()
-      assert String.contains? user.email, "someemail@test.xyz"
+      assert {:ok, %User{} = user} =
+               %{@valid_attrs | provider: "jarvis"}
+               |> Map.put(:password, "THIS#15-password")
+               |> update_with_unique_email()
+               |> Accounts.create_user()
+
+      assert String.contains?(user.email, "someemail@test.xyz")
       assert user.name == "some name"
       assert user.provider == "jarvis"
       assert user.token == "some token"
     end
 
     test "create_user/1 for provider without password returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = %{@valid_attrs | provider: "jarvis"}
-                                            |> Accounts.create_user()
+      assert {:error, %Ecto.Changeset{}} =
+               %{@valid_attrs | provider: "jarvis"}
+               |> Accounts.create_user()
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -122,8 +127,9 @@ defmodule Jarvis.AccountsTest do
     }
 
     def user_group_fixture(attrs \\ %{}) do
-      {:ok, user} = update_with_unique_email(@valid_attrs_user)
-                    |>Jarvis.Accounts.create_user()
+      {:ok, user} =
+        update_with_unique_email(@valid_attrs_user)
+        |> Jarvis.Accounts.create_user()
 
       {:ok, user_group} =
         attrs
@@ -147,8 +153,10 @@ defmodule Jarvis.AccountsTest do
     end
 
     test "create_user_group/1 with valid data creates a user_group" do
-      {:ok, user} = update_with_unique_email(@valid_attrs_user)
-                    |>Jarvis.Accounts.create_user()
+      {:ok, user} =
+        update_with_unique_email(@valid_attrs_user)
+        |> Jarvis.Accounts.create_user()
+
       assert {:ok, %UserGroup{} = user_group} = Accounts.create_user_group(@valid_attrs, user)
       assert user_group.name == "some name"
     end
@@ -196,22 +204,26 @@ defmodule Jarvis.AccountsTest do
     @invalid_attrs %{}
 
     def invitation_fixture(attrs \\ %{}) do
-      {:ok, host} = %{
-        email: "someemail@test.xyz",
-        name: "Bob",
-        provider: "some provider",
-        token: "some token",
-        default_language: "en"
-      } |> update_with_unique_email()
+      {:ok, host} =
+        %{
+          email: "someemail@test.xyz",
+          name: "Bob",
+          provider: "some provider",
+          token: "some token",
+          default_language: "en"
+        }
+        |> update_with_unique_email()
         |> Accounts.create_user()
 
-      {:ok, invitee} = %{
-        email: "someemail@test.xyz",
-        name: "Alice",
-        provider: "some provider",
-        token: "some token",
-        default_language: "en"
-      } |> update_with_unique_email()
+      {:ok, invitee} =
+        %{
+          email: "someemail@test.xyz",
+          name: "Alice",
+          provider: "some provider",
+          token: "some token",
+          default_language: "en"
+        }
+        |> update_with_unique_email()
         |> Accounts.create_user()
 
       {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
@@ -232,10 +244,11 @@ defmodule Jarvis.AccountsTest do
     test "get_invitation!/1 returns the invitation with given id" do
       %{invitation: invitation} = invitation_fixture()
 
-      invitation = invitation
-                    |> Jarvis.Repo.preload(:host)
-                    |> Jarvis.Repo.preload(:usergroup)
-                    |> Jarvis.Repo.preload(:invitee)
+      invitation =
+        invitation
+        |> Jarvis.Repo.preload(:host)
+        |> Jarvis.Repo.preload(:usergroup)
+        |> Jarvis.Repo.preload(:invitee)
 
       assert Accounts.get_invitation!(invitation.id) == invitation
     end

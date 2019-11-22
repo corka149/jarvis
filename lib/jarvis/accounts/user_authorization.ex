@@ -1,5 +1,4 @@
 defmodule Jarvis.Accounts.UserAuthorization do
-
   @behaviour JarvisWeb.AuthorizationBorder
 
   @impl JarvisWeb.AuthorizationBorder

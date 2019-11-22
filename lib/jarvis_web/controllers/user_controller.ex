@@ -10,10 +10,12 @@ defmodule JarvisWeb.UserController do
   action_fallback JarvisWeb.FallbackController
 
   plug JarvisWeb.Plugs.RequireAuthentication when action in [:show, :update, :delete]
-  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: UserAuthorization} when action in [:show, :update, :delete]
+
+  plug JarvisWeb.Plugs.RequireAuthorization,
+       %{authorization_border: UserAuthorization} when action in [:show, :update, :delete]
 
   def create(conn, %{"user" => user_params}) do
-    user_params = add_jarvis_details user_params
+    user_params = add_jarvis_details(user_params)
 
     with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
       conn
@@ -44,19 +46,19 @@ defmodule JarvisWeb.UserController do
     end
   end
 
-
   ## Private functions
 
   defp add_jarvis_details(user_params) do
-    name = case Map.get(user_params, "name", @empty_name_faultback) do
-      nil -> @empty_name_faultback
-      name -> name
-    end
+    name =
+      case Map.get(user_params, "name", @empty_name_faultback) do
+        nil -> @empty_name_faultback
+        name -> name
+      end
+
     token = Base.encode16(:crypto.hash(:sha256, "jarvis:" <> name))
 
     user_params
     |> Map.put("provider", "jarvis")
     |> Map.put("token", token)
   end
-
 end

@@ -40,9 +40,10 @@ defmodule JarvisWeb.TransactionControllerTest do
     {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
     {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
 
-    conn = conn
-            |> put_req_header("accept", "application/json")
-            |> init_test_session(user_id: creator.id)
+    conn =
+      conn
+      |> put_req_header("accept", "application/json")
+      |> init_test_session(user_id: creator.id)
 
     {:ok, conn: conn, category: category}
   end
@@ -56,7 +57,7 @@ defmodule JarvisWeb.TransactionControllerTest do
 
   describe "create transaction" do
     test "renders transaction when data is valid", %{conn: conn, category: category} do
-      create_attrs = Map.put @create_attrs, :category_id, category.id
+      create_attrs = Map.put(@create_attrs, :category_id, category.id)
       conn = post(conn, Routes.transaction_path(conn, :create), transaction: create_attrs)
       assert %{"id" => id} = json_response(conn, 201)
 
@@ -80,10 +81,15 @@ defmodule JarvisWeb.TransactionControllerTest do
   describe "update transaction" do
     setup [:create_transaction]
 
-    test "renders transaction when data is valid", %{conn: conn, transaction: %Transaction{id: id} = transaction} do
-      conn = conn
-              |> init_test_session(user_id: transaction.created_by)
-              |> put(Routes.transaction_path(conn, :update, transaction), transaction: @update_attrs)
+    test "renders transaction when data is valid", %{
+      conn: conn,
+      transaction: %Transaction{id: id} = transaction
+    } do
+      conn =
+        conn
+        |> init_test_session(user_id: transaction.created_by)
+        |> put(Routes.transaction_path(conn, :update, transaction), transaction: @update_attrs)
+
       assert %{"id" => ^id} = json_response(conn, 200)
 
       conn = get(conn, Routes.transaction_path(conn, :show, id))
@@ -98,18 +104,24 @@ defmodule JarvisWeb.TransactionControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, transaction: transaction} do
-      conn = conn
-              |> init_test_session(user_id: transaction.created_by)
-              |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
+      conn =
+        conn
+        |> init_test_session(user_id: transaction.created_by)
+        |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
+
       assert json_response(conn, 422)["errors"] != %{}
     end
 
     test "try update without authorization", %{conn: conn, transaction: transaction} do
-      {:ok, creator} =  update_with_unique_email(@valid_attrs_user)
-                        |> Jarvis.Accounts.create_user()
-      conn = conn
-              |> init_test_session(user_id: creator.id)
-              |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
+      {:ok, creator} =
+        update_with_unique_email(@valid_attrs_user)
+        |> Jarvis.Accounts.create_user()
+
+      conn =
+        conn
+        |> init_test_session(user_id: creator.id)
+        |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
+
       response(conn, 403) =~ "You are not allow to do this"
     end
   end
@@ -118,9 +130,11 @@ defmodule JarvisWeb.TransactionControllerTest do
     setup [:create_transaction]
 
     test "deletes chosen transaction", %{conn: conn, transaction: transaction} do
-      conn = conn
-              |> init_test_session(user_id: transaction.created_by)
-              |> delete(Routes.transaction_path(conn, :delete, transaction))
+      conn =
+        conn
+        |> init_test_session(user_id: transaction.created_by)
+        |> delete(Routes.transaction_path(conn, :delete, transaction))
+
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
@@ -128,9 +142,14 @@ defmodule JarvisWeb.TransactionControllerTest do
       end
     end
 
-    test "try delete chosen transaction without owning it", %{conn: conn, transaction: transaction} do
-      conn = conn
-              |> delete(Routes.transaction_path(conn, :delete, transaction))
+    test "try delete chosen transaction without owning it", %{
+      conn: conn,
+      transaction: transaction
+    } do
+      conn =
+        conn
+        |> delete(Routes.transaction_path(conn, :delete, transaction))
+
       assert response(conn, 403)
     end
   end

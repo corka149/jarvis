@@ -30,11 +30,15 @@ defmodule JarvisWeb.CategoryControllerTest do
 
   setup %{conn: conn} do
     {:ok, creator} = Jarvis.Accounts.create_user(@valid_attrs_user)
-    conn_without_auth = conn
-                        |> put_req_header("accept", "application/json")
-    conn = conn
-            |> put_req_header("accept", "application/json")
-            |> init_test_session(user_id: creator.id)
+
+    conn_without_auth =
+      conn
+      |> put_req_header("accept", "application/json")
+
+    conn =
+      conn
+      |> put_req_header("accept", "application/json")
+      |> init_test_session(user_id: creator.id)
 
     {:ok, conn: conn, conn_without_auth: conn_without_auth, creator: creator}
   end
@@ -66,17 +70,22 @@ defmodule JarvisWeb.CategoryControllerTest do
 
     test "renders errors when when request is without authentication", %{conn_without_auth: conn} do
       conn = post(conn, Routes.category_path(conn, :create), category: @invalid_attrs)
-      response conn, 401
+      response(conn, 401)
     end
   end
 
   describe "update category" do
     setup [:create_category]
 
-    test "renders category when data is valid", %{conn: conn, category: %Category{id: id} = category} do
-      conn = conn
-              |> init_test_session(user_id: category.created_by)
-              |> put(Routes.category_path(conn, :update, category), category: @update_attrs)
+    test "renders category when data is valid", %{
+      conn: conn,
+      category: %Category{id: id} = category
+    } do
+      conn =
+        conn
+        |> init_test_session(user_id: category.created_by)
+        |> put(Routes.category_path(conn, :update, category), category: @update_attrs)
+
       assert %{"id" => ^id} = json_response(conn, 200)
 
       conn = get(conn, Routes.category_path(conn, :show, id))
@@ -88,9 +97,11 @@ defmodule JarvisWeb.CategoryControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, category: category} do
-      conn = conn
-              |> init_test_session(user_id: category.created_by)
-              |> put(Routes.category_path(conn, :update, category), category: @invalid_attrs)
+      conn =
+        conn
+        |> init_test_session(user_id: category.created_by)
+        |> put(Routes.category_path(conn, :update, category), category: @invalid_attrs)
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -99,9 +110,11 @@ defmodule JarvisWeb.CategoryControllerTest do
     setup [:create_category]
 
     test "delete chosen category", %{conn: conn, category: category} do
-      conn = conn
-              |> init_test_session(user_id: category.created_by)
-              |> delete(Routes.category_path(conn, :delete, category))
+      conn =
+        conn
+        |> init_test_session(user_id: category.created_by)
+        |> delete(Routes.category_path(conn, :delete, category))
+
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
@@ -110,8 +123,10 @@ defmodule JarvisWeb.CategoryControllerTest do
     end
 
     test "try delete chosen category without owning it", %{conn: conn, category: category} do
-      conn = conn
-              |> delete(Routes.category_path(conn, :delete, category))
+      conn =
+        conn
+        |> delete(Routes.category_path(conn, :delete, category))
+
       assert response(conn, 403)
     end
   end

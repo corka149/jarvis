@@ -1,5 +1,4 @@
 defmodule Jarvis.ItemAuthorization do
-
   @behaviour JarvisWeb.AuthorizationBorder
 
   @impl JarvisWeb.AuthorizationBorder

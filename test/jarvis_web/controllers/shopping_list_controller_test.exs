@@ -47,22 +47,29 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     setup [:create_shopping_list]
 
     test "show a single shopping list", %{conn: conn, user: user, shopping_list: shopping_list} do
-      conn = init_test_session(conn, user_id: user.id)
-             |> get(Routes.shopping_list_path(conn, :show, shopping_list))
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> get(Routes.shopping_list_path(conn, :show, shopping_list))
+
       response_shopping_list = json_response(conn, 200)
 
       assert %{
-        "creator" => nil,
-        "done" => true,
-        "id" => _id,
-        "planned_for" => "2010-04-17"
-      } = response_shopping_list
+               "creator" => nil,
+               "done" => true,
+               "id" => _id,
+               "planned_for" => "2010-04-17"
+             } = response_shopping_list
     end
 
-    test "show a single shopping list without authorization", %{conn: conn, shopping_list: shopping_list} do
+    test "show a single shopping list without authorization", %{
+      conn: conn,
+      shopping_list: shopping_list
+    } do
       {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
-      conn = init_test_session(conn, user_id: user.id)
-             |> get(Routes.shopping_list_path(conn, :show, shopping_list))
+
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> get(Routes.shopping_list_path(conn, :show, shopping_list))
 
       response(conn, 403) =~ "You are not allow to do this"
     end
@@ -87,12 +94,13 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         |> post(Routes.shopping_list_path(conn, :create), shopping_list: create_attrs)
 
       new_shoppinglist = json_response(conn, 201)
+
       assert %{
-        "creator" => nil,
-        "done" => false,
-        "id" => _id,
-        "planned_for" => _planned_for
-      } = new_shoppinglist
+               "creator" => nil,
+               "done" => false,
+               "id" => _id,
+               "planned_for" => _planned_for
+             } = new_shoppinglist
     end
 
     test "renders errors when data is invalid", %{conn: conn, group: group, user: user} do

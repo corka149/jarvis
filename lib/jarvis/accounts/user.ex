@@ -38,6 +38,7 @@ defmodule Jarvis.Accounts.User do
 
   defp validate_jarvis_password(%{changes: %{provider: "jarvis" = provider}} = changeset) do
     Logger.info("Detected #{provider} as provider")
+
     validate_length(changeset, :password, min: 8, max: 50)
     |> validate_required([:password])
     |> validate_format(:password, password_validation(), message: password_rules())
@@ -53,7 +54,7 @@ defmodule Jarvis.Accounts.User do
   end
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
-  change(changeset, Argon2.add_hash(password))
+    change(changeset, Argon2.add_hash(password))
   end
 
   defp put_pass_hash(changeset), do: changeset
@@ -62,6 +63,7 @@ defmodule Jarvis.Accounts.User do
     # Simple and primitive but it is something
     ~r/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*\-\_])(?=.{8,})/
   end
+
   defp password_rules do
     "Must contain at least 1 lowercase and uppercase alphabetical character; Must contain at least 1 numeric character; Must contain at least one special character;"
   end

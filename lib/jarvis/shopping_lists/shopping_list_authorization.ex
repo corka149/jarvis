@@ -1,5 +1,4 @@
 defmodule Jarvis.ShoppingLists.ShoppingListAuthorization do
-
   alias Jarvis.ShoppingLists
   alias Jarvis.ShoppingLists.ShoppingList
 
@@ -16,5 +15,4 @@ defmodule Jarvis.ShoppingLists.ShoppingListAuthorization do
   defp is_group_member(user_groups, %ShoppingList{} = shopping_list) do
     Enum.any?(user_groups, fn group -> group.id == shopping_list.usergroup.id end)
   end
-
 end

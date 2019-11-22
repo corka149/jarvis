@@ -11,10 +11,12 @@ defmodule JarvisWeb.TransactionView do
   end
 
   def render("transaction.json", %{transaction: transaction}) do
-    %{id: transaction.id,
+    %{
+      id: transaction.id,
       description: transaction.description,
       value: transaction.value,
       recurring: transaction.recurring,
-      executed_on: transaction.executed_on}
+      executed_on: transaction.executed_on
+    }
   end
 end

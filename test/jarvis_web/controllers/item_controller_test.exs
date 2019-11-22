@@ -39,8 +39,9 @@ defmodule JarvisWeb.ItemControllerTest do
     setup [:create_item]
 
     test "lists all items", %{conn: conn, user: user, shopping_list: shopping_list} do
-      conn = init_test_session(conn, user_id: user.id)
-              |> get(Routes.item_path(conn, :index, shopping_list.id))
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> get(Routes.item_path(conn, :index, shopping_list.id))
 
       items = json_response(conn, 200)
       assert is_list(items)
@@ -51,13 +52,14 @@ defmodule JarvisWeb.ItemControllerTest do
     setup [:create_item]
 
     test "show item", %{conn: conn, shopping_list: shopping_list, item: item, user: user} do
-      conn = init_test_session(conn, user_id: user.id)
-            |> get(Routes.item_path(conn, :show, shopping_list.id, item))
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> get(Routes.item_path(conn, :show, shopping_list.id, item))
 
       response_item = json_response(conn, 200)
 
-      assert %{"amount" => 2, "id" => _id, "name" => "apples"
-        } = response_item, "Responsed item is not in original item"
+      assert %{"amount" => 2, "id" => _id, "name" => "apples"} = response_item,
+             "Responsed item is not in original item"
     end
   end
 
@@ -67,11 +69,13 @@ defmodule JarvisWeb.ItemControllerTest do
     test "use valid attrs for creating item", %{
       conn: conn,
       user: user,
-      shopping_list: shopping_list}
-    do
+      shopping_list: shopping_list
+    } do
       route = Routes.item_path(conn, :create, shopping_list.id)
-      conn = init_test_session(conn, user_id: user.id)
-              |>  post(route, item: @create_attrs)
+
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> post(route, item: @create_attrs)
 
       create_item = json_response(conn, 201)
 
@@ -81,20 +85,22 @@ defmodule JarvisWeb.ItemControllerTest do
     test "use invalid attrs for creating item and expect error", %{
       conn: conn,
       user: user,
-      shopping_list: shopping_list}
-    do
+      shopping_list: shopping_list
+    } do
       route = Routes.item_path(conn, :create, shopping_list.id)
-      conn = init_test_session(conn, user_id: user.id)
-              |>  post(route, item: @invalid_attrs)
+
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> post(route, item: @invalid_attrs)
 
       error_msg = json_response(conn, 422)
 
       assert %{
-        "errors" => %{
-          "amount" => ["can't be blank"],
-          "name" => ["is invalid"]
-        }
-      } = error_msg
+               "errors" => %{
+                 "amount" => ["can't be blank"],
+                 "name" => ["is invalid"]
+               }
+             } = error_msg
     end
   end
 
@@ -107,9 +113,11 @@ defmodule JarvisWeb.ItemControllerTest do
       shopping_list: shopping_list,
       item: item
     } do
-      conn = init_test_session(conn, user_id: user.id)
-              |> put(Routes.item_path(conn, :update, shopping_list.id, item),
-                  item: @update_attrs)
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> put(Routes.item_path(conn, :update, shopping_list.id, item),
+          item: @update_attrs
+        )
 
       update_item = json_response(conn, 200)
       assert %{"amount" => 5, "id" => _id, "name" => "cherries"} = update_item
@@ -121,17 +129,20 @@ defmodule JarvisWeb.ItemControllerTest do
       shopping_list: shopping_list,
       item: item
     } do
-      conn = init_test_session(conn, user_id: user.id)
-              |> put(Routes.item_path(conn, :update, shopping_list.id, item),
-                  item: @invalid_attrs)
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> put(Routes.item_path(conn, :update, shopping_list.id, item),
+          item: @invalid_attrs
+        )
 
       update_item = json_response(conn, 422)
+
       assert %{
-        "errors" => %{
-          "amount" => ["can't be blank"],
-          "name" => ["is invalid"]
-        }
-      } = update_item
+               "errors" => %{
+                 "amount" => ["can't be blank"],
+                 "name" => ["is invalid"]
+               }
+             } = update_item
     end
 
     test "update item without authorization and expect rejection", %{
@@ -139,11 +150,14 @@ defmodule JarvisWeb.ItemControllerTest do
       shopping_list: shopping_list,
       item: item
     } do
-      {:ok, another_user} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
+      {:ok, another_user} =
+        Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
 
-      conn = init_test_session(conn, user_id: another_user.id)
-              |> put(Routes.item_path(conn, :update, shopping_list.id, item),
-                  item: @invalid_attrs)
+      conn =
+        init_test_session(conn, user_id: another_user.id)
+        |> put(Routes.item_path(conn, :update, shopping_list.id, item),
+          item: @invalid_attrs
+        )
 
       assert response(conn, 403) =~ "You are not allow to do this"
     end
@@ -158,8 +172,10 @@ defmodule JarvisWeb.ItemControllerTest do
       shopping_list: shopping_list,
       item: item
     } do
-      conn = init_test_session(conn, user_id: user.id)
-              |> delete(Routes.item_path(conn, :delete, shopping_list.id, item))
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> delete(Routes.item_path(conn, :delete, shopping_list.id, item))
+
       response(conn, 204)
     end
   end

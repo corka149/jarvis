@@ -21,9 +21,10 @@ defmodule Jarvis.FinancesTest do
     @invalid_attrs %{name: nil}
 
     def category_fixture(attrs \\ %{}) do
-      {:ok, creator} = @valid_attrs_user
-                        |> update_with_unique_email()
-                        |> Jarvis.Accounts.create_user()
+      {:ok, creator} =
+        @valid_attrs_user
+        |> update_with_unique_email()
+        |> Jarvis.Accounts.create_user()
 
       {:ok, category} =
         attrs
@@ -34,9 +35,11 @@ defmodule Jarvis.FinancesTest do
     end
 
     setup _ do
-      {:ok, creator} = @valid_attrs_user
-                        |> update_with_unique_email()
-                        |> Jarvis.Accounts.create_user()
+      {:ok, creator} =
+        @valid_attrs_user
+        |> update_with_unique_email()
+        |> Jarvis.Accounts.create_user()
+
       %{creator: creator}
     end
 
@@ -87,16 +90,28 @@ defmodule Jarvis.FinancesTest do
   describe "transactions" do
     alias Jarvis.Finances.Transaction
 
-    @valid_attrs %{description: "some description", executed_on: ~N[2010-04-17 14:00:00], recurring: true, value: 120.5}
-    @update_attrs %{description: "some updated description", executed_on: ~N[2011-05-18 15:01:01], recurring: false, value: 456.7}
+    @valid_attrs %{
+      description: "some description",
+      executed_on: ~N[2010-04-17 14:00:00],
+      recurring: true,
+      value: 120.5
+    }
+    @update_attrs %{
+      description: "some updated description",
+      executed_on: ~N[2011-05-18 15:01:01],
+      recurring: false,
+      value: 456.7
+    }
     @invalid_attrs %{description: nil, executed_on: nil, recurring: nil, value: nil}
 
     @valid_attrs_category %{name: "some name"}
 
     def transaction_fixture(attrs \\ %{}) do
-      {:ok, creator} = @valid_attrs_user
-                        |> update_with_unique_email()
-                        |> Jarvis.Accounts.create_user()
+      {:ok, creator} =
+        @valid_attrs_user
+        |> update_with_unique_email()
+        |> Jarvis.Accounts.create_user()
+
       {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
 
       {:ok, transaction} =
@@ -108,9 +123,11 @@ defmodule Jarvis.FinancesTest do
     end
 
     setup _ do
-      {:ok, creator} = @valid_attrs_user
-                        |> update_with_unique_email()
-                        |> Jarvis.Accounts.create_user()
+      {:ok, creator} =
+        @valid_attrs_user
+        |> update_with_unique_email()
+        |> Jarvis.Accounts.create_user()
+
       {:ok, category} = Finances.create_category(@valid_attrs_category, creator)
       %{creator: creator, category: category}
     end
@@ -126,21 +143,33 @@ defmodule Jarvis.FinancesTest do
       assert Finances.get_transaction!(transaction.id) == transaction
     end
 
-    test "create_transaction/1 with valid data creates a transaction", %{creator: creator, category: category} do
-      assert {:ok, %Transaction{} = transaction} = Finances.create_transaction(@valid_attrs, creator, category)
+    test "create_transaction/1 with valid data creates a transaction", %{
+      creator: creator,
+      category: category
+    } do
+      assert {:ok, %Transaction{} = transaction} =
+               Finances.create_transaction(@valid_attrs, creator, category)
+
       assert transaction.description == "some description"
       assert transaction.executed_on == ~N[2010-04-17 14:00:00]
       assert transaction.recurring == true
       assert transaction.value == 120.5
     end
 
-    test "create_transaction/1 with invalid data returns error changeset", %{creator: creator, category: category} do
-      assert {:error, %Ecto.Changeset{}} = Finances.create_transaction(@invalid_attrs, creator, category)
+    test "create_transaction/1 with invalid data returns error changeset", %{
+      creator: creator,
+      category: category
+    } do
+      assert {:error, %Ecto.Changeset{}} =
+               Finances.create_transaction(@invalid_attrs, creator, category)
     end
 
     test "update_transaction/2 with valid data updates the transaction" do
       transaction = transaction_fixture()
-      assert {:ok, %Transaction{} = transaction} = Finances.update_transaction(transaction, @update_attrs)
+
+      assert {:ok, %Transaction{} = transaction} =
+               Finances.update_transaction(transaction, @update_attrs)
+
       assert transaction.description == "some updated description"
       assert transaction.executed_on == ~N[2011-05-18 15:01:01]
       assert transaction.recurring == false
@@ -149,7 +178,10 @@ defmodule Jarvis.FinancesTest do
 
     test "update_transaction/2 with invalid data returns error changeset" do
       transaction = transaction_fixture()
-      assert {:error, %Ecto.Changeset{}} = Finances.update_transaction(transaction, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Finances.update_transaction(transaction, @invalid_attrs)
+
       assert transaction == Finances.get_transaction!(transaction.id)
     end
 

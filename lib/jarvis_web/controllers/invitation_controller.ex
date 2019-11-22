@@ -42,7 +42,6 @@ defmodule JarvisWeb.InvitationController do
     end
   end
 
-
   ## Private functions
 
   # Creates a new invitation if an user exists with the provided name.

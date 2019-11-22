@@ -8,7 +8,9 @@ defmodule JarvisWeb.ShoppingListController do
   action_fallback JarvisWeb.FallbackController
 
   plug JarvisWeb.Plugs.RequireAuthentication
-  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: ShoppingListAuthorization} when action in [:show, :update, :delete]
+
+  plug JarvisWeb.Plugs.RequireAuthorization,
+       %{authorization_border: ShoppingListAuthorization} when action in [:show, :update, :delete]
 
   def index(conn, _params) do
     shoppinglists =

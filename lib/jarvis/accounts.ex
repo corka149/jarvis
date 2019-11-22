@@ -355,6 +355,7 @@ defmodule Jarvis.Accounts do
       ) do
     changeset = Ecto.build_assoc(user_group, :invitations)
     changeset = Ecto.build_assoc(invitee, :received_invitations, changeset)
+
     Ecto.build_assoc(host, :created_invitations, changeset)
     |> Invitation.changeset(attrs)
     |> Repo.insert()

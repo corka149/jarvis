@@ -9,7 +9,9 @@ defmodule JarvisWeb.TransactionController do
   action_fallback JarvisWeb.FallbackController
 
   plug JarvisWeb.Plugs.RequireAuthentication
-  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: TransactionAuthorization} when action in [:show, :update, :delete]
+
+  plug JarvisWeb.Plugs.RequireAuthorization,
+       %{authorization_border: TransactionAuthorization} when action in [:show, :update, :delete]
 
   def index(conn, _params) do
     transactions = Finances.list_transactions(conn.assigns.user)
@@ -19,7 +21,8 @@ defmodule JarvisWeb.TransactionController do
   def create(conn, %{"transaction" => transaction_params}) do
     category = get_category(transaction_params)
 
-    with {:ok, %Transaction{} = transaction} <- Finances.create_transaction(transaction_params, conn.assigns.user, category) do
+    with {:ok, %Transaction{} = transaction} <-
+           Finances.create_transaction(transaction_params, conn.assigns.user, category) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.transaction_path(conn, :show, transaction))
@@ -35,7 +38,8 @@ defmodule JarvisWeb.TransactionController do
   def update(conn, %{"id" => id, "transaction" => transaction_params}) do
     transaction = Finances.get_transaction!(id)
 
-    with {:ok, %Transaction{} = transaction} <- Finances.update_transaction(transaction, transaction_params) do
+    with {:ok, %Transaction{} = transaction} <-
+           Finances.update_transaction(transaction, transaction_params) do
       render(conn, "show.json", transaction: transaction)
     end
   end
@@ -48,7 +52,6 @@ defmodule JarvisWeb.TransactionController do
     end
   end
 
-
   ## Private functions
 
   defp get_category(%{"category_id" => category_id} = _transaction_params) do
@@ -56,5 +59,4 @@ defmodule JarvisWeb.TransactionController do
   end
 
   defp get_category(_), do: %Category{}
-
 end

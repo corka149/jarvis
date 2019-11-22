@@ -50,6 +50,7 @@ defmodule JarvisWeb.AuthController do
     |> put_session(:user_id, user.id)
     |> send_resp(:no_content, "")
   end
+
   # Or not
   defp signin({:error, _reason}, conn) do
     send_resp(conn, 403, "Error signing in")
@@ -61,6 +62,7 @@ defmodule JarvisWeb.AuthController do
     |> Accounts.get_user_by_email()
     |> Argon2.check_pass(password)
   end
+
   defp verify_user(_) do
     {:error, "missing credentials"}
   end

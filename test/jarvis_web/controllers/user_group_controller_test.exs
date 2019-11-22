@@ -18,8 +18,10 @@ defmodule JarvisWeb.UserGroupControllerTest do
   }
 
   def fixture(:user_group) do
-    {:ok, user} = update_with_unique_email(@valid_attrs_user)
-                  |>Jarvis.Accounts.create_user()
+    {:ok, user} =
+      update_with_unique_email(@valid_attrs_user)
+      |> Jarvis.Accounts.create_user()
+
     {:ok, user_group} = Accounts.create_user_group(@create_attrs, user)
 
     user_group

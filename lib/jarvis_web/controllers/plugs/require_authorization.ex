@@ -24,7 +24,7 @@ defmodule JarvisWeb.Plugs.RequireAuthorization do
     if border.is_allowed_to_cross?(conn.assigns.user, id) do
       conn
     else
-      reject conn
+      reject(conn)
     end
   end
 

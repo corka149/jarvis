@@ -11,7 +11,6 @@ defmodule JarvisWeb.CategoryView do
   end
 
   def render("category.json", %{category: category}) do
-    %{id: category.id,
-      name: category.name}
+    %{id: category.id, name: category.name}
   end
 end

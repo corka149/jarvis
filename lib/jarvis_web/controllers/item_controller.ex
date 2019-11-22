@@ -1,4 +1,3 @@
-
 defmodule JarvisWeb.ItemController do
   use JarvisWeb, :controller
 
@@ -8,7 +7,9 @@ defmodule JarvisWeb.ItemController do
   action_fallback JarvisWeb.FallbackController
 
   plug JarvisWeb.Plugs.RequireAuthentication
-  plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: ItemAuthorization} when action in [:show, :update, :delete]
+
+  plug JarvisWeb.Plugs.RequireAuthorization,
+       %{authorization_border: ItemAuthorization} when action in [:show, :update, :delete]
 
   def index(conn, %{"shopping_list_id" => shopping_list_id}) do
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
@@ -24,6 +25,7 @@ defmodule JarvisWeb.ItemController do
 
   def create(conn, %{"shopping_list_id" => shopping_list_id, "item" => items_params}) do
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
+
     with {:ok, item} <-
            ShoppingLists.create_item(items_params, shopping_list) do
       conn

@@ -17,6 +17,13 @@ defmodule Jarvis.Finances.Transaction do
   def changeset(transaction, attrs) do
     transaction
     |> cast(attrs, [:description, :value, :recurring, :executed_on, :created_by, :category_id])
-    |> validate_required([:description, :value, :recurring, :executed_on, :created_by, :category_id])
+    |> validate_required([
+      :description,
+      :value,
+      :recurring,
+      :executed_on,
+      :created_by,
+      :category_id
+    ])
   end
 end
