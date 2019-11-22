@@ -12,7 +12,7 @@
     1. Marks the end of any work targeting smart home. In this version frontend and backend should be separated.
     2. Added finance domain
 
-## Getting start
+## Getting started
 
 To start your Phoenix server:
 
