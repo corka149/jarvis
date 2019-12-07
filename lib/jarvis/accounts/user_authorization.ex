@@ -5,9 +5,15 @@ defmodule Jarvis.Accounts.UserAuthorization do
   @behaviour JarvisWeb.AuthorizationBorder
 
   @impl JarvisWeb.AuthorizationBorder
+  def is_allowed_to_cross?(_user, "current") do
+    true
+  end
+
   def is_allowed_to_cross?(user, requested_user_id) when is_bitstring(requested_user_id) do
-    {requested_user_id, _} = Integer.parse(requested_user_id)
-    user.id == requested_user_id
+    case Integer.parse(requested_user_id) do
+       :error -> false
+      {requested_user_id, _} -> user.id == requested_user_id
+    end
   end
 
   def is_allowed_to_cross?(user, requested_user_id) do

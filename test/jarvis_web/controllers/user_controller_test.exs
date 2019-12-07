@@ -5,6 +5,7 @@ defmodule JarvisWeb.UserControllerTest do
   import Jarvis.TestHelper
 
   alias Jarvis.Accounts.User
+  alias Jarvis.Accounts
 
   @create_attrs %{
     email: "someemail@test.xyz",
@@ -41,7 +42,8 @@ defmodule JarvisWeb.UserControllerTest do
   describe "create user" do
     test "renders user when data is valid", %{conn: conn} do
       resp_conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
-      assert %{"id" => id} = json_response(resp_conn, 201)
+      assert %{"name" => name} = json_response(resp_conn, 201)
+      %{id: id} = Accounts.get_user_by_name(name)
 
       conn =
         conn
@@ -49,7 +51,6 @@ defmodule JarvisWeb.UserControllerTest do
         |> get(Routes.user_path(conn, :show, id))
 
       assert %{
-               "id" => id,
                "name" => "some name"
              } = json_response(conn, 200)
     end
@@ -69,12 +70,11 @@ defmodule JarvisWeb.UserControllerTest do
         |> init_test_session(user_id: user.id)
         |> put(Routes.user_path(conn, :update, user), user: @update_attrs)
 
-      assert %{"id" => ^id} = json_response(conn, 200)
+      assert %{"name" => _} = json_response(conn, 200)
 
       conn = get(conn, Routes.user_path(conn, :show, id))
 
       assert %{
-               "id" => id,
                "name" => "some updated name"
              } = json_response(conn, 200)
     end

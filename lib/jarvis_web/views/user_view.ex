@@ -12,7 +12,6 @@ defmodule JarvisWeb.UserView do
 
   def render("user.json", %{user: user}) do
     %{
-      id: user.id,
       name: user.name
     }
   end

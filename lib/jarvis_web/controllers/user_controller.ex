@@ -25,6 +25,11 @@ defmodule JarvisWeb.UserController do
     end
   end
 
+  def show(conn, %{"id" => "current"}) do
+    user = Accounts.get_user!(conn.assigns.user.id)
+    render(conn, "show.json", user: user)
+  end
+
   def show(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
     render(conn, "show.json", user: user)
