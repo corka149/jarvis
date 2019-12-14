@@ -199,7 +199,7 @@ defmodule Jarvis.AccountsTest do
   describe "invitations" do
     alias Jarvis.Accounts.Invitation
 
-    @valid_attrs %{invitee_name: "Alice"}
+    @valid_attrs %{invitee_email: "Alice"}
     @update_attrs %{}
     @invalid_attrs %{}
 

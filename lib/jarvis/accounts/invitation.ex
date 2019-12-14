@@ -9,7 +9,7 @@ defmodule Jarvis.Accounts.Invitation do
     belongs_to :host, Jarvis.Accounts.User, references: :id
     belongs_to :invitee, Jarvis.Accounts.User, references: :id
     belongs_to :usergroup, Jarvis.Accounts.UserGroup
-    field :invitee_name, :string
+    field :invitee_email, :string
 
     timestamps()
   end
@@ -17,7 +17,7 @@ defmodule Jarvis.Accounts.Invitation do
   @doc false
   def changeset(invitation, attrs) do
     invitation
-    |> cast(attrs, [:invitee_name])
-    |> validate_required([:invitee_name])
+    |> cast(attrs, [:invitee_email])
+    |> validate_required([:invitee_email])
   end
 end

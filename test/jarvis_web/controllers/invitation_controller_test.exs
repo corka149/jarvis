@@ -6,7 +6,7 @@ defmodule JarvisWeb.InvitationControllerTest do
   use JarvisWeb.ConnCase
   use Plug.Test
 
-  @create_attrs %{invitee_name: "some name"}
+  @create_attrs %{invitee_email: "some name"}
 
   @valid_attrs_group %{name: "some name"}
   @valid_attrs_user %{
@@ -59,7 +59,7 @@ defmodule JarvisWeb.InvitationControllerTest do
           token: "some token"
         })
 
-      create_attrs = %{invitee_name: user.name, usergroup_id: group.id}
+      create_attrs = %{invitee_email: user.name, usergroup_id: group.id}
 
       conn =
         init_test_session(conn, user_id: user.id)
@@ -70,7 +70,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
     test "Invite an not existing user and get no error (security reason)",
          %{conn: conn, user: user, group: group} do
-      invalid_attrs = %{invitee_name: "Not existing user", usergroup_id: group.id}
+      invalid_attrs = %{invitee_email: "Not existing user", usergroup_id: group.id}
 
       conn =
         init_test_session(conn, user_id: user.id)
