@@ -17,6 +17,9 @@ defmodule JarvisWeb.InvitationView do
 
   def render("show.json", %{invitation: invitation}) do
     %{
+      id: invitation.id,
+      host_name: invitation.host.name,
+      user_group_id: invitation.usergroup.id,
       invitee_email: invitation.invitee_email
     }
   end
