@@ -11,6 +11,7 @@ defmodule JarvisWeb.ShoppingListView do
   end
 
   def render("show.json", %{shopping_list: shopping_list}) do
+    IO.inspect shopping_list
     %{
       id: shopping_list.id,
       done: shopping_list.done,

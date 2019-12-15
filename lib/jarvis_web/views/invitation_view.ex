@@ -8,12 +8,13 @@ defmodule JarvisWeb.InvitationView do
   def render("index.json", %{
         received_invitations: received_invitations,
         created_invitations: created_invitations,
-        memberships: _memberships
+        memberships: memberships
       }) do
+        IO.inspect memberships
     %{
       received_invitations: render_many(received_invitations, InvitationView, "show.json"),
       created_invitations: render_many(created_invitations, InvitationView, "show.json"),
-      memberships: []
+      memberships: render_many(Enum.map(memberships, &(&1.user_group)), UserGroupView, "show.json")
     }
   end
 
