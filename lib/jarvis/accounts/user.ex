@@ -28,6 +28,8 @@ defmodule Jarvis.Accounts.User do
 
   @doc false
   def changeset(user, attrs) do
+    attrs = apply_to_attrs(attrs, ["name", "email"], &String.trim/1)
+
     user
     |> cast(attrs, [:name, :email, :provider, :token, :default_language, :password])
     |> validate_format(:email, email_validation())
@@ -66,5 +68,16 @@ defmodule Jarvis.Accounts.User do
 
   defp password_rules do
     "Must contain at least 1 lowercase and uppercase alphabetical character; Must contain at least 1 numeric character; Must contain at least one special character;"
+  end
+
+  defp apply_to_attrs(attrs, keys, change_function) do
+    do_apply(attrs, keys, change_function)
+  end
+
+  defp do_apply(attrs, [], _), do: attrs
+
+  defp do_apply(attrs, [key | tail], change_function) do
+    Map.update!(attrs, key, change_function)
+    |> do_apply(tail, change_function)
   end
 end
