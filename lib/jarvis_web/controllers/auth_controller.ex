@@ -58,9 +58,10 @@ defmodule JarvisWeb.AuthController do
 
   # Check credentials for jarvis user
   defp verify_user(%{"password" => password, "email" => email}) do
-    email
-    |> Accounts.get_user_by_email()
-    |> Argon2.check_pass(password)
+    case email |> Accounts.get_user_by_email() do
+      %{provider: "jarvis"} = user -> Argon2.check_pass(user, password)
+      _                            -> {:error, "Not a jARVIS user"}
+    end
   end
 
   defp verify_user(_) do
