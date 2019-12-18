@@ -9,8 +9,8 @@ defmodule Jarvis.AccountsTest do
     alias Jarvis.Accounts.User
 
     @valid_attrs %{
-      email: "someemail@test.xyz",
-      name: "some name",
+      email: " someemail@test.xyz ",
+      name: "  some name",
       provider: "some provider",
       token: "some token",
       default_language: "en"
