@@ -11,7 +11,6 @@ RUN \
       gcc \
       libc-dev \
       git \
-      make \
       g++ \
       wget \
       curl \
@@ -23,15 +22,19 @@ RUN mix do local.hex --force, local.rebar --force
 
 ENV MIX_ENV=prod
 RUN mix deps.get && \
-	mix release
+	mix release && \
+  mix phx.digest
 
 RUN mkdir /jarvis && \
     cp -r _build/prod/rel/jarvis /jarvis
 
 FROM alpine
 
-RUN apk add --no-cache openssl && \
-    apk add --no-cache ncurses-libs
+RUN apk --no-cache --update add openssl \
+        ncurses-libs \
+        libc-dev \
+        make \
+        gcc
 
 LABEL maintainer="corka149 <corka149@mailbox.org>"
 
