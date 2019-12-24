@@ -92,7 +92,7 @@ config :jarvis, Jarvis.Repo,
 
 config :ueberauth, Ueberauth,
   providers: [
-    github: {Ueberauth.Strategy.Github, [callback_path: System.get_env("GITHUB_CALLBACK_PATH_PREFIX") <> "/auth/github/callback"]}
+    github: {Ueberauth.Strategy.Github, [callback_path: (System.get_env("GITHUB_CALLBACK_PATH_PREFIX") || "") <> "/auth/github/callback"]}
   ]
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
