@@ -90,6 +90,9 @@ config :jarvis, Jarvis.Repo,
   hostname: System.get_env("DB_HOST") || "localhost",
   pool_size: 15
 
+config :ueberauth, Ueberauth,
+  base_path: (System.get_env("OAUTH_BASE_PATH") || "") <> "/auth"
+
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.get_env("GITHUB_CLIENT_ID"),
   client_secret: System.get_env("GITHUB_CLIENT_SECRET")
