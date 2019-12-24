@@ -32,6 +32,7 @@ Just run `mix docker`. It will take care of everything for you. :)
 
 Important environment variables for prod release:
 
+ * HOST
  * PORT
  * SECRET_KEY_BASE
  * DB_USERNAME
