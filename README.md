@@ -4,6 +4,13 @@
 
 ![Build result](https://travis-ci.org/corka149/jarvis.svg?branch=master)
 
+## Getting jARVIS
+
+The docker way:
+```
+docker pull corka149/jarvis
+```
+
 ## Version history
 
 1. Version is the implementation of the the shopping list and user + user groups.
