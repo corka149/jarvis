@@ -10,7 +10,6 @@ defmodule JarvisWeb.InvitationView do
         created_invitations: created_invitations,
         memberships: memberships
       }) do
-        IO.inspect memberships
     %{
       received_invitations: render_many(received_invitations, InvitationView, "show.json"),
       created_invitations: render_many(created_invitations, InvitationView, "show.json"),
@@ -19,7 +18,6 @@ defmodule JarvisWeb.InvitationView do
   end
 
   def render("show.json", %{invitation: invitation}) do
-    IO.inspect invitation
     %{
       id: invitation.id,
       host: render_one(invitation.host, UserView, "show.json"),
