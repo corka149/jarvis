@@ -26,7 +26,9 @@ config :jarvis, Jarvis.Repo,
   pool_size: 15
 
 config :ueberauth, Ueberauth,
-  base_path: System.fetch_env!("OAUTH_BASE_PATH") <> "/auth"
+  providers: [
+    github: {Ueberauth.Strategy.Github, [callback_path: System.fetch_env!("GITHUB_CALLBACK_PATH_PREFIX") <> "/auth/github/callback"]}
+  ]
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.fetch_env!("GITHUB_CLIENT_ID"),

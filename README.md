@@ -49,7 +49,7 @@ Important environment variables for prod release:
  * DB_HOST - host of database
  * GITHUB_CLIENT_ID - oauth with github
  * GITHUB_CLIENT_SECRET - oauth with github
- * OAUTH_BASE_PATH - will be added to redirect url (useful for ingress)
+ * GITHUB_CALLBACK_PATH_PREFIX - will be added to callback url (useful for ingress)
 
 ## Important notes
 
