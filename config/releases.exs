@@ -13,7 +13,11 @@ config :logger, level: :info
 
 config :phoenix, :serve_endpoints, true
 
-config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
+config :jarvis,
+  authorization_key: System.fetch_env!("JARVIS_AUTHORIZATION_KEY")
+
+config :jarvis, JarvisWeb.Endpoint,
+  secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
 config :jarvis, Jarvis.Repo,
   username: System.fetch_env!("DB_USERNAME"),

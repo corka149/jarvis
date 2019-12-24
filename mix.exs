@@ -4,7 +4,7 @@ defmodule Jarvis.MixProject do
   def project do
     [
       app: :jarvis,
-      version: "3.3.1",
+      version: "3.3.2",
       elixir: "~> 1.9.1",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -56,6 +56,7 @@ defmodule Jarvis.MixProject do
       {:httpotion, "~> 3.1"},
       {:hackney, "1.15.2", override: true},
       {:argon2_elixir, "~> 2.0"},
+      {:uuid, "~> 1.1"},
 
       # tools
       ## linting

@@ -76,11 +76,12 @@ config :phoenix, :serve_endpoints, true
 #
 #     config :jarvis, JarvisWeb.Endpoint, server: true
 #
-# Note you can't rely on `System.get_env/1` when using releases.
-# See the releases documentation accordingly.
 
-# Corka: Let's go this way: http://sgeos.github.io/phoenix/elixir/erlang/ecto/distillery/postgresql/mysql/2016/09/18/storing-elixir-release-configuration-in-environment-variables-with-distillery.html
-config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.get_env("SECRET_KEY_BASE")
+config :jarvis,
+  authorization_key: System.get_env("JARVIS_AUTHORIZATION_KEY")
+
+config :jarvis, JarvisWeb.Endpoint,
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Configure your database
 config :jarvis, Jarvis.Repo,

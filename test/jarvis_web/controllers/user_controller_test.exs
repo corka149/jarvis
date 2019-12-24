@@ -41,6 +41,7 @@ defmodule JarvisWeb.UserControllerTest do
 
   describe "create user" do
     test "renders user when data is valid", %{conn: conn} do
+      conn = put_req_header(conn, "authorization", "ZWQ1ZmE5ZmEtZmI0NS00YjJiLWJhMDQtY2YwNjQ0ODcwNzQ0")
       resp_conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
       assert %{"name" => name} = json_response(resp_conn, 201)
       %{id: id} = Accounts.get_user_by_name(name)
@@ -55,7 +56,13 @@ defmodule JarvisWeb.UserControllerTest do
              } = json_response(conn, 200)
     end
 
+    test "renders errors when request is without authorization", %{conn: conn} do
+      conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
+      response(conn, 403) =~ "You are not allow to do this"
+    end
+
     test "renders errors when data is invalid", %{conn: conn} do
+      conn = put_req_header(conn, "authorization", "ZWQ1ZmE5ZmEtZmI0NS00YjJiLWJhMDQtY2YwNjQ0ODcwNzQ0")
       conn = post(conn, Routes.user_path(conn, :create), user: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
