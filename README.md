@@ -32,15 +32,16 @@ Just run `mix docker`. It will take care of everything for you. :)
 
 Important environment variables for prod release:
 
- * HOST
- * PORT
- * SECRET_KEY_BASE
- * DB_USERNAME
- * DB_PASSWORD
- * DB_NAME
- * DB_HOST
- * GITHUB_CLIENT_ID
- * GITHUB_CLIENT_SECRET
+ * HOST - used by Phoenix for URL creation
+ * PORT - on which jARVIS should listen
+ * SECRET_KEY_BASE - encryption base for cookies
+ * JARVIS_AUTHORIZATION_KEY - administration key
+ * DB_USERNAME - username for access to database
+ * DB_PASSWORD - password for access to database
+ * DB_NAME - name of the selected database
+ * DB_HOST - host of database
+ * GITHUB_CLIENT_ID - oauth with github
+ * GITHUB_CLIENT_SECRET - oauth with github
 
 ## Important notes
 
