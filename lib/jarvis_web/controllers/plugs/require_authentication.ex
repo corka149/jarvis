@@ -25,7 +25,7 @@ defmodule JarvisWeb.Plugs.RequireAuthentication do
     if conn.assigns[:user] do
       conn
     else
-      Logger.info("Request without authentication occured.")
+      Logger.warn("Request without authentication occured.")
 
       conn
       |> send_resp(401, dgettext("errors", "You must be logged in"))

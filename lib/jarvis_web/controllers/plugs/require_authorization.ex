@@ -29,7 +29,7 @@ defmodule JarvisWeb.Plugs.RequireAuthorization do
   end
 
   defp reject(conn) do
-    Logger.info("User does not own target.")
+    Logger.warn("User does not own target.")
 
     conn
     |> send_resp(403, dgettext("errors", "You are not allow to do this"))
