@@ -103,6 +103,22 @@ defmodule JarvisWeb.InvitationControllerTest do
       response(conn, 204)
     end
 
+    test "authorized accept of two invitations", %{conn: conn, invitation: invitation} do
+      conn =
+        init_test_session(conn, user_id: invitation.invitee_id)
+        |> get(Routes.invitation_path(conn, :accept, invitation))
+
+      user = fixture(:user_and_group)
+        [group | _] = user.usergroups
+        {:ok, invitation} = Accounts.create_invitation(@create_attrs, group, user, user)
+
+        conn = conn |> recycle()
+          |> init_test_session(user_id: invitation.invitee_id)
+          |> get(Routes.invitation_path(conn, :accept, invitation))
+
+      response(conn, 204)
+    end
+
     test "accept invitation of someone else and get rejection", %{
       conn: conn,
       invitation: invitation,
