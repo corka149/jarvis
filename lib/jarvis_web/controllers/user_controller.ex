@@ -100,7 +100,7 @@ defmodule JarvisWeb.UserController do
   defp decode_uuid4({:ok, token}) do
     case UUID.info(token) do
       {:ok, _} -> {:ok, token}
-      :error -> :error
+      {:error, _} -> :error
     end
   end
 
