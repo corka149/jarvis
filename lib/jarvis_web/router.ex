@@ -1,22 +1,17 @@
 defmodule JarvisWeb.Router do
   use JarvisWeb, :router
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-    plug JarvisWeb.Plugs.SetUser
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
     plug JarvisWeb.Plugs.SetUser
   end
 
+  pipeline :api_without_user do
+    plug :accepts, ["json"]
+  end
+
   # ### ### ### ### ### #
-  #        Browser      #
+  #          Api        #
   # ### ### ### ### ### #
 
   scope "/auth", JarvisWeb do
@@ -28,9 +23,11 @@ defmodule JarvisWeb.Router do
     get "/:provider/callback", AuthController, :callback
   end
 
-  # ### ### ### ### ### #
-  #          Api        #
-  # ### ### ### ### ### #
+  scope "/v1/system", JarvisWeb do
+    pipe_through :api_without_user
+
+    get "/ready", SystemController, :ready
+  end
 
   scope "/v1/accounts", JarvisWeb do
     pipe_through :api
