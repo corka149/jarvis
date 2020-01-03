@@ -13,7 +13,7 @@ defmodule JarvisWeb.InvitationView do
     %{
       received_invitations: render_many(received_invitations, InvitationView, "show.json"),
       created_invitations: render_many(created_invitations, InvitationView, "show.json"),
-      memberships: render_many(Enum.map(memberships, &(&1.user_group)), UserGroupView, "show.json")
+      memberships: render_many(Enum.map(memberships, & &1.user_group), UserGroupView, "show.json")
     }
   end
 

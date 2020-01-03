@@ -41,7 +41,7 @@ defmodule JarvisWeb.UserController do
   end
 
   def update(conn, %{"id" => "current"} = params) do
-    params = %{params | "id" => conn.assigns.user.id }
+    params = %{params | "id" => conn.assigns.user.id}
     update(conn, params)
   end
 
@@ -60,7 +60,6 @@ defmodule JarvisWeb.UserController do
       send_resp(conn, :no_content, "")
     end
   end
-
 
   ## Private functions
 
@@ -83,7 +82,7 @@ defmodule JarvisWeb.UserController do
   defp is_authorized_creation(%{req_headers: req_headers} = conn, _params) do
     case Enum.filter(req_headers, fn {name, _value} -> name == @authorization_header end) do
       [] -> reject_request(conn, "Unauthorized creation request")
-      [ header | _] -> check_authorization(conn, header)
+      [header | _] -> check_authorization(conn, header)
     end
   end
 
@@ -93,6 +92,7 @@ defmodule JarvisWeb.UserController do
       :error -> reject_request(conn)
     end
   end
+
   defp check_authorization(conn, _header), do: reject_request(conn)
 
   defp decode_base64(token), do: Base.decode64(token)
@@ -103,6 +103,7 @@ defmodule JarvisWeb.UserController do
       :error -> :error
     end
   end
+
   defp decode_uuid4(_), do: :error
 
   defp verify_token({:ok, token}) do
@@ -112,6 +113,7 @@ defmodule JarvisWeb.UserController do
       :error
     end
   end
+
   defp verify_token(_), do: :error
 
   defp reject_request(conn, msg \\ "Incorrect authorization token") do

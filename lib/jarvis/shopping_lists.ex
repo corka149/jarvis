@@ -83,11 +83,11 @@ defmodule Jarvis.ShoppingLists do
   """
   def create_shopping_list(attrs \\ %{}, user_group) do
     case user_group
-           |> Ecto.build_assoc(:shoppinglists)
-           |> ShoppingList.changeset(attrs)
-           |> Repo.insert() do
-      {:ok, shopping_list}  -> {:ok, shopping_list |> Repo.preload(:usergroup)}
-      changeset             -> changeset
+         |> Ecto.build_assoc(:shoppinglists)
+         |> ShoppingList.changeset(attrs)
+         |> Repo.insert() do
+      {:ok, shopping_list} -> {:ok, shopping_list |> Repo.preload(:usergroup)}
+      changeset -> changeset
     end
   end
 

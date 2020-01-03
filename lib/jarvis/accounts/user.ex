@@ -70,7 +70,7 @@ defmodule Jarvis.Accounts.User do
     "Must contain at least 1 lowercase and uppercase alphabetical character; Must contain at least 1 numeric character; Must contain at least one special character;"
   end
 
-  defp trim_values(%{} = attrs), do: Enum.map(attrs, &trim_value/1) |> Map.new
+  defp trim_values(%{} = attrs), do: Enum.map(attrs, &trim_value/1) |> Map.new()
   defp trim_values(attrs), do: attrs
 
   defp trim_value({_key, nil} = attr), do: attr

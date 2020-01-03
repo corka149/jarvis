@@ -4,5 +4,4 @@ defmodule JarvisWeb.SystemView do
   def render("ready.json", %{statuses: statuses}) do
     statuses
   end
-
 end

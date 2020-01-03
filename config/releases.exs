@@ -15,8 +15,7 @@ config :phoenix, :serve_endpoints, true
 config :jarvis,
   authorization_key: System.fetch_env!("JARVIS_AUTHORIZATION_KEY")
 
-config :jarvis, JarvisWeb.Endpoint,
-  secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
+config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
 config :jarvis, Jarvis.Repo,
   username: System.fetch_env!("DB_USERNAME"),
@@ -27,7 +26,12 @@ config :jarvis, Jarvis.Repo,
 
 config :ueberauth, Ueberauth,
   providers: [
-    github: {Ueberauth.Strategy.Github, [callback_path: System.fetch_env!("GITHUB_CALLBACK_PATH_PREFIX") <> "/auth/github/callback"]}
+    github:
+      {Ueberauth.Strategy.Github,
+       [
+         callback_path:
+           System.fetch_env!("GITHUB_CALLBACK_PATH_PREFIX") <> "/auth/github/callback"
+       ]}
   ]
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,

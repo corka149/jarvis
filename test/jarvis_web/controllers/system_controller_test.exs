@@ -1,5 +1,4 @@
 defmodule JarvisWeb.SystemControllerTest do
-
   use Plug.Test
   use JarvisWeb.ConnCase
 
@@ -8,5 +7,4 @@ defmodule JarvisWeb.SystemControllerTest do
     body = json_response(conn, 200)
     assert [%{"jarvis" => "Was started"}] = body
   end
-
 end

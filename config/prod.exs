@@ -79,8 +79,7 @@ config :phoenix, :serve_endpoints, true
 config :jarvis,
   authorization_key: System.get_env("JARVIS_AUTHORIZATION_KEY")
 
-config :jarvis, JarvisWeb.Endpoint,
-  secret_key_base: System.get_env("SECRET_KEY_BASE")
+config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Configure your database
 config :jarvis, Jarvis.Repo,
@@ -92,7 +91,12 @@ config :jarvis, Jarvis.Repo,
 
 config :ueberauth, Ueberauth,
   providers: [
-    github: {Ueberauth.Strategy.Github, [callback_path: (System.get_env("GITHUB_CALLBACK_PATH_PREFIX") || "") <> "/auth/github/callback"]}
+    github:
+      {Ueberauth.Strategy.Github,
+       [
+         callback_path:
+           (System.get_env("GITHUB_CALLBACK_PATH_PREFIX") || "") <> "/auth/github/callback"
+       ]}
   ]
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,

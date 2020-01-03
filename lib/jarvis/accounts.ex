@@ -253,7 +253,7 @@ defmodule Jarvis.Accounts do
     # Note: If this is a 1:n relationship, it would be faster to save the "n"part with a
     # association to the database.
     user = user |> Repo.preload(:member_of)
-    ug_ids = Enum.map(user.member_of, &(&1.id))
+    ug_ids = Enum.map(user.member_of, & &1.id)
     groups = Repo.all(from ug in UserGroup, where: ug.id in ^ug_ids)
 
     user

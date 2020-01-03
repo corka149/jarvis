@@ -109,12 +109,14 @@ defmodule JarvisWeb.InvitationControllerTest do
         |> get(Routes.invitation_path(conn, :accept, invitation))
 
       user = fixture(:user_and_group)
-        [group | _] = user.usergroups
-        {:ok, invitation} = Accounts.create_invitation(@create_attrs, group, user, user)
+      [group | _] = user.usergroups
+      {:ok, invitation} = Accounts.create_invitation(@create_attrs, group, user, user)
 
-        conn = conn |> recycle()
-          |> init_test_session(user_id: invitation.invitee_id)
-          |> get(Routes.invitation_path(conn, :accept, invitation))
+      conn =
+        conn
+        |> recycle()
+        |> init_test_session(user_id: invitation.invitee_id)
+        |> get(Routes.invitation_path(conn, :accept, invitation))
 
       response(conn, 204)
     end

@@ -11,7 +11,7 @@ defmodule Jarvis.Accounts.UserAuthorization do
 
   def is_allowed_to_cross?(user, requested_user_id) when is_bitstring(requested_user_id) do
     case Integer.parse(requested_user_id) do
-       :error -> false
+      :error -> false
       {requested_user_id, _} -> user.id == requested_user_id
     end
   end
