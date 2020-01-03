@@ -2,8 +2,8 @@ defmodule JarvisWeb.InvitationView do
   use JarvisWeb, :view
 
   alias JarvisWeb.InvitationView
-  alias JarvisWeb.UserView
   alias JarvisWeb.UserGroupView
+  alias JarvisWeb.UserView
 
   def render("index.json", %{
         received_invitations: received_invitations,

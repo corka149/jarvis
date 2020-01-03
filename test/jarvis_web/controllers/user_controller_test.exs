@@ -4,8 +4,8 @@ defmodule JarvisWeb.UserControllerTest do
 
   import Jarvis.TestHelper
 
-  alias Jarvis.Accounts.User
   alias Jarvis.Accounts
+  alias Jarvis.Accounts.User
 
   @create_attrs %{
     email: "someemail@test.xyz",
