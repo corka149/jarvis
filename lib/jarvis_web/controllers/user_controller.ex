@@ -40,6 +40,11 @@ defmodule JarvisWeb.UserController do
     render(conn, "show.json", user: user)
   end
 
+  def update(conn, %{"id" => "current"} = params) do
+    params = %{params | "id" => conn.assigns.user.id }
+    update(conn, params)
+  end
+
   def update(conn, %{"id" => id, "user" => user_Params}) do
     user = Accounts.get_user!(id)
 
