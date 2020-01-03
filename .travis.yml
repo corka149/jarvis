@@ -6,4 +6,6 @@ services:
 before_script:
   - mix deps.get
 script:
+  - mix dialyzer
+  - mix credo --strict
   - mix test
