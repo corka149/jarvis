@@ -35,24 +35,30 @@ defmodule Jarvis.Accounts.User do
     |> validate_format(:email, email_validation())
     |> validate_required([:name, :email, :provider, :token])
     |> unique_constraint(:email)
-    |> validate_jarvis_password()
+    |> validate_jarvis_password(user)
   end
 
-  defp validate_jarvis_password(%{changes: %{provider: "jarvis" = provider}} = changeset) do
-    Logger.info("Detected #{provider} as provider")
+  ## Validate password
 
+  defp validate_jarvis_password(changeset, %{provider: "jarvis"}) do
+    Logger.info("Detected jarvis as provider")
+    do_validate_jarvis_password(changeset)
+  end
+
+  defp validate_jarvis_password(%{changes: %{provider: "jarvis"}} = changeset, _user) do
+    Logger.info("Detected jarvis as provider")
+    do_validate_jarvis_password(changeset)
+  end
+
+  defp validate_jarvis_password(changeset, _user) do
+    changeset
+  end
+
+  defp do_validate_jarvis_password(changeset) do
     validate_length(changeset, :password, min: 8, max: 50)
     |> validate_required([:password])
     |> validate_format(:password, password_validation(), message: password_rules())
     |> put_pass_hash()
-  end
-
-  defp validate_jarvis_password(changeset) do
-    changeset
-  end
-
-  defp email_validation do
-    ~r/^[_a-z0-9-]+(.[a-z0-9-]+)@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/
   end
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
@@ -69,6 +75,14 @@ defmodule Jarvis.Accounts.User do
   defp password_rules do
     "Must contain at least 1 lowercase and uppercase alphabetical character; Must contain at least 1 numeric character; Must contain at least one special character;"
   end
+
+  ## E-Mail validation
+
+  defp email_validation do
+    ~r/^[_a-z0-9-]+(.[a-z0-9-]+)@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/
+  end
+
+  ## Trim values
 
   defp trim_values(%{} = attrs), do: Enum.map(attrs, &trim_value/1) |> Map.new()
   defp trim_values(attrs), do: attrs
