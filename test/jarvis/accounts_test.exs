@@ -288,5 +288,16 @@ defmodule Jarvis.AccountsTest do
       %{invitation: invitation} = invitation_fixture()
       assert %Ecto.Changeset{} = Accounts.change_invitation(invitation)
     end
+
+    test "user is creator and member of one groups, so list_usergroups_by_membership_or_owner return two groups" do
+      %{invitation: invitation, invitee: invitee} = invitation_fixture()
+      invitation = Repo.preload(invitation, [:usergroup, :invitee, :host])
+      {:ok, _} = Accounts.add_user_to_group(invitee, invitation.usergroup)
+      {:ok, _} = Accounts.delete_invitation(invitation)
+
+      {:ok, _user_group} = Accounts.create_user_group(%{name: "some name2"}, invitee)
+      groups = Accounts.list_usergroups_by_membership_or_owner(invitee)
+      assert 2 == length(groups), "User should own or belong to two groups"
+    end
   end
 end

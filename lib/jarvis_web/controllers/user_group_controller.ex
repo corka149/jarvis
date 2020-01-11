@@ -8,6 +8,11 @@ defmodule JarvisWeb.UserGroupController do
   plug JarvisWeb.Plugs.RequireAuthentication
   plug :check_user_group_owner when action in [:edit, :update, :delete]
 
+  def index(conn, %{"by_membership" => "true"}) do
+    user_groups = Accounts.list_usergroups_by_membership_or_owner(conn.assigns.user)
+    render(conn, "index.json", user_groups: user_groups)
+  end
+
   def index(conn, _params) do
     user_groups = Accounts.list_usergroups_by_owner(conn.assigns.user)
     render(conn, "index.json", user_groups: user_groups)

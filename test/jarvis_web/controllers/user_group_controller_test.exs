@@ -17,6 +17,8 @@ defmodule JarvisWeb.UserGroupControllerTest do
     token: "some token"
   }
 
+  @valid_attrs_invitation %{invitee_email: "Alice"}
+
   def fixture(:user_group) do
     {:ok, user} =
       update_with_unique_email(@valid_attrs_user)
@@ -26,6 +28,39 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
     user_group
     |> Jarvis.Repo.preload(:user)
+  end
+
+  def fixture(:invitation) do
+    {:ok, host} =
+      %{
+        email: "someemail@test.xyz",
+        name: "Bob",
+        provider: "some provider",
+        token: "some token",
+        default_language: "en"
+      }
+      |> update_with_unique_email()
+      |> Accounts.create_user()
+
+    {:ok, invitee} =
+      %{
+        email: "someemail@test.xyz",
+        name: "Alice",
+        provider: "some provider",
+        token: "some token",
+        default_language: "en"
+      }
+      |> update_with_unique_email()
+      |> Accounts.create_user()
+
+    {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
+
+    {:ok, invitation} =
+      %{}
+      |> Enum.into(@valid_attrs_invitation)
+      |> Accounts.create_invitation(user_group, host, invitee)
+
+    %{invitation: invitation, host: host, invitee: invitee}
   end
 
   describe "index" do
@@ -38,6 +73,22 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
       groups = json_response(conn, 200)
       assert is_list(groups)
+    end
+
+    test "lists all usergroups to which an user belong or owns", %{conn: conn} do
+      %{invitation: invitation, invitee: invitee} = fixture(:invitation)
+      invitation = Accounts.get_invitation!(invitation.id)
+      {:ok, _} = Accounts.add_user_to_group(invitee, invitation.usergroup)
+      {:ok, _} = Accounts.delete_invitation(invitation)
+      {:ok, _user_group} = Accounts.create_user_group(%{name: "some name2"}, invitee)
+
+      conn =
+        init_test_session(conn, user_id: invitee.id)
+        |> get(Routes.user_group_path(conn, :index, %{"by_membership" => "true"}))
+
+      groups = json_response(conn, 200)
+      assert is_list(groups)
+      assert 2 == length(groups), "User should own or belong to two groups"
     end
   end
 

@@ -151,17 +151,22 @@ defmodule Jarvis.Accounts do
     from(u_ug in UserUsergroup, where: u_ug.user_id == ^user.id)
     |> Repo.all()
     |> Repo.preload([:user_group, :user])
+    |> Enum.map(fn u_ug -> u_ug.user_group end)
   end
 
+  @doc """
+  Returns all user group to which an user belongs or the groups he
+  created.
+
+    ## Examples
+
+      iex> list_usergroups_by_membership_or_owner(an_user)
+      [%UserGroup{}, ...]
+
+  """
   def list_usergroups_by_membership_or_owner(%User{} = user) do
-    owner_groups =
-      list_usergroups_by_owner(user)
-      |> Enum.map(fn ug -> {ug.name, ug.id} end)
-
-    membership_groups =
-      list_usergroups_by_membership(user)
-      |> Enum.map(fn uug -> {uug.user_group.name, uug.user_group.id} end)
-
+    owner_groups = list_usergroups_by_owner(user)
+    membership_groups = list_usergroups_by_membership(user)
     owner_groups ++ membership_groups
   end
 
