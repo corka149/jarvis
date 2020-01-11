@@ -40,14 +40,22 @@ defmodule Jarvis.Accounts.User do
 
   ## Validate password
 
-  defp validate_jarvis_password(changeset, %{provider: "jarvis"}) do
-    Logger.info("Detected jarvis as provider")
-    do_validate_jarvis_password(changeset)
+  defp validate_jarvis_password(%{changes: changes} = changeset, %{provider: "jarvis"} = user) do
+    if password_in_changes?(changes) or not has_encrypted_password(user) do
+      Logger.info("Detected jarvis as provider")
+      do_validate_jarvis_password(changeset)
+    else
+      changeset
+    end
   end
 
-  defp validate_jarvis_password(%{changes: %{provider: "jarvis"}} = changeset, _user) do
-    Logger.info("Detected jarvis as provider")
-    do_validate_jarvis_password(changeset)
+  defp validate_jarvis_password(%{changes: %{provider: "jarvis"} = changes} = changeset, user) do
+    if password_in_changes?(changes) or not has_encrypted_password(user) do
+      Logger.info("Detected jarvis as provider")
+      do_validate_jarvis_password(changeset)
+    else
+      changeset
+    end
   end
 
   defp validate_jarvis_password(changeset, _user) do
@@ -66,6 +74,13 @@ defmodule Jarvis.Accounts.User do
   end
 
   defp put_pass_hash(changeset), do: changeset
+
+  defp has_encrypted_password(%{password_hash: "$argon2id$" <> _} = _user), do: true
+  defp has_encrypted_password(_user), do: false
+
+  defp password_in_changes?(changes) do
+    Map.has_key?(changes, "password") or Map.has_key?(changes, :password)
+  end
 
   defp password_validation do
     # Simple and primitive but it is something
