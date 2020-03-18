@@ -23,13 +23,13 @@
           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
             <li>
-              <a href="sass.html"><%= gettext "Shopping list" %></a>
+              <%= link gettext("Shopping list"), to: "" %>
             </li>
             <li>
-              <a href="sass.html"><%= gettext "User groups" %></a>
+              <%= link gettext("User groups"), to: "" %>
             </li>
             <li>
-              <a href="sass.html"><%= gettext "User settings" %></a>
+              <%= link gettext("User settings"), to: "" %>
             </li>
           </ul>
         </div>
@@ -37,13 +37,13 @@
 
       <ul class="sidenav">
         <li>
-          <a href="sass.html"><%= gettext "Shopping list" %></a>
+          <%= link gettext("Shopping list"), to: "" %>
         </li>
         <li>
-          <a href="sass.html"><%= gettext "User groups" %></a>
+          <%= link gettext("User groups"), to: "" %>
         </li>
         <li>
-          <a href="sass.html"><%= gettext "User settings" %></a>
+          <%= link gettext("User settings"), to: "" %>
         </li>
       </ul>
     </header>
