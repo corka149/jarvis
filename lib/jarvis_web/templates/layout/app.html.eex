@@ -8,16 +8,18 @@
       <%= gettext "Jarvis · May I help you" %>
     </title>
 
-    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
 
   </head>
   <body>
     <header>
       <nav>
         <div class="nav-wrapper">
-          <a href="#!" class="brand-logo">Logo</a>
+          <a href="#!" class="brand-logo">
+            <img class="responsive-img" src="<%= Routes.static_path(@conn, "/images/logo_jarvis.svg") %>" alt="jARVIS">
+          </a>
           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
             <li>
@@ -33,7 +35,7 @@
         </div>
       </nav>
 
-      <ul class="sidenav" id="mobile-demo">
+      <ul class="sidenav">
         <li>
           <a href="sass.html"><%= gettext "Shopping list" %></a>
         </li>

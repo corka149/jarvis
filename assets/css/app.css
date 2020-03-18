@@ -1,1 +1,11 @@
 /* This file is for your main application css. */
+
+nav {
+    background-color: #ff9800;
+}
+
+a.brand-logo>img {
+    width: 8rem;
+    padding-top: 0.3rem;
+    padding-left: 0.3rem;
+}
