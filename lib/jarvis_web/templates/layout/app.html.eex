@@ -16,26 +16,38 @@
   <body>
     <header>
       <nav>
+        <!-- DESKTOP -->
         <div class="nav-wrapper">
           <a href="#!" class="brand-logo">
             <img class="responsive-img" src="<%= Routes.static_path(@conn, "/images/logo_jarvis.svg") %>" alt="jARVIS">
           </a>
-          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <a href="#" data-target="mobile-main-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
             <li>
-              <%= link gettext("Shopping list"), to: "" %>
+              <a href="#" class="dropdown-trigger" data-target="dropdown-shopping-list-desktop"><%= gettext("Shopping list") %></a>
             </li>
             <li>
-              <%= link gettext("User groups"), to: "" %>
+              <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-desktop"><%= gettext("User groups") %></a>
             </li>
             <li>
-              <%= link gettext("User settings"), to: "" %>
+              <%= link gettext("User settings"), to: "#" %>
             </li>
           </ul>
         </div>
       </nav>
 
-      <ul class="sidenav">
+      <ul id="dropdown-shopping-list-desktop" class="dropdown-content">
+        <li><%= link gettext("All lists"), to: "" %></li>
+        <li><%= link gettext("Current lists"), to: "" %></li>
+      </ul>
+
+      <ul id="dropdown-user-groups-desktop" class="dropdown-content">
+        <li><%= link gettext("Management"), to: "" %></li>
+        <li><%= link gettext("Membership"), to: "" %></li>
+      </ul>
+
+      <!-- MOBILE -->
+      <ul class="sidenav" id="mobile-main-menu">
         <li>
           <%= link gettext("Shopping list"), to: "" %>
         </li>
@@ -55,22 +67,18 @@
     </main>
 
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-      $(".dropdown-trigger").dropdown();
-
-      $(document).ready(function () {
-        $('.sidenav').sidenav();
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.dropdown-trigger');
+        var instances = M.Dropdown.init(elems, {constrainWidth: false});
       });
 
-      $(document).ready(function(){
-        $('select').formSelect();
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems, {});
       });
 
-      $(document).ready(function(){
-        $('.tabs').tabs();
-      });
     </script>
   </body>
 </html>
