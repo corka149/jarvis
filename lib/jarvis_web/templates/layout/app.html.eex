@@ -24,10 +24,14 @@
           <a href="#" data-target="mobile-main-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
             <li>
-              <a href="#" class="dropdown-trigger" data-target="dropdown-shopping-list-desktop"><%= gettext("Shopping list") %></a>
+              <a href="#" class="dropdown-trigger" data-target="dropdown-shopping-list-desktop">
+                <%= gettext("Shopping list") %>
+              </a>
             </li>
             <li>
-              <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-desktop"><%= gettext("User groups") %></a>
+              <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-desktop">
+                <%= gettext("User groups") %>
+              </a>
             </li>
             <li>
               <%= link gettext("User settings"), to: "#" %>
@@ -49,16 +53,26 @@
       <!-- MOBILE -->
       <ul class="sidenav" id="mobile-main-menu">
         <li>
-          <%= link gettext("Shopping list"), to: "" %>
+          <a href="#" class="dropdown-trigger" data-target="dropdown-shopping-list-mobile"><%= gettext("Shopping list") %></a>
         </li>
         <li>
-          <%= link gettext("User groups"), to: "" %>
+          <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-mobile"><%= gettext("User groups") %></a>
         </li>
         <li>
           <%= link gettext("User settings"), to: "" %>
         </li>
       </ul>
     </header>
+
+      <ul id="dropdown-shopping-list-mobile" class="dropdown-content">
+        <li><%= link gettext("All lists"), to: "" %></li>
+        <li><%= link gettext("Current lists"), to: "" %></li>
+      </ul>
+
+      <ul id="dropdown-user-groups-mobile" class="dropdown-content">
+        <li><%= link gettext("Management"), to: "" %></li>
+        <li><%= link gettext("Membership"), to: "" %></li>
+      </ul>
 
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
