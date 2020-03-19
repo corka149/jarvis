@@ -23,22 +23,28 @@
           </a>
           <a href="#" data-target="mobile-main-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
-            <li>
-              <a href="#" class="dropdown-trigger" data-target="dropdown-shopping-list-desktop">
-                <%= gettext("Shopping list") %>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-desktop">
-                <%= gettext("User groups") %>
-              </a>
-            </li>
-            <li>
-              <%= link gettext("User settings"), to: "#" %>
-            </li>
-            <li>
-              <%= link gettext("Logout"), to: "#" %>
-            </li>
+            <%= if @conn.assigns[:user] do %>
+              <li>
+                <a href="#" class="dropdown-trigger" data-target="dropdown-shopping-list-desktop">
+                  <%= gettext("Shopping list") %>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-desktop">
+                  <%= gettext("User groups") %>
+                </a>
+              </li>
+              <li>
+                <%= link gettext("User settings"), to: "#" %>
+              </li>
+              <li>
+                <%= link gettext("Logout"), to: "#" %>
+              </li>
+            <% else %>
+              <li>
+                <%= link gettext("Sign in"), to: "#" %>
+              </li>
+            <% end %>
           </ul>
         </div>
       </nav>
@@ -55,18 +61,24 @@
 
       <!-- MOBILE -->
       <ul class="sidenav" id="mobile-main-menu">
-        <li>
-          <a href="#" class="dropdown-trigger" data-target="dropdown-shopping-list-mobile"><%= gettext("Shopping list") %></a>
-        </li>
-        <li>
-          <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-mobile"><%= gettext("User groups") %></a>
-        </li>
-        <li>
-          <%= link gettext("User settings"), to: "" %>
-        </li>
-        <li>
-          <%= link gettext("Logout"), to: "#" %>
-        </li>
+        <%= if @conn.assigns[:user] do %>
+          <li>
+            <a href="#" class="dropdown-trigger" data-target="dropdown-shopping-list-mobile"><%= gettext("Shopping list") %></a>
+          </li>
+          <li>
+            <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-mobile"><%= gettext("User groups") %></a>
+          </li>
+          <li>
+            <%= link gettext("User settings"), to: "" %>
+          </li>
+          <li>
+            <%= link gettext("Logout"), to: "#" %>
+          </li>
+        <% else %>
+          <li>
+            <%= link gettext("Sign in"), to: "#" %>
+          </li>
+        <% end %>
       </ul>
     </header>
 
