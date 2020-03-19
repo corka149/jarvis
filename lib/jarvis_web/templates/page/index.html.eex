@@ -1,3 +1,7 @@
-<div class="phx-hero">
-  <h2>jARVIS multipage version is back!</h2>
-</div>
+<h2>
+  <%= gettext "Welcome to %{name}!", name: "jARVIS" %>
+</h2>
+<p>
+  <%= gettext "How can I help you?" %>
+</p>
+<img class="responsive-img" alt="jARVIS" src="<%= Routes.static_path(@conn, "/images/jarvis.png") %>">

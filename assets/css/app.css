@@ -9,3 +9,7 @@ a.brand-logo>img {
     padding-top: 0.3rem;
     padding-left: 0.3rem;
 }
+
+.container {
+    max-width: 750px;
+}
