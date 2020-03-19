@@ -36,6 +36,9 @@
             <li>
               <%= link gettext("User settings"), to: "#" %>
             </li>
+            <li>
+              <%= link gettext("Logout"), to: "#" %>
+            </li>
           </ul>
         </div>
       </nav>
@@ -60,6 +63,9 @@
         </li>
         <li>
           <%= link gettext("User settings"), to: "" %>
+        </li>
+        <li>
+          <%= link gettext("Logout"), to: "#" %>
         </li>
       </ul>
     </header>
