@@ -28,6 +28,12 @@ defmodule JarvisWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/auth", JarvisWeb do
+    pipe_through :browser
+
+    get "/signin", AuthController, :signin
+  end
+
   # ### ### ### ### ### #
   #          Api        #
   # ### ### ### ### ### #
