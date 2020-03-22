@@ -7,11 +7,9 @@
     <title>
       <%= gettext "Jarvis · May I help you" %>
     </title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
-
   </head>
   <body>
     <header>
@@ -38,7 +36,7 @@
                 <%= link gettext("User settings"), to: "#" %>
               </li>
               <li>
-                <%= link gettext("Logout"), to: "#" %>
+                <%= link gettext("Log out"), to: "#" %>
               </li>
             <% else %>
               <li>
@@ -48,17 +46,14 @@
           </ul>
         </div>
       </nav>
-
       <ul id="dropdown-shopping-list-desktop" class="dropdown-content">
         <li><%= link gettext("All lists"), to: "" %></li>
         <li><%= link gettext("Current lists"), to: "" %></li>
       </ul>
-
       <ul id="dropdown-user-groups-desktop" class="dropdown-content">
         <li><%= link gettext("Management"), to: "" %></li>
         <li><%= link gettext("Membership"), to: "" %></li>
       </ul>
-
       <!-- MOBILE -->
       <ul class="sidenav" id="mobile-main-menu">
         <%= if @conn.assigns[:user] do %>
@@ -76,28 +71,24 @@
           </li>
         <% else %>
           <li>
-            <%= link gettext("Sign in"), to: "#" %>
+            <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :signin) %>
           </li>
         <% end %>
       </ul>
     </header>
-
-      <ul id="dropdown-shopping-list-mobile" class="dropdown-content">
-        <li><%= link gettext("All lists"), to: "" %></li>
-        <li><%= link gettext("Current lists"), to: "" %></li>
-      </ul>
-
-      <ul id="dropdown-user-groups-mobile" class="dropdown-content">
-        <li><%= link gettext("Management"), to: "" %></li>
-        <li><%= link gettext("Membership"), to: "" %></li>
-      </ul>
-
+    <ul id="dropdown-shopping-list-mobile" class="dropdown-content">
+      <li><%= link gettext("All lists"), to: "" %></li>
+      <li><%= link gettext("Current lists"), to: "" %></li>
+    </ul>
+    <ul id="dropdown-user-groups-mobile" class="dropdown-content">
+      <li><%= link gettext("Management"), to: "" %></li>
+      <li><%= link gettext("Membership"), to: "" %></li>
+    </ul>
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
-
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
@@ -105,12 +96,11 @@
         var elems = document.querySelectorAll('.dropdown-trigger');
         var instances = M.Dropdown.init(elems, {constrainWidth: false});
       });
-
+      
       document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.sidenav');
         var instances = M.Sidenav.init(elems, {});
       });
-
     </script>
   </body>
 </html>
