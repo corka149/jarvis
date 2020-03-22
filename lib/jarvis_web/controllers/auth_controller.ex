@@ -35,7 +35,7 @@ defmodule JarvisWeb.AuthController do
   def signout(conn, _params) do
     conn
     |> configure_session(drop: true)
-    |> send_resp(:no_content, "")
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 
   ## Private functions

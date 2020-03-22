@@ -41,7 +41,7 @@ msgstr ""
 #, elixir-format
 #: lib/jarvis_web/templates/layout/app.html.eex:46
 #: lib/jarvis_web/templates/layout/app.html.eex:85
-msgid "Logout"
+msgid "Sign out"
 msgstr ""
 
 #, elixir-format

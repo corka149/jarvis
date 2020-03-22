@@ -36,7 +36,7 @@
                 <%= link gettext("User settings"), to: "#" %>
               </li>
               <li>
-                <%= link gettext("Log out"), to: "#" %>
+                <%= link gettext("Sign out"), to: Routes.auth_path(@conn, :signout) %>
               </li>
             <% else %>
               <li>
@@ -67,7 +67,7 @@
             <%= link gettext("User settings"), to: "" %>
           </li>
           <li>
-            <%= link gettext("Logout"), to: "#" %>
+            <%= link gettext("Sign out"), to: Routes.auth_path(@conn, :signout) %>
           </li>
         <% else %>
           <li>

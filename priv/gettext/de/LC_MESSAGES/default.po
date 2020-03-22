@@ -42,7 +42,7 @@ msgstr "jARVIS · Wie kann ich helfen"
 #, elixir-format
 #: lib/jarvis_web/templates/layout/app.html.eex:46
 #: lib/jarvis_web/templates/layout/app.html.eex:85
-msgid "Logout"
+msgid "Sign out"
 msgstr "Abmelden"
 
 #, elixir-format
