@@ -13,3 +13,7 @@ a.brand-logo>img {
 .container {
     max-width: 750px;
 }
+
+button.primary-btn {
+    background-color: #ff9800;
+}

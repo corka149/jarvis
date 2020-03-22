@@ -32,20 +32,20 @@ defmodule JarvisWeb.Router do
     pipe_through :browser
 
     get "/signin", AuthController, :signin
+    post "/signin", AuthController, :signin_by_jarvis
   end
 
   # ### ### ### ### ### #
   #          Api        #
   # ### ### ### ### ### #
 
-  scope "/auth", JarvisWeb do
-    pipe_through :api
+  # scope "/auth", JarvisWeb do
+  #   pipe_through :api
 
-    post "/signin", AuthController, :signin_by_jarvis
-    get "/signout", AuthController, :signout
-    get "/:provider", AuthController, :request
-    get "/:provider/callback", AuthController, :callback
-  end
+  #   get "/signout", AuthController, :signout
+  #   get "/:provider", AuthController, :request
+  #   get "/:provider/callback", AuthController, :callback
+  # end
 
   scope "/v1/system", JarvisWeb do
     pipe_through :api_without_user

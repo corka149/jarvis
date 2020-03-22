@@ -1,32 +1,32 @@
 <div>
-    <h2 class="center-align">
-        <%= dgettext("accounts", "Sign in") %>
-    </h2>
+  <h2 class="center-align">
+    <%= gettext "Welcome to %{name}!", name: "jARVIS" %>
+  </h2>
 </div>
 <div class="row">
-  <form class="col s12">
-    <div class="row">
-      <%= form_for @conn, Routes.auth_path(@conn, :signin_by_jarvis), fn form -> %>
-      <div class="input-field col s12">
-        <%= label form, :email, dgettext("accounts", "E-Mail"), class: "validate" %>
-        <%= email_input form, :email %>
-        <%= error_tag form, :email %>
-        <span class="helper-text">
-            <%= dgettext("accounts", "Enter your e-mail address") %>
-        </span>
-      </div>
-      <div class="input-field col s12">
-        <%= label form, :password, dgettext("accounts", "Password") %>
-        <%= password_input form, :password %>
-        <%= error_tag form, :password %>
-        <span class="helper-text">
-            <%= dgettext("accounts", "Enter your password") %>
-        </span>
-      </div>
-      <div class="input-field col s12">
-        <%= submit dgettext("accounts", "Log in"), class: "btn" %>
-      </div>
-    <% end %>
+  <div class="col s3"></div>
+  <%= form_for @conn, Routes.auth_path(@conn, :signin_by_jarvis), [class: "col s6"], fn form -> %>
+  <div class="row">
+    <div class="input-field col s12">
+      <%= label form, :email, dgettext("accounts", "E-Mail"), class: "validate" %>
+      <%= email_input form, :email %>
+      <%= error_tag form, :email %>
+      <span class="helper-text">
+        <%= dgettext("accounts", "Enter your e-mail address") %>
+      </span>
+    </div>
+    <div class="input-field col s12">
+      <%= label form, :password, dgettext("accounts", "Password") %>
+      <%= password_input form, :password %>
+      <%= error_tag form, :password %>
+      <span class="helper-text">
+        <%= dgettext("accounts", "Enter your password") %>
+      </span>
+    </div>
+    <div class="input-field col s12">
+      <%= submit dgettext("accounts", "Sign in"), class: "btn primary-btn" %>
+    </div>
   </div>
-</form>
+<% end %>
+  <div class="col s3"></div>
 </div>

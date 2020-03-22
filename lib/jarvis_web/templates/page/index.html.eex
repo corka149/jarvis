@@ -1,6 +1,8 @@
-<h2>
-  <%= gettext "Welcome to %{name}!", name: "jARVIS" %>
-</h2>
+<div>
+  <h2 class="center-align">
+    <%= gettext "Welcome to %{name}!", name: "jARVIS" %>
+  </h2>
+</div>
 <p>
   <%= gettext "How can I help you?" %>
 </p>

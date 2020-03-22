@@ -18,7 +18,7 @@
       <nav>
         <!-- DESKTOP -->
         <div class="nav-wrapper">
-          <a href="#!" class="brand-logo">
+          <a href="/" class="brand-logo">
             <img class="responsive-img" src="<%= Routes.static_path(@conn, "/images/logo_jarvis.svg") %>" alt="jARVIS">
           </a>
           <a href="#" data-target="mobile-main-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -42,7 +42,7 @@
               </li>
             <% else %>
               <li>
-                <%= link gettext("Sign in"), to: "#" %>
+                <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :signin) %>
               </li>
             <% end %>
           </ul>
