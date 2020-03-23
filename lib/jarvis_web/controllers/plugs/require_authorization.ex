@@ -28,6 +28,15 @@ defmodule JarvisWeb.Plugs.RequireAuthorization do
     end
   end
 
+  @impl true
+  def call(conn, %{authorization_border: border} = _params) do
+    if border.is_allowed_to_cross?(conn.assigns.user) do
+      conn
+    else
+      reject(conn)
+    end
+  end
+
   defp reject(conn) do
     Logger.warn("User does not own target.")
 

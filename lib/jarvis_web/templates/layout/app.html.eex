@@ -33,7 +33,7 @@
                 </a>
               </li>
               <li>
-                <%= link gettext("User settings"), to: "#" %>
+                <%= link gettext("User settings"), to: Routes.user_path(@conn, :show) %>
               </li>
               <li>
                 <%= link gettext("Sign out"), to: Routes.auth_path(@conn, :signout) %>
@@ -64,7 +64,7 @@
             <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-mobile"><%= gettext("User groups") %></a>
           </li>
           <li>
-            <%= link gettext("User settings"), to: "" %>
+            <%= link gettext("User settings"), to: Routes.user_path(@conn, :show) %>
           </li>
           <li>
             <%= link gettext("Sign out"), to: Routes.auth_path(@conn, :signout) %>
@@ -96,7 +96,7 @@
         var elems = document.querySelectorAll('.dropdown-trigger');
         var instances = M.Dropdown.init(elems, {constrainWidth: false});
       });
-      
+
       document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.sidenav');
         var instances = M.Sidenav.init(elems, {});

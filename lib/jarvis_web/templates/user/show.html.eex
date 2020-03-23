@@ -1,0 +1,5 @@
+<div>
+  <h2 class="center-align">
+    <%= gettext "Settings of %{name}", name: "Bob" %>
+  </h2>
+</div>

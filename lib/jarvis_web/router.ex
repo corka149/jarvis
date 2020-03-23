@@ -40,6 +40,12 @@ defmodule JarvisWeb.Router do
     get "/:provider/callback", AuthController, :callback
   end
 
+  scope "/accounts", JarvisWeb do
+    pipe_through :browser
+
+    resources "/user", UserController, only: [:show, :edit, :update, :delete], singleton: true
+  end
+
   # ### ### ### ### ### #
   #          Api        #
   # ### ### ### ### ### #
