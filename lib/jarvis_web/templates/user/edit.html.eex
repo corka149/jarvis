@@ -1,5 +1,22 @@
 <div>
   <h2 class="center-align">
-    <%= gettext "Settings of %{name}", name: "Bob" %>
+    <%= gettext "Settings of %{name}", name: @conn.assigns.user.name %>
   </h2>
+</div>
+<div class="row">
+  <div class="col s2"></div>
+  <%= form_for @changeset, Routes.user_path(@conn, :update), [class: "col s8"], fn form -> %>
+    <div class="row">
+      <div class="input-field col s12">
+        <%= label form, :name, dgettext("accounts", "Name"), class: "validate" %>
+        <%= text_input form, :name %>
+        <%= error_tag form, :name %>
+      </div>
+      <div>
+        <%= link gettext("back"), to: Routes.user_path(@conn, :show), class: "btn primary-btn" %>
+        <%= submit gettext("save"), class: "btn primary-btn" %>
+      </div>
+    </div>
+  <%= end %>
+  <div class="col s2"></div>
 </div>

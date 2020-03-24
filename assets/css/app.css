@@ -16,4 +16,10 @@ a.brand-logo>img {
 
 button.primary-btn {
     background-color: #ff9800;
+    margin-right: 1rem;
+}
+
+a.primary-btn {
+    background-color: #ff9800;
+    margin-right: 1rem;
 }
