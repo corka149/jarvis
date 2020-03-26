@@ -25,8 +25,14 @@ defmodule JarvisWeb.UserController do
   def update(conn, %{"user" => user_params}) do
     user = Accounts.get_user!(conn.assigns.user.id)
 
-    with {:ok, %User{} = user} <- Accounts.update_user(user, user_params) do
-      render(conn, "show.html", user: user)
+    case Accounts.update_user(user, user_params) do
+      {:ok, %User{} = _user} ->
+        conn
+        |> put_flash(:info, gettext("User settings successfull updated."))
+        |> redirect(to: Routes.user_path(conn, :show))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> render("edit.html", changeset: changeset)
     end
   end
 
