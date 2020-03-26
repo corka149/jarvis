@@ -4,8 +4,7 @@
   </h2>
 </div>
 <div class="row">
-  <div class="col s3"></div>
-  <%= form_for @conn, Routes.auth_path(@conn, :signin_by_jarvis), [class: "col s6"], fn form -> %>
+  <%= form_for @conn, Routes.auth_path(@conn, :signin_by_jarvis), [class: "col s12"], fn form -> %>
   <div class="row">
     <div class="input-field col s12">
       <%= label form, :email, dgettext("accounts", "E-Mail"), class: "validate" %>
@@ -28,5 +27,4 @@
     </div>
   </div>
 <% end %>
-  <div class="col s3"></div>
 </div>

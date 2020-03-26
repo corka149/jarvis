@@ -4,8 +4,7 @@
   </h2>
 </div>
 <div class="row">
-  <div class="col s2"></div>
-  <%= form_for @changeset, Routes.user_path(@conn, :update), [class: "col s8"], fn form -> %>
+  <%= form_for @changeset, Routes.user_path(@conn, :update), [class: "col s12"], fn form -> %>
     <div class="row">
       <div class="input-field col s12">
         <%= label form, :name, dgettext("accounts", "Name"), class: "validate" %>
@@ -18,5 +17,4 @@
       </div>
     </div>
   <%= end %>
-  <div class="col s2"></div>
 </div>
