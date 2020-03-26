@@ -8,7 +8,7 @@
   <div class="row">
     <div class="input-field col s12">
       <%= label form, :email, dgettext("accounts", "E-Mail"), class: "validate" %>
-      <%= email_input form, :email %>
+      <%= email_input form, :email, [required: true] %>
       <%= error_tag form, :email %>
       <span class="helper-text">
         <%= dgettext("accounts", "Enter your e-mail address") %>
@@ -16,7 +16,7 @@
     </div>
     <div class="input-field col s12">
       <%= label form, :password, dgettext("accounts", "Password") %>
-      <%= password_input form, :password %>
+      <%= password_input form, :password, [required: true] %>
       <%= error_tag form, :password %>
       <span class="helper-text">
         <%= dgettext("accounts", "Enter your password") %>
