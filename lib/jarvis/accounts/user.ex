@@ -40,6 +40,7 @@ defmodule Jarvis.Accounts.User do
 
   ## Validate password
 
+  # Existing jarvis user
   defp validate_jarvis_password(%{changes: changes} = changeset, %{provider: "jarvis"} = user) do
     if password_in_changes?(changes) or not has_encrypted_password(user) do
       Logger.info("Detected jarvis as provider")
@@ -49,6 +50,7 @@ defmodule Jarvis.Accounts.User do
     end
   end
 
+  # New jarvis user
   defp validate_jarvis_password(%{changes: %{provider: "jarvis"} = changes} = changeset, user) do
     if password_in_changes?(changes) or not has_encrypted_password(user) do
       Logger.info("Detected jarvis as provider")
@@ -58,6 +60,7 @@ defmodule Jarvis.Accounts.User do
     end
   end
 
+  # Not jarvis user
   defp validate_jarvis_password(changeset, _user) do
     changeset
   end
@@ -70,7 +73,9 @@ defmodule Jarvis.Accounts.User do
   end
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
-    change(changeset, Argon2.add_hash(password))
+    changeset = change(changeset, Argon2.add_hash(password))
+    changes = Map.put(changeset.changes, :password, "")
+    %{changeset | changes: changes}
   end
 
   defp put_pass_hash(changeset), do: changeset
@@ -79,7 +84,9 @@ defmodule Jarvis.Accounts.User do
   defp has_encrypted_password(_user), do: false
 
   defp password_in_changes?(changes) do
-    Map.has_key?(changes, "password") or Map.has_key?(changes, :password)
+    str_password? = Map.has_key?(changes, "password") and Map.get(changes, "password") != nil
+    keyword_password? = Map.has_key?(changes, :password) and Map.get(changes, :password) != nil
+    str_password? or keyword_password?
   end
 
   defp password_validation do

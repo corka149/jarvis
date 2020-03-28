@@ -11,10 +11,20 @@
         <%= text_input form, :name %>
         <%= error_tag form, :name %>
       </div>
+      <div class="input-field col s12">
+        <%= label form, :password, dgettext("accounts", "Password"), class: "validate" %>
+        <%= password_input form, :password %>
+        <%= error_tag form, :password %>
+      </div>
+      <div class="input-field col s12">
+        <%= label form, :confirm_password, dgettext("accounts", "Confirm password"), class: "validate" %>
+        <%= password_input form, :confirm_password %>
+        <%= error_tag @errors, :confirm_password %>
+      </div>
       <div>
         <%= link gettext("back"), to: Routes.user_path(@conn, :show), class: "btn primary-btn" %>
         <%= submit gettext("save"), class: "btn primary-btn" %>
       </div>
     </div>
-  <%= end %>
+  <% end %>
 </div>

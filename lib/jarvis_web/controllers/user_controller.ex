@@ -18,21 +18,19 @@ defmodule JarvisWeb.UserController do
   def edit(conn, _params) do
     changeset = Accounts.get_user!(conn.assigns.user.id)
             |> User.changeset(%{})
-
-    render(conn, "edit.html",  changeset: changeset)
+    IO.inspect changeset
+    render(conn, "edit.html",  changeset: changeset, errors: [])
   end
 
   def update(conn, %{"user" => user_params}) do
     user = Accounts.get_user!(conn.assigns.user.id)
 
-    case Accounts.update_user(user, user_params) do
-      {:ok, %User{} = _user} ->
-        conn
-        |> put_flash(:info, gettext("User settings successfull updated."))
-        |> redirect(to: Routes.user_path(conn, :show))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> render("edit.html", changeset: changeset)
+    case confirm_password_matches?(user_params) do
+      [] ->
+        do_update(conn, user, user_params)
+      errors ->
+        changset = User.changeset(user, user_params)
+        render(conn, "edit.html",  changeset: changset, errors: errors)
     end
   end
 
@@ -44,4 +42,25 @@ defmodule JarvisWeb.UserController do
     end
   end
 
+  ## Private functions
+
+  defp confirm_password_matches?(user_params) do
+    if Map.get(user_params, "password") != Map.get(user_params, "confirm_password") do
+      [confirm_password: {"confirm password does not match", []}]
+    else
+      []
+    end
+  end
+
+  defp do_update(conn, user, user_params) do
+    case Accounts.update_user(user, user_params) do
+      {:ok, %User{} = _user} ->
+        conn
+        |> put_flash(:info, gettext("User settings successfull updated."))
+        |> redirect(to: Routes.user_path(conn, :show))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> render("edit.html",  changeset: changeset, errors: [])
+    end
+  end
 end
