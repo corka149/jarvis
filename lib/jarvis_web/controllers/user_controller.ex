@@ -62,6 +62,7 @@ defmodule JarvisWeb.UserController do
         |> redirect(to: Routes.user_path(conn, :show))
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
+        |> put_status(400)
         |> render("edit.html",  changeset: changeset, errors: [])
     end
   end

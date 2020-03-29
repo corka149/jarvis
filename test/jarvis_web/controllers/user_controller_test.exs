@@ -4,7 +4,6 @@ defmodule JarvisWeb.UserControllerTest do
 
   import Jarvis.TestHelper
 
-  alias Jarvis.Accounts
   alias Jarvis.Accounts.User
 
   @create_attrs %{
@@ -39,28 +38,26 @@ defmodule JarvisWeb.UserControllerTest do
   describe "update user" do
     setup [:create_user]
 
-    test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
+    test "renders user when data is valid", %{conn: conn, user: %User{} = user} do
       conn =
         conn
         |> init_test_session(user_id: user.id)
-        |> put(Routes.user_path(conn, :update, user), user: @update_attrs)
+        |> put(Routes.user_path(conn, :update), user: @update_attrs)
 
-      assert %{"name" => _} = json_response(conn, 200)
+      assert redirected_to(conn) == Routes.user_path(conn, :show)
 
-      conn = get(conn, Routes.user_path(conn, :show, id))
+      conn = get(conn, Routes.user_path(conn, :show))
 
-      assert %{
-               "name" => "some updated name"
-             } = json_response(conn, 200)
+      assert response(conn, 200) =~ "some updated name"
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
       conn =
         conn
         |> init_test_session(user_id: user.id)
-        |> put(Routes.user_path(conn, :update, user), user: @invalid_attrs)
+        |> put(Routes.user_path(conn, :update), user: @invalid_attrs)
 
-      assert json_response(conn, 422)["errors"] != %{}
+      assert response(conn, 400) =~ "save"
     end
   end
 
@@ -74,17 +71,6 @@ defmodule JarvisWeb.UserControllerTest do
         |> delete(Routes.user_path(conn, :delete))
 
       assert redirected_to(conn) == Routes.page_path(conn, :index)
-    end
-
-    test "delete user without authorization", %{conn: conn, user: user} do
-      requester = fixture(:user)
-
-      conn =
-        conn
-        |> init_test_session(user_id: requester.id)
-        |> delete(Routes.user_path(conn, :delete, user))
-
-      response(conn, 403) =~ "You are not allow to do this"
     end
   end
 
