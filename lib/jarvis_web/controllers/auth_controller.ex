@@ -65,6 +65,7 @@ defmodule JarvisWeb.AuthController do
   defp init_session({:error, _reason}, conn) do
     conn
     |> put_flash(:error, dgettext("accounts","Sign in failed"))
+    |> put_status(403)
     |> render("signin.html")
   end
 
