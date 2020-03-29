@@ -32,10 +32,7 @@ defmodule JarvisWeb.UserControllerTest do
   end
 
   setup %{conn: conn} do
-    conn =
-      conn
-      |> put_req_header("accept", "application/json")
-
+    # TODO delete me?
     {:ok, conn: conn}
   end
 
@@ -107,9 +104,9 @@ defmodule JarvisWeb.UserControllerTest do
       conn =
         conn
         |> init_test_session(user_id: user.id)
-        |> delete(Routes.user_path(conn, :delete, user))
+        |> delete(Routes.user_path(conn, :delete))
 
-      response(conn, 204)
+      assert redirected_to(conn) == Routes.page_path(conn, :index)
     end
 
     test "delete user without authorization", %{conn: conn, user: user} do

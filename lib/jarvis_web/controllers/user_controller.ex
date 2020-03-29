@@ -38,7 +38,9 @@ defmodule JarvisWeb.UserController do
     user = Accounts.get_user!(conn.assigns.user.id)
 
     with {:ok, %User{}} <- Accounts.delete_user(user) do
-      redirect(conn, to: Routes.page_path(conn, :index))
+      conn
+      |> configure_session(drop: true)
+      |> redirect(to: Routes.page_path(conn, :index))
     end
   end
 
