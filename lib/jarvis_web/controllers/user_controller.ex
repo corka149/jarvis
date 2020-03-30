@@ -18,7 +18,6 @@ defmodule JarvisWeb.UserController do
   def edit(conn, _params) do
     changeset = Accounts.get_user!(conn.assigns.user.id)
             |> User.changeset(%{})
-    IO.inspect changeset
     render(conn, "edit.html",  changeset: changeset, errors: [])
   end
 
