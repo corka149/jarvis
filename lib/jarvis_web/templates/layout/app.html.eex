@@ -47,8 +47,8 @@
         </div>
       </nav>
       <ul id="dropdown-shopping-list-desktop" class="dropdown-content">
-        <li><%= link gettext("All lists"), to: "" %></li>
-        <li><%= link gettext("Current lists"), to: "" %></li>
+        <li><%= link gettext("All lists"), to: Routes.shopping_list_path(@conn, :index) %></li>
+        <li><%= link gettext("Current lists"), to: Routes.shopping_list_path(@conn, :index_open_lists) %></li>
       </ul>
       <ul id="dropdown-user-groups-desktop" class="dropdown-content">
         <li><%= link gettext("Management"), to: "" %></li>
@@ -77,8 +77,8 @@
       </ul>
     </header>
     <ul id="dropdown-shopping-list-mobile" class="dropdown-content">
-      <li><%= link gettext("All lists"), to: "" %></li>
-      <li><%= link gettext("Current lists"), to: "" %></li>
+      <li><%= link gettext("All lists"), to: Routes.shopping_list_path(@conn, :index) %></li>
+      <li><%= link gettext("Current lists"), to: Routes.shopping_list_path(@conn, :index_open_lists) %></li>
     </ul>
     <ul id="dropdown-user-groups-mobile" class="dropdown-content">
       <li><%= link gettext("Management"), to: "" %></li>
