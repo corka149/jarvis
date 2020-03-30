@@ -117,8 +117,8 @@ defmodule Jarvis.Accounts do
       %Ecto.Changeset{source: %User{}}
 
   """
-  def change_user(%User{} = user) do
-    User.changeset(user, %{})
+  def change_user(%User{} = user, %{} = changes \\ %{}) do
+    User.changeset(user, changes)
   end
 
   alias Jarvis.Accounts.UserGroup
