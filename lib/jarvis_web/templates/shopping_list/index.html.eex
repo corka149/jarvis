@@ -1,5 +1,5 @@
 <div>
   <h2 class="center-align">
-    index
+    <%= dgettext "shoppinglists", "All shopping lists" %>
   </h2>
 </div>

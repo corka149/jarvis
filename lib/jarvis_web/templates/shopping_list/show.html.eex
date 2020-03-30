@@ -1,5 +1,5 @@
 <div>
   <h2 class="center-align">
-    show
+    <%= dgettext "shoppinglists", "Shopping list" %>
   </h2>
 </div>

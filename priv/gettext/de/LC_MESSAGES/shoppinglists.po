@@ -50,7 +50,7 @@ msgstr "Übersicht Einkaufslisten"
 
 #, elixir-format
 #: lib/jarvis_web/templates/shopping_list/edit.html.eex:1
-msgid "Edit Shopping list"
+msgid "Edit shopping list"
 msgstr "Editiere Einkaufsliste"
 
 #, elixir-format
