@@ -30,11 +30,6 @@ defmodule JarvisWeb.UserControllerTest do
     user
   end
 
-  setup %{conn: conn} do
-    # TODO delete me?
-    {:ok, conn: conn}
-  end
-
   describe "update user" do
     setup [:create_user]
 
