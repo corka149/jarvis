@@ -16,9 +16,11 @@ defmodule JarvisWeb.UserController do
   end
 
   def edit(conn, _params) do
-    changeset = Accounts.get_user!(conn.assigns.user.id)
-            |> Accounts.change_user()
-    render(conn, "edit.html",  changeset: changeset, errors: [])
+    changeset =
+      Accounts.get_user!(conn.assigns.user.id)
+      |> Accounts.change_user()
+
+    render(conn, "edit.html", changeset: changeset, errors: [])
   end
 
   def update(conn, %{"user" => user_params}) do
@@ -27,9 +29,12 @@ defmodule JarvisWeb.UserController do
     case confirm_password_matches?(user_params) do
       [] ->
         do_update(conn, user, user_params)
+
       errors ->
         changset = Accounts.change_user(user, user_params)
-        render(conn, "edit.html",  changeset: changset, errors: errors)
+
+        conn
+        |> render("edit.html", changeset: changset, errors: errors)
     end
   end
 
@@ -59,10 +64,11 @@ defmodule JarvisWeb.UserController do
         conn
         |> put_flash(:info, gettext("User settings successfull updated."))
         |> redirect(to: Routes.user_path(conn, :show))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(400)
-        |> render("edit.html",  changeset: changeset, errors: [])
+        |> render("edit.html", changeset: changeset, errors: [])
     end
   end
 end

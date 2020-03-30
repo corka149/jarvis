@@ -46,6 +46,13 @@ defmodule JarvisWeb.Router do
     resources "/user", UserController, only: [:show, :edit, :update, :delete], singleton: true
   end
 
+  scope "/shoppinglists", JarvisWeb do
+    pipe_through :browser
+
+    get "/open", ShoppingListController, :index_open_lists
+    resources "/", ShoppingListController
+  end
+
   # ### ### ### ### ### #
   #          Api        #
   # ### ### ### ### ### #
@@ -71,8 +78,6 @@ defmodule JarvisWeb.Router do
   scope "/v1/shoppinglists", JarvisWeb do
     pipe_through :api
 
-    get "/open", ShoppingListController, :index_open_lists
-    resources "/", ShoppingListController, except: [:new, :edit]
     resources "/:shopping_list_id/items/", ItemController, except: [:new, :edit]
   end
 
