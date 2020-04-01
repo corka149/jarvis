@@ -3,3 +3,7 @@
     <%= dgettext "shoppinglists", "New shopping list" %>
   </h2>
 </div>
+
+<!-- Buttons -->
+<div>
+</div>

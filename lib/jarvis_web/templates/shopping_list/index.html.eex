@@ -3,3 +3,13 @@
     <%= dgettext "shoppinglists", "All shopping lists" %>
   </h2>
 </div>
+
+<!-- Buttons -->
+<div>
+  <%= edit_button(@conn) %>
+</div>
+
+<!-- Data table -->
+<div>
+
+</div>
