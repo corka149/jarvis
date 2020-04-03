@@ -6,4 +6,5 @@
 
 <!-- Buttons -->
 <div>
+  <%= back_button() %>
 </div>

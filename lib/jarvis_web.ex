@@ -40,6 +40,7 @@ defmodule JarvisWeb do
       use Phoenix.HTML
 
       import JarvisWeb.ErrorHelpers
+      import JarvisWeb.HtmlHelpers
       import JarvisWeb.Gettext
       alias JarvisWeb.Router.Helpers, as: Routes
     end

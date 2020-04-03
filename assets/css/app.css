@@ -20,6 +20,10 @@ a.primary-btn {
     margin-right: 1rem;
 }
 
+.primary-btn:hover {
+    background-color: #ffae00;
+}
+
 /* Alerts and form errors */
 
 .alert {
