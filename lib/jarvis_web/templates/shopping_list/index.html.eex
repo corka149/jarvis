@@ -6,7 +6,7 @@
 
 <!-- Buttons -->
 <div>
-  <%= edit_button(@conn) %>
+  <%= add_button(Routes.shopping_list_path(@conn, :new)) %>
 </div>
 
 <!-- Data table -->

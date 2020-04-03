@@ -3,3 +3,8 @@
     <%= dgettext "shoppinglists", "Edit shopping list" %>
   </h2>
 </div>
+
+<!-- Buttons -->
+<div>
+  <%= back_button() %>
+</div>

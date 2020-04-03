@@ -1,12 +1,12 @@
 defmodule JarvisWeb.HtmlHelpers do
-  require Phoenix.HTML
+  alias Phoenix.HTML
 
   @moduledoc """
   Predefined collection of html elements.
   """
 
   @doc """
-  Creates a back button
+  Creates a back button that goes back in history.
   """
   def back_button() do
     ~s"""
@@ -14,7 +14,17 @@ defmodule JarvisWeb.HtmlHelpers do
       class="btn-floating primary-btn">
       <i class="material-icons">arrow_back</i>
     </button>
-    """ |> Phoenix.HTML.raw()
+    """ |> HTML.raw()
   end
 
+  @doc """
+  Create floating create button
+  """
+  def add_button(route) do
+    HTML.Link.link(
+      HTML.raw("<i class='material-icons'>add</i>"),
+      to: route,
+      class: "btn-floating primary-btn"
+    )
+  end
 end
