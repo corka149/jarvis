@@ -38,9 +38,11 @@ defmodule JarvisWeb.ShoppingListController do
 
   def new(conn, _params) do
     changeset = ShoppingLists.change_shopping_list(%ShoppingList{})
+    user_groups = Accounts.list_usergroups_by_membership_or_owner(conn.assigns.user)
+                  |> Enum.map(&{&1.name, &1.id})
 
     conn
-    |> render("new.html", changeset: changeset)
+    |> render("new.html", changeset: changeset, user_groups: user_groups)
   end
 
   def create(conn, %{"shopping_list" => %{"belongs_to" => user_group_id} = shopping_list_params}) do

@@ -24,6 +24,13 @@ a.primary-btn {
     background-color: #ffae00;
 }
 
+.datepicker-date-display {
+    background-color: #ff9800;
+}
+.datepicker-table td.is-selected {
+    background-color: #ff9800;
+}
+
 /* Alerts and form errors */
 
 .alert {
@@ -80,4 +87,13 @@ main {
         margin-left: 20% !important;
         padding-right: 20% !important;
     }
+}
+
+div.button-bar {
+    margin: 1rem;
+}
+
+/* mat select */
+.dropdown-content li>a, .dropdown-content li>span {
+    color: #a94442; 
 }
