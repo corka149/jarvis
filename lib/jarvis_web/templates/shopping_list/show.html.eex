@@ -6,5 +6,5 @@
 
 <!-- Buttons -->
 <div>
-  <%= back_button() %>
+  <%= back_button(Routes.shopping_list_path(@conn, :index)) %>
 </div>

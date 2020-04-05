@@ -11,5 +11,23 @@
 
 <!-- Data table -->
 <div>
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th><%= dgettext "shoppinglists", "Belongs to" %></th>
+        <th><%= dgettext "shoppinglists", "On" %></th>
+      </tr>
+    </thead>
 
+    <tbody>
+      <%= for list <- @shopping_lists do %>
+        <tr>
+          <td><%= list.id %></td>
+          <td><%= list.usergroup.name %></td>
+          <td><%= list.planned_for %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

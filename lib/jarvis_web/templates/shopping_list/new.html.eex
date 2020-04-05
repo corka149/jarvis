@@ -6,7 +6,7 @@
 
 <!-- Buttons -->
 <div class="button-bar">
-  <%= back_button() %>
+  <%= back_button(Routes.shopping_list_path(@conn, :index)) %>
 </div>
 
 <!-- Form -->
@@ -22,6 +22,10 @@
       <%= select form, :belongs_to, @user_groups %>
       <%= label form, :belongs_to, dgettext("shoppinglists", "Belongs to") %>
       <%= error_tag form, :belongs_to %>
+    </div>
+
+    <div class="input-field col s12">
+      <%= save_button() %>
     </div>
   </div>
 <% end %>
