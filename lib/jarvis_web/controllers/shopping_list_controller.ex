@@ -38,22 +38,23 @@ defmodule JarvisWeb.ShoppingListController do
 
   def new(conn, _params) do
     changeset = ShoppingLists.change_shopping_list(%ShoppingList{})
-    user_groups = Accounts.list_usergroups_by_membership_or_owner(conn.assigns.user)
-                  |> Enum.map(&{&1.name, &1.id})
 
     conn
-    |> render("new.html", changeset: changeset, user_groups: user_groups)
+    |> render("new.html", changeset: changeset, user_groups: group_names_with_ids(conn.assigns.user))
   end
 
   def create(conn, %{"shopping_list" => %{"belongs_to" => user_group_id} = shopping_list_params}) do
     user_group = Accounts.get_user_group!(user_group_id)
+    IO.inspect shopping_list_params
 
-    with {:ok, shopping_list} <-
-           ShoppingLists.create_shopping_list(shopping_list_params, user_group) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.shopping_list_path(conn, :show, shopping_list))
-      |> redirect(to: Routes.shopping_list_path(conn, :show, shopping_list))
+    case ShoppingLists.create_shopping_list(shopping_list_params, user_group) do
+      {:ok, shopping_list} -> conn
+        |> put_resp_header("location", Routes.shopping_list_path(conn, :show, shopping_list))
+        |> redirect(to: Routes.shopping_list_path(conn, :show, shopping_list))
+      {:error, changeset} ->
+        conn
+        |> put_status(400)
+        |> render("new.html", changeset: changeset, user_groups: group_names_with_ids(conn.assigns.user))
     end
   end
 
@@ -74,6 +75,7 @@ defmodule JarvisWeb.ShoppingListController do
            ShoppingLists.update_shopping_list(shopping_list, shopping_list_params) do
       redirect(conn, to: Routes.shopping_list_path(conn, :show, shopping_list))
     end
+
   end
 
   def delete(conn, %{"id" => id}) do
@@ -82,5 +84,12 @@ defmodule JarvisWeb.ShoppingListController do
 
     conn
     |> redirect(to: Routes.shopping_list_path(conn, :index))
+  end
+
+  ## Private functions
+
+  defp group_names_with_ids(%Accounts.User{} = user) do
+    Accounts.list_usergroups_by_membership_or_owner(user)
+      |> Enum.map(&{&1.name, &1.id})
   end
 end
