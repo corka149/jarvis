@@ -5,6 +5,6 @@
 </div>
 
 <!-- Buttons -->
-<div>
+<div class="button-bar">
   <%= back_button(Routes.shopping_list_path(@conn, :index)) %>
 </div>

@@ -3,8 +3,41 @@
     <%= dgettext "shoppinglists", "Shopping list" %>
   </h2>
 </div>
-
 <!-- Buttons -->
-<div>
+<div class="button-bar">
   <%= back_button(Routes.shopping_list_path(@conn, :index)) %>
+</div>
+<div>
+  <!-- Data -->
+  <div class="row">
+    <!-- Checked -->
+    <div class="col s12" style="padding-bottom: 1.5rem;">
+      <label>
+        <input type="checkbox" disabled="disabled"
+          <%= if @shopping_list.done do %>
+            checked="checked"
+          <% end %>
+        />
+        <span>
+          <%= gettext "Done" %>
+        </span>
+      </label>
+    </div>
+    <!-- Planned for -->
+    <div class="input-field col s12">
+      <input disabled value="<%= @shopping_list.planned_for %>"
+        id="planned_for" type="text" class="validate">
+      <label for="planned_for">
+        <%= dgettext("shoppinglists", "Planned for") %>
+      </label>
+    </div>
+    <!-- Belongs to -->
+    <div class="input-field col s12">
+      <input disabled value="<%= @shopping_list.usergroup.name %>"
+        id="usergroup_name" type="text" class="validate">
+      <label for="usergroup_name">
+        <%= dgettext("shoppinglists", "Belongs to") %>
+      </label>
+    </div>
+  </div>
 </div>
