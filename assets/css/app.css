@@ -114,3 +114,7 @@ div.button-bar {
 .dropdown-content li>a, .dropdown-content li>span {
     color: #a94442; 
 }
+
+tr {
+    cursor: pointer;
+}
