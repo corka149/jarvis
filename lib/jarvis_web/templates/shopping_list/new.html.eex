@@ -10,22 +10,4 @@
 </div>
 
 <!-- Form -->
-<%= form_for @changeset, Routes.shopping_list_path(@conn, :create), fn form -> %>
-  <div class="row">
-    <div class="input-field col s12">
-      <%= label form, :planned_for, dgettext("shoppinglists", "Planned for") %>
-      <%= text_input form, :planned_for , class: "datepicker" %>
-      <%= error_tag form, :planned_for %>
-    </div>
-
-    <div class="input-field col s12">
-      <%= select form, :belongs_to, @user_groups %>
-      <%= label form, :belongs_to, dgettext("shoppinglists", "Belongs to") %>
-      <%= error_tag form, :belongs_to %>
-    </div>
-
-    <div class="input-field col s12">
-      <%= save_button() %>
-    </div>
-  </div>
-<% end %>
+<%= render "form.html", Map.put(assigns, :action, Routes.shopping_list_path(@conn, :create)) %>
