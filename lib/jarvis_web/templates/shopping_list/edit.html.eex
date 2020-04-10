@@ -8,3 +8,6 @@
 <div class="button-bar">
   <%= back_button(Routes.shopping_list_path(@conn, :index)) %>
 </div>
+
+<!-- Form -->
+<%= render "form.html", Map.put(assigns, :action, Routes.shopping_list_path(@conn, :update, 1)) %>

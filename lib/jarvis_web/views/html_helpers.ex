@@ -27,6 +27,17 @@ defmodule JarvisWeb.HtmlHelpers do
     )
   end
 
+  @doc """
+  Create floating edit button
+  """
+  def edit_button(route) do
+    HTML.Link.link(
+      HTML.raw("<i class='material-icons'>create</i>"),
+      to: route,
+      class: "btn-floating primary-btn"
+    )
+  end
+
   def save_button() do
     HTML.Form.submit(
       HTML.raw("<i class='material-icons'>save</i>"),
