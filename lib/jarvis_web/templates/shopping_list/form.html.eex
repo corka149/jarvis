@@ -1,7 +1,7 @@
 <%= form_for @changeset, @action, fn form -> %>
   <div class="row">
       <!-- Checked -->
-    <div class="col s12">
+    <div class="col s12" style="padding-bottom: 1.5rem;">
       <label>
         <%= checkbox form, :done %>
         <span>

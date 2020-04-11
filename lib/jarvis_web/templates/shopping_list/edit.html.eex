@@ -10,4 +10,4 @@
 </div>
 
 <!-- Form -->
-<%= render "form.html", Map.put(assigns, :action, Routes.shopping_list_path(@conn, :update, 1)) %>
+<%= render "form.html", Map.put(assigns, :action, Routes.shopping_list_path(@conn, :update, @shopping_list)) %>

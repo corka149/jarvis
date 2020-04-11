@@ -59,12 +59,15 @@ defmodule JarvisWeb.ShoppingListController do
   end
 
   def edit(conn, %{"id" => id}) do
-    changeset =
-      ShoppingLists.get_shopping_list!(id)
-      |> ShoppingLists.change_shopping_list()
+    shopping_list = ShoppingLists.get_shopping_list!(id)
+    changeset = shopping_list |> ShoppingLists.change_shopping_list()
 
     conn
-    |> render("edit.html", changeset: changeset)
+    |> render("edit.html",
+        changeset: changeset,
+        user_groups: group_names_with_ids(conn.assigns.user),
+        shopping_list: shopping_list
+    )
   end
 
   def update(conn, %{"id" => id, "shopping_list" => shopping_list_params}) do
