@@ -38,7 +38,7 @@ defmodule JarvisWeb.HtmlHelpers do
     )
   end
 
-  def save_button() do
+  def save_button do
     HTML.Form.submit(
       HTML.raw("<i class='material-icons'>save</i>"),
       class: "btn-floating primary-btn"

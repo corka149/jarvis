@@ -38,8 +38,17 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :index))
 
-      shoppinglists = json_response(conn, 200)
-      assert is_list(shoppinglists)
+      assert html_response(conn, 200) =~ "All shopping lists"
+    end
+
+    test "lists open shopping_lists", %{conn: conn} do
+      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+
+      conn =
+        init_test_session(conn, user_id: user.id)
+        |> get(Routes.shopping_list_path(conn, :index_open_lists))
+
+      assert html_response(conn, 200) =~ "Open shopping lists"
     end
   end
 
@@ -51,14 +60,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :show, shopping_list))
 
-      response_shopping_list = json_response(conn, 200)
-
-      assert %{
-               "creator" => nil,
-               "done" => true,
-               "id" => _id,
-               "planned_for" => "2010-04-17"
-             } = response_shopping_list
+      assert html_response(conn, 200) =~ "2010-04-17"
+      assert html_response(conn, 200) =~ "checked=\"checked\""
     end
 
     test "show a single shopping list without authorization", %{
@@ -78,6 +81,17 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   describe "create shopping_list" do
     setup [:create_shopping_list]
 
+    test "show new form", %{conn: conn, user: user} do
+      conn = conn
+        |> init_test_session(user_id: user.id)
+        |> get(Routes.shopping_list_path(conn, :new))
+
+      assert html_response(conn, :ok) =~ "New shopping list"
+      assert html_response(conn, :ok) =~ "Done"
+      assert html_response(conn, :ok) =~ "Planned for"
+      assert html_response(conn, :ok) =~ "Belongs to"
+    end
+
     test "returns shopping_list to show when data is valid", %{
       conn: conn,
       group: group,
@@ -85,7 +99,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     } do
       create_attrs = %{
         "done" => false,
-        "planned_for" => DateTime.utc_now(),
+        "planned_for" => ~D[2020-04-23],
         "belongs_to" => group.id
       }
 
@@ -93,14 +107,14 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         init_test_session(conn, user_id: user.id)
         |> post(Routes.shopping_list_path(conn, :create), shopping_list: create_attrs)
 
-      new_shoppinglist = json_response(conn, 201)
+      assert %{id: id} = redirected_params(conn)
+      show_url = Routes.shopping_list_path(conn, :show, id)
 
-      assert %{
-               "creator" => nil,
-               "done" => false,
-               "id" => _id,
-               "planned_for" => _planned_for
-             } = new_shoppinglist
+      assert redirected_to(conn) == show_url
+
+      conn = get(conn, show_url)
+      assert html_response(conn, :ok) =~ Date.to_string(~D[2020-04-23])
+      assert html_response(conn, :ok) =~ group.name
     end
 
     test "renders errors when data is invalid", %{conn: conn, group: group, user: user} do
@@ -110,19 +124,23 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         init_test_session(conn, user_id: user.id)
         |> post(Routes.shopping_list_path(conn, :create), shopping_list: invalid_attrs)
 
-      error_msg = json_response(conn, 422)
-
-      assert %{
-               "errors" => %{
-                 "done" => ["can't be blank"],
-                 "planned_for" => ["can't be blank"]
-               }
-             } = error_msg
+      assert html_response(conn, 400) =~ "<span class=\"help-block\">can&#39;t be blank</span>"
     end
   end
 
   describe "update shopping_list" do
     setup [:create_shopping_list]
+
+    test "show edit form", %{conn: conn, shopping_list: shopping_list, user: user} do
+      conn = conn
+        |> init_test_session(user_id: user.id)
+        |> get(Routes.shopping_list_path(conn, :edit, shopping_list))
+
+      assert html_response(conn, :ok) =~ "Edit shopping list"
+      assert html_response(conn, :ok) =~ "checked"
+      assert html_response(conn, :ok) =~ "2010-04-17"
+      assert html_response(conn, :ok) =~ "some name"
+    end
 
     test "redirects when data is valid", %{conn: conn, shopping_list: shopping_list} do
       group = Jarvis.ShoppingLists.get_shopping_list!(shopping_list.id).usergroup
@@ -134,8 +152,13 @@ defmodule JarvisWeb.ShoppingListControllerTest do
           shopping_list: @update_attrs
         )
 
-      update_shoppinglist = json_response(conn, 200)
-      assert %{"done" => false, "planned_for" => "2011-05-18"} = update_shoppinglist
+      assert redirected_to(conn) == Routes.shopping_list_path(conn, :show, shopping_list)
+
+      conn =
+        conn
+        |> get(Routes.shopping_list_path(conn, :show, shopping_list))
+
+      html_response(conn, :ok) =~ Date.to_string(@update_attrs.planned_for)
     end
 
     test "renders errors when data is invalid", %{
@@ -149,10 +172,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
           shopping_list: @invalid_attrs
         )
 
-      error_msg = json_response(conn, 422)
-
-      assert %{"errors" => %{"done" => ["can't be blank"], "planned_for" => ["can't be blank"]}} =
-               error_msg
+      assert html_response(conn, 400) =~ "<span class=\"help-block\">can&#39;t be blank</span>"
     end
   end
 
@@ -164,7 +184,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         init_test_session(conn, user_id: user.id)
         |> delete(Routes.shopping_list_path(conn, :delete, shopping_list))
 
-      response(conn, 204)
+      assert redirected_to(conn) == Routes.shopping_list_path(conn, :index)
 
       assert_error_sent 404, fn ->
         get(conn, Routes.shopping_list_path(conn, :show, shopping_list))
