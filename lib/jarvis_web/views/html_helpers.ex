@@ -1,5 +1,6 @@
 defmodule JarvisWeb.HtmlHelpers do
   alias Phoenix.HTML
+  import JarvisWeb.Gettext
 
   @moduledoc """
   Predefined collection of html elements.
@@ -35,6 +36,19 @@ defmodule JarvisWeb.HtmlHelpers do
       HTML.raw("<i class='material-icons'>create</i>"),
       to: route,
       class: "btn-floating primary-btn"
+    )
+  end
+
+  @doc """
+  Create floating delete button
+  """
+  def delete_button(route) do
+    HTML.Link.link(
+      HTML.raw("<i class='material-icons'>delete</i>"),
+      to: route,
+      class: "btn-floating primary-btn",
+      method: :delete,
+      data: [confirm: gettext("Are you sure?")]
     )
   end
 
