@@ -44,6 +44,9 @@ defmodule JarvisWeb.Router do
     pipe_through :browser
 
     resources "/user", UserController, only: [:show, :edit, :update, :delete], singleton: true
+
+    delete "/usergroups/:id/leave", UserGroupController, :leave_group
+    resources "/usergroups", UserGroupController
   end
 
   scope "/shoppinglists", JarvisWeb do
@@ -67,9 +70,6 @@ defmodule JarvisWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:index, :new, :edit]
-
-    delete "/usergroups/:id/leave", UserGroupController, :leave_group
-    resources "/usergroups", UserGroupController, except: [:new, :edit]
 
     get "/invitations/:id/accept", InvitationController, :accept
     resources "/invitations", InvitationController, except: [:new, :edit, :update, :show]

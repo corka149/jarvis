@@ -51,7 +51,7 @@
         <li><%= link gettext("Current lists"), to: Routes.shopping_list_path(@conn, :index_open_lists) %></li>
       </ul>
       <ul id="dropdown-user-groups-desktop" class="dropdown-content">
-        <li><%= link gettext("Management"), to: "" %></li>
+        <li><%= link gettext("Management"), to: Routes.user_group_path(@conn, :index) %></li>
         <li><%= link gettext("Membership"), to: "" %></li>
       </ul>
       <!-- MOBILE -->
@@ -81,7 +81,7 @@
       <li><%= link gettext("Current lists"), to: Routes.shopping_list_path(@conn, :index_open_lists) %></li>
     </ul>
     <ul id="dropdown-user-groups-mobile" class="dropdown-content">
-      <li><%= link gettext("Management"), to: "" %></li>
+      <li><%= link gettext("Management"), to: Routes.user_group_path(@conn, :index) %></li>
       <li><%= link gettext("Membership"), to: "" %></li>
     </ul>
     <main role="main">

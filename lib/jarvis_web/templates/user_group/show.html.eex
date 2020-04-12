@@ -1,0 +1,24 @@
+<div>
+  <h2 class="center-align">
+    <%= dgettext "accounts", "User group" %>
+  </h2>
+</div>
+<!-- Buttons -->
+<div class="button-bar">
+  <%= back_button(Routes.user_group_path(@conn, :index)) %>
+  <%= edit_button(Routes.user_group_path(@conn, :edit, @user_group)) %>
+  <%= delete_button(Routes.user_group_path(@conn, :delete, @user_group)) %>
+</div>
+<div>
+  <!-- Data -->
+  <div class="row">
+    <!-- Name -->
+    <div class="input-field col s12">
+      <input disabled value="<%= @user_group.name %>"
+        id="name" type="text" class="validate">
+      <label for="name">
+        <%= dgettext "accounts", "Name" %>
+      </label>
+    </div>
+  </div>
+</div>

@@ -46,7 +46,7 @@ defmodule JarvisWeb.HtmlHelpers do
     HTML.Link.link(
       HTML.raw("<i class='material-icons'>delete</i>"),
       to: route,
-      class: "btn-floating primary-btn",
+      class: "btn-floating danager-btn",
       method: :delete,
       data: [confirm: gettext("Are you sure?")]
     )

@@ -10,35 +10,57 @@ defmodule JarvisWeb.UserGroupController do
 
   def index(conn, %{"by_membership" => "true"}) do
     user_groups = Accounts.list_usergroups_by_membership_or_owner(conn.assigns.user)
-    render(conn, "index.json", user_groups: user_groups)
+    render(conn, "index.html", user_groups: user_groups)
   end
 
   def index(conn, _params) do
     user_groups = Accounts.list_usergroups_by_owner(conn.assigns.user)
-    render(conn, "index.json", user_groups: user_groups)
+    render(conn, "index.html", user_groups: user_groups)
   end
 
   def show(conn, %{"id" => id}) do
     user_group = Accounts.get_user_group!(id)
-    render(conn, "show.json", user_group: user_group)
+    render(conn, "show.html", user_group: user_group)
+  end
+
+  def new(conn, _params) do
+    changeset = Accounts.change_user_group(%Accounts.UserGroup{})
+
+    conn
+    |> render("new.html", changeset: changeset)
   end
 
   def create(conn, %{"user_group" => user_group_params}) do
-    with {:ok, user_group} <- Accounts.create_user_group(user_group_params, conn.assigns.user) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.user_group_path(conn, :show, user_group))
-
-      render(conn, "show.json", user_group: user_group)
+    case Accounts.create_user_group(user_group_params, conn.assigns.user) do
+      {:ok, user_group} ->
+        conn
+        |> put_flash(:info, dgettext("accounts", "Sucessful created user group"))
+        |> render("show.html", user_group: user_group)
+      {:error, changeset} ->
+        conn
+        |> put_status(400)
+        |> render("new.html", changeset: changeset)
     end
+  end
+
+  def edit(conn, %{"id" => id}) do
+    user_group = Accounts.get_user_group!(id)
+    changeset = user_group
+                  |> Accounts.change_user_group()
+
+    conn
+    |> render("edit.html", changeset: changeset, user_group: user_group)
   end
 
   def update(conn, %{"id" => id, "user_group" => user_group_params}) do
     user_group = Accounts.get_user_group!(id)
 
-    with {:ok, user_group} <- Accounts.update_user_group(user_group, user_group_params) do
-      conn
-      |> render("show.json", user_group: user_group)
+    case Accounts.update_user_group(user_group, user_group_params) do
+      {:ok, user_group} -> conn
+                            |> render("show.html", user_group: user_group)
+      {:error, changeset} ->
+        conn
+        |> render("edit.html", changeset: changeset, user_group: user_group)
     end
   end
 
@@ -48,7 +70,8 @@ defmodule JarvisWeb.UserGroupController do
       |> Accounts.get_user_group!()
       |> Accounts.delete_user_group()
 
-    send_resp(conn, :no_content, "")
+    conn
+    |> redirect(to: Routes.user_group_path(conn, :index))
   end
 
   def leave_group(conn, %{"id" => id}) do

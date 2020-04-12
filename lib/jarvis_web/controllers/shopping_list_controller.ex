@@ -48,7 +48,7 @@ defmodule JarvisWeb.ShoppingListController do
 
     case ShoppingLists.create_shopping_list(shopping_list_params, user_group) do
       {:ok, shopping_list} -> conn
-        |> put_resp_header("location", Routes.shopping_list_path(conn, :show, shopping_list))
+        |> put_flash(:info, dgettext("shoppinglists", "Sucessful created shopping list"))
         |> redirect(to: Routes.shopping_list_path(conn, :show, shopping_list))
       {:error, changeset} ->
         conn

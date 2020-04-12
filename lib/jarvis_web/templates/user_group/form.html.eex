@@ -1,0 +1,14 @@
+<%= form_for @changeset, @action, fn form -> %>
+  <div class="row">
+    <!-- name -->
+    <div class="input-field col s12">
+      <%= label form, :name, dgettext("accounts", "Name") %>
+      <%= text_input form, :name %>
+      <%= error_tag form, :name %>
+    </div>
+
+    <div class="input-field col s12">
+      <%= save_button() %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,31 @@
+<div>
+  <h2 class="center-align">
+    <%= dgettext "accounts", "All user groups" %>
+  </h2>
+</div>
+
+<!-- Buttons -->
+<div>
+  <%= add_button(Routes.user_group_path(@conn, :new)) %>
+</div>
+
+<!-- Data table -->
+<div>
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th><%= dgettext "accounts", "Name" %></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= for group <- @user_groups do %>
+        <tr onclick="window.open('<%= Routes.user_group_path(@conn, :show, group) %>', '_self')">
+          <td><%= group.id %></td>
+          <td><%= group.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
