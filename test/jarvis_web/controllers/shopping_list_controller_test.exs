@@ -82,7 +82,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     setup [:create_shopping_list]
 
     test "show new form", %{conn: conn, user: user} do
-      conn = conn
+      conn =
+        conn
         |> init_test_session(user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :new))
 
@@ -132,7 +133,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     setup [:create_shopping_list]
 
     test "show edit form", %{conn: conn, shopping_list: shopping_list, user: user} do
-      conn = conn
+      conn =
+        conn
         |> init_test_session(user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :edit, shopping_list))
 
