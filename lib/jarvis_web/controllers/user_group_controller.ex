@@ -35,7 +35,7 @@ defmodule JarvisWeb.UserGroupController do
       {:ok, user_group} ->
         conn
         |> put_flash(:info, dgettext("accounts", "Sucessful created user group"))
-        |> render("show.html", user_group: user_group)
+        |> redirect(to: Routes.user_group_path(conn, :show, user_group))
       {:error, changeset} ->
         conn
         |> put_status(400)
@@ -57,9 +57,10 @@ defmodule JarvisWeb.UserGroupController do
 
     case Accounts.update_user_group(user_group, user_group_params) do
       {:ok, user_group} -> conn
-                            |> render("show.html", user_group: user_group)
+                            |> redirect(to: Routes.user_group_path(conn, :show, user_group))
       {:error, changeset} ->
         conn
+        |> put_status(400)
         |> render("edit.html", changeset: changeset, user_group: user_group)
     end
   end
