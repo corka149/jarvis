@@ -6,16 +6,25 @@
 <div class="row">
   <%= form_for @changeset, Routes.user_path(@conn, :update), [class: "col s12"], fn form -> %>
     <div class="row">
+      <!-- Name -->
       <div class="input-field col s12">
         <%= label form, :name, dgettext("accounts", "Name"), class: "validate" %>
         <%= text_input form, :name %>
         <%= error_tag form, :name %>
       </div>
+      <!-- Default language -->
+      <div class="input-field col s12">
+        <%= select form, :default_language, languages() %>
+        <%= label form, :default_language, dgettext("accounts", "Default language") %>
+        <%= error_tag form, :default_language %>
+      </div>
+      <!-- Password -->
       <div class="input-field col s12">
         <%= label form, :password, dgettext("accounts", "Password"), class: "validate" %>
         <%= password_input form, :password %>
         <%= error_tag form, :password %>
       </div>
+      <!-- Confirm password -->
       <div class="input-field col s12">
         <%= label form, :confirm_password, dgettext("accounts", "Confirm password"), class: "validate" %>
         <%= password_input form, :confirm_password %>

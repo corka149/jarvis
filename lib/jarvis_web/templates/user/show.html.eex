@@ -3,15 +3,24 @@
     <%= dgettext "accounts", "Settings of %{name}", name: @conn.assigns.user.name %>
   </h2>
 </div>
+
+<!-- Buttons -->
+<div class="button-bar">
+  <%= edit_button(Routes.user_path(@conn, :edit)) %>
+</div>
+
 <div class="row">
   <div class="input-field col s12">
     <div class="row">
+      <!-- Name -->
       <div class="input-field col s12">
         <input disabled value="<%= @user.name %>" id="name" type="text" class="validate">
         <label for="name"><%= dgettext "accounts", "Name" %></label>
       </div>
-      <div>
-        <%= link gettext("edit"), to: Routes.user_path(@conn, :edit), class: "btn primary-btn" %>
+      <!-- Language -->
+      <div class="input-field col s12">
+        <input disabled value="<%= language_name(@user.default_language) %>" id="default_language" type="text" class="validate">
+        <label for="default_language"><%= dgettext "accounts", "Default language" %></label>
       </div>
     </div>
   </div>
