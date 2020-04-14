@@ -4,8 +4,13 @@
   </h2>
 </div>
 
+<div style="font-size: small; color: rgba(0, 0, 0, 0.6); padding-bottom: 1rem;">
+  <%= dgettext "accounts", "Users can be assigned to groups to give them access to certain things like shopping lists.
+  A creator of a group can invited others via the membership function." %>
+</div>
+
 <!-- Buttons -->
-<div>
+<div >
   <%= add_button(Routes.user_group_path(@conn, :new)) %>
 </div>
 
