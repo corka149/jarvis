@@ -1,0 +1,30 @@
+<div id="created_invitations" class="col s12">
+    <table>
+        <thead>
+            <th>
+                <%= dgettext "accounts", "Invitee" %>
+            </th>
+            <th>
+                <%= dgettext "accounts", "Invited into" %>
+            </th>
+            <th>
+                &nbsp;
+            </th>
+        </thead>
+            <%= for invitation <- @created_invitations do %>
+                <tr>
+                    <td>
+                        <%= invitation.invitee_email %>
+                    </td>
+                    <td>
+                        <%= invitation.usergroup.name %>
+                    </td>
+                    <td>
+                        <%= delete_button Routes.invitation_path(@conn, :delete, invitation) %>
+                    </td>
+                </tr>
+            <% end %>
+        <tbody>
+        </tbody>
+    </table>
+</div>

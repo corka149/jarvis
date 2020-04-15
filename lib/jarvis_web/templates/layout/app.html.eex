@@ -52,7 +52,7 @@
       </ul>
       <ul id="dropdown-user-groups-desktop" class="dropdown-content">
         <li><%= link gettext("Management"), to: Routes.user_group_path(@conn, :index) %></li>
-        <li><%= link gettext("Membership"), to: "" %></li>
+        <li><%= link gettext("Membership"), to: Routes.invitation_path(@conn, :index) %></li>
       </ul>
       <!-- MOBILE -->
       <ul class="sidenav" id="mobile-main-menu">
@@ -82,7 +82,7 @@
     </ul>
     <ul id="dropdown-user-groups-mobile" class="dropdown-content">
       <li><%= link gettext("Management"), to: Routes.user_group_path(@conn, :index) %></li>
-      <li><%= link gettext("Membership"), to: "" %></li>
+      <li><%= link gettext("Membership"), to: Routes.invitation_path(@conn, :index) %></li>
     </ul>
     <main role="main">
       <p class="alert alert-info center-align" role="alert"><%= get_flash(@conn, :info) %></p>
@@ -110,6 +110,11 @@
       document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('select');
         var instances = M.FormSelect.init(elems, {});
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.tabs');
+        var instance = M.Tabs.init(elems, {});
       });
     </script>
   </body>

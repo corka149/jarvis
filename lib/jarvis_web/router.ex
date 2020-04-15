@@ -47,6 +47,9 @@ defmodule JarvisWeb.Router do
 
     delete "/usergroups/:id/leave", UserGroupController, :leave_group
     resources "/usergroups", UserGroupController
+
+    get "/invitations/:id/accept", InvitationController, :accept
+    resources "/invitations", InvitationController, except: [:edit, :update, :show]
   end
 
   scope "/shoppinglists", JarvisWeb do
@@ -64,15 +67,6 @@ defmodule JarvisWeb.Router do
     pipe_through :api_without_user
 
     get "/ready", SystemController, :ready
-  end
-
-  scope "/v1/accounts", JarvisWeb do
-    pipe_through :api
-
-    resources "/users", UserController, except: [:index, :new, :edit]
-
-    get "/invitations/:id/accept", InvitationController, :accept
-    resources "/invitations", InvitationController, except: [:new, :edit, :update, :show]
   end
 
   scope "/v1/shoppinglists", JarvisWeb do

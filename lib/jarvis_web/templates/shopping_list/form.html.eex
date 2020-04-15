@@ -12,7 +12,7 @@
 
     <div class="input-field col s12">
       <%= label form, :planned_for, dgettext("shoppinglists", "Planned for") %>
-      <%= text_input form, :planned_for , class: "datepicker" %>
+      <%= text_input form, :planned_for , class: "datepicker", required: true %>
       <%= error_tag form, :planned_for %>
     </div>
 

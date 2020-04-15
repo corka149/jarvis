@@ -1,0 +1,31 @@
+<div id="received_invitations" class="col s12">
+    <table>
+        <thead>
+            <th>
+                <%= dgettext "accounts", "Host" %>
+            </th>
+            <th>
+                <%= dgettext "accounts", "Invited into" %>
+            </th>
+            <th>
+                &nbsp;
+            </th>
+        </thead>
+            <%= for invitation <- @received_invitations do %>
+                <tr>
+                    <td>
+                        <%= invitation.host.name %>
+                    </td>
+                    <td>
+                        <%= invitation.usergroup.name %>
+                    </td>
+                    <td>
+                        <%= accept_button(@conn, invitation) %>
+                        <%= decline_button(@conn, invitation)  %>
+                    </td>
+                </tr>
+            <% end %>
+        <tbody>
+        </tbody>
+    </table>
+</div>

@@ -3,7 +3,7 @@
     <!-- name -->
     <div class="input-field col s12">
       <%= label form, :name, dgettext("accounts", "Name") %>
-      <%= text_input form, :name %>
+      <%= text_input form, :name, required: true %>
       <%= error_tag form, :name %>
     </div>
 

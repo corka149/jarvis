@@ -131,3 +131,8 @@ div.button-bar {
 tr {
     cursor: pointer;
 }
+
+.tabs .tab a {
+    font-size: 0.7rem;
+    overflow: visible;
+}
