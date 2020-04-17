@@ -9,10 +9,11 @@ defmodule JarvisWeb.Plugs.RequireAuthentication do
   (The list at the end represents the functions for which the plug should be applied.)
   """
 
+  import Plug.Conn
   require Logger
 
-  import Plug.Conn
-  import JarvisWeb.Gettext
+  alias Phoenix.Controller
+  alias JarvisWeb.Router.Helpers, as: Routes
 
   @behaviour Plug
 
@@ -28,8 +29,8 @@ defmodule JarvisWeb.Plugs.RequireAuthentication do
       Logger.warn("Request without authentication occured.")
 
       conn
-      |> send_resp(401, dgettext("errors", "You must be logged in"))
       |> halt()
+      |> Controller.redirect(to: Routes.auth_path(conn, :signin))
     end
   end
 end

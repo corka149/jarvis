@@ -31,13 +31,13 @@ defmodule JarvisWeb.AuthControllerTest do
 
   test "sign out from session", %{conn: conn, user: user} do
     credentials = %{"email" => user.email, "password" => @user_password}
-    signin_response = post(conn, Routes.auth_path(conn, :signin_by_jarvis), credentials)
-    get_user_conn = get(signin_response, Routes.user_path(conn, :show))
-    response(get_user_conn, 200)
+    conn = post(conn, Routes.auth_path(conn, :signin_by_jarvis), credentials)
+    conn = get(conn, Routes.user_path(conn, :show))
+    response(conn, 200)
 
-    signout_response = get(get_user_conn, Routes.auth_path(conn, :signout))
-    assert redirected_to(signout_response) == Routes.page_path(conn, :index)
-    get_user_conn = get(signout_response, Routes.user_path(conn, :show))
-    response(get_user_conn, 401)
+    conn = get(conn, Routes.auth_path(conn, :signout))
+    assert redirected_to(conn) == Routes.page_path(conn, :index)
+    conn = get(conn, Routes.user_path(conn, :show))
+    assert redirected_to(conn) == Routes.auth_path(conn, :signin)
   end
 end

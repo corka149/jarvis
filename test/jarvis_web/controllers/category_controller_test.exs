@@ -67,11 +67,6 @@ defmodule JarvisWeb.CategoryControllerTest do
       conn = post(conn, Routes.category_path(conn, :create), category: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
-
-    test "renders errors when when request is without authentication", %{conn_without_auth: conn} do
-      conn = post(conn, Routes.category_path(conn, :create), category: @invalid_attrs)
-      response(conn, 401)
-    end
   end
 
   describe "update category" do
