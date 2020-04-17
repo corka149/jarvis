@@ -61,12 +61,12 @@ defmodule JarvisWeb.InvitationControllerTest do
         init_test_session(conn, user_id: group.user_id)
         |> post(Routes.invitation_path(conn, :create), invitation: create_attrs)
 
-        show_url = Routes.invitation_path(conn, :index)
-        assert redirected_to(conn) == show_url
+      show_url = Routes.invitation_path(conn, :index)
+      assert redirected_to(conn) == show_url
 
-        conn = get(conn, show_url)
-        assert html_response(conn, 200) =~ user.email
-        assert html_response(conn, 200) =~ group.name
+      conn = get(conn, show_url)
+      assert html_response(conn, 200) =~ user.email
+      assert html_response(conn, 200) =~ group.name
     end
 
     test "Invite an not existing user and get no error (security reason)",
@@ -77,7 +77,7 @@ defmodule JarvisWeb.InvitationControllerTest do
         init_test_session(conn, user_id: user.id)
         |> post(Routes.invitation_path(conn, :create), invitation: invalid_attrs)
 
-        assert redirected_to(conn) == Routes.invitation_path(conn, :index)
+      assert redirected_to(conn) == Routes.invitation_path(conn, :index)
     end
   end
 
@@ -108,7 +108,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
       assert redirected_to(conn) == index_url
       conn = get(conn, index_url)
-      assert not(html_response(conn, 200) =~ host.name)
+      assert not (html_response(conn, 200) =~ host.name)
     end
 
     test "authorized accept of two invitations", %{conn: conn, invitation: invitation} do
