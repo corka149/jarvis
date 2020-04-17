@@ -8,7 +8,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
   @create_attrs %{invitee_email: "some name"}
 
-  @valid_attrs_group %{name: "some name"}
+  @valid_attrs_group %{name: "some group name"}
   @valid_attrs_user %{
     email: "someemail@test.xyz",
     name: "some name",
@@ -37,13 +37,9 @@ defmodule JarvisWeb.InvitationControllerTest do
         init_test_session(conn, user_id: user.id)
         |> get(Routes.invitation_path(conn, :index))
 
-      invitation_overview = json_response(conn, 200)
-
-      assert %{
-               "received_invitations" => _received_invitations,
-               "created_invitations" => _created_invitations,
-               "memberships" => _memberships
-             } = invitation_overview
+      assert html_response(conn, 200) =~ "Created invitations"
+      assert html_response(conn, 200) =~ "Received invitations"
+      assert html_response(conn, 200) =~ "Group memberships"
     end
   end
 
@@ -59,13 +55,18 @@ defmodule JarvisWeb.InvitationControllerTest do
           token: "some token"
         })
 
-      create_attrs = %{invitee_email: user.name, usergroup_id: group.id}
+      create_attrs = %{invitee_email: user.email, usergroup_id: group.id}
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        init_test_session(conn, user_id: group.user_id)
         |> post(Routes.invitation_path(conn, :create), invitation: create_attrs)
 
-      response(conn, 204)
+        show_url = Routes.invitation_path(conn, :index)
+        assert redirected_to(conn) == show_url
+
+        conn = get(conn, show_url)
+        assert html_response(conn, 200) =~ user.email
+        assert html_response(conn, 200) =~ group.name
     end
 
     test "Invite an not existing user and get no error (security reason)",
@@ -76,7 +77,7 @@ defmodule JarvisWeb.InvitationControllerTest do
         init_test_session(conn, user_id: user.id)
         |> post(Routes.invitation_path(conn, :create), invitation: invalid_attrs)
 
-      response(conn, 204)
+        assert redirected_to(conn) == Routes.invitation_path(conn, :index)
     end
   end
 
@@ -88,7 +89,7 @@ defmodule JarvisWeb.InvitationControllerTest do
         init_test_session(conn, user_id: user.id)
         |> delete(Routes.invitation_path(conn, :delete, invitation))
 
-      response(conn, 204)
+      assert redirected_to(conn) == Routes.invitation_path(conn, :index)
     end
   end
 
@@ -96,11 +97,18 @@ defmodule JarvisWeb.InvitationControllerTest do
     setup [:create_invitation]
 
     test "authorized accept of invitation", %{conn: conn, invitation: invitation} do
-      conn =
-        init_test_session(conn, user_id: invitation.invitee_id)
-        |> get(Routes.invitation_path(conn, :accept, invitation))
+      conn = init_test_session(conn, user_id: invitation.invitee_id)
+      index_url = Routes.invitation_path(conn, :index)
+      host = Accounts.get_user!(invitation.host_id)
 
-      response(conn, 204)
+      conn = get(conn, index_url)
+      assert html_response(conn, 200) =~ host.name
+
+      conn = get(conn, Routes.invitation_path(conn, :accept, invitation))
+
+      assert redirected_to(conn) == index_url
+      conn = get(conn, index_url)
+      assert not(html_response(conn, 200) =~ host.name)
     end
 
     test "authorized accept of two invitations", %{conn: conn, invitation: invitation} do
@@ -118,7 +126,7 @@ defmodule JarvisWeb.InvitationControllerTest do
         |> init_test_session(user_id: invitation.invitee_id)
         |> get(Routes.invitation_path(conn, :accept, invitation))
 
-      response(conn, 204)
+      assert redirected_to(conn) == Routes.invitation_path(conn, :index)
     end
 
     test "accept invitation of someone else and get rejection", %{
