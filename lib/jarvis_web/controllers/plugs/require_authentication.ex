@@ -12,8 +12,8 @@ defmodule JarvisWeb.Plugs.RequireAuthentication do
   import Plug.Conn
   require Logger
 
-  alias Phoenix.Controller
   alias JarvisWeb.Router.Helpers, as: Routes
+  alias Phoenix.Controller
 
   @behaviour Plug
 
