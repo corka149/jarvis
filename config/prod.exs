@@ -76,9 +76,6 @@ config :phoenix, :serve_endpoints, true
 #     config :jarvis, JarvisWeb.Endpoint, server: true
 #
 
-config :jarvis,
-  authorization_key: System.get_env("JARVIS_AUTHORIZATION_KEY")
-
 config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Configure your database

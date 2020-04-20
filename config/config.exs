@@ -8,8 +8,7 @@
 import Config
 
 config :jarvis,
-  ecto_repos: [Jarvis.Repo],
-  authorization_key: "ed5fa9fa-fb45-4b2b-ba04-cf0644870744"
+  ecto_repos: [Jarvis.Repo]
 
 # Configures the endpoint
 config :jarvis, JarvisWeb.Endpoint,
