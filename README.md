@@ -43,7 +43,6 @@ Important environment variables for prod release:
  * HOST - used by Phoenix for URL creation
  * PORT - on which jARVIS should listen
  * SECRET_KEY_BASE - encryption base for cookies
- * JARVIS_AUTHORIZATION_KEY - administration key
  * DB_USERNAME - username for access to database
  * DB_PASSWORD - password for access to database
  * DB_NAME - name of the selected database

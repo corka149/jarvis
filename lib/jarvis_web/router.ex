@@ -1,5 +1,6 @@
 defmodule JarvisWeb.Router do
   use JarvisWeb, :router
+  import Phoenix.LiveView.Router
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -57,6 +58,7 @@ defmodule JarvisWeb.Router do
 
     get "/open", ShoppingListController, :index_open_lists
     resources "/", ShoppingListController
+    live "/:shopping_list_id/items/", ItemLive
   end
 
   # ### ### ### ### ### #
@@ -67,12 +69,6 @@ defmodule JarvisWeb.Router do
     pipe_through :api_without_user
 
     get "/ready", SystemController, :ready
-  end
-
-  scope "/v1/shoppinglists", JarvisWeb do
-    pipe_through :api
-
-    resources "/:shopping_list_id/items/", ItemController, except: [:new, :edit]
   end
 
   scope "/v1/finances", JarvisWeb do
