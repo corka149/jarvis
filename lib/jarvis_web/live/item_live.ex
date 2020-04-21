@@ -1,6 +1,6 @@
 defmodule JarvisWeb.ItemLive do
   @moduledoc """
-  Live "controller" for items:q
+  Live "controller" for items
   """
 
   use Phoenix.LiveView
