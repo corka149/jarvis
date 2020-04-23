@@ -6,7 +6,7 @@
 
 <!-- Buttons -->
 <div class="button-bar">
-  <%= back_button(Routes.shopping_list_path(@conn, :index)) %>
+  <%= back_button(Routes.shopping_list_path(@conn, :index_open_lists)) %>
 </div>
 
 <!-- Form -->
