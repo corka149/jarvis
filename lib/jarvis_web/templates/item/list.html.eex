@@ -1,0 +1,34 @@
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <%= dgettext("shoppinglists", "Item name") %>
+                </th>
+                <th>
+                    <%= dgettext("shoppinglists", "Amount") %>
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <%= for it <- @items do %>
+                <tr>
+                    <td>
+                        <%= it.name %>
+                    </td>
+                    <td>
+                        <%= it.amount %>
+                    </td>
+                    <td>
+                        <%= edit_button Routes.item_path(@conn, :edit, @shopping_list.id, it.id) %>
+                        <%= delete_button Routes.item_path(@conn, :delete, @shopping_list.id, it.id) %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

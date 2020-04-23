@@ -57,7 +57,7 @@ defmodule JarvisWeb.Router do
 
     get "/open", ShoppingListController, :index_open_lists
     resources "/", ShoppingListController
-    resources "/:shopping_list_id/items", ItemController
+    resources "/:shopping_list_id/items", ItemController, except: [:show]
   end
 
   # ### ### ### ### ### #
