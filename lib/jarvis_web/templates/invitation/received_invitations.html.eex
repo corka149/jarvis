@@ -11,6 +11,7 @@
                 &nbsp;
             </th>
         </thead>
+        <tbody>
             <%= for invitation <- @received_invitations do %>
                 <tr>
                     <td>
@@ -25,7 +26,6 @@
                     </td>
                 </tr>
             <% end %>
-        <tbody>
         </tbody>
     </table>
 </div>
