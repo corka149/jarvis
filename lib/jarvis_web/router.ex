@@ -1,6 +1,5 @@
 defmodule JarvisWeb.Router do
   use JarvisWeb, :router
-  import Phoenix.LiveView.Router
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -58,7 +57,7 @@ defmodule JarvisWeb.Router do
 
     get "/open", ShoppingListController, :index_open_lists
     resources "/", ShoppingListController
-    live "/:shopping_list_id/items/", ItemLive
+    resources "/:shopping_list_id/items", ItemController
   end
 
   # ### ### ### ### ### #

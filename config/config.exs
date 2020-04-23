@@ -17,10 +17,7 @@ config :jarvis, JarvisWeb.Endpoint,
   render_errors: [view: JarvisWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Jarvis.PubSub, adapter: Phoenix.PubSub.PG2],
   default_locale: "en",
-  locales: ~w(en de),
-  live_view: [
-    signing_salt: "ezaqAmnsfJfnwFXMTaUdBE+9kZKfAWyw"
-  ]
+  locales: ~w(en de)
 
 # Configures Elixir's Logger
 config :logger, :console,
