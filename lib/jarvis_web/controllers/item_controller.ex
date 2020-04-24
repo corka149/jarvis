@@ -13,6 +13,10 @@ defmodule JarvisWeb.ItemController do
        %{authorization_border: ItemAuthorization} when action in [:edit, :update, :delete]
 
   def index(conn, %{"shopping_list_id" => shopping_list_id}) do
+    redirect(conn, to: Routes.item_path(conn, :new, shopping_list_id))
+  end
+
+  def new(conn, %{"shopping_list_id" => shopping_list_id}) do
     user_available = Map.has_key?(conn.assigns, :user)
 
     allowed_to_cross? =
@@ -20,18 +24,6 @@ defmodule JarvisWeb.ItemController do
         ShoppingListAuthorization.is_allowed_to_cross?(conn.assigns.user, shopping_list_id)
 
     if allowed_to_cross? do
-      shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
-      items = ShoppingLists.list_items_by_shopping_list(shopping_list)
-
-      render(conn, "index.html", items: items, shopping_list: shopping_list)
-    else
-      render_unauthorized(conn)
-    end
-  end
-
-  def new(conn, %{"shopping_list_id" => shopping_list_id}) do
-    if Map.has_key?(conn.assigns, :user) and
-         ShoppingListAuthorization.is_allowed_to_cross?(conn.assigns.user, shopping_list_id) do
       new_form(conn, shopping_list_id)
     else
       render_unauthorized(conn)
@@ -69,7 +61,7 @@ defmodule JarvisWeb.ItemController do
 
     case ShoppingLists.update_item(item, item_params) do
       {:ok, _item} ->
-        redirect(conn, to: Routes.item_path(conn, :create, shopping_list_id))
+        redirect(conn, to: Routes.item_path(conn, :new, shopping_list_id))
 
       {:error, changeset} ->
         conn
