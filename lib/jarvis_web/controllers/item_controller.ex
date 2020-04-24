@@ -13,18 +13,25 @@ defmodule JarvisWeb.ItemController do
        %{authorization_border: ItemAuthorization} when action in [:edit, :update, :delete]
 
   def index(conn, %{"shopping_list_id" => shopping_list_id}) do
-    if Map.has_key?(conn.assigns, :user) and ShoppingListAuthorization.is_allowed_to_cross?(conn.assigns.user, shopping_list_id) do
-        shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
-        items = ShoppingLists.list_items_by_shopping_list(shopping_list)
+    user_available = Map.has_key?(conn.assigns, :user)
 
-        render(conn, "index.html", items: items, shopping_list: shopping_list)
+    allowed_to_cross? =
+      user_available and
+        ShoppingListAuthorization.is_allowed_to_cross?(conn.assigns.user, shopping_list_id)
+
+    if allowed_to_cross? do
+      shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
+      items = ShoppingLists.list_items_by_shopping_list(shopping_list)
+
+      render(conn, "index.html", items: items, shopping_list: shopping_list)
     else
       render_unauthorized(conn)
     end
   end
 
   def new(conn, %{"shopping_list_id" => shopping_list_id}) do
-    if Map.has_key?(conn.assigns, :user) and ShoppingListAuthorization.is_allowed_to_cross?(conn.assigns.user, shopping_list_id) do
+    if Map.has_key?(conn.assigns, :user) and
+         ShoppingListAuthorization.is_allowed_to_cross?(conn.assigns.user, shopping_list_id) do
       new_form(conn, shopping_list_id)
     else
       render_unauthorized(conn)
@@ -37,6 +44,7 @@ defmodule JarvisWeb.ItemController do
     case ShoppingLists.create_item(items_params, shopping_list) do
       {:ok, _item} ->
         redirect(conn, to: Routes.item_path(conn, :new, shopping_list_id))
+
       {:error, changeset} ->
         conn
         |> put_status(400)
@@ -51,13 +59,18 @@ defmodule JarvisWeb.ItemController do
     edit_form(conn, shopping_list_id, item, changeset)
   end
 
-  def update(conn, %{"shopping_list_id" => shopping_list_id, "id" => item_id, "item" => item_params}) do
+  def update(conn, %{
+        "shopping_list_id" => shopping_list_id,
+        "id" => item_id,
+        "item" => item_params
+      }) do
     item = ShoppingLists.get_item!(item_id)
     {_, item_params} = Map.pop(item_params, :belongs_to)
 
     case ShoppingLists.update_item(item, item_params) do
       {:ok, _item} ->
         redirect(conn, to: Routes.item_path(conn, :create, shopping_list_id))
+
       {:error, changeset} ->
         conn
         |> put_status(400)
@@ -88,12 +101,17 @@ defmodule JarvisWeb.ItemController do
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
 
     conn
-    |> render("new.html", changeset: changeset, shopping_list: shopping_list, items: items, item: item)
+    |> render("new.html",
+      changeset: changeset,
+      shopping_list: shopping_list,
+      items: items,
+      item: item
+    )
   end
 
   defp render_unauthorized(conn) do
     conn
-      |> put_flash(:error, dgettext("errors", "You are not allow to do this"))
-      |> redirect(to: Routes.page_path(conn, :index))
+    |> put_flash(:error, dgettext("errors", "You are not allow to do this"))
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 end
