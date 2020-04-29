@@ -57,7 +57,7 @@ msgstr "Mitgliedschaften"
 msgid "Member of"
 msgstr "Mitglied von"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/user_group/index.html.eex:3
 msgid "All user groups"
 msgstr "Editiere Benutzergruppe"
@@ -65,14 +65,14 @@ msgstr "Editiere Benutzergruppe"
 #, elixir-format
 #: lib/jarvis_web/templates/invitation/new.html.eex:26
 msgid "Belongs to"
-msgstr ""
+msgstr "Gehört zu"
 
 #, elixir-format
 #: lib/jarvis_web/templates/user/edit.html.eex:29
 msgid "Confirm password"
-msgstr ""
+msgstr "Wiederhole Passwort"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/invitation/index.html.eex:19
 msgid "Created invitations"
 msgstr "Erstellte Einladungen"
@@ -121,7 +121,7 @@ msgstr "Name"
 msgid "Password"
 msgstr "Passwort"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/invitation/index.html.eex:20
 msgid "Received invitations"
 msgstr "Erhaltene Einladungen"

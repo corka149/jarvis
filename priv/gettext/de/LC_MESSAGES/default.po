@@ -63,7 +63,7 @@ msgstr "Einkaufsliste"
 msgid "Are you sure?"
 msgstr "Bist du dir sicher?"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/layout/app.html.eex:51
 #: lib/jarvis_web/templates/layout/app.html.eex:67
 msgid "Current lists"
@@ -103,12 +103,12 @@ msgstr "Benutzereinstellungen"
 msgid "User settings successfull updated."
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/user/edit.html.eex:34
 msgid "back"
 msgstr "Zurück"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/user/edit.html.eex:35
 msgid "save"
 msgstr "Speichern"

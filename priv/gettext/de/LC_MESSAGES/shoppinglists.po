@@ -40,7 +40,7 @@ msgstr "Editiere Einkaufsliste"
 msgid "Amount"
 msgstr "Betrag"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/shopping_list/index.html.eex:3
 msgid "All shopping lists"
 msgstr "Neue Einkaufsliste"
@@ -51,7 +51,7 @@ msgstr "Neue Einkaufsliste"
 msgid "Item name"
 msgstr "Gegenstandsname"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/shopping_list/new.html.eex:3
 msgid "New shopping list"
 msgstr "Neue Einkaufsliste"
@@ -62,12 +62,12 @@ msgstr "Neue Einkaufsliste"
 msgid "On"
 msgstr "Am"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:3
 msgid "Open shopping lists"
 msgstr "Aktuelle Einkaufsliste"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/item/form.html.eex:3
 #: lib/jarvis_web/templates/item/index.html.eex:3 lib/jarvis_web/templates/shopping_list/show.html.eex:3
 msgid "Shopping list"
