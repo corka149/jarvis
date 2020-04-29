@@ -136,3 +136,7 @@ tr {
     font-size: 0.7rem;
     overflow: visible;
 }
+
+ul:not(.browser-default).sidenav {
+    padding: 1rem;
+}
