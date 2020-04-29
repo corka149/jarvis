@@ -62,7 +62,7 @@ defmodule JarvisWeb.UserController do
     case Accounts.update_user(user, user_params) do
       {:ok, %User{} = _user} ->
         conn
-        |> put_flash(:info, gettext("User settings successfull updated."))
+        |> put_flash(:info, dgettext("accounts","User settings successfull updated."))
         |> redirect(to: Routes.user_path(conn, :show))
 
       {:error, %Ecto.Changeset{} = changeset} ->
