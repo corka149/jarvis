@@ -101,7 +101,7 @@ msgstr "Benutzereinstellungen"
 #, elixir-format
 #: lib/jarvis_web/controllers/user_controller.ex:65
 msgid "User settings successfull updated."
-msgstr ""
+msgstr "Benutzereinstellungen erfolgreich aktualisiert."
 
 #, elixir-format
 #: lib/jarvis_web/templates/user/edit.html.eex:34
