@@ -93,7 +93,7 @@ defmodule JarvisWeb.ItemController do
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
 
     conn
-    |> render("new.html",
+    |> render("edit.html",
       changeset: changeset,
       shopping_list: shopping_list,
       items: items,
