@@ -68,7 +68,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
     test "lists all usergroups", %{conn: conn, user: user} do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.user_group_path(conn, :index))
 
       assert html_response(conn, 200) =~ "All user groups"
@@ -83,7 +83,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
       {:ok, _user_group} = Accounts.create_user_group(%{name: "some name2"}, invitee)
 
       conn =
-        init_test_session(conn, user_id: invitee.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: invitee.id)
         |> get(Routes.user_group_path(conn, :index, %{"by_membership" => "true"}))
 
       assert html_response(conn, 200) =~ ">some name2<"
@@ -97,7 +97,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
     test "show new form", %{conn: conn, user: user} do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> get(Routes.user_group_path(conn, :new))
 
       assert html_response(conn, :ok) =~ ">Name<"
@@ -107,7 +107,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
     test "redirects to show when data is valid", %{conn: conn, user: user} do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> post(Routes.user_group_path(conn, :create), user_group: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
@@ -122,7 +122,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> post(Routes.user_group_path(conn, :create), user_group: @invalid_attrs)
 
       assert html_response(conn, 400) =~ "can&#39;t be blank"
@@ -135,7 +135,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
     test "show edit form", %{conn: conn, user_group: user_group, user: user} do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> get(Routes.user_group_path(conn, :edit, user_group))
 
       assert html_response(conn, :ok) =~ "Edit user group"
@@ -149,7 +149,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
     } do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> put(Routes.user_group_path(conn, :update, user_group), user_group: @update_attrs)
 
       show_url = Routes.user_group_path(conn, :show, user_group)
@@ -164,7 +164,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
     test "renders errors when data is invalid", %{conn: conn, user_group: user_group, user: user} do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> put(Routes.user_group_path(conn, :update, user_group), user_group: @invalid_attrs)
 
       assert html_response(conn, 400) =~ "can&#39;t be blank"
@@ -176,7 +176,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
     test "deletes chosen user_group", %{conn: conn, user_group: user_group, user: user} do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> delete(Routes.user_group_path(conn, :delete, user_group))
 
       assert redirected_to(conn) =~ Routes.user_group_path(conn, :index)

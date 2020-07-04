@@ -35,7 +35,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :index))
 
       assert html_response(conn, 200) =~ "All shopping lists"
@@ -45,7 +45,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :index_open_lists))
 
       assert html_response(conn, 200) =~ "Open shopping lists"
@@ -57,7 +57,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
 
     test "show a single shopping list", %{conn: conn, user: user, shopping_list: shopping_list} do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :show, shopping_list))
 
       assert html_response(conn, 200) =~ "2010-04-17"
@@ -71,7 +71,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :show, shopping_list))
 
       response(conn, 403) =~ "You are not allow to do this"
@@ -84,7 +84,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     test "show new form", %{conn: conn, user: user} do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :new))
 
       assert html_response(conn, :ok) =~ "New shopping list"
@@ -105,7 +105,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       }
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> post(Routes.shopping_list_path(conn, :create), shopping_list: create_attrs)
 
       assert %{id: id} = redirected_params(conn)
@@ -122,7 +122,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       invalid_attrs = %{"done" => nil, "planned_for" => nil, "belongs_to" => group.id}
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> post(Routes.shopping_list_path(conn, :create), shopping_list: invalid_attrs)
 
       assert html_response(conn, 400) =~ "<span class=\"help-block\">can&#39;t be blank</span>"
@@ -135,7 +135,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     test "show edit form", %{conn: conn, shopping_list: shopping_list, user: user} do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :edit, shopping_list))
 
       assert html_response(conn, :ok) =~ "Edit shopping list"
@@ -149,7 +149,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       user = Jarvis.Accounts.get_user_group!(group.id).user
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> put(Routes.shopping_list_path(conn, :update, shopping_list),
           shopping_list: @update_attrs
         )
@@ -169,7 +169,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       user: user
     } do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> put(Routes.shopping_list_path(conn, :update, shopping_list),
           shopping_list: @invalid_attrs
         )
@@ -183,7 +183,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
 
     test "deletes chosen shopping_list", %{conn: conn, shopping_list: shopping_list, user: user} do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> delete(Routes.shopping_list_path(conn, :delete, shopping_list))
 
       assert redirected_to(conn) == Routes.shopping_list_path(conn, :index)

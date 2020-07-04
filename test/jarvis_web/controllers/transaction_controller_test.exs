@@ -43,7 +43,7 @@ defmodule JarvisWeb.TransactionControllerTest do
     conn =
       conn
       |> put_req_header("accept", "application/json")
-      |> init_test_session(user_id: creator.id)
+      |> Phoenix.ConnTest.init_test_session(user_id: creator.id)
 
     {:ok, conn: conn, category: category}
   end
@@ -87,7 +87,7 @@ defmodule JarvisWeb.TransactionControllerTest do
     } do
       conn =
         conn
-        |> init_test_session(user_id: transaction.created_by)
+        |> Phoenix.ConnTest.init_test_session(user_id: transaction.created_by)
         |> put(Routes.transaction_path(conn, :update, transaction), transaction: @update_attrs)
 
       assert %{"id" => ^id} = json_response(conn, 200)
@@ -106,7 +106,7 @@ defmodule JarvisWeb.TransactionControllerTest do
     test "renders errors when data is invalid", %{conn: conn, transaction: transaction} do
       conn =
         conn
-        |> init_test_session(user_id: transaction.created_by)
+        |> Phoenix.ConnTest.init_test_session(user_id: transaction.created_by)
         |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
 
       assert json_response(conn, 422)["errors"] != %{}
@@ -119,7 +119,7 @@ defmodule JarvisWeb.TransactionControllerTest do
 
       conn =
         conn
-        |> init_test_session(user_id: creator.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: creator.id)
         |> put(Routes.transaction_path(conn, :update, transaction), transaction: @invalid_attrs)
 
       response(conn, 403) =~ "You are not allow to do this"
@@ -132,7 +132,7 @@ defmodule JarvisWeb.TransactionControllerTest do
     test "deletes chosen transaction", %{conn: conn, transaction: transaction} do
       conn =
         conn
-        |> init_test_session(user_id: transaction.created_by)
+        |> Phoenix.ConnTest.init_test_session(user_id: transaction.created_by)
         |> delete(Routes.transaction_path(conn, :delete, transaction))
 
       assert response(conn, 204)

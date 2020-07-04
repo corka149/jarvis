@@ -36,7 +36,7 @@ defmodule JarvisWeb.UserControllerTest do
     test "renders user when data is valid", %{conn: conn, user: %User{} = user} do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> put(Routes.user_path(conn, :update), user: @update_attrs)
 
       assert redirected_to(conn) == Routes.user_path(conn, :show)
@@ -49,7 +49,7 @@ defmodule JarvisWeb.UserControllerTest do
     test "renders errors when data is invalid", %{conn: conn, user: user} do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> put(Routes.user_path(conn, :update), user: @invalid_attrs)
 
       assert response(conn, 400) =~ "save"
@@ -62,7 +62,7 @@ defmodule JarvisWeb.UserControllerTest do
     test "delete user with authorization", %{conn: conn, user: user} do
       conn =
         conn
-        |> init_test_session(user_id: user.id)
+        |> Phoenix.ConnTest.init_test_session(user_id: user.id)
         |> delete(Routes.user_path(conn, :delete))
 
       assert redirected_to(conn) == Routes.page_path(conn, :index)

@@ -40,7 +40,7 @@ defmodule JarvisWeb.ItemControllerTest do
 
     test "lists all items", %{conn: conn, user: user, shopping_list: shopping_list} do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.item_path(conn, :index, shopping_list.id))
 
       assert redirected_to(conn) == Routes.item_path(conn, :new, shopping_list.id)
@@ -57,7 +57,7 @@ defmodule JarvisWeb.ItemControllerTest do
     } do
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.item_path(conn, :new, shopping_list.id))
 
       assert html_response(conn, 200) =~  "Shopping list for"
@@ -74,7 +74,7 @@ defmodule JarvisWeb.ItemControllerTest do
       route = Routes.item_path(conn, :create, shopping_list.id)
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.item_path(conn, :new, shopping_list.id))
 
       conn = post(conn, route, item: @create_attrs)
@@ -93,7 +93,7 @@ defmodule JarvisWeb.ItemControllerTest do
       route = Routes.item_path(conn, :create, shopping_list.id)
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> post(route, item: @invalid_attrs)
 
       assert html_response(conn, 400) =~ "is invalid"
@@ -111,7 +111,7 @@ defmodule JarvisWeb.ItemControllerTest do
       item: item
     } do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.item_path(conn, :edit, shopping_list.id, item))
 
       assert html_response(conn, 200) =~ "value=\"#{item.name}\""
@@ -125,7 +125,7 @@ defmodule JarvisWeb.ItemControllerTest do
       item: item
     } do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> put(Routes.item_path(conn, :update, shopping_list.id, item),
           item: @update_attrs
         )
@@ -145,7 +145,7 @@ defmodule JarvisWeb.ItemControllerTest do
       item: item
     } do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> put(Routes.item_path(conn, :update, shopping_list.id, item),
           item: @invalid_attrs
         )
@@ -163,7 +163,7 @@ defmodule JarvisWeb.ItemControllerTest do
         Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
 
       conn =
-        init_test_session(conn, user_id: another_user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: another_user.id)
         |> put(Routes.item_path(conn, :update, shopping_list.id, item),
           item: @invalid_attrs
         )
@@ -182,7 +182,7 @@ defmodule JarvisWeb.ItemControllerTest do
       item: item
     } do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> delete(Routes.item_path(conn, :delete, shopping_list.id, item))
 
       route = Routes.item_path(conn, :new, shopping_list.id)

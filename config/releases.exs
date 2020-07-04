@@ -20,17 +20,3 @@ config :jarvis, Jarvis.Repo,
   database: System.fetch_env!("DB_NAME"),
   hostname: System.fetch_env!("DB_HOST"),
   pool_size: 15
-
-config :ueberauth, Ueberauth,
-  providers: [
-    github:
-      {Ueberauth.Strategy.Github,
-       [
-         callback_path:
-           System.fetch_env!("GITHUB_CALLBACK_PATH_PREFIX") <> "/auth/github/callback"
-       ]}
-  ]
-
-config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
-  client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")

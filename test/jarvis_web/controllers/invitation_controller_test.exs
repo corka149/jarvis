@@ -34,7 +34,7 @@ defmodule JarvisWeb.InvitationControllerTest do
       {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.invitation_path(conn, :index))
 
       assert html_response(conn, 200) =~ "Created invitations"
@@ -58,7 +58,7 @@ defmodule JarvisWeb.InvitationControllerTest do
       create_attrs = %{invitee_email: user.email, usergroup_id: group.id}
 
       conn =
-        init_test_session(conn, user_id: group.user_id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: group.user_id)
         |> post(Routes.invitation_path(conn, :create), invitation: create_attrs)
 
       show_url = Routes.invitation_path(conn, :index)
@@ -74,7 +74,7 @@ defmodule JarvisWeb.InvitationControllerTest do
       invalid_attrs = %{invitee_email: "Not existing user", usergroup_id: group.id}
 
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> post(Routes.invitation_path(conn, :create), invitation: invalid_attrs)
 
       assert redirected_to(conn) == Routes.invitation_path(conn, :index)
@@ -86,7 +86,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
     test "deletes chosen invitation", %{conn: conn, invitation: invitation, user: user} do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> delete(Routes.invitation_path(conn, :delete, invitation))
 
       assert redirected_to(conn) == Routes.invitation_path(conn, :index)
@@ -97,7 +97,7 @@ defmodule JarvisWeb.InvitationControllerTest do
     setup [:create_invitation]
 
     test "authorized accept of invitation", %{conn: conn, invitation: invitation} do
-      conn = init_test_session(conn, user_id: invitation.invitee_id)
+      conn = Phoenix.ConnTest.init_test_session(conn, user_id: invitation.invitee_id)
       index_url = Routes.invitation_path(conn, :index)
       host = Accounts.get_user!(invitation.host_id)
 
@@ -113,7 +113,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
     test "authorized accept of two invitations", %{conn: conn, invitation: invitation} do
       conn =
-        init_test_session(conn, user_id: invitation.invitee_id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: invitation.invitee_id)
         |> get(Routes.invitation_path(conn, :accept, invitation))
 
       user = fixture(:user_and_group)
@@ -123,7 +123,7 @@ defmodule JarvisWeb.InvitationControllerTest do
       conn =
         conn
         |> recycle()
-        |> init_test_session(user_id: invitation.invitee_id)
+        |> Phoenix.ConnTest.init_test_session(user_id: invitation.invitee_id)
         |> get(Routes.invitation_path(conn, :accept, invitation))
 
       assert redirected_to(conn) == Routes.invitation_path(conn, :index)
@@ -135,7 +135,7 @@ defmodule JarvisWeb.InvitationControllerTest do
       user: user
     } do
       conn =
-        init_test_session(conn, user_id: user.id)
+        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.invitation_path(conn, :accept, invitation))
 
       response(conn, 403)

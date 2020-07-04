@@ -38,7 +38,7 @@ defmodule JarvisWeb.CategoryControllerTest do
     conn =
       conn
       |> put_req_header("accept", "application/json")
-      |> init_test_session(user_id: creator.id)
+      |> Phoenix.ConnTest.init_test_session(user_id: creator.id)
 
     {:ok, conn: conn, conn_without_auth: conn_without_auth, creator: creator}
   end
@@ -78,7 +78,7 @@ defmodule JarvisWeb.CategoryControllerTest do
     } do
       conn =
         conn
-        |> init_test_session(user_id: category.created_by)
+        |> Phoenix.ConnTest.init_test_session(user_id: category.created_by)
         |> put(Routes.category_path(conn, :update, category), category: @update_attrs)
 
       assert %{"id" => ^id} = json_response(conn, 200)
@@ -94,7 +94,7 @@ defmodule JarvisWeb.CategoryControllerTest do
     test "renders errors when data is invalid", %{conn: conn, category: category} do
       conn =
         conn
-        |> init_test_session(user_id: category.created_by)
+        |> Phoenix.ConnTest.init_test_session(user_id: category.created_by)
         |> put(Routes.category_path(conn, :update, category), category: @invalid_attrs)
 
       assert json_response(conn, 422)["errors"] != %{}
@@ -107,7 +107,7 @@ defmodule JarvisWeb.CategoryControllerTest do
     test "delete chosen category", %{conn: conn, category: category} do
       conn =
         conn
-        |> init_test_session(user_id: category.created_by)
+        |> Phoenix.ConnTest.init_test_session(user_id: category.created_by)
         |> delete(Routes.category_path(conn, :delete, category))
 
       assert response(conn, 204)

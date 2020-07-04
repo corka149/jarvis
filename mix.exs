@@ -4,8 +4,8 @@ defmodule Jarvis.MixProject do
   def project do
     [
       app: :jarvis,
-      version: "4.0.2",
-      elixir: "~> 1.9.1",
+      version: "4.0.3",
+      elixir: "~> 1.10.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -27,7 +27,7 @@ defmodule Jarvis.MixProject do
   def application do
     [
       mod: {Jarvis.Application, []},
-      extra_applications: [:logger, :runtime_tools, :ueberauth, :ueberauth_github, :httpotion]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -40,21 +40,18 @@ defmodule Jarvis.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.0"},
-      {:phoenix_pubsub, "~> 1.1"},
-      {:phoenix_ecto, "~> 4.0"},
-      {:ecto_sql, "~> 3.0"},
+      {:phoenix, "~> 1.5.3"},
+      {:phoenix_ecto, "~> 4.1"},
+      {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.2.0"},
+      {:telemetry_metrics, "~> 0.4"},
+      {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:ueberauth, "~> 0.6"},
-      {:ueberauth_github, "~> 0.7"},
-      {:poison, "~> 4.0"},
-      {:httpotion, "~> 3.1"},
-      {:hackney, "1.15.2", override: true},
       {:argon2_elixir, "~> 2.0"},
       {:uuid, "~> 1.1"},
 
@@ -76,9 +73,10 @@ defmodule Jarvis.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
+      setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end
 end
