@@ -14,5 +14,5 @@ config :jarvis, Jarvis.Repo,
   username: "postgres",
   password: "secret",
   database: "jarvis_test",
-  hostname: "localhost",
+  hostname: System.get_env("DB_HOST") || "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
