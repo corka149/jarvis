@@ -11,7 +11,7 @@ jobs:
       uses: actions/setup-elixir@v1
       with:
         otp-version: 22.x
-        elixir-version: 1.10.x
+        elixir-version: 1.9.x
     - name: Install Dependencies
       run: mix deps.get
     - name: Run Tests
@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-elixir@v1.0.0
         with:
           otp-version: 22.x
-          elixir-version: 1.10.x
+          elixir-version: 1.9.x
       - run: mix deps.get
       - run: mix dialyzer
       - run: mix credo --strict
