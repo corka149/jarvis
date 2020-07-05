@@ -43,3 +43,7 @@ npm-debug.log
 
 .elixir_ls/
 .*
+
+# Added workflow dir
+!.github/workflows
+!.github/workflows/*
