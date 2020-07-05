@@ -1,0 +1,33 @@
+name: Elixir CI
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup elixir
+      uses: actions/setup-elixir@v1
+      with:
+        otp-version: 22.x
+        elixir-version: 1.10.x
+    - name: Install Dependencies
+      run: mix deps.get
+    - name: Run Tests
+      run: mix test
+
+  analyze:
+    runs-on: ubuntu-latest
+    name: Dialyzer - OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - name: Setup elixir
+        uses: actions/setup-elixir@v1.0.0
+        with:
+          otp-version: 22.x
+          elixir-version: 1.10.x
+      - run: mix deps.get
+      - run: mix dialyzer
+      - run: mix credo --strict
+      
