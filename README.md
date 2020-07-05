@@ -2,7 +2,7 @@
 
 > Portal for managing household (like housekeeping book).
 
-![Build result](https://travis-ci.org/corka149/jarvis.svg?branch=master)
+![Elixir CI](https://github.com/corka149/jarvis/workflows/Elixir%20CI/badge.svg)
 
 ## Getting jARVIS
 
