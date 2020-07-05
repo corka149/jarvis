@@ -8,10 +8,11 @@ jobs:
       postgres:
         image: postgres
         ports:
-          - 5432:5432
+          - 5432/tcp
         env:
-          POSTGRES_PASSWORD: secret
+          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: jarvis_test
+          POSTGRES_USER: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
