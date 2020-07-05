@@ -104,7 +104,7 @@
     <main role="main">
       <p class="alert alert-info center-align" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger center-align" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= render @view_module, @view_template, assigns %>
+      <%= @inner_content %>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
