@@ -14,7 +14,7 @@
     <!-- -->
     <div class="input-field col s12">
       <%= label form, :name, dgettext("shoppinglists", "Item name") %>
-      <%= text_input form, :name, required: true %>
+      <%= text_input form, :name, required: true, autocomplete: "off" %>
       <%= error_tag form, :name %>
     </div>
 
