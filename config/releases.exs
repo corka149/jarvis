@@ -8,7 +8,7 @@ config :jarvis, JarvisWeb.Endpoint,
   root: ".",
   version: Application.spec(:jarvis, :vsn)
 
-config :logger, level: :info
+config :logger, level: :warn
 
 config :phoenix, :serve_endpoints, true
 
