@@ -22,19 +22,27 @@ docker pull corka149/jarvis
 
 ## Getting started
 
-To start your Phoenix server:
+To start your dev server:
 
-  * Install dependencies with `mix deps.get`
-  * Run startPostgres.sh
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+  * Install dependencies with `pip3 install -r requirements-dev.txt`
+  * Run start_db.sh
+  * Start flask with ``
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+## Developing
+
+Lifecycle for endpoints:
+    
+    * Routes are defined in views
+    * Route parameters are recevied as funtion parameter
+    * View models are created
+    * Route parameters are forwarded to view models
+    * At the end of a route methode the view model is tranformed to a dict
+
 ## Building
 
-Just run `mix docker`. It will take care of everything for you. :)
+Just run `python3 docker.py`. It will take care of everything for you. :)
 
 ## Configuration
 
@@ -56,6 +64,6 @@ Important environment variables for prod release:
 Execute the following as often as possible and fix what you can:
 
  * `mix format` - formats code
- * `mix test` - for ExUnit tests
- * `mix dialyzer` - for type checking
- * `mix credo` - for linting
+ * `tox` - for ExUnit tests
+ * `pylint src` - for type checking
+ * `mypy src` - for linting

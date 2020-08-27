@@ -1,5 +1,7 @@
-_build
-*/node_modules*
-deps
-.elixir_ls
-.vscode
+venv
+.venv
+env
+.env
+.github
+__ops__
+start_db.sh
