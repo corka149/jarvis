@@ -16,8 +16,8 @@
 
         <tbody>
             <%= for it <- @items do %>
-                <tr>
-                    <td>
+                <tr id="item-<%= it.id %>">
+                    <td onclick="toggleItem('item-<%= it.id %>')">
                         <%= it.name %>
                     </td>
                     <td>
@@ -32,3 +32,13 @@
         </tbody>
     </table>
 </div>
+<script>
+    const toggleItem = (id) => {
+        const item = document.getElementById(id);
+        if (item.style.color === 'lightgrey') {
+            item.style.color = 'black'
+        } else {
+            item.style.color = 'lightgrey';
+        }
+    };
+</script>
