@@ -4,7 +4,7 @@ defmodule Jarvis.MixProject do
   def project do
     [
       app: :jarvis,
-      version: "4.0.6",
+      version: "4.1.0",
       elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -57,9 +57,9 @@ defmodule Jarvis.MixProject do
 
       # tools
       ## linting
-      {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       ## type checking
-      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
 
       # testing
     ]
