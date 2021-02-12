@@ -67,11 +67,4 @@ defmodule JarvisWeb.Router do
 
     get "/ready", SystemController, :ready
   end
-
-  scope "/v1/finances", JarvisWeb do
-    pipe_through :api
-
-    resources "/categories", CategoryController, except: [:new, :edit]
-    resources "/transactions", TransactionController, except: [:new, :edit]
-  end
 end

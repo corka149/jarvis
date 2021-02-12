@@ -55,15 +55,14 @@ defmodule JarvisWeb.ItemControllerTest do
       user: user,
       shopping_list: shopping_list
     } do
-
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.item_path(conn, :new, shopping_list.id))
 
-      assert html_response(conn, 200) =~  "Shopping list for"
-      assert html_response(conn, 200) =~  Date.to_string(shopping_list.planned_for)
-      assert html_response(conn, 200) =~  "name=\"item[name]\""
-      assert html_response(conn, 200) =~  "name=\"item[amount]\""
+      assert html_response(conn, 200) =~ "Shopping list for"
+      assert html_response(conn, 200) =~ Date.to_string(shopping_list.planned_for)
+      assert html_response(conn, 200) =~ "name=\"item[name]\""
+      assert html_response(conn, 200) =~ "name=\"item[amount]\""
     end
 
     test "use valid attrs for creating item", %{
@@ -133,7 +132,7 @@ defmodule JarvisWeb.ItemControllerTest do
       route = Routes.item_path(conn, :new, shopping_list.id)
       assert redirected_to(conn) =~ route
 
-      conn = get(conn,  route)
+      conn = get(conn, route)
       assert html_response(conn, 200) =~ @update_attrs.name
       assert html_response(conn, 200) =~ Integer.to_string(@update_attrs.amount)
     end
@@ -189,7 +188,7 @@ defmodule JarvisWeb.ItemControllerTest do
       assert redirected_to(conn) =~ route
 
       conn = get(conn, route)
-      assert not(html_response(conn, 200) =~ item.name)
+      assert not (html_response(conn, 200) =~ item.name)
     end
   end
 end

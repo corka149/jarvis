@@ -258,7 +258,7 @@ defmodule Jarvis.AccountsTest do
 
       {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
 
-      assert {:ok, %Invitation{} = invitation} =
+      assert {:ok, %Invitation{} = _invitation} =
                Accounts.create_invitation(@valid_attrs, user_group, host, invitee)
     end
 
@@ -274,7 +274,7 @@ defmodule Jarvis.AccountsTest do
     test "update_invitation/2 with valid data updates the invitation" do
       %{invitation: invitation} = invitation_fixture()
 
-      assert {:ok, %Invitation{} = invitation} =
+      assert {:ok, %Invitation{} = _invitation} =
                Accounts.update_invitation(invitation, @update_attrs)
     end
 

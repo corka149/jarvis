@@ -19,6 +19,7 @@ docker pull corka149/jarvis
     1. Marks the end of any work targeting smart home. In this version frontend and backend should be separated.
     2. Added finance domain
 4. Version is the comeback of jARVIS as multipage application.
+    1. Removed finance domain
 
 ## Getting started
 

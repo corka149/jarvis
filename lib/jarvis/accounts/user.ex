@@ -20,8 +20,6 @@ defmodule Jarvis.Accounts.User do
     has_many :created_invitations, Jarvis.Accounts.Invitation, foreign_key: :host_id
     has_many :received_invitations, Jarvis.Accounts.Invitation, foreign_key: :invitee_id
     field :default_language, :string
-    has_many :transactions, Jarvis.Finances.Transaction, foreign_key: :created_by
-    has_many :categories, Jarvis.Finances.Category, foreign_key: :created_by
 
     timestamps()
   end

@@ -1,10 +1,10 @@
 defmodule JarvisWeb.Plugs.RequireAuthorization do
   @moduledoc """
   Operates on structs that have a created_by field which represents the creator.
-  Examples are Jarvis.Finances.Category or Jarvis.Finances.Transaction.
+  Examples are Jarvis.ShoppingLists.Item or Jarvis.ShoppingLists.ShoppingList.
 
       iex> # Usage
-      iex> plug JarvisWeb.Plugs.RequireAuthorization, %{query_function: &Finances.get_transaction!/1} when action in [:show, :update, :delete]
+      iex> plug JarvisWeb.Plugs.RequireAuthorization, %{authorization_border: ShoppingListAuthorization} when action in [:show, :update, :delete]
   """
 
   require Logger
