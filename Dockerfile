@@ -1,19 +1,19 @@
 # BUILD
-FROM elixir:1.10 AS build
+FROM elixir:1.11 AS build
 
 COPY . .
 RUN mix do local.hex --force, local.rebar --force
 
 ENV MIX_ENV=prod
 RUN mix deps.get && \
-	mix release && \
+  mix release && \
   mix phx.digest
 
 RUN mkdir /jarvis && \
-    cp -r _build/prod/rel/jarvis /jarvis
+  cp -r _build/prod/rel/jarvis /jarvis
 
 # RUNTIME
-FROM elixir:1.10-slim
+FROM elixir:1.11-slim
 LABEL maintainer="corka149 <corka149@mailbox.org>"
 
 COPY --from=build /jarvis .
