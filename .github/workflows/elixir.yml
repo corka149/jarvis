@@ -35,9 +35,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Dialyzer - OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     steps:
-      - uses: actions/checkout@v1.0.0
+      - uses: actions/checkout@v2
       - name: Setup elixir
-        uses: actions/setup-elixir@v1.0.0
+        uses: actions/setup-elixir@v1
         with:
           otp-version: 23.x
           elixir-version: 1.11.x
