@@ -10,6 +10,8 @@ defmodule Jarvis.Application do
     children = [
       # Start the Ecto repository
       Jarvis.Repo,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: Jarvis.PubSub},
       # Start the endpoint when the application starts
       JarvisWeb.Endpoint
       # Starts a worker by calling: Jarvis.Worker.start_link(arg)
