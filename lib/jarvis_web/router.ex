@@ -67,4 +67,10 @@ defmodule JarvisWeb.Router do
 
     get "/ready", SystemController, :ready
   end
+
+  scope "/v1", JarvisWeb do
+    pipe_through :api
+
+    resources "/artworks", ArtworkController, except: [:new, :edit]
+  end
 end
