@@ -47,3 +47,6 @@ npm-debug.log
 # Added workflow dir
 !.github/workflows
 !.github/workflows/*
+
+# Elm
+/assets/elm-stuff

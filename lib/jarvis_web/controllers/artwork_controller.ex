@@ -6,6 +6,10 @@ defmodule JarvisWeb.ArtworkController do
 
   action_fallback JarvisWeb.FallbackController
 
+  def index_html(conn, _params) do
+    render(conn, "index.html")
+  end
+
   def index(conn, _params) do
     artworks = AnimalXing.list_artworks()
     render(conn, "index.json", artworks: artworks)
