@@ -62,6 +62,7 @@ defmodule JarvisWeb.Router do
     pipe_through :browser
 
     get "/artworks", ArtworkController, :index_html
+    get "/isles", IsleController, :index_html
   end
 
   # ### ### ### ### ### #
@@ -78,5 +79,6 @@ defmodule JarvisWeb.Router do
     pipe_through :api
 
     resources "/artworks", ArtworkController, except: [:new, :edit]
+    resources "/isles", IsleController, except: [:new, :edit]
   end
 end

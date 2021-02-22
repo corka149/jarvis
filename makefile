@@ -7,4 +7,4 @@ check: launch-database
 	mix format
 	mix test
 	mix dialyzer
-	mix credo
+	mix credo --strict

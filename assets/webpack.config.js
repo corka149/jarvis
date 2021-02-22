@@ -51,7 +51,8 @@ module.exports = (env, options) => {
               debug: devMode,
               files: [
                 path.resolve(__dirname, "src/Main.elm"),
-                path.resolve(__dirname, "src/Artwork.elm")
+                path.resolve(__dirname, "src/Artwork.elm"),
+                path.resolve(__dirname, "src/Isle.elm")
               ]
             }
           }

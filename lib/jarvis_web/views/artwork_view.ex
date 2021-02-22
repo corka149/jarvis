@@ -11,7 +11,6 @@ defmodule JarvisWeb.ArtworkView do
   end
 
   def render("artwork.json", %{artwork: artwork}) do
-    %{id: artwork.id,
-      name: artwork.name}
+    %{id: artwork.id, name: artwork.name}
   end
 end

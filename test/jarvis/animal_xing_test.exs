@@ -61,4 +61,63 @@ defmodule Jarvis.AnimalXingTest do
       assert %Ecto.Changeset{} = AnimalXing.change_artwork(artwork)
     end
   end
+
+  describe "isles" do
+    alias Jarvis.AnimalXing.Isle
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def isle_fixture(attrs \\ %{}) do
+      {:ok, isle} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> AnimalXing.create_isle()
+
+      isle
+    end
+
+    test "list_isles/0 returns all isles" do
+      isle = isle_fixture()
+      assert AnimalXing.list_isles() == [isle]
+    end
+
+    test "get_isle!/1 returns the isle with given id" do
+      isle = isle_fixture()
+      assert AnimalXing.get_isle!(isle.id) == isle
+    end
+
+    test "create_isle/1 with valid data creates a isle" do
+      assert {:ok, %Isle{} = isle} = AnimalXing.create_isle(@valid_attrs)
+      assert isle.name == "some name"
+    end
+
+    test "create_isle/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = AnimalXing.create_isle(@invalid_attrs)
+    end
+
+    test "update_isle/2 with valid data updates the isle" do
+      isle = isle_fixture()
+      assert {:ok, %Isle{} = isle} = AnimalXing.update_isle(isle, @update_attrs)
+      assert isle.name == "some updated name"
+    end
+
+    test "update_isle/2 with invalid data returns error changeset" do
+      isle = isle_fixture()
+      assert {:error, %Ecto.Changeset{}} = AnimalXing.update_isle(isle, @invalid_attrs)
+      assert isle == AnimalXing.get_isle!(isle.id)
+    end
+
+    test "delete_isle/1 deletes the isle" do
+      isle = isle_fixture()
+      assert {:ok, %Isle{}} = AnimalXing.delete_isle(isle)
+      assert_raise Ecto.NoResultsError, fn -> AnimalXing.get_isle!(isle.id) end
+    end
+
+    test "change_isle/1 returns a isle changeset" do
+      isle = isle_fixture()
+      assert %Ecto.Changeset{} = AnimalXing.change_isle(isle)
+    end
+  end
 end

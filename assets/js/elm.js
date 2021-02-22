@@ -2,9 +2,18 @@
 import { Elm } from "../src/Main.elm"
 
 
-const artworkNode = document.getElementById("artwork-main");
+// Artwork app
+const artworkNode = document.getElementById("artwork-app");
 if (!!artworkNode) {
     var app = Elm.Artwork.init({
         node: artworkNode
+    });
+}
+
+// Isle app
+const isleNode = document.getElementById("isle-app");
+if (!!isleNode) {
+    var app = Elm.Isle.init({
+        node: isleNode
     });
 }

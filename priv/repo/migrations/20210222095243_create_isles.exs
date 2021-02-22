@@ -1,8 +1,8 @@
-defmodule Jarvis.Repo.Migrations.CreateArtworks do
+defmodule Jarvis.Repo.Migrations.CreateIsles do
   use Ecto.Migration
 
   def change do
-    create table(:artworks) do
+    create table(:isles) do
       add :name, :string
 
       timestamps()
