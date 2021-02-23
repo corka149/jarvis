@@ -15,8 +15,10 @@ defmodule JarvisWeb.ArtworkController do
     render(conn, "index.json", artworks: artworks)
   end
 
-  def create(conn, %{"artwork" => artwork_params}) do
-    with {:ok, %Artwork{} = artwork} <- AnimalXing.create_artwork(artwork_params) do
+  def create(conn, %{"artwork" => %{"belongs_to" => belongs_to} = artwork_params}) do
+    isle = AnimalXing.get_isle!(belongs_to)
+
+    with {:ok, %Artwork{} = artwork} <- AnimalXing.create_artwork(artwork_params, isle) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.artwork_path(conn, :show, artwork))

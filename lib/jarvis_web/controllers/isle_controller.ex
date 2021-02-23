@@ -15,8 +15,10 @@ defmodule JarvisWeb.IsleController do
     render(conn, "index.json", isles: isles)
   end
 
-  def create(conn, %{"isle" => isle_params}) do
-    with {:ok, %Isle{} = isle} <- AnimalXing.create_isle(isle_params) do
+  def create(conn, %{"isle" => %{"owned_by" => owned_by} = isle_params}) do
+    user_group = Jarvis.Accounts.get_user_group!(owned_by)
+
+    with {:ok, %Isle{} = isle} <- AnimalXing.create_isle(isle_params, user_group) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.isle_path(conn, :show, isle))

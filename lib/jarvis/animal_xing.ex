@@ -42,15 +42,15 @@ defmodule Jarvis.AnimalXing do
 
   ## Examples
 
-      iex> create_artwork(%{field: value})
+      iex> create_artwork(%{field: value}, isle)
       {:ok, %Artwork{}}
 
-      iex> create_artwork(%{field: bad_value})
+      iex> create_artwork(%{field: bad_value}, isle)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_artwork(attrs \\ %{}) do
-    %Artwork{}
+  def create_artwork(attrs \\ %{}, isle) do
+    Ecto.build_assoc(isle, :artworks)
     |> Artwork.changeset(attrs)
     |> Repo.insert()
   end
@@ -138,15 +138,15 @@ defmodule Jarvis.AnimalXing do
 
   ## Examples
 
-      iex> create_isle(%{field: value})
+      iex> create_isle(%{field: value}, user_group)
       {:ok, %Isle{}}
 
-      iex> create_isle(%{field: bad_value})
+      iex> create_isle(%{field: bad_value}, user_group)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_isle(attrs \\ %{}) do
-    %Isle{}
+  def create_isle(attrs \\ %{}, user_group) do
+    Ecto.build_assoc(user_group, :isles)
     |> Isle.changeset(attrs)
     |> Repo.insert()
   end

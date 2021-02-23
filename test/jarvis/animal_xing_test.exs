@@ -3,6 +3,8 @@ defmodule Jarvis.AnimalXingTest do
 
   alias Jarvis.AnimalXing
 
+  import Jarvis.TestHelper
+
   describe "artworks" do
     alias Jarvis.AnimalXing.Artwork
 
@@ -10,11 +12,16 @@ defmodule Jarvis.AnimalXingTest do
     @update_attrs %{name: "some updated name"}
     @invalid_attrs %{name: nil}
 
+    @valid_attrs_isle %{name: "some name"}
+
     def artwork_fixture(attrs \\ %{}) do
+      user_group = gen_test_data(:user_group)
+      {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+
       {:ok, artwork} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> AnimalXing.create_artwork()
+        |> AnimalXing.create_artwork(isle)
 
       artwork
     end
@@ -30,12 +37,18 @@ defmodule Jarvis.AnimalXingTest do
     end
 
     test "create_artwork/1 with valid data creates a artwork" do
-      assert {:ok, %Artwork{} = artwork} = AnimalXing.create_artwork(@valid_attrs)
+      user_group = gen_test_data(:user_group)
+      {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+
+      assert {:ok, %Artwork{} = artwork} = AnimalXing.create_artwork(@valid_attrs, isle)
       assert artwork.name == "some name"
     end
 
     test "create_artwork/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = AnimalXing.create_artwork(@invalid_attrs)
+      user_group = gen_test_data(:user_group)
+      {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+
+      assert {:error, %Ecto.Changeset{}} = AnimalXing.create_artwork(@invalid_attrs, isle)
     end
 
     test "update_artwork/2 with valid data updates the artwork" do
@@ -70,10 +83,12 @@ defmodule Jarvis.AnimalXingTest do
     @invalid_attrs %{name: nil}
 
     def isle_fixture(attrs \\ %{}) do
+      user_group = gen_test_data(:user_group)
+
       {:ok, isle} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> AnimalXing.create_isle()
+        |> AnimalXing.create_isle(user_group)
 
       isle
     end
@@ -89,12 +104,16 @@ defmodule Jarvis.AnimalXingTest do
     end
 
     test "create_isle/1 with valid data creates a isle" do
-      assert {:ok, %Isle{} = isle} = AnimalXing.create_isle(@valid_attrs)
+      user_group = gen_test_data(:user_group)
+
+      assert {:ok, %Isle{} = isle} = AnimalXing.create_isle(@valid_attrs, user_group)
       assert isle.name == "some name"
     end
 
     test "create_isle/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = AnimalXing.create_isle(@invalid_attrs)
+      user_group = gen_test_data(:user_group)
+
+      assert {:error, %Ecto.Changeset{}} = AnimalXing.create_isle(@invalid_attrs, user_group)
     end
 
     test "update_isle/2 with valid data updates the isle" do

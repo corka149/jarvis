@@ -4,6 +4,8 @@ defmodule JarvisWeb.ArtworkControllerTest do
   alias Jarvis.AnimalXing
   alias Jarvis.AnimalXing.Artwork
 
+  import Jarvis.TestHelper
+
   @create_attrs %{
     name: "some name"
   }
@@ -12,8 +14,13 @@ defmodule JarvisWeb.ArtworkControllerTest do
   }
   @invalid_attrs %{name: nil}
 
+  @valid_attrs_isle %{name: "some name"}
+
   def fixture(:artwork) do
-    {:ok, artwork} = AnimalXing.create_artwork(@create_attrs)
+    user_group = gen_test_data(:user_group)
+    {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+
+    {:ok, artwork} = AnimalXing.create_artwork(@create_attrs, isle)
     artwork
   end
 
@@ -30,7 +37,11 @@ defmodule JarvisWeb.ArtworkControllerTest do
 
   describe "create artwork" do
     test "renders artwork when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.artwork_path(conn, :create), artwork: @create_attrs)
+      user_group = gen_test_data(:user_group)
+      {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+      create_attrs = Map.put(@create_attrs, :belongs_to, isle.id)
+
+      conn = post(conn, Routes.artwork_path(conn, :create), artwork: create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.artwork_path(conn, :show, id))
@@ -42,7 +53,11 @@ defmodule JarvisWeb.ArtworkControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.artwork_path(conn, :create), artwork: @invalid_attrs)
+      user_group = gen_test_data(:user_group)
+      {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+      invalid_attrs = Map.put(@invalid_attrs, :belongs_to, isle.id)
+
+      conn = post(conn, Routes.artwork_path(conn, :create), artwork: invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
