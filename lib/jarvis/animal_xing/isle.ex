@@ -7,6 +7,9 @@ defmodule Jarvis.AnimalXing.Isle do
 
   schema "isles" do
     field :name, :string
+    has_many :artworks, Jarvis.AnimalXing.Artwork, foreign_key: :belongs_to
+
+    belongs_to :usergroups, Jarvis.Accounts.UserGroup, foreign_key: :owned_by
 
     timestamps()
   end
@@ -14,7 +17,7 @@ defmodule Jarvis.AnimalXing.Isle do
   @doc false
   def changeset(isle, attrs) do
     isle
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :owned_by])
+    |> validate_required([:name, :owned_by])
   end
 end

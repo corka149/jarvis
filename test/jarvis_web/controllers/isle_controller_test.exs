@@ -36,7 +36,7 @@ defmodule JarvisWeb.IsleControllerTest do
       conn = get(conn, Routes.isle_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => _,
                "name" => "some name"
              } = json_response(conn, 200)["data"]
     end
@@ -57,7 +57,7 @@ defmodule JarvisWeb.IsleControllerTest do
       conn = get(conn, Routes.isle_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => _,
                "name" => "some updated name"
              } = json_response(conn, 200)["data"]
     end

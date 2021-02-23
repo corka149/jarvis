@@ -36,7 +36,7 @@ defmodule JarvisWeb.ArtworkControllerTest do
       conn = get(conn, Routes.artwork_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => _,
                "name" => "some name"
              } = json_response(conn, 200)["data"]
     end
@@ -57,7 +57,7 @@ defmodule JarvisWeb.ArtworkControllerTest do
       conn = get(conn, Routes.artwork_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => _,
                "name" => "some updated name"
              } = json_response(conn, 200)["data"]
     end

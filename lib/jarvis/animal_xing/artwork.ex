@@ -7,6 +7,7 @@ defmodule Jarvis.AnimalXing.Artwork do
 
   schema "artworks" do
     field :name, :string
+    belongs_to :isle, Jarvis.AnimalXing.Isle, foreign_key: :belongs_to
 
     timestamps()
   end
@@ -14,7 +15,7 @@ defmodule Jarvis.AnimalXing.Artwork do
   @doc false
   def changeset(artwork, attrs) do
     artwork
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :belongs_to])
+    |> validate_required([:name, :belongs_to])
   end
 end

@@ -8,9 +8,14 @@ defmodule Jarvis.Accounts.UserGroup do
   schema "usergroups" do
     field :name, :string
     belongs_to :user, Jarvis.Accounts.User
-    has_many :shoppinglists, Jarvis.ShoppingLists.ShoppingList, foreign_key: :belongs_to
     many_to_many :has_member, Jarvis.Accounts.User, join_through: "users_usergroups"
     has_many :invitations, Jarvis.Accounts.Invitation, foreign_key: :usergroup_id
+
+    # ShoppingLists
+    has_many :shoppinglists, Jarvis.ShoppingLists.ShoppingList, foreign_key: :belongs_to
+
+    # AnimalXing
+    has_many :isles, Jarvis.AnimalXing.Isle, foreign_key: :owned_by
 
     timestamps()
   end
