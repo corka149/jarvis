@@ -29,6 +29,15 @@ defmodule JarvisWeb.InvitationControllerTest do
     user |> Jarvis.Repo.preload(:usergroups)
   end
 
+  defp create_invitation(_) do
+    invitation = fixture(:invitation)
+    user = fixture(:user_and_group)
+    [group | _] = user.usergroups
+    {:ok, invitation: invitation, user: user, group: group}
+  end
+
+  # ===== TESTS =====
+
   describe "index" do
     test "lists all invitations", %{conn: conn} do
       {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
@@ -140,12 +149,5 @@ defmodule JarvisWeb.InvitationControllerTest do
 
       response(conn, 403)
     end
-  end
-
-  defp create_invitation(_) do
-    invitation = fixture(:invitation)
-    user = fixture(:user_and_group)
-    [group | _] = user.usergroups
-    {:ok, invitation: invitation, user: user, group: group}
   end
 end

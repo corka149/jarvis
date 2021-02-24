@@ -10,17 +10,10 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   @update_attrs %{done: false, planned_for: ~D[2011-05-18]}
   @invalid_attrs %{done: nil, planned_for: nil}
 
-  @valid_attrs_group %{name: "some name"}
-  @valid_attrs_user %{
-    email: "someemail@test.xyz",
-    name: "some name",
-    provider: "some provider",
-    token: "some token"
-  }
-
   def fixture(:shopping_list) do
-    {:ok, user} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
-    {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
+    group = gen_test_data(:user_group)
+    user = group.user
+
     {:ok, shopping_list} = ShoppingLists.create_shopping_list(@create_attrs, group)
     {shopping_list, group, user}
   end
@@ -31,9 +24,9 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   end
 
   describe "index" do
-    test "lists all shopping_lists", %{conn: conn} do
-      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    setup [:create_shopping_list]
 
+    test "lists all shopping_lists", %{conn: conn, user: user} do
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :index))
@@ -41,9 +34,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       assert html_response(conn, 200) =~ "All shopping lists"
     end
 
-    test "lists open shopping_lists", %{conn: conn} do
-      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
-
+    test "lists open shopping_lists", %{conn: conn, user: user} do
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :index_open_lists))
@@ -68,7 +59,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
       conn: conn,
       shopping_list: shopping_list
     } do
-      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      user = gen_test_data(:user)
 
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)

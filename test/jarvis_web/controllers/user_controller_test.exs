@@ -30,6 +30,13 @@ defmodule JarvisWeb.UserControllerTest do
     user
   end
 
+  defp create_user(_) do
+    user = fixture(:user)
+    {:ok, user: user}
+  end
+
+  # ===== TESTS =====
+
   describe "update user" do
     setup [:create_user]
 
@@ -67,10 +74,5 @@ defmodule JarvisWeb.UserControllerTest do
 
       assert redirected_to(conn) == Routes.page_path(conn, :index)
     end
-  end
-
-  defp create_user(_) do
-    user = fixture(:user)
-    {:ok, user: user}
   end
 end

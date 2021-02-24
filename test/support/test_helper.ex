@@ -12,7 +12,7 @@ defmodule Jarvis.TestHelper do
   end
 
   @doc """
-  Generate test data for other entites
+  Generate test data for other entites.
   """
   def gen_test_data(data_type)
 
@@ -40,6 +40,6 @@ defmodule Jarvis.TestHelper do
       |> Enum.into(valid_attrs_group)
       |> Jarvis.Accounts.create_user_group(user)
 
-    user_group
+    Jarvis.Repo.preload(user_group, :user)
   end
 end

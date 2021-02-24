@@ -17,6 +17,8 @@ defmodule JarvisWeb.AuthControllerTest do
     {:ok, user: user}
   end
 
+  # ===== TESTS =====
+
   test "connect with valid credentials and expect success", %{conn: conn, user: user} do
     credentials = %{"email" => user.email, "password" => @user_password}
     signin_response = post(conn, Routes.auth_path(conn, :signin_by_jarvis), credentials)

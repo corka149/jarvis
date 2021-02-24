@@ -63,6 +63,8 @@ defmodule JarvisWeb.UserGroupControllerTest do
     %{invitation: invitation, host: host, invitee: invitee}
   end
 
+  # ===== TESTS =====
+
   describe "index" do
     setup [:create_user_group]
 

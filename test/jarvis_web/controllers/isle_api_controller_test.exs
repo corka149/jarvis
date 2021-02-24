@@ -25,6 +25,13 @@ defmodule JarvisWeb.IsleApiControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
+  defp create_isle(_) do
+    isle = fixture(:isle)
+    %{isle: isle}
+  end
+
+  # ===== TESTS =====
+
   describe "index" do
     test "lists all isles", %{conn: conn} do
       conn = get(conn, Routes.isle_api_path(conn, :index))
@@ -89,10 +96,5 @@ defmodule JarvisWeb.IsleApiControllerTest do
         get(conn, Routes.isle_api_path(conn, :show, isle))
       end
     end
-  end
-
-  defp create_isle(_) do
-    isle = fixture(:isle)
-    %{isle: isle}
   end
 end

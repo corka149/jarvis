@@ -21,6 +21,13 @@ defmodule JarvisWeb.UserGroupApiControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
+  defp create_user_group(_) do
+    user_group = fixture(:user_group)
+    {:ok, user_group: user_group, user: user_group.user}
+  end
+
+  # ===== TESTS =====
+
   describe "index" do
     setup [:create_user_group]
 
@@ -41,10 +48,5 @@ defmodule JarvisWeb.UserGroupApiControllerTest do
   describe "update user_group" do
     setup [:create_user_group]
     # Not yet needed
-  end
-
-  defp create_user_group(_) do
-    user_group = fixture(:user_group)
-    {:ok, user_group: user_group, user: user_group.user}
   end
 end

@@ -37,6 +37,13 @@ defmodule JarvisWeb.ArtworkApiControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json"), isle: isle}
   end
 
+  defp create_artwork(_) do
+    artwork = fixture(:artwork)
+    %{artwork: artwork}
+  end
+
+  # ===== TESTS =====
+
   describe "index" do
     test "lists all artworks", %{conn: conn, isle: %Isle{id: isle_id}} do
       conn = get(conn, Routes.artwork_api_path(conn, :index, isle_id))
@@ -109,10 +116,5 @@ defmodule JarvisWeb.ArtworkApiControllerTest do
         get(conn, Routes.artwork_api_path(conn, :show, isle_id, artwork))
       end
     end
-  end
-
-  defp create_artwork(_) do
-    artwork = fixture(:artwork)
-    %{artwork: artwork}
   end
 end

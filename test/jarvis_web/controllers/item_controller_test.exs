@@ -14,17 +14,10 @@ defmodule JarvisWeb.ItemControllerTest do
     done: true,
     planned_for: ~D[2010-04-17]
   }
-  @valid_attrs_group %{name: "some name"}
-  @valid_attrs_user %{
-    email: "someemail@test.xyz",
-    name: "some name",
-    provider: "some provider",
-    token: "some token"
-  }
 
   def fixture(:item) do
-    {:ok, user} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
-    {:ok, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
+    group = gen_test_data(:user_group)
+    user = group.user
     {:ok, shopping_list} = ShoppingLists.create_shopping_list(@valid_attrs_shopping_list, group)
     {:ok, item} = ShoppingLists.create_item(@create_attrs, shopping_list)
     {item, shopping_list, group, user}
@@ -34,6 +27,8 @@ defmodule JarvisWeb.ItemControllerTest do
     {item, shopping_list, _group, user} = fixture(:item)
     {:ok, item: item, shopping_list: shopping_list, user: user}
   end
+
+  # ===== TESTS =====
 
   describe "index" do
     setup [:create_item]
@@ -158,8 +153,7 @@ defmodule JarvisWeb.ItemControllerTest do
       shopping_list: shopping_list,
       item: item
     } do
-      {:ok, another_user} =
-        Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
+      another_user = gen_test_data(:user)
 
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: another_user.id)
