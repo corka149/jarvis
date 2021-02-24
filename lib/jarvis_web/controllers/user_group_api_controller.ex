@@ -5,9 +5,10 @@ defmodule JarvisWeb.UserGroupApiController do
 
   action_fallback JarvisWeb.FallbackController
 
+  plug JarvisWeb.Plugs.RequireAuthentication
+
   def index(conn, _params) do
-    #  Accounts.list_usergroups_by_membership_or_owner(conn.assigns.user)
-    user_groups = Accounts.list_usergroups()
+    user_groups = Accounts.list_usergroups_by_membership_or_owner(conn.assigns.user)
     render(conn, "index.json", user_groups_api: user_groups)
   end
 end
