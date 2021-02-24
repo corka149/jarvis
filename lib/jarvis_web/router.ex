@@ -78,7 +78,7 @@ defmodule JarvisWeb.Router do
   scope "/v1/accounts", JarvisWeb do
     pipe_through :api
 
-    get "/usergroups", UserGroupController, :index_json
+    get "/usergroups", UserGroupApiController, :index
   end
 
   scope "/v1/animalxing", JarvisWeb do
