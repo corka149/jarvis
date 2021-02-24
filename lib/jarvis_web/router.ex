@@ -61,8 +61,8 @@ defmodule JarvisWeb.Router do
   scope "/animalxing", JarvisWeb do
     pipe_through :browser
 
-    get "/artworks", ArtworkController, :index_html
-    get "/isles", IsleController, :index_html
+    get "/artworks", ArtworkController, :index
+    get "/isles", IsleController, :index
   end
 
   # ### ### ### ### ### #
@@ -75,10 +75,16 @@ defmodule JarvisWeb.Router do
     get "/ready", SystemController, :ready
   end
 
+  scope "/v1/accounts", JarvisWeb do
+    pipe_through :api
+
+    get "/usergroups", UserGroupController, :index_json
+  end
+
   scope "/v1/animalxing", JarvisWeb do
     pipe_through :api
 
-    resources "/isles", IsleController, except: [:new, :edit]
-    resources "/isles/:belongs_to/artworks", ArtworkController, except: [:new, :edit]
+    resources "/isles", IsleApiController, except: [:new, :edit]
+    resources "/isles/:belongs_to/artworks", ArtworkApiController, except: [:new, :edit]
   end
 end

@@ -1,4 +1,4 @@
-defmodule JarvisWeb.ArtworkControllerTest do
+defmodule JarvisWeb.ArtworkApiControllerTest do
   use JarvisWeb.ConnCase
 
   alias Jarvis.AnimalXing
@@ -39,17 +39,17 @@ defmodule JarvisWeb.ArtworkControllerTest do
 
   describe "index" do
     test "lists all artworks", %{conn: conn, isle: %Isle{id: isle_id}} do
-      conn = get(conn, Routes.artwork_path(conn, :index, isle_id))
+      conn = get(conn, Routes.artwork_api_path(conn, :index, isle_id))
       assert json_response(conn, 200)["data"] == []
     end
   end
 
   describe "create artwork" do
     test "renders artwork when data is valid", %{conn: conn, isle: %Isle{id: isle_id}} do
-      conn = post(conn, Routes.artwork_path(conn, :create, isle_id), artwork: @create_attrs)
+      conn = post(conn, Routes.artwork_api_path(conn, :create, isle_id), artwork: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, Routes.artwork_path(conn, :show, isle_id, id))
+      conn = get(conn, Routes.artwork_api_path(conn, :show, isle_id, id))
 
       assert %{
                "id" => _,
@@ -58,7 +58,7 @@ defmodule JarvisWeb.ArtworkControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, isle: %Isle{id: isle_id}} do
-      conn = post(conn, Routes.artwork_path(conn, :create, isle_id), artwork: @invalid_attrs)
+      conn = post(conn, Routes.artwork_api_path(conn, :create, isle_id), artwork: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -72,11 +72,11 @@ defmodule JarvisWeb.ArtworkControllerTest do
       isle: %Isle{id: isle_id}
     } do
       conn =
-        put(conn, Routes.artwork_path(conn, :update, isle_id, artwork), artwork: @update_attrs)
+        put(conn, Routes.artwork_api_path(conn, :update, isle_id, artwork), artwork: @update_attrs)
 
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, Routes.artwork_path(conn, :show, isle_id, id))
+      conn = get(conn, Routes.artwork_api_path(conn, :show, isle_id, id))
 
       assert %{
                "id" => _,
@@ -90,7 +90,9 @@ defmodule JarvisWeb.ArtworkControllerTest do
       isle: %Isle{id: isle_id}
     } do
       conn =
-        put(conn, Routes.artwork_path(conn, :update, isle_id, artwork), artwork: @invalid_attrs)
+        put(conn, Routes.artwork_api_path(conn, :update, isle_id, artwork),
+          artwork: @invalid_attrs
+        )
 
       assert json_response(conn, 422)["errors"] != %{}
     end
@@ -100,11 +102,11 @@ defmodule JarvisWeb.ArtworkControllerTest do
     setup [:create_artwork]
 
     test "deletes chosen artwork", %{conn: conn, artwork: artwork, isle: %Isle{id: isle_id}} do
-      conn = delete(conn, Routes.artwork_path(conn, :delete, isle_id, artwork))
+      conn = delete(conn, Routes.artwork_api_path(conn, :delete, isle_id, artwork))
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, Routes.artwork_path(conn, :show, isle_id, artwork))
+        get(conn, Routes.artwork_api_path(conn, :show, isle_id, artwork))
       end
     end
   end
