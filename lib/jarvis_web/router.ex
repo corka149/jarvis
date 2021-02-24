@@ -78,7 +78,7 @@ defmodule JarvisWeb.Router do
   scope "/v1/animalxing", JarvisWeb do
     pipe_through :api
 
-    resources "/artworks", ArtworkController, except: [:new, :edit]
     resources "/isles", IsleController, except: [:new, :edit]
+    resources "/isles/:belongs_to/artworks", ArtworkController, except: [:new, :edit]
   end
 end
