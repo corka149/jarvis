@@ -20,8 +20,9 @@ defmodule Jarvis.TestHelper do
     valid_attrs_user = %{
       email: "someemail@test.xyz",
       name: "some name",
-      provider: "some provider",
-      token: "some token"
+      provider: "jarvis",
+      token: "some token",
+      password: "THIS_15_password"
     }
 
     {:ok, user} =
