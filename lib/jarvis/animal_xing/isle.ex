@@ -9,7 +9,7 @@ defmodule Jarvis.AnimalXing.Isle do
     field :name, :string
     has_many :artworks, Jarvis.AnimalXing.Artwork, foreign_key: :belongs_to
 
-    belongs_to :usergroups, Jarvis.Accounts.UserGroup, foreign_key: :owned_by
+    belongs_to :user_group, Jarvis.Accounts.UserGroup, foreign_key: :owned_by
 
     timestamps()
   end

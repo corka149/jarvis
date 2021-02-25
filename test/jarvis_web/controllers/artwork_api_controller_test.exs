@@ -33,8 +33,14 @@ defmodule JarvisWeb.ArtworkApiControllerTest do
 
   setup %{conn: conn} do
     isle = fixture(:isle)
+    user = gen_test_data(:user)
 
-    {:ok, conn: put_req_header(conn, "accept", "application/json"), isle: isle}
+    conn =
+      conn
+      |> Phoenix.ConnTest.init_test_session(user_id: user.id)
+      |> put_req_header("accept", "application/json")
+
+    {:ok, conn: conn, isle: isle}
   end
 
   defp create_artwork(_) do

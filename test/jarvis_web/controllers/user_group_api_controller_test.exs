@@ -18,35 +18,31 @@ defmodule JarvisWeb.UserGroupApiControllerTest do
   end
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
-  end
-
-  defp create_user_group(_) do
     user_group = fixture(:user_group)
-    {:ok, user_group: user_group, user: user_group.user}
+
+    conn =
+      conn
+      |> Phoenix.ConnTest.init_test_session(user_id: user_group.user.id)
+      |> put_req_header("accept", "application/json")
+
+    {:ok, conn: conn, user_group: user_group, user: user_group.user}
   end
 
   # ===== TESTS =====
 
   describe "index" do
-    setup [:create_user_group]
-
-    test "lists all usergroups", %{conn: conn, user: user} do
-      conn =
-        Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
-        |> get(Routes.user_group_api_path(conn, :index))
+    test "lists all usergroups", %{conn: conn} do
+      conn = get(conn, Routes.user_group_api_path(conn, :index))
 
       assert [%{"id" => _, "name" => "some name"}] = json_response(conn, 200)["data"]
     end
   end
 
   describe "create user_group" do
-    setup [:create_user_group]
     # Not yet needed
   end
 
   describe "update user_group" do
-    setup [:create_user_group]
     # Not yet needed
   end
 end

@@ -6,6 +6,8 @@ defmodule JarvisWeb.IsleApiController do
 
   action_fallback JarvisWeb.FallbackController
 
+  plug JarvisWeb.Plugs.RequireAuthentication
+
   def index_html(conn, _params) do
     render(conn, "index.html")
   end

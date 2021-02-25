@@ -22,7 +22,14 @@ defmodule JarvisWeb.IsleApiControllerTest do
   end
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    user = gen_test_data(:user)
+
+    conn =
+      conn
+      |> Phoenix.ConnTest.init_test_session(user_id: user.id)
+      |> put_req_header("accept", "application/json")
+
+    {:ok, conn: conn}
   end
 
   defp create_isle(_) do

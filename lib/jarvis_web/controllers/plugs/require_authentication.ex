@@ -27,10 +27,24 @@ defmodule JarvisWeb.Plugs.RequireAuthentication do
       conn
     else
       Logger.warn("Request without authentication occured.")
+      decline(conn)
+    end
+  end
 
+  defp decline(%{req_headers: req_headers} = conn) do
+    if is_api_req?(req_headers) do
+      conn
+      |> halt()
+      |> put_status(401)
+      |> Controller.text("UNAUTHORIZED")
+    else
       conn
       |> halt()
       |> Controller.redirect(to: Routes.auth_path(conn, :signin))
     end
+  end
+
+  defp is_api_req?(req_headers) when is_list(req_headers) do
+    Enum.any?(req_headers, fn {key, val} -> key == "accept" and val == "application/json" end)
   end
 end
