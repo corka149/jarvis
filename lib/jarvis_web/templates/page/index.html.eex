@@ -6,4 +6,4 @@
 <p>
   <%= gettext "How can I help you?" %>
 </p>
-<img class="responsive-img" alt="jARVIS" src="<%= Routes.static_path(@conn, "/images/jarvis.png") %>">
+<img class="pure-img" alt="jARVIS" src="<%= Routes.static_path(@conn, "/images/jarvis.png") %>">
