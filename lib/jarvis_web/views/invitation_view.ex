@@ -3,7 +3,7 @@ defmodule JarvisWeb.InvitationView do
 
   def accept_button(conn, invitation) do
     link(
-      "✅",
+      raw("<i class='material-icons'>check</i>"),
       to: Routes.invitation_path(conn, :accept, invitation),
       class: "pure-button primary-button"
     )
@@ -11,7 +11,7 @@ defmodule JarvisWeb.InvitationView do
 
   def decline_button(conn, invitation) do
     link(
-      "❌",
+      raw("<i class='material-icons'>clear</i>"),
       to: Routes.invitation_path(conn, :delete, invitation),
       class: "pure-button secondary-button",
       method: :delete

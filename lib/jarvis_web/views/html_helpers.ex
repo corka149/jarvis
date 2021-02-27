@@ -11,7 +11,7 @@ defmodule JarvisWeb.HtmlHelpers do
   """
   def back_button(route) do
     HTML.Link.link(
-      "⬅",
+      HTML.raw("<i class='material-icons'>arrow_back</i>"),
       to: route,
       class: "pure-button secondary-button"
     )
@@ -22,7 +22,7 @@ defmodule JarvisWeb.HtmlHelpers do
   """
   def add_button(route) do
     HTML.Link.link(
-      "+",
+      HTML.raw("<i class='material-icons'>add</i>"),
       to: route,
       class: "pure-button primary-button"
     )
@@ -33,7 +33,7 @@ defmodule JarvisWeb.HtmlHelpers do
   """
   def edit_button(route) do
     HTML.Link.link(
-      "📝",
+      HTML.raw("<i class='material-icons'>create</i>"),
       to: route,
       class: "pure-button primary-button"
     )
@@ -44,7 +44,7 @@ defmodule JarvisWeb.HtmlHelpers do
   """
   def delete_button(route) do
     HTML.Link.link(
-      "🗑",
+      HTML.raw("<i class='material-icons'>delete</i>"),
       to: route,
       class: "pure-button danager-button",
       method: :delete,
@@ -54,7 +54,7 @@ defmodule JarvisWeb.HtmlHelpers do
 
   def save_button do
     HTML.Form.submit(
-      "💾",
+      HTML.raw("<i class='material-icons'>save</i>"),
       class: "pure-button primary-button"
     )
   end

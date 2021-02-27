@@ -29,9 +29,9 @@
           <td><%= list.planned_for %></td>
           <td>
             <%= if list.done do %>
-              <span>✅</span>
+              <i class="material-icons">check</i>
             <% else %>
-              <span>❌</span>
+              <i class="material-icons">close</i>
             <% end %>
           </td>
         </tr>

@@ -17,7 +17,7 @@
                     <td>
                         <%=
                             link(
-                                gettext("leave"),
+                                raw("<i class='material-icons'>exit_to_app</i>"),
                                 to: Routes.user_group_path(@conn, :leave_group, membership.id),
                                 class: "pure-button danager-button",
                                 method: :delete,
