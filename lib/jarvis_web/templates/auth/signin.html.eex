@@ -1,30 +1,24 @@
 <div>
-  <h2 class="center-align">
+  <h2 class="content-subhead">
     <%= gettext "Welcome to %{name}!", name: "jARVIS" %>
   </h2>
 </div>
-<div class="row">
-  <%= form_for @conn, Routes.auth_path(@conn, :signin_by_jarvis), [class: "col s12"], fn form -> %>
-  <div class="row">
-    <div class="input-field col s12">
-      <%= label form, :email, dgettext("accounts", "E-Mail"), class: "validate" %>
-      <%= email_input form, :email, [required: true] %>
-      <%= error_tag form, :email %>
-      <span class="helper-text">
-        <%= dgettext("accounts", "Enter your e-mail address") %>
-      </span>
-    </div>
-    <div class="input-field col s12">
-      <%= label form, :password, dgettext("accounts", "Password") %>
-      <%= password_input form, :password, [required: true] %>
-      <%= error_tag form, :password %>
-      <span class="helper-text">
-        <%= dgettext("accounts", "Enter your password") %>
-      </span>
-    </div>
-    <div class="input-field col s12">
-      <%= submit dgettext("accounts", "Sign in"), class: "btn primary-button" %>
-    </div>
+<%= form_for @conn, Routes.auth_path(@conn, :signin_by_jarvis), [class: "pure-form pure-form-aligned"], fn form -> %>
+<fieldset>
+  <!-- E-MAIL -->
+  <div class="pure-control-group">
+    <%= label form, :email, dgettext("accounts", "E-Mail"), class: "validate" %>
+    <%= email_input form, :email, [required: true, placeholder: dgettext("accounts", "Enter your e-mail address")] %>
+    <%= error_tag form, :email %>
   </div>
+  <!-- PASSWORD -->
+  <div class="pure-control-group">
+    <%= label form, :password, dgettext("accounts", "Password") %>
+    <%= password_input form, :password, [required: true, placeholder: dgettext("accounts", "Enter your password")] %>
+    <%= error_tag form, :password %>
+  </div>
+  <div class="pure-controls">
+    <%= submit dgettext("accounts", "Sign in"), class: "pure-button primary-button" %>
+  </div>
+</fieldset>
 <% end %>
-</div>

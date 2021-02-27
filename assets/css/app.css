@@ -13,6 +13,11 @@ body {
 CUSTOM
 */
 
+.content-subhead,
+.center-align {
+    text-align: center;
+}
+
 /* HEAD */
 .header {
     background-color: #ff9800;
