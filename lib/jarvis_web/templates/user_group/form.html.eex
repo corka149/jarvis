@@ -1,5 +1,5 @@
 <%= form_for @changeset, @action, [class: "pure-form pure-form-aligned"], fn form -> %>
-<fieldset class="row">
+<fieldset>
   <!-- NAME -->
   <div class="pure-control-group">
     <%= label form, :name, dgettext("accounts", "Name") %>

@@ -44,7 +44,7 @@ a.brand-logo>img {
 }
 
 .pure-button {
-    font-size: 0.5rem;
+    font-size: 0.25rem;
 }
 
 .primary-button,
@@ -54,6 +54,7 @@ a.brand-logo>img {
     border-radius: 25%;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     font-weight: bold;
+    margin-bottom: 0.2rem;
 }
 
 .primary-button {

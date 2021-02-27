@@ -7,25 +7,22 @@
 <div class="button-bar">
   <%= back_button(Routes.shopping_list_path(@conn, :show, @shopping_list)) %>
 </div>
-
-<%= form_for @changeset, @action, fn form -> %>
-  <div class="row">
-
-    <!-- -->
-    <div class="input-field col s12">
-      <%= label form, :name, dgettext("shoppinglists", "Item name") %>
-      <%= text_input form, :name, required: true, autocomplete: "off" %>
-      <%= error_tag form, :name %>
-    </div>
-
-    <div class="input-field col s12">
-      <%= label form, :amount, dgettext("shoppinglists", "Amount") %>
-      <%= number_input form, :amount, required: true %>
-      <%= error_tag form, :amount %>
-    </div>
-
-    <div class="input-field col s12">
-      <%= save_button() %>
-    </div>
+<%= form_for @changeset, @action, [class: "pure-form pure-form-aligned"], fn form -> %>
+<fieldset>
+  <!-- NAME -->
+  <div class="pure-control-group">
+    <%= label form, :name, dgettext("shoppinglists", "Item name") %>
+    <%= text_input form, :name, required: true, autocomplete: "off" %>
+    <%= error_tag form, :name %>
   </div>
+  <!-- AMOUNT -->
+  <div class="pure-control-group">
+    <%= label form, :amount, dgettext("shoppinglists", "Amount") %>
+    <%= number_input form, :amount, required: true %>
+    <%= error_tag form, :amount %>
+  </div>
+  <div class="pure-controls">
+    <%= save_button() %>
+  </div>
+</fieldset>
 <% end %>
