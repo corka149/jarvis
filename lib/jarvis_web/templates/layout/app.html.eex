@@ -20,7 +20,7 @@
 
       <div id="menu">
         <div class="pure-menu">
-            <a class="pure-menu-heading" href="#company">jARVIS</a>
+            <a class="pure-menu-heading" href="#jarvis">jARVIS</a>
 
             <ul class="pure-menu-list">
               <%= if @conn.assigns[:user] do %>
@@ -81,5 +81,9 @@
     </div>
 
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+
+    <script>
+      initMenu(this, this.document);
+    </script>
   </body>
 </html>
