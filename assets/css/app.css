@@ -32,6 +32,16 @@ a.brand-logo>img {
 }
 
 /* BUTTON */
+.button-bar {
+    border-bottom: rgb(200, 200, 200) solid 1px;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.pure-button {
+    font-size: 0.5rem;
+}
+
 .primary-button,
 .danager-button,
 .secondary-button {
@@ -54,4 +64,13 @@ a.brand-logo>img {
 .danager-button {
     background-color: red;
     margin-right: 1rem;
+}
+
+/* READ-ONLY */
+.read-only-label {
+    font-size: 0.9rem;
+}
+
+.read-only-value {
+    font-size: 1.1rem;
 }

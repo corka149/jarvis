@@ -1,29 +1,39 @@
-<%= form_for @changeset, @action, fn form -> %>
-  <div class="row">
-      <!-- Checked -->
-    <div class="col s12" style="padding-bottom: 1.5rem;">
-      <label>
-        <%= checkbox form, :done %>
-        <span>
-          <%= gettext "Done" %>
-        </span>
-      </label>
-    </div>
-
-    <div class="input-field col s12">
-      <%= label form, :planned_for, dgettext("shoppinglists", "Planned for") %>
-      <%= text_input form, :planned_for , class: "datepicker", required: true %>
-      <%= error_tag form, :planned_for %>
-    </div>
-
-    <div class="input-field col s12">
-      <%= select form, :belongs_to, @user_groups %>
-      <%= label form, :belongs_to, dgettext("shoppinglists", "Belongs to") %>
-      <%= error_tag form, :belongs_to %>
-    </div>
-
-    <div class="input-field col s12">
-      <%= save_button() %>
-    </div>
+<%= form_for @changeset, @action, [class: "pure-form pure-form-aligned"], fn form -> %>
+<fieldset>
+  <!-- PLANNED_FOR -->
+  <div class="pure-control-group">
+    <%= label form, :planned_for, dgettext("shoppinglists", "Planned for") %>
+    <%= date_select form, :planned_for, month: [
+        options: [
+          {gettext("January"), "1"},
+          {gettext("February"), "2"},
+          {gettext("March"), "3"},
+          {gettext("April"), "4"},
+          {gettext("May"), "5"},
+          {gettext("June"), "6"},
+          {gettext("July"), "7"},
+          {gettext("August"), "8"},
+          {gettext("September"), "9"},
+          {gettext("October"), "10"},
+          {gettext("November"), "11"},
+          {gettext("December"), "12"},
+        ]
+      ] %>
+    <%= error_tag form, :planned_for %>
   </div>
+  <!-- BELONGS_TO -->
+  <div class="pure-control-group">
+    <%= label form, :belongs_to, dgettext("shoppinglists", "Belongs to") %>
+    <%= select form, :belongs_to, @user_groups %>
+    <%= error_tag form, :belongs_to %>
+  </div>
+  <!-- Checked -->
+  <div class="pure-control-group">
+    <%= label form, :done, gettext("Done") %>
+    <%= checkbox form, :done, id: "done-cb" %>
+  </div>
+  <div class="pure-controls">
+    <%= save_button() %>
+  </div>
+</fieldset>
 <% end %>
