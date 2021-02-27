@@ -1,8 +1,7 @@
 <div>
-  <h2 class="center-align">
+  <h2 class="content-subhead">
     <%= dgettext "shoppinglists", "Shopping list" %> for <%= @shopping_list.planned_for %>
   </h2>
 </div>
-
 <!-- Item list -->
 <%= render "list.html", assigns %>

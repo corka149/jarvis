@@ -6,7 +6,7 @@
     <%= text_input form, :name, required: true %>
     <%= error_tag form, :name %>
   </div>
-  <div class="pure-controls">
+  <div>
     <%= save_button() %>
   </div>
 </fieldset>

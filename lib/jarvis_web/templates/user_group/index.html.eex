@@ -1,5 +1,5 @@
 <div>
-  <h2 class="center-align">
+  <h2 class="content-subhead">
     <%= dgettext "accounts", "All user groups" %>
   </h2>
 </div>

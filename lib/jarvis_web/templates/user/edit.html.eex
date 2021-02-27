@@ -1,39 +1,41 @@
 <div>
-  <h2 class="center-align">
+  <h2 class="content-subhead">
     <%= dgettext "accounts", "Settings of %{name}", name: @conn.assigns.user.name %>
   </h2>
 </div>
-<div class="row">
-  <%= form_for @changeset, Routes.user_path(@conn, :update), [class: "col s12"], fn form -> %>
-    <div class="row">
-      <!-- Name -->
-      <div class="input-field col s12">
-        <%= label form, :name, dgettext("accounts", "Name"), class: "validate" %>
-        <%= text_input form, :name, required: true %>
-        <%= error_tag form, :name %>
-      </div>
-      <!-- Default language -->
-      <div class="input-field col s12">
-        <%= select form, :default_language, languages() %>
-        <%= label form, :default_language, dgettext("accounts", "Default language") %>
-        <%= error_tag form, :default_language %>
-      </div>
-      <!-- Password -->
-      <div class="input-field col s12">
-        <%= label form, :password, dgettext("accounts", "Password"), class: "validate" %>
-        <%= password_input form, :password %>
-        <%= error_tag form, :password %>
-      </div>
-      <!-- Confirm password -->
-      <div class="input-field col s12">
-        <%= label form, :confirm_password, dgettext("accounts", "Confirm password"), class: "validate" %>
-        <%= password_input form, :confirm_password %>
-        <%= error_tag @errors, :confirm_password %>
-      </div>
-      <div>
-        <%= link gettext("back"), to: Routes.user_path(@conn, :show), class: "btn primary-button" %>
-        <%= submit gettext("save"), class: "btn primary-button" %>
-      </div>
-    </div>
-  <% end %>
+<!-- Buttons -->
+<div class="button-bar">
+  <%= back_button(Routes.user_path(@conn, :show)) %>
 </div>
+<!-- FORM -->
+<%= form_for @changeset, Routes.user_path(@conn, :update), [class: "pure-form pure-form-aligned"], fn form -> %>
+<fieldset>
+  <!-- Name -->
+  <div class="pure-control-group">
+    <%= label form, :name, dgettext("accounts", "Name"), class: "validate" %>
+    <%= text_input form, :name, required: true %>
+    <%= error_tag form, :name %>
+  </div>
+  <!-- Default language -->
+  <div class="pure-control-group">
+    <%= label form, :default_language, dgettext("accounts", "Default language") %>
+    <%= select form, :default_language, languages() %>
+    <%= error_tag form, :default_language %>
+  </div>
+  <!-- Password -->
+  <div class="pure-control-group">
+    <%= label form, :password, dgettext("accounts", "Password"), class: "validate" %>
+    <%= password_input form, :password %>
+    <%= error_tag form, :password %>
+  </div>
+  <!-- Confirm password -->
+  <div class="pure-control-group">
+    <%= label form, :confirm_password, dgettext("accounts", "Confirm password"), class: "validate" %>
+    <%= password_input form, :confirm_password %>
+    <%= error_tag @errors, :confirm_password %>
+  </div>
+  <div>
+    <%= save_button() %>
+  </div>
+</fieldset>
+<% end %>

@@ -69,7 +69,7 @@ view model =
 viewHeader : Html.Html msg
 viewHeader =
     Html.div []
-        [ h1 [ class "center-align" ] [ text "Isles" ]
+        [ h1 [ class "content-subhead" ] [ text "Isles" ]
         ]
 
 
