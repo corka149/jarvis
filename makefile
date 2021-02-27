@@ -4,6 +4,9 @@ launch-database:
 	mix ecto.migrate
 	mix run scripts/create_user.exs
 
+dev: launch-database
+	iex -S mix phx.server
+
 check: launch-database
 	mix format
 	mix test
