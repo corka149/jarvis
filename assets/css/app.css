@@ -24,6 +24,11 @@ a.brand-logo>img {
     margin-right: auto;
 }
 
+/* TABLES */
+.pure-table {
+    width: 100%;
+}
+
 /* MENU */
 .menu-item-header {
     padding: 0.6rem 0 0.6rem 0.6rem;
