@@ -31,8 +31,8 @@
         <%= error_tag @errors, :confirm_password %>
       </div>
       <div>
-        <%= link gettext("back"), to: Routes.user_path(@conn, :show), class: "btn primary-btn" %>
-        <%= submit gettext("save"), class: "btn primary-btn" %>
+        <%= link gettext("back"), to: Routes.user_path(@conn, :show), class: "btn primary-button" %>
+        <%= submit gettext("save"), class: "btn primary-button" %>
       </div>
     </div>
   <% end %>

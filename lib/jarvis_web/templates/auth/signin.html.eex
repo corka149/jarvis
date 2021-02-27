@@ -23,7 +23,7 @@
       </span>
     </div>
     <div class="input-field col s12">
-      <%= submit dgettext("accounts", "Sign in"), class: "btn primary-btn" %>
+      <%= submit dgettext("accounts", "Sign in"), class: "btn primary-button" %>
     </div>
   </div>
 <% end %>
