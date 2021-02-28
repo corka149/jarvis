@@ -48,15 +48,15 @@ a.brand-logo>img {
     margin-bottom: 1rem;
 }
 
-.pure-button {
+.icon-button {
     font-size: 0.25rem;
+    border-radius: 25%;
 }
 
 .primary-button,
 .danager-button,
 .secondary-button {
     color: white;
-    border-radius: 25%;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     font-weight: bold;
     margin-bottom: 0.2rem;

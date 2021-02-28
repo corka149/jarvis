@@ -1,13 +1,9 @@
-<div>
-  <h2 class="content-subhead">
-    <%= gettext "Welcome to %{name}!", name: "jARVIS" %>
-  </h2>
-</div>
 <%= form_for @conn, Routes.auth_path(@conn, :signin_by_jarvis), [class: "pure-form pure-form-aligned"], fn form -> %>
 <fieldset>
+  <legend><%= gettext "Sign in" %></legend>
   <!-- E-MAIL -->
   <div class="pure-control-group">
-    <%= label form, :email, dgettext("accounts", "E-Mail"), class: "validate" %>
+    <%= label form, :email, dgettext("accounts", "E-Mail") %>
     <%= email_input form, :email, [required: true, placeholder: dgettext("accounts", "Enter your e-mail address")] %>
     <%= error_tag form, :email %>
   </div>
