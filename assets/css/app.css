@@ -85,3 +85,10 @@ a.brand-logo>img {
 .read-only-value {
     font-size: 1.1rem;
 }
+
+/* TYPO */
+.hint {
+    font-size: small; 
+    color: rgba(0, 0, 0, 0.6); 
+    padding-bottom: 1rem;
+}

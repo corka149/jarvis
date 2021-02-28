@@ -1,5 +1,5 @@
 <div id="group_membership" class="col s12">
-  <table>
+  <table class="pure-table">
     <thead>
       <th>
         <%= dgettext "accounts", "Member of" %>
@@ -29,4 +29,7 @@
       <% end %>
     </tbody>
   </table>
+  <%= if length(@memberships) == 0 do %>
+    <%= gettext "None" %>
+  <% end %>
 </div>
