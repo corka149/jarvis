@@ -18,6 +18,10 @@
           {gettext("November"), "11"},
           {gettext("December"), "12"},
         ]
+      ], year: [
+        options: [
+          2021, 2022, 2023, 2024, 2025
+        ]
       ] %>
     <%= error_tag form, :planned_for %>
   </div>

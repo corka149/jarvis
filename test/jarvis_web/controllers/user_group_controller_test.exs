@@ -118,7 +118,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
       assert redirected_to(conn) == show_url
 
       conn = get(conn, show_url)
-      assert html_response(conn, 200) =~ "value=\"some name"
+      assert html_response(conn, 200) =~ ">some name<"
       assert html_response(conn, 200) =~ "edit"
     end
 
@@ -160,7 +160,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
       conn = get(conn, show_url)
 
       assert html_response(conn, :ok) =~ "User group"
-      assert html_response(conn, :ok) =~ "value=\"some updated name\""
+      assert html_response(conn, :ok) =~ ">some updated name<"
     end
 
     test "renders errors when data is invalid", %{conn: conn, user_group: user_group, user: user} do

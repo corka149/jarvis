@@ -6,8 +6,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
   use Plug.Test
   use JarvisWeb.ConnCase
 
-  @create_attrs %{done: true, planned_for: ~D[2010-04-17]}
-  @update_attrs %{done: false, planned_for: ~D[2011-05-18]}
+  @create_attrs %{done: true, planned_for: ~D[2021-04-17]}
+  @update_attrs %{done: false, planned_for: ~D[2022-05-18]}
   @invalid_attrs %{done: nil, planned_for: nil}
 
   def fixture(:shopping_list) do
@@ -51,8 +51,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.shopping_list_path(conn, :show, shopping_list))
 
-      assert html_response(conn, 200) =~ "2010-04-17"
-      assert html_response(conn, 200) =~ "checked=\"checked\""
+      assert html_response(conn, 200) =~ "2021-04-17"
+      assert html_response(conn, 200) =~ ">check<"
     end
 
     test "show a single shopping list without authorization", %{
@@ -131,7 +131,9 @@ defmodule JarvisWeb.ShoppingListControllerTest do
 
       assert html_response(conn, :ok) =~ "Edit shopping list"
       assert html_response(conn, :ok) =~ "checked"
-      assert html_response(conn, :ok) =~ "2010-04-17"
+      assert html_response(conn, :ok) =~ ~s(<option value="2021" selected>2021</option>)
+      assert html_response(conn, :ok) =~ ~s(<option value="4" selected>April</option>)
+      assert html_response(conn, :ok) =~ ~s(<option value="17" selected>17</option>)
       assert html_response(conn, :ok) =~ "some name"
     end
 
