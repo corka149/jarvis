@@ -131,9 +131,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
 
       assert html_response(conn, :ok) =~ "Edit shopping list"
       assert html_response(conn, :ok) =~ "checked"
-      assert html_response(conn, :ok) =~ ~s(<option value="2021" selected>2021</option>)
-      assert html_response(conn, :ok) =~ ~s(<option value="4" selected>April</option>)
-      assert html_response(conn, :ok) =~ ~s(<option value="17" selected>17</option>)
+      assert html_response(conn, :ok) =~ "value=\"2021-04-17\""
       assert html_response(conn, :ok) =~ "some name"
     end
 

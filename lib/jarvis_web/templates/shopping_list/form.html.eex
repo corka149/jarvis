@@ -3,26 +3,7 @@
   <!-- PLANNED_FOR -->
   <div class="pure-control-group">
     <%= label form, :planned_for, dgettext("shoppinglists", "Planned for") %>
-    <%= date_select form, :planned_for, month: [
-        options: [
-          {gettext("January"), "1"},
-          {gettext("February"), "2"},
-          {gettext("March"), "3"},
-          {gettext("April"), "4"},
-          {gettext("May"), "5"},
-          {gettext("June"), "6"},
-          {gettext("July"), "7"},
-          {gettext("August"), "8"},
-          {gettext("September"), "9"},
-          {gettext("October"), "10"},
-          {gettext("November"), "11"},
-          {gettext("December"), "12"},
-        ]
-      ], year: [
-        options: [
-          2021, 2022, 2023, 2024, 2025
-        ]
-      ] %>
+    <%= date_input form, :planned_for %>
     <%= error_tag form, :planned_for %>
   </div>
   <!-- BELONGS_TO -->
