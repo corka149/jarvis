@@ -116,7 +116,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> post(Routes.shopping_list_path(conn, :create), shopping_list: invalid_attrs)
 
-      assert html_response(conn, 400) =~ "<span class=\"help-block\">can&#39;t be blank</span>"
+      assert html_response(conn, 400) =~
+               "<span class=\"pure-form-message-inline\">can&#39;t be blank</span>"
     end
   end
 
@@ -165,7 +166,8 @@ defmodule JarvisWeb.ShoppingListControllerTest do
           shopping_list: @invalid_attrs
         )
 
-      assert html_response(conn, 400) =~ "<span class=\"help-block\">can&#39;t be blank</span>"
+      assert html_response(conn, 400) =~
+               "<span class=\"pure-form-message-inline\">can&#39;t be blank</span>"
     end
   end
 
