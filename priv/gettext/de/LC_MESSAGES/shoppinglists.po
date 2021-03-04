@@ -12,20 +12,20 @@ msgstr ""
 "Plural-Forms: nplurals=2\n"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/form.html.eex:21
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:18 lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:18
-#: lib/jarvis_web/templates/shopping_list/show.html.eex:47
+#: lib/jarvis_web/templates/shopping_list/form.html.eex:11
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:16 lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:16
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:22
 msgid "Belongs to"
 msgstr "Von"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:20
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:18
 msgid "Done"
 msgstr "Erledigt"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/form.html.eex:14
-#: lib/jarvis_web/templates/shopping_list/show.html.eex:39
+#: lib/jarvis_web/templates/shopping_list/form.html.eex:5
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:18
 msgid "Planned for"
 msgstr "Geplant für"
 
@@ -35,7 +35,7 @@ msgid "Edit shopping list"
 msgstr "Editiere Einkaufsliste"
 
 #, elixir-format
-#: lib/jarvis_web/templates/item/form.html.eex:22
+#: lib/jarvis_web/templates/item/form.html.eex:20
 #: lib/jarvis_web/templates/item/list.html.eex:9
 msgid "Amount"
 msgstr "Betrag"
@@ -46,7 +46,7 @@ msgid "All shopping lists"
 msgstr "Neue Einkaufsliste"
 
 #, elixir-format
-#: lib/jarvis_web/templates/item/form.html.eex:16
+#: lib/jarvis_web/templates/item/form.html.eex:14
 #: lib/jarvis_web/templates/item/list.html.eex:6
 msgid "Item name"
 msgstr "Gegenstandsname"
@@ -57,8 +57,8 @@ msgid "New shopping list"
 msgstr "Neue Einkaufsliste"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/index.html.eex:19
-#: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:19
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:17
+#: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:17
 msgid "On"
 msgstr "Am"
 

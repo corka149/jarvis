@@ -12,14 +12,12 @@ msgstr ""
 "Plural-Forms: nplurals=2\n"
 
 #, elixir-format
-#: lib/jarvis_web/templates/auth/signin.html.eex:3
 #: lib/jarvis_web/templates/page/index.html.eex:3
 msgid "Welcome to %{name}!"
 msgstr "Willkommen bei %{name}!"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:50
-#: lib/jarvis_web/templates/layout/app.html.eex:66
+#: lib/jarvis_web/templates/layout/menu.html.eex:16
 msgid "All lists"
 msgstr "Alle Listen"
 
@@ -34,26 +32,23 @@ msgid "Jarvis · May I help you"
 msgstr "jARVIS · Wie kann ich helfen"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:39
-#: lib/jarvis_web/templates/layout/app.html.eex:90
+#: lib/jarvis_web/templates/layout/menu.html.eex:36
 msgid "Sign out"
 msgstr "Abmelden"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:43
-#: lib/jarvis_web/templates/layout/app.html.eex:97
+#: lib/jarvis_web/templates/auth/signin.html.eex:3
+#: lib/jarvis_web/templates/layout/menu.html.eex:40
 msgid "Sign in"
 msgstr "Anmelden"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:32
-#: lib/jarvis_web/templates/layout/app.html.eex:73
+#: lib/jarvis_web/templates/layout/menu.html.eex:23
 msgid "User groups"
 msgstr "Benutzergruppen"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:27
-#: lib/jarvis_web/templates/layout/app.html.eex:63
+#: lib/jarvis_web/templates/layout/menu.html.eex:13
 msgid "Shopping list"
 msgstr "Einkaufsliste"
 
@@ -64,51 +59,38 @@ msgid "Are you sure?"
 msgstr "Bist du dir sicher?"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:51
-#: lib/jarvis_web/templates/layout/app.html.eex:67
+#: lib/jarvis_web/templates/layout/menu.html.eex:19
 msgid "Current lists"
 msgstr "Aktuelle"
 
 #, elixir-format
-#: lib/jarvis_web/templates/shopping_list/form.html.eex:8
-#: lib/jarvis_web/templates/shopping_list/show.html.eex:30
+#: lib/jarvis_web/templates/shopping_list/form.html.eex:17
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:26
 msgid "Done"
 msgstr "Erledigt"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:54
-#: lib/jarvis_web/templates/layout/app.html.eex:76
+#: lib/jarvis_web/templates/layout/menu.html.eex:26
 msgid "Management"
 msgstr "Verwaltung"
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:55
-#: lib/jarvis_web/templates/layout/app.html.eex:77
+#: lib/jarvis_web/templates/layout/menu.html.eex:29
 msgid "Membership"
 msgstr "Mitgliedschaft"
 
 #, elixir-format
-#: lib/jarvis_web/templates/user/edit.html.eex:3
-msgid "Settings of %{name}"
-msgstr "Einstellungen von"
-
-#, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:36
-#: lib/jarvis_web/templates/layout/app.html.eex:84
+#: lib/jarvis_web/templates/layout/menu.html.eex:33
 msgid "User settings"
 msgstr "Benutzereinstellungen"
 
-#, elixir-format
-#: lib/jarvis_web/controllers/user_controller.ex:65
-msgid "User settings successfull updated."
-msgstr "Benutzereinstellungen erfolgreich aktualisiert."
+#, elixir-format, fuzzy
+#: lib/jarvis_web/templates/invitation/created_invitations.html.eex:31
+#: lib/jarvis_web/templates/invitation/group_membership.html.eex:33 lib/jarvis_web/templates/invitation/received_invitations.html.eex:32
+msgid "None"
+msgstr "Keine"
 
 #, elixir-format
-#: lib/jarvis_web/templates/user/edit.html.eex:34
-msgid "back"
-msgstr "Zurück"
-
-#, elixir-format
-#: lib/jarvis_web/templates/user/edit.html.eex:35
-msgid "save"
-msgstr "Speichern"
+#: lib/jarvis_web/templates/layout/app.html.eex:26
+msgid "Your friendly assistent"
+msgstr "Dein freundlicher Assistent"

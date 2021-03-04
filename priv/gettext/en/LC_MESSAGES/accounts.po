@@ -12,126 +12,147 @@ msgstr ""
 "Plural-Forms: nplurals=2\n"
 
 #, elixir-format
-#: lib/jarvis_web/templates/user_group/edit.html.eex:1
+#: lib/jarvis_web/templates/user_group/edit.html.eex:3
 msgid "Edit user group"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/user_group/index.html.eex:1
-msgid "Listing user groups"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/user_group/index.html.eex:36
-#: lib/jarvis_web/templates/user_group/new.html.eex:1
+#: lib/jarvis_web/templates/user_group/new.html.eex:3
 msgid "New user group"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/user_group/show.html.eex:2
-msgid "Show user group"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/controllers/invitation_controller.ex:52
-msgid "Could not delete invitation."
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/invitation/index.html.eex:5
-#: lib/jarvis_web/templates/invitation/index.html.eex:18
-msgid "Created Invitations"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/invitation/index.html.eex:11
+#: lib/jarvis_web/templates/invitation/index.html.eex:3
 msgid "Group membership"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/invitation/index.html.eex:59
+#: lib/jarvis_web/templates/invitation/received_invitations.html.eex:5
 msgid "Host"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/controllers/invitation_controller.ex:28
-msgid "Invitation created successfully."
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/controllers/invitation_controller.ex:48
-msgid "Invitation deleted successfully."
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/invitation/new.html.eex:8
-msgid "Invite into group"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/invitation/index.html.eex:24
-#: lib/jarvis_web/templates/invitation/index.html.eex:60
+#: lib/jarvis_web/templates/invitation/created_invitations.html.eex:8
+#: lib/jarvis_web/templates/invitation/received_invitations.html.eex:8
 msgid "Invited into"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/invitation/index.html.eex:23
+#: lib/jarvis_web/templates/invitation/created_invitations.html.eex:5
 msgid "Invitee"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/invitation/new.html.eex:5
-msgid "Name of invitee"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/invitation/new.html.eex:1
-msgid "New Invitation"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/invitation/index.html.eex:8
-#: lib/jarvis_web/templates/invitation/index.html.eex:54
-msgid "Received Invitations"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/controllers/invitation_controller.ex:65
-msgid "Accepted invitation."
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/invitation/index.html.eex:120
+#: lib/jarvis_web/templates/invitation/new.html.eex:3
 msgid "New invitation"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/invitation/index.html.eex:91
-#: lib/jarvis_web/templates/user_group/index.html.eex:42
-msgid "Group memberships"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/templates/invitation/index.html.eex:96
+#: lib/jarvis_web/templates/invitation/group_membership.html.eex:5
 msgid "Member of"
 msgstr ""
 
-#, elixir-format
-#: lib/jarvis_web/controllers/user_group_controller.ex:72
-msgid "You left the group."
+#, elixir-format, fuzzy
+#: lib/jarvis_web/templates/user_group/index.html.eex:3
+msgid "All user groups"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/controllers/user_group_controller.ex:24
-msgid "User group created successfully."
+#: lib/jarvis_web/templates/invitation/new.html.eex:21
+msgid "Belongs to"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/controllers/user_group_controller.ex:62
-msgid "User group deleted successfully."
+#: lib/jarvis_web/templates/user/edit.html.eex:33
+msgid "Confirm password"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/controllers/user_group_controller.ex:49
-msgid "User group updated successfully."
+#: lib/jarvis_web/templates/user/edit.html.eex:21
+#: lib/jarvis_web/templates/user/show.html.eex:18
+msgid "Default language"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/auth/signin.html.eex:6
+msgid "E-Mail"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/auth/signin.html.eex:7
+msgid "Enter your e-mail address"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/auth/signin.html.eex:13
+msgid "Enter your password"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/controllers/invitation_controller.ex:31
+msgid "Invitation submitted."
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/new.html.eex:15
+msgid "Invitee e-mail address"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/user/edit.html.eex:15
+#: lib/jarvis_web/templates/user/show.html.eex:13 lib/jarvis_web/templates/user_group/form.html.eex:5
+#: lib/jarvis_web/templates/user_group/index.html.eex:20 lib/jarvis_web/templates/user_group/show.html.eex:14
+msgid "Name"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/auth/signin.html.eex:12
+#: lib/jarvis_web/templates/user/edit.html.eex:27
+msgid "Password"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/user/edit.html.eex:3
+#: lib/jarvis_web/templates/user/show.html.eex:3
+msgid "Settings of %{name}"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/auth/signin.html.eex:17
+msgid "Sign in"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/controllers/auth_controller.ex:34
+msgid "Sign in failed"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/controllers/user_group_controller.ex:37
+msgid "Sucessful created user group"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/user_group/show.html.eex:3
+msgid "User group"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/user_group/index.html.eex:7
+msgid "Users can be assigned to groups to give them access to certain things like shopping lists.\n  A creator of a group can invited others via the membership function."
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/invitation/index.html.eex:7
+msgid "Users can gain access to groups through invitations."
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/jarvis_web/templates/invitation/index.html.eex:11
+msgid "Invite someone"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/controllers/user_controller.ex:65
+msgid "User settings successfull updated."
 msgstr ""
