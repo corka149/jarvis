@@ -8,7 +8,6 @@ valid_attrs_user = %{
   password: "THIS_15_password"
 }
 
-case Jarvis.Accounts.create_user(valid_attrs_user) do
-  {:ok, _} -> IO.puts("=====\nCreate user Ash with credentials 'ash@test.xyz' / 'THIS_15_password'\n=====")
-  error -> IO.inspect(error)
+with {:ok, _} <- Jarvis.Accounts.create_user(valid_attrs_user) do
+  IO.puts("=====\nCreate user Ash with credentials 'ash@test.xyz' / 'THIS_15_password'\n=====")
 end

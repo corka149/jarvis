@@ -1,142 +1,94 @@
 /* This file is for your main application css. */
 
-nav {
+body {
+    color: #777;
+}
+
+.pure-img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+/*
+CUSTOM
+*/
+
+.content-subhead,
+.center-align {
+    text-align: center;
+}
+
+/* HEAD */
+.header {
     background-color: #ff9800;
 }
 
 a.brand-logo>img {
-    width: 8rem;
-    padding-top: 0.3rem;
-    padding-left: 0.3rem;
+    width: 12rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* primary */
-button.primary-btn {
-    background-color: #ff9800;
-    margin-right: 1rem;
+/* TABLES */
+.pure-table {
+    width: 100%;
 }
 
-a.primary-btn {
-    background-color: #ff9800;
-    margin-right: 1rem;
-}
-
-.primary-btn:hover {
-    background-color: #ffae00;
-}
-
-/* secondary */
-button.secondary-btn {
-    background-color: #4c1683;
-    margin-right: 1rem;
-}
-
-a.secondary-btn {
-    background-color: #4c1683;
-    margin-right: 1rem;
-}
-.secondary-btn:hover {
-    background-color: #602997;
-}
-
-/* */
-button.danager-btn {
-    background-color: red;
-    margin-right: 1rem;
-}
-
-a.danager-btn {
-    background-color: red;
-    margin-right: 1rem;
-}
-.danager-btn:hover {
-    background-color: rgb(192, 28, 28);
-}
-
-/* datepicker */
-.datepicker-date-display {
-    background-color: #ff9800;
-}
-.datepicker-table td.is-selected {
-    background-color: #ff9800;
-}
-
-/* Alerts and form errors */
-
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-
-.alert-info {
-    color: #31708f;
-    background-color: #d9edf7;
-    border-color: #bce8f1;
-}
-
-.alert-warning {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color: #faebcc;
-}
-
-.alert-danger {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
-}
-
-.alert p {
-    margin-bottom: 0;
-}
-
-.alert:empty {
-    display: none;
-}
-
-.help-block {
-    color: #a94442;
-}
-
-/* main area */
-main {
-    padding: 1rem;
-}
-
-@media (min-width: 1024px) {
-    main {
-        margin-left: 33% !important;
-        padding-right: 33% !important;
-    }
-}
-
-@media (min-width: 800px) and (max-width: 1024px) {
-    main {
-        margin-left: 20% !important;
-        padding-right: 20% !important;
-    }
-}
-
-div.button-bar {
-    margin: 1rem;
-}
-
-/* mat select */
-.dropdown-content li>a, .dropdown-content li>span {
-    color: #a94442; 
-}
-
-tr {
-    cursor: pointer;
-}
-
-.tabs .tab a {
+/* MENU */
+.menu-item-header {
+    padding: 0.6rem 0 0.6rem 0.6rem;
     font-size: 0.7rem;
-    overflow: visible;
+    font-weight: bold;
 }
 
-ul:not(.browser-default).sidenav {
-    padding: 1rem;
+/* BUTTON */
+.button-bar {
+    border-bottom: rgb(200, 200, 200) solid 1px;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.icon-button {
+    font-size: 0.25rem;
+    border-radius: 25%;
+}
+
+.primary-button,
+.danager-button,
+.secondary-button {
+    color: white;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+}
+
+.primary-button {
+    background-color: #ff9800;
+    margin-right: 1rem;
+}
+
+.secondary-button {
+    background-color: #4c1683;
+    margin-right: 1rem;
+}
+
+.danager-button {
+    background-color: red;
+    margin-right: 1rem;
+}
+
+/* READ-ONLY */
+.read-only-label {
+    font-size: 0.9rem;
+}
+
+.read-only-value {
+    font-size: 1.1rem;
+}
+
+/* TYPO */
+.hint {
+    font-size: small; 
+    color: rgba(0, 0, 0, 0.6); 
+    padding-bottom: 1rem;
 }

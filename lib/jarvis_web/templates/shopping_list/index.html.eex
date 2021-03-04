@@ -1,17 +1,15 @@
 <div>
-  <h2 class="center-align">
+  <h2 class="content-subhead">
     <%= dgettext "shoppinglists", "All shopping lists" %>
   </h2>
 </div>
-
 <!-- Buttons -->
-<div>
+<div class="button-bar">
   <%= add_button(Routes.shopping_list_path(@conn, :new)) %>
 </div>
-
 <!-- Data table -->
 <div>
-  <table class="striped">
+  <table class="pure-table">
     <thead>
       <tr>
         <th>#</th>
@@ -20,7 +18,6 @@
         <th><%= dgettext "shoppinglists", "Done" %></th>
       </tr>
     </thead>
-
     <tbody>
       <%= for list <- @shopping_lists do %>
         <tr onclick="window.open('<%= Routes.shopping_list_path(@conn, :show, list) %>', '_self')">

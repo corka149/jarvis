@@ -1,31 +1,34 @@
 <div id="received_invitations" class="col s12">
-    <table>
-        <thead>
-            <th>
-                <%= dgettext "accounts", "Host" %>
-            </th>
-            <th>
-                <%= dgettext "accounts", "Invited into" %>
-            </th>
-            <th>
-                &nbsp;
-            </th>
-        </thead>
-        <tbody>
-            <%= for invitation <- @received_invitations do %>
-                <tr>
-                    <td>
-                        <%= invitation.host.name %>
-                    </td>
-                    <td>
-                        <%= invitation.usergroup.name %>
-                    </td>
-                    <td>
-                        <%= accept_button(@conn, invitation) %>
-                        <%= decline_button(@conn, invitation)  %>
-                    </td>
-                </tr>
-            <% end %>
-        </tbody>
-    </table>
+  <table class="pure-table">
+    <thead>
+      <th>
+        <%= dgettext "accounts", "Host" %>
+      </th>
+      <th>
+        <%= dgettext "accounts", "Invited into" %>
+      </th>
+      <th>
+        &nbsp;
+      </th>
+    </thead>
+    <tbody>
+      <%= for invitation <- @received_invitations do %>
+        <tr>
+          <td>
+            <%= invitation.host.name %>
+          </td>
+          <td>
+            <%= invitation.usergroup.name %>
+          </td>
+          <td>
+            <%= accept_button(@conn, invitation) %>
+            <%= decline_button(@conn, invitation)  %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= if length(@received_invitations) == 0 do %>
+    <%= gettext "None" %>
+  <% end %>
 </div>

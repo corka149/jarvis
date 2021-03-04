@@ -1,51 +1,35 @@
 <div>
-  <h2 class="center-align">
+  <h2 class="content-subhead">
     <%= dgettext "shoppinglists", "Shopping list" %>
   </h2>
 </div>
-
 <!-- Buttons -->
 <div class="button-bar">
   <%= back_button(Routes.shopping_list_path(@conn, :index_open_lists)) %>
   <%= edit_button(Routes.shopping_list_path(@conn, :edit, @shopping_list)) %>
   <%= link raw("<i class='material-icons'>shopping_cart</i>"),
       to: Routes.item_path(@conn, :new, @shopping_list.id),
-      class: "btn-floating primary-btn"
+      class: "pure-button primary-button icon-button"
   %>
   <%= delete_button(Routes.shopping_list_path(@conn, :delete, @shopping_list)) %>
 </div>
-
 <div>
-  <!-- Data -->
-  <div class="row">
-    <!-- Checked -->
-    <div class="col s12" style="padding-bottom: 1.5rem;">
-      <label>
-        <input type="checkbox" disabled="disabled"
-          <%= if @shopping_list.done do %>
-            checked="checked"
-          <% end %>
-        />
-        <span>
-          <%= gettext "Done" %>
-        </span>
-      </label>
-    </div>
-    <!-- Planned for -->
-    <div class="input-field col s12">
-      <input disabled value="<%= @shopping_list.planned_for %>"
-        id="planned_for" type="text" class="validate">
-      <label for="planned_for">
-        <%= dgettext("shoppinglists", "Planned for") %>
-      </label>
-    </div>
-    <!-- Belongs to -->
-    <div class="input-field col s12">
-      <input disabled value="<%= @shopping_list.usergroup.name %>"
-        id="usergroup_name" type="text" class="validate">
-      <label for="usergroup_name">
-        <%= dgettext("shoppinglists", "Belongs to") %>
-      </label>
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-1-3 read-only-label"><%= dgettext("shoppinglists", "Planned for")%></div>
+    <div class="pure-u-1 pure-u-md-2-3 read-only-value"><%= @shopping_list.planned_for %></div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-1-3 read-only-label"><%= dgettext("shoppinglists", "Belongs to")%></div>
+    <div class="pure-u-1 pure-u-md-2-3 read-only-value"><%= @shopping_list.usergroup.name %></div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-1-3 read-only-label"><%= gettext("Done")%></div>
+    <div class="pure-u-1 pure-u-md-2-3 read-only-value">
+      <%= if @shopping_list.done do %>
+        <i class="material-icons">check</i>
+      <% else %>
+        <i class="material-icons">close</i>
+      <% end %>
     </div>
   </div>
 </div>

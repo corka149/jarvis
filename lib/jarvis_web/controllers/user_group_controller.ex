@@ -85,7 +85,7 @@ defmodule JarvisWeb.UserGroupController do
     user_group = Accounts.get_user_group!(id)
 
     with :ok <- Accounts.delete_user_from_group(user, user_group) do
-      send_resp(conn, :no_content, "")
+      redirect(conn, to: Routes.invitation_path(conn, :index))
     end
   end
 

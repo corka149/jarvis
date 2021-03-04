@@ -5,7 +5,7 @@ defmodule JarvisWeb.InvitationView do
     link(
       raw("<i class='material-icons'>check</i>"),
       to: Routes.invitation_path(conn, :accept, invitation),
-      class: "btn-floating primary-btn"
+      class: "pure-button primary-button icon-button"
     )
   end
 
@@ -13,7 +13,7 @@ defmodule JarvisWeb.InvitationView do
     link(
       raw("<i class='material-icons'>clear</i>"),
       to: Routes.invitation_path(conn, :delete, invitation),
-      class: "btn-floating secondary-btn",
+      class: "pure-button secondary-button icon-button",
       method: :delete
     )
   end

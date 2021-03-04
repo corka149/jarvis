@@ -7,137 +7,34 @@
     <title>
       <%= gettext "Jarvis · May I help you" %>
     </title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
-    <header>
-      <nav>
-        <!-- DESKTOP -->
-        <div class="nav-wrapper">
-          <a href="/" class="brand-logo">
-            <img class="responsive-img" src="<%= Routes.static_path(@conn, "/images/logo_jarvis.svg") %>" alt="jARVIS">
-          </a>
-          <a href="#" data-target="mobile-main-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-          <ul class="right hide-on-med-and-down">
-            <%= if @conn.assigns[:user] do %>
-              <li>
-                <a href="#" class="dropdown-trigger" data-target="dropdown-shopping-list-desktop">
-                  <%= gettext("Shopping list") %>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="dropdown-trigger" data-target="dropdown-user-groups-desktop">
-                  <%= gettext("User groups") %>
-                </a>
-              </li>
-              <li>
-                <%= link gettext("User settings"), to: Routes.user_path(@conn, :show) %>
-              </li>
-              <li>
-                <%= link gettext("Sign out"), to: Routes.auth_path(@conn, :signout) %>
-              </li>
-            <% else %>
-              <li>
-                <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :signin) %>
-              </li>
-            <% end %>
-          </ul>
+    <div id="layout">
+      <!-- MENU -->
+      <%= render "menu.html", assigns %>
+      <div id="main">
+        <div class="header">
+          <h1>
+            <a href="/" class="brand-logo">
+              <img class="pure-img" src="<%= Routes.static_path(@conn, "/images/logo_jarvis.svg") %>" alt="jARVIS">
+            </a>
+          </h1>
+          <h2><%= gettext "Your friendly assistent" %></h2>
         </div>
-      </nav>
-      <ul id="dropdown-shopping-list-desktop" class="dropdown-content">
-        <li><%= link gettext("All lists"), to: Routes.shopping_list_path(@conn, :index) %></li>
-        <li><%= link gettext("Current lists"), to: Routes.shopping_list_path(@conn, :index_open_lists) %></li>
-      </ul>
-      <ul id="dropdown-user-groups-desktop" class="dropdown-content">
-        <li><%= link gettext("Management"), to: Routes.user_group_path(@conn, :index) %></li>
-        <li><%= link gettext("Membership"), to: Routes.invitation_path(@conn, :index) %></li>
-      </ul>
-      <!-- MOBILE -->
-      <ul class="sidenav" id="mobile-main-menu">
-        <ul class="collapsible">
-          <%= if @conn.assigns[:user] do %>
-            <!-- Shopping lists -->
-            <li>
-              <div class="collapsible-header"><%= gettext("Shopping list") %></div>
-              <div class="collapsible-body">
-                <ul>
-                  <li><%= link gettext("All lists"), to: Routes.shopping_list_path(@conn, :index) %></li>
-                  <li><%= link gettext("Current lists"), to: Routes.shopping_list_path(@conn, :index_open_lists) %></li>
-                </ul>
-              </div>
-            </li>
-            <!-- User groups -->
-            <li>
-              <div class="collapsible-header"><%= gettext("User groups") %></div>
-              <div class="collapsible-body">
-                <ul>
-                  <li><%= link gettext("Management"), to: Routes.user_group_path(@conn, :index) %></li>
-                  <li><%= link gettext("Membership"), to: Routes.invitation_path(@conn, :index) %></li>
-                </ul>
-              </div>
-            </li>
-            <!-- User settings -->
-            <li>
-              <div class="collapsible-header">
-                <%= link gettext("User settings"), to: Routes.user_path(@conn, :show), style: "color: black;" %>
-              </div>
-            </li>
-            <!-- Sign out -->
-            <li>
-              <div class="collapsible-header">
-                <%= link gettext("Sign out"), to: Routes.auth_path(@conn, :signout), style: "color: black;" %>
-              </div>
-            </li>
-          <% else %>
-            <!-- Sign in -->
-            <li>
-              <div class="collapsible-header">
-                <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :signin), style: "color: black;" %>
-              </div>
-            </li>
-          <% end %>
-      </ul>
-    </header>
-
-    <main role="main">
-      <p class="alert alert-info center-align" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger center-align" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= @inner_content %>
-    </main>
+        <div class="content">
+          <p class="alert alert-info center-align" role="alert"><%= get_flash(@conn, :info) %></p>
+          <p class="alert alert-danger center-align" role="alert"><%= get_flash(@conn, :error) %></p>
+          <%= @inner_content %>
+        </div>
+      </div>
+    </div>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.dropdown-trigger');
-        var instances = M.Dropdown.init(elems, {constrainWidth: false});
-      });
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems, {});
-      });
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.datepicker');
-        var instances = M.Datepicker.init(elems, {format: 'yyyy-mm-dd'});
-      });
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('select');
-        var instances = M.FormSelect.init(elems, {});
-      });
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.tabs');
-        var instance = M.Tabs.init(elems, {});
-      });
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.collapsible');
-        var instances = M.Collapsible.init(elems, {});
-      });
+      initMenu(this, this.document);
     </script>
   </body>
 </html>

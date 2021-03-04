@@ -46,9 +46,9 @@ defmodule JarvisWeb.InvitationControllerTest do
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
         |> get(Routes.invitation_path(conn, :index))
 
-      assert html_response(conn, 200) =~ "Created invitations"
-      assert html_response(conn, 200) =~ "Received invitations"
-      assert html_response(conn, 200) =~ "Group memberships"
+      assert html_response(conn, 200) =~ "Invitee"
+      assert html_response(conn, 200) =~ "Host"
+      assert html_response(conn, 200) =~ "Member of"
     end
   end
 
