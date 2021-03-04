@@ -3,6 +3,7 @@
 // its own CSS file.
 import "../css/app.css"
 import "../css/menu.css"
+import "../css/phoenix.custom.css"
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
