@@ -13,25 +13,25 @@
   <!-- Name -->
   <div class="pure-control-group">
     <%= label form, :name, dgettext("accounts", "Name"), class: "validate" %>
-    <%= text_input form, :name, required: true, class: "pure-input-1-3" %>
+    <%= text_input form, :name, required: true %>
     <%= error_tag form, :name %>
   </div>
   <!-- Default language -->
   <div class="pure-control-group">
     <%= label form, :default_language, dgettext("accounts", "Default language") %>
-    <%= select form, :default_language, languages(), class: "pure-input-1-3" %>
+    <%= select form, :default_language, languages() %>
     <%= error_tag form, :default_language %>
   </div>
   <!-- Password -->
   <div class="pure-control-group">
     <%= label form, :password, dgettext("accounts", "Password"), class: "validate" %>
-    <%= password_input form, :password, class: "pure-input-1-3" %>
+    <%= password_input form, :password %>
     <%= error_tag form, :password %>
   </div>
   <!-- Confirm password -->
   <div class="pure-control-group">
     <%= label form, :confirm_password, dgettext("accounts", "Confirm password"), class: "validate" %>
-    <%= password_input form, :confirm_password, class: "pure-input-1-3" %>
+    <%= password_input form, :confirm_password %>
     <%= error_tag @errors, :confirm_password %>
   </div>
   <div>

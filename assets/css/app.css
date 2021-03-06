@@ -86,6 +86,33 @@ a.brand-logo>img {
     font-size: 1.1rem;
 }
 
+/* INPUT */
+.pure-form select,
+.pure-form input {
+    width: 50%;
+}
+.pure-form input[type="date"] {
+    width: 10rem;
+}
+
+@media (min-width: 25em) and (max-width: 48em) {
+    /* Only apply this when the window is small.
+    */
+    .pure-form select,
+    .pure-form input {
+        width: 60%;
+    }
+}
+
+@media (max-width: 24em) {
+    /* Only apply this when the window is small.
+    */
+    .pure-form select,
+    .pure-form input {
+        width: 100%;
+    }
+}
+
 /* TYPO */
 .hint {
     font-size: small; 
