@@ -62,7 +62,23 @@ view : Model -> Html.Html Msg
 view model =
     div []
         [ viewHeader
-        , viewUserGroups model
+        , viewIsleDetails model
+        ]
+
+
+viewIsleDetails : Model -> Html Msg
+viewIsleDetails model =
+    let
+        selectId =
+            "user-groups-select"
+    in
+    Html.form [ class "pure-form pure-form-aligned" ]
+        [ fieldset []
+            [ div [ class "pure-control-group" ]
+                [ label [ for selectId ] [ text "Group" ]
+                , viewUserGroups model selectId
+                ]
+            ]
         ]
 
 
@@ -73,13 +89,13 @@ viewHeader =
         ]
 
 
-viewUserGroups : Model -> Html.Html Msg
-viewUserGroups model =
+viewUserGroups : Model -> String -> Html.Html Msg
+viewUserGroups model selectId =
     let
         options =
             List.map viewGroupOption model.groups
     in
-    select [ on "change" (Json.Decode.map SelectedGroup targetValueIntParse) ]
+    select [ on "change" (Json.Decode.map SelectedGroup targetValueIntParse), id selectId ]
         options
 
 
