@@ -4,8 +4,6 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Html.Events.Extra exposing (targetValueIntParse)
-import Json.Decode
 
 
 
@@ -14,6 +12,9 @@ import Json.Decode
 
 type alias Model =
     { groups : List Group
+    , isles : List Isle
+    , selectedGroupId : Maybe Int
+    , inputedIsleName : Maybe String
     }
 
 
@@ -23,9 +24,18 @@ type alias Group =
     }
 
 
+type alias Isle =
+    { name : String
+    , groupId : Int
+    }
+
+
 initialModel : Model
 initialModel =
     { groups = getGroups
+    , isles = []
+    , selectedGroupId = Nothing
+    , inputedIsleName = Nothing
     }
 
 
@@ -34,12 +44,18 @@ initialModel =
 
 
 type Msg
-    = SelectedGroup Int
+    = SelectedGroup String
+    | InputedIsleName String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( initialModel, Cmd.none )
+    case msg of
+        SelectedGroup groupId ->
+            ( { model | selectedGroupId = String.toInt groupId }, Cmd.none )
+
+        InputedIsleName updateName ->
+            ( { model | inputedIsleName = Just updateName }, Cmd.none )
 
 
 
@@ -62,21 +78,34 @@ view : Model -> Html.Html Msg
 view model =
     div []
         [ viewHeader
-        , viewIsleDetails model
+        , div [ class "button-bar" ]
+            [ button [ class "pure-button secondary-button icon-button" ] [ i [ class "material-icons" ] [ text "arrow_back" ] ]
+            ]
+        , viewIsleForm model
         ]
 
 
-viewIsleDetails : Model -> Html Msg
-viewIsleDetails model =
+viewIsleForm : Model -> Html Msg
+viewIsleForm model =
     let
         selectId =
             "user-groups-select"
+
+        nameId =
+            "isle-name-input"
     in
     Html.form [ class "pure-form pure-form-aligned" ]
         [ fieldset []
             [ div [ class "pure-control-group" ]
                 [ label [ for selectId ] [ text "Group" ]
                 , viewUserGroups model selectId
+                ]
+            , div [ class "pure-control-group" ]
+                [ label [ for nameId ] [ text "Isle name" ]
+                , input [ id nameId, placeholder "Enter isle name here", onInput InputedIsleName ] []
+                ]
+            , div []
+                [ button [ class "pure-button primary-button icon-button    " ] [ i [ class "material-icons" ] [ text "save" ] ]
                 ]
             ]
         ]
@@ -95,7 +124,7 @@ viewUserGroups model selectId =
         options =
             List.map viewGroupOption model.groups
     in
-    select [ on "change" (Json.Decode.map SelectedGroup targetValueIntParse), id selectId ]
+    select [ onInput SelectedGroup, id selectId ]
         options
 
 
