@@ -95,7 +95,7 @@ a.brand-logo>img {
     width: 10rem;
 }
 
-@media (min-width: 25em) and (max-width: 48em) {
+@media (min-width: 32em) and (max-width: 48em) {
     /* Only apply this when the window is small.
     */
     .pure-form select,
@@ -104,7 +104,7 @@ a.brand-logo>img {
     }
 }
 
-@media (max-width: 24em) {
+@media (max-width: 32em) {
     /* Only apply this when the window is small.
     */
     .pure-form select,
