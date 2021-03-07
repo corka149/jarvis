@@ -19,4 +19,5 @@ config :jarvis, Jarvis.Repo,
   password: System.fetch_env!("DB_PASSWORD"),
   database: System.fetch_env!("DB_NAME"),
   hostname: System.fetch_env!("DB_HOST"),
+  port: System.fetch_env!("DB_PORT"),
   pool_size: 15
