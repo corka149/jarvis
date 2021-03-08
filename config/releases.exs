@@ -1,19 +1,31 @@
 import Config
 
+# WEB
 config :jarvis, JarvisWeb.Endpoint,
-  http: [:inet6, port: System.fetch_env!("PORT")],
-  # This is critical for ensuring web-sockets properly authorize.
-  url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("PORT")],
+  # HTTP
+  http: [:inet6, port: 80],
+  # HTTPS
+  https: [
+    :inet6,
+    port: 443,
+    cipher_suite: :strong,
+    keyfile: System.get_env("SSL_KEY_PATH"),
+    certfile: System.get_env("SSL_CERT_PATH")
+  ],
+  force_ssl: [hsts: true],
+  # OTHER
   server: true,
   root: ".",
-  version: Application.spec(:jarvis, :vsn)
+  url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("PORT")],
+  version: Application.spec(:jarvis, :vsn),
+  secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
+# LOGGING
 config :logger, level: :warn
 
 config :phoenix, :serve_endpoints, true
 
-config :jarvis, JarvisWeb.Endpoint, secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
-
+# DATABASE
 config :jarvis, Jarvis.Repo,
   username: System.fetch_env!("DB_USERNAME"),
   password: System.fetch_env!("DB_PASSWORD"),
