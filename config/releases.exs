@@ -16,7 +16,7 @@ config :jarvis, JarvisWeb.Endpoint,
   # OTHER
   server: true,
   root: ".",
-  url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("PORT")],
+  url: [host: System.fetch_env!("HOST"), port: 80],
   version: Application.spec(:jarvis, :vsn),
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
