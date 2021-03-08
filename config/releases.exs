@@ -3,11 +3,11 @@ import Config
 # WEB
 config :jarvis, JarvisWeb.Endpoint,
   # HTTP
-  http: [:inet6, port: 80],
+  http: [:inet6, port: System.fetch_env!("HTTP_PORT")],
   # HTTPS
   https: [
     :inet6,
-    port: 443,
+    port: System.fetch_env!("HTTPS_PORT"),
     cipher_suite: :strong,
     keyfile: System.get_env("SSL_KEY_PATH"),
     certfile: System.get_env("SSL_CERT_PATH")
@@ -15,7 +15,7 @@ config :jarvis, JarvisWeb.Endpoint,
   # OTHER
   server: true,
   root: ".",
-  url: [host: System.fetch_env!("HOST"), port: 80],
+  url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("HTTP_PORT")],
   version: Application.spec(:jarvis, :vsn),
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
