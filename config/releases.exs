@@ -12,7 +12,6 @@ config :jarvis, JarvisWeb.Endpoint,
     keyfile: System.get_env("SSL_KEY_PATH"),
     certfile: System.get_env("SSL_CERT_PATH")
   ],
-  force_ssl: [hsts: true],
   # OTHER
   server: true,
   root: ".",
