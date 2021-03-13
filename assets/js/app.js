@@ -16,9 +16,6 @@ import "../css/phoenix.custom.css"
 //
 import "phoenix_html"
 
-// Elm
-import "./elm.js"
-
 
 // source: https://purecss.io/layouts/side-menu/
 window["initMenu"] = function (window, document) {
