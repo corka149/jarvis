@@ -15,7 +15,7 @@ check: launch-database
 
 
 install:
-	MIX_ENV=prod mix deps.get
+	MIX_ENV=prod mix deps.get --only prod
 	npm run deploy --prefix ./assets
   	MIX_ENV=prod mix release
   	MIX_ENV=prod mix phx.digest
