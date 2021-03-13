@@ -12,3 +12,10 @@ check: launch-database
 	mix test
 	mix dialyzer
 	mix credo --strict
+
+
+install:
+	MIX_ENV=prod mix deps.get
+	npm run deploy --prefix ./assets
+  	MIX_ENV=prod mix release
+  	MIX_ENV=prod mix phx.digest
