@@ -79,11 +79,6 @@ msgid "Membership"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/menu.html.eex:33
-msgid "User settings"
-msgstr ""
-
-#, elixir-format
 #: lib/jarvis_web/templates/invitation/created_invitations.html.eex:31
 #: lib/jarvis_web/templates/invitation/group_membership.html.eex:33 lib/jarvis_web/templates/invitation/received_invitations.html.eex:32
 msgid "None"
@@ -92,4 +87,9 @@ msgstr ""
 #, elixir-format
 #: lib/jarvis_web/templates/layout/app.html.eex:26
 msgid "Your friendly assistent"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/menu.html.eex:33
+msgid "User"
 msgstr ""

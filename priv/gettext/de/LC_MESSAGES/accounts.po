@@ -147,7 +147,7 @@ msgstr "Benutzer können zu Gruppen zugewiesen werden um Zugang zu Dingen wie Ei
 msgid "Users can gain access to groups through invitations."
 msgstr "Benutzer erhalten Zugang zu Gruppen durch eine Einladung."
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/invitation/index.html.eex:11
 msgid "Invite someone"
 msgstr "Jemanden einladen"

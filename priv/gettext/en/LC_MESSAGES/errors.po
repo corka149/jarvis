@@ -96,7 +96,7 @@ msgstr ""
 msgid "must be equal to %{number}"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/controllers/invitation_controller.ex:54
 #: lib/jarvis_web/controllers/item_controller.ex:106 lib/jarvis_web/controllers/plugs/require_authorization.ex:44
 msgid "You are not allow to do this"

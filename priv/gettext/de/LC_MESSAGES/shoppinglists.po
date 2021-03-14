@@ -71,7 +71,7 @@ msgstr "Aktuelle Einkaufsliste"
 #: lib/jarvis_web/templates/item/form.html.eex:3
 #: lib/jarvis_web/templates/item/index.html.eex:3 lib/jarvis_web/templates/shopping_list/show.html.eex:3
 msgid "Shopping list"
-msgstr "Einkaufsliste für "
+msgstr "Einkaufsliste"
 
 #, elixir-format
 #: lib/jarvis_web/controllers/shopping_list_controller.ex:55

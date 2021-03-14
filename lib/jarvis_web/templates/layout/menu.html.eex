@@ -30,7 +30,7 @@
         </li>
         <!-- OTHER -->
         <li class="pure-menu-item menu-item-divided">
-          <%= link gettext("User settings"), to: Routes.user_path(@conn, :show), class: "pure-menu-link" %>
+          <%= link gettext("User"), to: Routes.user_path(@conn, :show), class: "pure-menu-link" %>
         </li>
         <li class="pure-menu-item">
           <%= link gettext("Sign out"), to: Routes.auth_path(@conn, :signout), class: "pure-menu-link" %>
