@@ -46,6 +46,7 @@ initialModel =
 type Msg
     = SelectedGroup String
     | InputedIsleName String
+    | SaveIsle
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -56,6 +57,30 @@ update msg model =
 
         InputedIsleName updateName ->
             ( { model | inputedIsleName = Just updateName }, Cmd.none )
+
+        SaveIsle ->
+            ( updateIsles model, Cmd.none )
+
+
+updateIsles : Model -> Model
+updateIsles model =
+    let
+        isles =
+            case model.inputedIsleName of
+                Nothing ->
+                    model.isles
+
+                Just name ->
+                    case model.selectedGroupId of
+                        -- Add new
+                        Nothing ->
+                            model.isles ++ [ Isle name 999 ]
+
+                        -- Update old
+                        Just id ->
+                            List.filter (\isle -> isle.groupId == id) model.isles ++ [ Isle name id ]
+    in
+    { model | isles = isles }
 
 
 
@@ -82,6 +107,7 @@ view model =
             [ button [ class "pure-button secondary-button icon-button" ] [ i [ class "material-icons" ] [ text "arrow_back" ] ]
             ]
         , viewIsleForm model
+        , viewIsles model.isles
         ]
 
 
@@ -105,7 +131,7 @@ viewIsleForm model =
                 , input [ id nameId, placeholder "Enter isle name here", onInput InputedIsleName ] []
                 ]
             , div []
-                [ button [ class "pure-button primary-button icon-button    " ] [ i [ class "material-icons" ] [ text "save" ] ]
+                [ button [ class "pure-button primary-button icon-button", onClick SaveIsle, type_ "button" ] [ i [ class "material-icons" ] [ text "save" ] ]
                 ]
             ]
         ]
@@ -134,6 +160,26 @@ viewGroupOption group =
         [ value (String.fromInt group.id)
         ]
         [ text group.name ]
+
+
+viewIsles : List Isle -> Html.Html msg
+viewIsles isles =
+    div []
+        [ h3 [] [ text "Existing isles" ]
+        , table [ class "pure-table" ]
+            [ thead []
+                [ th [] [ text "Name" ]
+                ]
+            , tbody [] (List.map viewIsle isles)
+            ]
+        ]
+
+
+viewIsle : Isle -> Html.Html msg
+viewIsle isle =
+    tr []
+        [ td [] [ text isle.name ]
+        ]
 
 
 
