@@ -80,7 +80,7 @@ updateIsles model =
                         Just id ->
                             List.filter (\isle -> isle.groupId == id) model.isles ++ [ Isle name id ]
     in
-    { model | isles = isles }
+    { model | isles = isles, selectedGroupId = Nothing, inputedIsleName = Nothing }
 
 
 
@@ -107,7 +107,7 @@ view model =
             [ button [ class "pure-button secondary-button icon-button" ] [ i [ class "material-icons" ] [ text "arrow_back" ] ]
             ]
         , viewIsleForm model
-        , viewIsles model.isles
+        , viewIsles model.isles model.groups
         ]
 
 
@@ -162,24 +162,44 @@ viewGroupOption group =
         [ text group.name ]
 
 
-viewIsles : List Isle -> Html.Html msg
-viewIsles isles =
+viewIsles : List Isle -> List Group -> Html.Html msg
+viewIsles isles groups =
     div []
         [ h3 [] [ text "Existing isles" ]
         , table [ class "pure-table" ]
             [ thead []
                 [ th [] [ text "Name" ]
+                , th [] [ text "Group" ]
                 ]
-            , tbody [] (List.map viewIsle isles)
+            , tbody [] (List.map (viewIsle groups) isles)
             ]
         ]
 
 
-viewIsle : Isle -> Html.Html msg
-viewIsle isle =
+viewIsle : List Group -> Isle -> Html.Html msg
+viewIsle groups isle =
     tr []
         [ td [] [ text isle.name ]
+        , td [] [ viewGroupName isle groups ]
         ]
+
+
+viewGroupName : Isle -> List Group -> Html.Html msg
+viewGroupName isle groups =
+    let
+        isId group =
+            group.id == isle.groupId
+
+        possGroup =
+            List.filter isId groups
+                |> List.head
+    in
+    case possGroup of
+        Nothing ->
+            text "None"
+
+        Just group ->
+            text group.name
 
 
 
