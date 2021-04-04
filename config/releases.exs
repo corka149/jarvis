@@ -5,13 +5,13 @@ config :jarvis, JarvisWeb.Endpoint,
   # HTTP
   http: [:inet6, port: System.fetch_env!("HTTP_PORT")],
   # HTTPS
-  https: [
-    :inet6,
-    port: System.fetch_env!("HTTPS_PORT"),
-    cipher_suite: :strong,
-    keyfile: System.get_env("SSL_KEY_PATH"),
-    certfile: System.get_env("SSL_CERT_PATH")
-  ],
+  ## https: [
+  ##  :inet6,
+  ##  port: System.fetch_env!("HTTPS_PORT"),
+  ##  cipher_suite: :strong,
+  ##  keyfile: System.get_env("SSL_KEY_PATH"),
+  ##  certfile: System.get_env("SSL_CERT_PATH")
+  ## ],
   # OTHER
   server: true,
   root: ".",
