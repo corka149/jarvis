@@ -58,13 +58,6 @@ defmodule JarvisWeb.Router do
     resources "/:shopping_list_id/items", ItemController, except: [:show]
   end
 
-  scope "/animalxing", JarvisWeb do
-    pipe_through :browser
-
-    get "/artworks", ArtworkController, :index
-    get "/isles", IsleController, :index
-  end
-
   # ### ### ### ### ### #
   #          Api        #
   # ### ### ### ### ### #
