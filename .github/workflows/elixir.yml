@@ -30,8 +30,8 @@ jobs:
       - name: Setup elixir
         uses: erlef/setup-elixir@v1
         with:
-          otp-version: 23.x
-          elixir-version: 1.11.x
+          otp-version: 24.x
+          elixir-version: 1.12.x
       - name: Install Dependencies
         run: mix deps.get
       - name: Run Tests
@@ -45,8 +45,8 @@ jobs:
       - name: Setup elixir
         uses: erlef/setup-elixir@v1
         with:
-          otp-version: 23.x
-          elixir-version: 1.11.x
+          otp-version: 24.x
+          elixir-version: 1.12.x
       - run: mix deps.get
       - run: mix dialyzer
       - run: mix credo --strict
