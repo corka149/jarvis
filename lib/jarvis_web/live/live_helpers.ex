@@ -24,6 +24,17 @@ defmodule JarvisWeb.LiveHelpers do
   end
 
   @doc """
+  Creates a back button that goes back in history.
+  """
+  def back_button(route) do
+    live_patch(
+      HTML.raw("<i class='material-icons'>arrow_back</i>"),
+      to: route,
+      class: "pure-button secondary-button icon-button"
+    )
+  end
+
+  @doc """
   Create floating create button
   """
   def add_button(route) do
@@ -66,6 +77,14 @@ defmodule JarvisWeb.LiveHelpers do
     live_redirect(
       HTML.raw("<i class='material-icons'>search</i>"),
       to: route,
+      class: "pure-button primary-button icon-button"
+    )
+  end
+
+  def save_button do
+    HTML.Form.submit(
+      HTML.raw("<i class='material-icons'>save</i>"),
+      phx_disable_with: "Saving...",
       class: "pure-button primary-button icon-button"
     )
   end
