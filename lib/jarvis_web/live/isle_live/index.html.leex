@@ -1,5 +1,14 @@
-<h1>Listing Isles</h1>
+<div>
+  <h2 class="content-subhead">
+    <%= dgettext "animalxing", "All isles" %>
+  </h2>
+</div>
+<!-- Buttons -->
+<div class="button-bar">
+  <%= add_button Routes.isle_index_path(@socket, :new) %>
+</div>
 
+<!-- Form -->
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal JarvisWeb.IsleLive.FormComponent,
     id: @isle.id || :new,
@@ -9,11 +18,11 @@
     return_to: Routes.isle_index_path(@socket, :index) %>
 <% end %>
 
-<table>
+<!-- Data table -->
+<table class="pure-table">
   <thead>
     <tr>
-      <th>Name</th>
-
+      <th><%= dgettext "animalxing", "Name" %></th>
       <th></th>
     </tr>
   </thead>
@@ -21,15 +30,12 @@
     <%= for isle <- @isles do %>
       <tr id="isle-<%= isle.id %>">
         <td><%= isle.name %></td>
-
         <td>
-          <span><%= live_redirect "Show", to: Routes.isle_show_path(@socket, :show, isle) %></span>
-          <span><%= live_patch "Edit", to: Routes.isle_index_path(@socket, :edit, isle) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: isle.id, data: [confirm: "Are you sure?"] %></span>
+          <span><%= show_button Routes.isle_show_path(@socket, :show, isle) %></span>
+          <span><%= edit_button Routes.isle_index_path(@socket, :edit, isle) %></span>
+          <span><%= delete_button isle.id %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<span><%= live_patch "New Isle", to: Routes.isle_index_path(@socket, :new) %></span>
