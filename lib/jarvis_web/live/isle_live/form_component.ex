@@ -2,6 +2,9 @@ defmodule JarvisWeb.IsleLive.FormComponent do
   use JarvisWeb, :live_component
 
   alias Jarvis.AnimalXing
+  alias Jarvis.Accounts
+
+  import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @impl true
   def update(%{isle: isle} = assigns, socket) do
@@ -10,7 +13,8 @@ defmodule JarvisWeb.IsleLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(:changeset, changeset)
+     |> assign(:user_groups, group_names_with_ids(assigns.user))}
   end
 
   @impl true
@@ -32,7 +36,10 @@ defmodule JarvisWeb.IsleLive.FormComponent do
       {:ok, _isle} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Isle updated successfully")
+         |> put_flash(
+           :info,
+           dgettext("animalxing", "Isle updated successfully")
+         )
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -40,16 +47,25 @@ defmodule JarvisWeb.IsleLive.FormComponent do
     end
   end
 
-  defp save_isle(socket, :new, isle_params) do
-    case AnimalXing.create_isle(isle_params) do
+  defp save_isle(socket, :new, %{"belongs_to" => belongs_to} = isle_params) do
+    user_group = Accounts.get_user_group!(belongs_to)
+
+    case AnimalXing.create_isle(isle_params, user_group) do
       {:ok, _isle} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Isle created successfully")
+         |> put_flash(:info, dgettext("animalxing", "Isle created successfully"))
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  # ===== PRIVATE =====
+
+  defp group_names_with_ids(%Accounts.User{} = user) do
+    Accounts.list_usergroups_by_membership_or_owner(user)
+    |> Enum.map(&{&1.name, &1.id})
   end
 end

@@ -1,12 +1,18 @@
 defmodule JarvisWeb.IsleLive.Index do
   use JarvisWeb, :live_view
 
+  alias Jarvis.Accounts
   alias Jarvis.AnimalXing
   alias Jarvis.AnimalXing.Isle
 
+  import JarvisWeb.Gettext, only: [dgettext: 2]
+
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :isles, list_isles())}
+  def mount(_params, session, socket) do
+    {:ok,
+     socket
+     |> assign_isles()
+     |> assign_user(session)}
   end
 
   @impl true
@@ -16,19 +22,19 @@ defmodule JarvisWeb.IsleLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Isle")
+    |> assign(:page_title, dgettext("animalxing", "Edit Isle"))
     |> assign(:isle, AnimalXing.get_isle!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Isle")
+    |> assign(:page_title, dgettext("animalxing", "New Isle"))
     |> assign(:isle, %Isle{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Isles")
+    |> assign(:page_title, dgettext("animalxing", "Listing Isles"))
     |> assign(:isle, nil)
   end
 
@@ -40,7 +46,17 @@ defmodule JarvisWeb.IsleLive.Index do
     {:noreply, assign(socket, :isles, list_isles())}
   end
 
-  defp list_isles do
+  # ===== PRIVATE =====
+
+  defp assign_isles(socket) do
+    assign(socket, :isles, list_isles())
+  end
+
+  defp assign_user(socket, session) do
+    assign(socket, :user, session |> Map.get("user_id") |> Accounts.get_user!())
+  end
+
+  defp list_isles() do
     AnimalXing.list_isles()
   end
 end

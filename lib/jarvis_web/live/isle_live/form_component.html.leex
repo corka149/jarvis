@@ -10,9 +10,15 @@
   <fieldset>
     <!-- NAME -->
     <div class="pure-control-group">
-      <%= label f, :name %>
+      <%= label f, :name, dgettext("animalxing", "Name") %>
       <%= text_input f, :name %>
       <%= error_tag f, :name %>
+    </div>
+      <!-- BELONGS_TO -->
+    <div class="pure-control-group">
+      <%= label f, :belongs_to, dgettext("animalxing", "Belongs to") %>
+      <%= select f, :belongs_to, @user_groups %>
+      <%= error_tag f, :belongs_to %>
     </div>
     <div>
       <%= save_button() %>
