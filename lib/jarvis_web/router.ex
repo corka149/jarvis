@@ -13,11 +13,12 @@ defmodule JarvisWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug JarvisWeb.Plugs.SetUser
     plug JarvisWeb.Plugs.SetLocale, default: "en"
+    plug :put_root_layout, {JarvisWeb.LayoutView, :root}
   end
 
   # ### ### ### ### ### #
@@ -56,6 +57,17 @@ defmodule JarvisWeb.Router do
     get "/open", ShoppingListController, :index_open_lists
     resources "/", ShoppingListController
     resources "/:shopping_list_id/items", ItemController, except: [:show]
+  end
+
+  scope "/animalxing", JarvisWeb do
+    pipe_through :browser
+
+    live "/isles", IsleLive.Index, :index
+    live "/isles/new", IsleLive.Index, :new
+    live "/isles/:id/edit", IsleLive.Index, :edit
+
+    live "/isles/:id", IsleLive.Show, :show
+    live "/isles/:id/show/edit", IsleLive.Show, :edit
   end
 
   # ### ### ### ### ### #

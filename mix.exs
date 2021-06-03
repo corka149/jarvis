@@ -54,14 +54,16 @@ defmodule Jarvis.MixProject do
       {:plug_cowboy, "~> 2.4"},
       {:argon2_elixir, "~> 2.4"},
       {:uuid, "~> 1.1"},
+      {:phoenix_live_view, "~> 0.15.7"},
 
       # tools
       ## linting
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       ## type checking
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
 
       # testing
+      {:floki, ">= 0.30.0", only: :test}
     ]
   end
 
