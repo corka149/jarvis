@@ -15,6 +15,7 @@ import "../css/phoenix.custom.css"
 //     import socket from "./socket"
 //
 import "phoenix_html"
+import { Socket } from "phoenix"
 import LiveSocket from "phoenix_live_view"
 
 
@@ -34,7 +35,7 @@ window.liveSocket = liveSocket
 
 
 // source: https://purecss.io/layouts/side-menu/
-window["initMenu"] = function (window, document) {
+var initMenu = function (window, document) {
     function getElements() {
         return {
             layout: document.getElementById('layout'),

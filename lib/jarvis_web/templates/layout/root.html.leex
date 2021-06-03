@@ -5,20 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "Jarvis", suffix: " · Phoenix Framework" %>
+    <%= live_title_tag assigns[:page_title] || "Jarvis", suffix: " · May I help you" %>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
-    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <header>
-      <section class="container">
-        <nav role="navigation">
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
-    </header>
-    <%= @inner_content %>
+    <div id="layout">
+      <!-- MENU -->
+      <%= render "menu.html", assigns %>
+      <div id="main">
+        <div class="header">
+          <h1>
+            <a href="/" class="brand-logo">
+              <img class="pure-img" src="<%= Routes.static_path(@conn, "/images/logo_jarvis.svg") %>" alt="jARVIS">
+            </a>
+          </h1>
+          <h2><%= gettext "Your friendly assistent" %></h2>
+        </div>
+        <div class="content">
+          <p class="alert alert-info center-align" role="alert"><%= get_flash(@conn, :info) %></p>
+          <p class="alert alert-danger center-align" role="alert"><%= get_flash(@conn, :error) %></p>
+          <%= @inner_content %>
+        </div>
+      </div>
+    </div>
+    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>">
+      initMenu(this, this.document);
+    </script>
   </body>
 </html>
