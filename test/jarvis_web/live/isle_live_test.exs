@@ -10,9 +10,7 @@ defmodule JarvisWeb.IsleLiveTest do
   @update_attrs %{name: "some updated name", belongs_to: nil}
   @invalid_attrs %{name: nil, belongs_to: nil}
 
-  defp fixture(:isle) do
-    user_group = gen_test_data(:user_group)
-
+  defp fixture(:isle, user_group) do
     {:ok, isle} = AnimalXing.create_isle(@create_attrs, user_group)
     isle
   end
@@ -22,29 +20,22 @@ defmodule JarvisWeb.IsleLiveTest do
   end
 
   defp create_isle(_) do
-    isle = fixture(:isle)
-    %{isle: isle}
-  end
-
-  defp create_group(_) do
     group = fixture(:user_group)
-    %{user_group: group}
+    isle = fixture(:isle, group)
+    %{isle: isle, user_group: group}
   end
 
-  setup %{conn: conn} do
-    user = gen_test_data(:user)
-
-    conn =
-      conn
-      |> Phoenix.ConnTest.init_test_session(user_id: user.id)
-
-    {:ok, conn: conn}
+  defp authorize(conn, group) do
+    conn
+    |> Phoenix.ConnTest.init_test_session(user_id: group.user.id)
   end
 
   describe "Index" do
-    setup [:create_isle, :create_group]
+    setup [:create_isle]
 
-    test "lists all isles", %{conn: conn, isle: isle} do
+    test "lists all isles", %{conn: conn, isle: isle, user_group: group} do
+      conn = authorize(conn, group)
+
       {:ok, _index_live, html} = live(conn, Routes.isle_index_path(conn, :index))
 
       assert html =~ "Listing Isles"
@@ -52,9 +43,7 @@ defmodule JarvisWeb.IsleLiveTest do
     end
 
     test "saves new isle", %{conn: conn, user_group: group} do
-      conn =
-        conn
-        |> Phoenix.ConnTest.init_test_session(user_id: group.user.id)
+      conn = authorize(conn, group)
 
       {:ok, index_live, _html} = live(conn, Routes.isle_index_path(conn, :index))
 
@@ -77,7 +66,9 @@ defmodule JarvisWeb.IsleLiveTest do
       assert html =~ "some name"
     end
 
-    test "updates isle in listing", %{conn: conn, isle: isle} do
+    test "updates isle in listing", %{conn: conn, isle: isle, user_group: group} do
+      conn = authorize(conn, group)
+
       {:ok, index_live, _html} = live(conn, Routes.isle_index_path(conn, :index))
 
       assert index_live |> element("#isle-#{isle.id} a", "create") |> render_click() =~
@@ -86,12 +77,12 @@ defmodule JarvisWeb.IsleLiveTest do
       assert_patch(index_live, Routes.isle_index_path(conn, :edit, isle))
 
       assert index_live
-             |> form("#isle-form", isle: @invalid_attrs)
+             |> form("#isle-form", isle: %{@invalid_attrs | belongs_to: group.id})
              |> render_change() =~ "can&#39;t be blank"
 
       {:ok, _, html} =
         index_live
-        |> form("#isle-form", isle: @update_attrs)
+        |> form("#isle-form", isle: %{@update_attrs | belongs_to: group.id})
         |> render_submit()
         |> follow_redirect(conn, Routes.isle_index_path(conn, :index))
 
@@ -99,7 +90,9 @@ defmodule JarvisWeb.IsleLiveTest do
       assert html =~ "some updated name"
     end
 
-    test "deletes isle in listing", %{conn: conn, isle: isle} do
+    test "deletes isle in listing", %{conn: conn, isle: isle, user_group: group} do
+      conn = authorize(conn, group)
+
       {:ok, index_live, _html} = live(conn, Routes.isle_index_path(conn, :index))
 
       assert index_live |> element("#isle-#{isle.id} a", "delete") |> render_click()

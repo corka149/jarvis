@@ -1,5 +1,4 @@
 <h1>Show Isle</h1>
-
 <%= if @live_action in [:edit] do %>
   <%= live_modal JarvisWeb.IsleLive.FormComponent,
     id: @isle.id,
@@ -8,15 +7,15 @@
     isle: @isle,
     return_to: Routes.isle_show_path(@socket, :show, @isle) %>
 <% end %>
-
 <ul>
-
   <li>
     <strong>Name:</strong>
     <%= @isle.name %>
   </li>
-
+  <li>
+    <strong>Group:</strong>
+    <%= @isle.user_group.name %>
+  </li>
 </ul>
-
-<span><%= live_patch "Edit", to: Routes.isle_show_path(@socket, :edit, @isle), class: "button" %></span>
-<span><%= live_redirect "Back", to: Routes.isle_index_path(@socket, :index) %></span>
+<span><%= edit_button Routes.isle_show_path(@socket, :edit, @isle) %></span>
+<span><%= back_button Routes.isle_index_path(@socket, :index) %></span>

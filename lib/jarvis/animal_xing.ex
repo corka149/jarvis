@@ -131,7 +131,7 @@ defmodule Jarvis.AnimalXing do
       ** (Ecto.NoResultsError)
 
   """
-  def get_isle!(id), do: Repo.get!(Isle, id)
+  def get_isle!(id), do: Repo.get!(Isle, id) |> Repo.preload(:user_group)
 
   @doc """
   Creates a isle.
