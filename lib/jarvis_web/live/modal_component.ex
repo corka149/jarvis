@@ -12,7 +12,7 @@ defmodule JarvisWeb.ModalComponent do
       phx-page-loading>
 
       <div class="phx-modal-content">
-        <%= back_button @return_to %>
+        <%= cancel_button @return_to %>
         <%= live_component @socket, @component, @opts %>
       </div>
     </div>

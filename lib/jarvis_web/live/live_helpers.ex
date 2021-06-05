@@ -24,13 +24,13 @@ defmodule JarvisWeb.LiveHelpers do
   end
 
   @doc """
-  Creates a back button that goes back in history.
+  Creates a cancel button that closes the current live modal.
   """
-  def back_button(route) do
+  def cancel_button(route) do
     live_patch(
-      HTML.raw("<i class='material-icons'>arrow_back</i>"),
+      HTML.raw("<i class='material-icons'>cancel</i>"),
       to: route,
-      class: "pure-button secondary-button icon-button"
+      class: "pure-button icon-button"
     )
   end
 
