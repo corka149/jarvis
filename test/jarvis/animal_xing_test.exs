@@ -100,7 +100,12 @@ defmodule Jarvis.AnimalXingTest do
 
     test "get_isle!/1 returns the isle with given id" do
       isle = isle_fixture()
-      assert AnimalXing.get_isle!(isle.id) == isle
+      isle = Map.delete(isle, :user_group)
+
+      isle_from_db = AnimalXing.get_isle!(isle.id)
+      isle_from_db = Map.delete(isle_from_db, :user_group)
+
+      assert isle_from_db == isle
     end
 
     test "create_isle/1 with valid data creates a isle" do
@@ -124,8 +129,14 @@ defmodule Jarvis.AnimalXingTest do
 
     test "update_isle/2 with invalid data returns error changeset" do
       isle = isle_fixture()
+      isle = Map.delete(isle, :user_group)
+
       assert {:error, %Ecto.Changeset{}} = AnimalXing.update_isle(isle, @invalid_attrs)
-      assert isle == AnimalXing.get_isle!(isle.id)
+
+      isle_from_db = AnimalXing.get_isle!(isle.id)
+      isle_from_db = Map.delete(isle_from_db, :user_group)
+
+      assert isle == isle_from_db
     end
 
     test "delete_isle/1 deletes the isle" do

@@ -109,27 +109,5 @@ defmodule JarvisWeb.IsleLiveTest do
       assert html =~ "Show Isle"
       assert html =~ isle.name
     end
-
-    test "updates isle within modal", %{conn: conn, isle: isle} do
-      {:ok, show_live, _html} = live(conn, Routes.isle_show_path(conn, :show, isle))
-
-      assert show_live |> element("a", "create") |> render_click() =~
-               "Edit Isle"
-
-      assert_patch(show_live, Routes.isle_show_path(conn, :edit, isle))
-
-      assert show_live
-             |> form("#isle-form", isle: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      {:ok, _, html} =
-        show_live
-        |> form("#isle-form", isle: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.isle_show_path(conn, :show, isle))
-
-      assert html =~ "Isle updated successfully"
-      assert html =~ "some updated name"
-    end
   end
 end
