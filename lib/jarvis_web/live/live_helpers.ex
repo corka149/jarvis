@@ -3,6 +3,10 @@ defmodule JarvisWeb.LiveHelpers do
   import Phoenix.LiveView.Helpers
   import JarvisWeb.Gettext
 
+  @moduledoc """
+  Predefined collection of html elements for live views.
+  """
+
   @doc """
   Renders a component inside the `JarvisWeb.ModalComponent` component.
 

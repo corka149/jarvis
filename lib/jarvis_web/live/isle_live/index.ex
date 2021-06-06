@@ -7,6 +7,10 @@ defmodule JarvisWeb.IsleLive.Index do
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
+  @moduledoc """
+  Live view for listing isles.
+  """
+
   @impl true
   def mount(_params, session, socket) do
     {:ok,
@@ -56,7 +60,7 @@ defmodule JarvisWeb.IsleLive.Index do
     assign(socket, :user, session |> Map.get("user_id") |> Accounts.get_user!())
   end
 
-  defp list_isles() do
+  defp list_isles do
     AnimalXing.list_isles()
   end
 end

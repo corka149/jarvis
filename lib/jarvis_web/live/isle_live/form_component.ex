@@ -1,10 +1,14 @@
 defmodule JarvisWeb.IsleLive.FormComponent do
   use JarvisWeb, :live_component
 
-  alias Jarvis.AnimalXing
   alias Jarvis.Accounts
+  alias Jarvis.AnimalXing
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
+
+  @moduledoc """
+  Live view for editing or creating isles.
+  """
 
   @impl true
   def update(%{isle: isle} = assigns, socket) do

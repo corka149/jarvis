@@ -3,6 +3,10 @@ defmodule JarvisWeb.IsleLive.Show do
 
   alias Jarvis.AnimalXing
 
+  @moduledoc """
+  Live view for showing a single isle.
+  """
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}

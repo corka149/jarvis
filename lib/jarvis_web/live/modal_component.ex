@@ -1,6 +1,10 @@
 defmodule JarvisWeb.ModalComponent do
   use JarvisWeb, :live_component
 
+  @moduledoc """
+  Modal component for live views.
+  """
+
   @impl true
   def render(assigns) do
     ~L"""
