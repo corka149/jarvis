@@ -1,0 +1,35 @@
+<h1>Listing Artworks</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal JarvisWeb.ArtworkLive.FormComponent,
+    id: @artwork.id || :new,
+    title: @page_title,
+    action: @live_action,
+    artwork: @artwork,
+    return_to: Routes.artwork_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="artworks">
+    <%= for artwork <- @artworks do %>
+      <tr id="artwork-<%= artwork.id %>">
+        <td><%= artwork.name %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.artwork_show_path(@socket, :show, artwork) %></span>
+          <span><%= live_patch "Edit", to: Routes.artwork_index_path(@socket, :edit, artwork) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: artwork.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Artwork", to: Routes.artwork_index_path(@socket, :new) %></span>

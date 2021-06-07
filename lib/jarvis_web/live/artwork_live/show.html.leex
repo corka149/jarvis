@@ -1,0 +1,22 @@
+<h1>Show Artwork</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal JarvisWeb.ArtworkLive.FormComponent,
+    id: @artwork.id,
+    title: @page_title,
+    action: @live_action,
+    artwork: @artwork,
+    return_to: Routes.artwork_show_path(@socket, :show, @artwork) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @artwork.name %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.artwork_show_path(@socket, :edit, @artwork), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.artwork_index_path(@socket, :index) %></span>

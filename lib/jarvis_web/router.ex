@@ -62,12 +62,19 @@ defmodule JarvisWeb.Router do
   scope "/animalxing", JarvisWeb do
     pipe_through :browser
 
+    # Isles
     live "/isles", IsleLive.Index, :index
     live "/isles/new", IsleLive.Index, :new
     live "/isles/:id/edit", IsleLive.Index, :edit
-
     live "/isles/:id", IsleLive.Show, :show
-    live "/isles/:id/show/edit", IsleLive.Show, :edit
+
+    # Artworks
+    live "/artworks", ArtworkLive.Index, :index
+    live "/artworks/new", ArtworkLive.Index, :new
+    live "/artworks/:id/edit", ArtworkLive.Index, :edit
+
+    live "/artworks/:id", ArtworkLive.Show, :show
+    live "/artworks/:id/show/edit", ArtworkLive.Show, :edit
   end
 
   # ### ### ### ### ### #

@@ -36,7 +36,7 @@
           <%= link gettext("Isles"), to: Routes.isle_index_path(@conn, :index), class: "pure-menu-link" %>
         </li>
         <li class="pure-menu-item">
-          <%= link gettext("Art"), to: Routes.isle_index_path(@conn, :index), class: "pure-menu-link" %>
+          <%= link gettext("Artwork"), to: Routes.artwork_index_path(@conn, :index), class: "pure-menu-link" %>
         </li>
         <!-- OTHER -->
         <li class="pure-menu-item menu-item-divided">
