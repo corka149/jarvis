@@ -7,7 +7,7 @@
   <%= dgettext "accounts", "Users can gain access to groups through invitations." %>
 </div>
 <!-- Buttons -->
-<div >
+<div class="button-bar">
   <%= link dgettext("accounts", "Invite someone"),
       to: Routes.invitation_path(@conn, :new),
       class: "pure-button primary-button"

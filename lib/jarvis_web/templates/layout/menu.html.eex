@@ -28,6 +28,16 @@
         <li class="pure-menu-item">
           <%= link gettext("Membership"), to: Routes.invitation_path(@conn, :index), class: "pure-menu-link" %>
         </li>
+        <!-- ANIMALXING -->
+        <li class="pure-menu-item menu-item-divided menu-item-header">
+          <%= gettext("Animalxing") %>
+        </li>
+        <li class="pure-menu-item">
+          <%= link gettext("Isles"), to: Routes.isle_index_path(@conn, :index), class: "pure-menu-link" %>
+        </li>
+        <li class="pure-menu-item">
+          <%= link gettext("Art"), to: Routes.isle_index_path(@conn, :index), class: "pure-menu-link" %>
+        </li>
         <!-- OTHER -->
         <li class="pure-menu-item menu-item-divided">
           <%= link gettext("User"), to: Routes.user_path(@conn, :show), class: "pure-menu-link" %>
