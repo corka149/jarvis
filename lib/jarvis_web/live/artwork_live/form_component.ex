@@ -25,6 +25,8 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  # ===== PRIVATE =====
+
   def handle_event("save", %{"artwork" => artwork_params}, socket) do
     save_artwork(socket, socket.assigns.action, artwork_params)
   end

@@ -1,14 +1,15 @@
 defmodule JarvisWeb.ArtworkLive.Index do
   use JarvisWeb, :live_view
 
+  alias Jarvis.Accounts
   alias Jarvis.AnimalXing
   alias Jarvis.AnimalXing.Artwork
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :artworks, list_artworks())}
+  def mount(_params, session, socket) do
+    {:ok, socket |> assign_artworks |> assign_user(session)}
   end
 
   @impl true
@@ -40,6 +41,16 @@ defmodule JarvisWeb.ArtworkLive.Index do
     {:ok, _} = AnimalXing.delete_artwork(artwork)
 
     {:noreply, assign(socket, :artworks, list_artworks())}
+  end
+
+  # ===== PRIVATE =====
+
+  defp assign_artworks(socket) do
+    assign(socket, :artworks, list_artworks())
+  end
+
+  defp assign_user(socket, session) do
+    assign(socket, :user, session |> Map.get("user_id") |> Accounts.get_user!())
   end
 
   defp list_artworks do
