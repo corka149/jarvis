@@ -1,5 +1,14 @@
-<h1>Listing Artworks</h1>
+<div>
+  <h2 class="content-subhead">
+    <%= dgettext "animalxing", "All artworks" %>
+  </h2>
+</div>
+<!-- Buttons -->
+<div class="button-bar">
+  <%= add_button Routes.artwork_index_path(@socket, :new) %>
+</div>
 
+<!-- Form -->
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal JarvisWeb.ArtworkLive.FormComponent,
     id: @artwork.id || :new,
@@ -9,27 +18,26 @@
     return_to: Routes.artwork_index_path(@socket, :index) %>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="artworks">
-    <%= for artwork <- @artworks do %>
-      <tr id="artwork-<%= artwork.id %>">
-        <td><%= artwork.name %></td>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.artwork_show_path(@socket, :show, artwork) %></span>
-          <span><%= live_patch "Edit", to: Routes.artwork_index_path(@socket, :edit, artwork) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: artwork.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
+<!-- Data table -->
+<div>
+  <table class="pure-table">
+    <thead>
+      <tr>
+        <th><%= dgettext "animalxing", "Name" %></th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<span><%= live_patch "New Artwork", to: Routes.artwork_index_path(@socket, :new) %></span>
+    </thead>
+    <tbody id="artworks">
+      <%= for artwork <- @artworks do %>
+        <tr id="artwork-<%= artwork.id %>">
+          <td><%= artwork.name %></td>
+          <td>
+            <span><%= show_button Routes.artwork_show_path(@socket, :show, artwork) %></span>
+            <span><%= edit_button Routes.artwork_index_path(@socket, :edit, artwork) %></span>
+            <span><%= delete_button artwork.id %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
