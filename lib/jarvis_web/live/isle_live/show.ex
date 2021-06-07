@@ -3,6 +3,8 @@ defmodule JarvisWeb.IsleLive.Show do
 
   alias Jarvis.AnimalXing
 
+  import JarvisWeb.Gettext, only: [dgettext: 2]
+
   @moduledoc """
   Live view for showing a single isle.
   """
@@ -20,6 +22,5 @@ defmodule JarvisWeb.IsleLive.Show do
      |> assign(:isle, AnimalXing.get_isle!(id))}
   end
 
-  defp page_title(:show), do: "Show Isle"
-  defp page_title(:edit), do: "Edit Isle"
+  defp page_title(:show), do: dgettext("animalxing", "Show Isle")
 end

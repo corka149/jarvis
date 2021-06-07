@@ -3,6 +3,8 @@ defmodule JarvisWeb.ArtworkLive.Show do
 
   alias Jarvis.AnimalXing
 
+  import JarvisWeb.Gettext, only: [dgettext: 2]
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -16,6 +18,6 @@ defmodule JarvisWeb.ArtworkLive.Show do
      |> assign(:artwork, AnimalXing.get_artwork!(id))}
   end
 
-  defp page_title(:show), do: "Show Artwork"
-  defp page_title(:edit), do: "Edit Artwork"
+  defp page_title(:show), do: dgettext("animalxing", "Show Artwork")
+  defp page_title(:edit), do: dgettext("animalxing", "Edit Artwork")
 end

@@ -3,6 +3,8 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
 
   alias Jarvis.AnimalXing
 
+  import JarvisWeb.Gettext, only: [dgettext: 2]
+
   @impl true
   def update(%{artwork: artwork} = assigns, socket) do
     changeset = AnimalXing.change_artwork(artwork)
@@ -32,7 +34,7 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
       {:ok, _artwork} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Artwork updated successfully")
+         |> put_flash(:info, dgettext("animalxing", "Artwork updated successfully"))
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -45,7 +47,7 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
       {:ok, _artwork} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Artwork created successfully")
+         |> put_flash(:info, dgettext("animalxing", "Artwork created successfully"))
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

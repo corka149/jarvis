@@ -4,6 +4,8 @@ defmodule JarvisWeb.ArtworkLive.Index do
   alias Jarvis.AnimalXing
   alias Jarvis.AnimalXing.Artwork
 
+  import JarvisWeb.Gettext, only: [dgettext: 2]
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, assign(socket, :artworks, list_artworks())}
@@ -16,19 +18,19 @@ defmodule JarvisWeb.ArtworkLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Artwork")
+    |> assign(:page_title, dgettext("animalxing", "Edit Artwork"))
     |> assign(:artwork, AnimalXing.get_artwork!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Artwork")
+    |> assign(:page_title, dgettext("animalxing", "New Artwork"))
     |> assign(:artwork, %Artwork{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Artworks")
+    |> assign(:page_title, dgettext("animalxing", "Listing Artworks"))
     |> assign(:artwork, nil)
   end
 
