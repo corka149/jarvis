@@ -1,5 +1,5 @@
 # BUILD
-FROM elixir:1.11 AS build
+FROM elixir:1.12 AS build
 
 COPY . .
 RUN mix do local.hex --force, local.rebar --force
@@ -13,7 +13,7 @@ RUN mkdir /jarvis && \
   cp -r _build/prod/rel/jarvis /jarvis
 
 # RUNTIME
-FROM elixir:1.11-slim
+FROM elixir:1.12-slim
 LABEL maintainer="corka149 <corka149@mailbox.org>"
 
 COPY --from=build /jarvis .
