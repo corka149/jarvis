@@ -35,7 +35,7 @@ defmodule Jarvis.AnimalXing do
       ** (Ecto.NoResultsError)
 
   """
-  def get_artwork!(id), do: Repo.get!(Artwork, id)
+  def get_artwork!(id), do: Repo.get!(Artwork, id) |> Repo.preload(:isle)
 
   @doc """
   Creates a artwork.

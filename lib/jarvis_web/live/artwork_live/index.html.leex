@@ -7,7 +7,6 @@
 <div class="button-bar">
   <%= add_button Routes.artwork_index_path(@socket, :new) %>
 </div>
-
 <!-- Form -->
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal JarvisWeb.ArtworkLive.FormComponent,
@@ -15,9 +14,9 @@
     title: @page_title,
     action: @live_action,
     artwork: @artwork,
+    user: @user,
     return_to: Routes.artwork_index_path(@socket, :index) %>
 <% end %>
-
 <!-- Data table -->
 <div>
   <table class="pure-table">
