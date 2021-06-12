@@ -18,7 +18,7 @@ defmodule JarvisWeb.IsleLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign(:changeset, changeset)
-     |> assign(:user_groups, group_names_with_ids(assigns.user))}
+     |> assign_isles(assigns.user)}
   end
 
   @impl true
@@ -34,6 +34,8 @@ defmodule JarvisWeb.IsleLive.FormComponent do
   def handle_event("save", %{"isle" => isle_params}, socket) do
     save_isle(socket, socket.assigns.action, isle_params)
   end
+
+  # ===== PRIVATE =====
 
   defp save_isle(socket, :edit, isle_params) do
     case AnimalXing.update_isle(socket.assigns.isle, isle_params) do
@@ -66,7 +68,9 @@ defmodule JarvisWeb.IsleLive.FormComponent do
     end
   end
 
-  # ===== PRIVATE =====
+  defp assign_isles(socket, user) do
+    socket |> assign(:user_groups, group_names_with_ids(user))
+  end
 
   defp group_names_with_ids(%Accounts.User{} = user) do
     Accounts.list_usergroups_by_membership_or_owner(user)
