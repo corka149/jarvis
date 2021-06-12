@@ -114,7 +114,7 @@ defmodule JarvisWeb.ArtworkLiveTest do
     test "displays artwork", %{conn: conn, artwork: artwork} do
       {:ok, _show_live, html} = live(conn, Routes.artwork_show_path(conn, :show, artwork))
 
-      assert html =~ "Show Artwork"
+      assert html =~ "Show artwork"
       assert html =~ artwork.name
     end
 

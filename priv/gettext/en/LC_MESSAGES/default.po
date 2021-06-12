@@ -100,7 +100,7 @@ msgstr ""
 msgid "Isles"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:39
 msgid "Artworks"
 msgstr ""

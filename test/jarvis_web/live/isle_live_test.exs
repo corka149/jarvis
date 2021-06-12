@@ -106,7 +106,7 @@ defmodule JarvisWeb.IsleLiveTest do
     test "displays isle", %{conn: conn, isle: isle} do
       {:ok, _show_live, html} = live(conn, Routes.isle_show_path(conn, :show, isle))
 
-      assert html =~ "Show Isle"
+      assert html =~ "Show isle"
       assert html =~ isle.name
     end
   end

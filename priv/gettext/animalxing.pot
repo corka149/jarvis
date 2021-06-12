@@ -11,16 +11,6 @@ msgid ""
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/live/artwork_live/index.html.leex:3
-msgid "All artworks"
-msgstr ""
-
-#, elixir-format
-#: lib/jarvis_web/live/isle_live/index.html.leex:3
-msgid "All isles"
-msgstr ""
-
-#, elixir-format
 #: lib/jarvis_web/live/artwork_live/form_component.ex:64
 msgid "Artwork created successfully"
 msgstr ""
@@ -97,4 +87,14 @@ msgstr ""
 #: lib/jarvis_web/live/isle_live/show.ex:25
 #: lib/jarvis_web/live/isle_live/show.html.leex:3
 msgid "Show isle"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/live/artwork_live/index.html.leex:3
+msgid "All Artworks"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/live/isle_live/index.html.leex:3
+msgid "All Isles"
 msgstr ""
