@@ -18,7 +18,7 @@ defmodule JarvisWeb.IsleLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign(:changeset, changeset)
-     |> assign_isles(assigns.user)}
+     |> assign_groups(assigns.user)}
   end
 
   @impl true
@@ -68,7 +68,7 @@ defmodule JarvisWeb.IsleLive.FormComponent do
     end
   end
 
-  defp assign_isles(socket, user) do
+  defp assign_groups(socket, user) do
     socket |> assign(:user_groups, group_names_with_ids(user))
   end
 
