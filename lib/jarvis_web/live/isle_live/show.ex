@@ -22,5 +22,5 @@ defmodule JarvisWeb.IsleLive.Show do
      |> assign(:isle, AnimalXing.get_isle!(id))}
   end
 
-  defp page_title(:show), do: dgettext("animalxing", "Show Isle")
+  defp page_title(:show), do: dgettext("animalxing", "Show isle")
 end

@@ -24,7 +24,7 @@ defmodule JarvisWeb.ArtworkLive.Show do
   end
 
   # ===== PRIVATE =====
-  defp page_title(:show), do: dgettext("animalxing", "Show Artwork")
+  defp page_title(:show), do: dgettext("animalxing", "Show artwork")
   defp page_title(:edit), do: dgettext("animalxing", "Edit Artwork")
 
   defp assign_user(socket, session) do

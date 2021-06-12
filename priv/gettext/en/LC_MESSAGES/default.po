@@ -27,18 +27,13 @@ msgid "How can I help you?"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:8
-msgid "Jarvis · May I help you"
-msgstr "jARVIS · May I help you"
-
-#, elixir-format
-#: lib/jarvis_web/templates/layout/menu.html.eex:36
+#: lib/jarvis_web/templates/layout/menu.html.eex:46
 msgid "Sign out"
 msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/templates/auth/signin.html.eex:3
-#: lib/jarvis_web/templates/layout/menu.html.eex:40
+#: lib/jarvis_web/templates/layout/menu.html.eex:50
 msgid "Sign in"
 msgstr ""
 
@@ -53,8 +48,8 @@ msgid "Shopping list"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/invitation/group_membership.html.eex:24
-#: lib/jarvis_web/views/html_helpers.ex:51
+#: lib/jarvis_web/live/live_helpers.ex:73
+#: lib/jarvis_web/templates/invitation/group_membership.html.eex:24 lib/jarvis_web/views/html_helpers.ex:51
 msgid "Are you sure?"
 msgstr ""
 
@@ -86,11 +81,26 @@ msgid "None"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/app.html.eex:26
+#: lib/jarvis_web/templates/layout/root.html.leex:25
 msgid "Your friendly assistent"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/layout/menu.html.eex:33
+#: lib/jarvis_web/templates/layout/menu.html.eex:43
 msgid "User"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/menu.html.eex:33
+msgid "Animalxing"
+msgstr ""
+
+#, elixir-format
+#: lib/jarvis_web/templates/layout/menu.html.eex:36
+msgid "Isles"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/jarvis_web/templates/layout/menu.html.eex:39
+msgid "Artworks"
 msgstr ""
