@@ -18,7 +18,7 @@ defmodule Jarvis.AnimalXing do
 
   """
   def list_artworks do
-    Repo.all(Artwork)
+    Repo.all(Artwork) |> Repo.preload(:isle)
   end
 
   @doc """
@@ -114,7 +114,7 @@ defmodule Jarvis.AnimalXing do
 
   """
   def list_isles do
-    Repo.all(Isle)
+    Repo.all(Isle) |> Repo.preload(:user_group)
   end
 
   @doc """

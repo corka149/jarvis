@@ -23,6 +23,7 @@
     <thead>
       <tr>
         <th><%= dgettext "animalxing", "Name" %></th>
+        <th><%= dgettext "animalxing", "Belongs to" %></th>
         <th></th>
       </tr>
     </thead>
@@ -30,6 +31,7 @@
       <%= for artwork <- @artworks do %>
         <tr id="artwork-<%= artwork.id %>">
           <td><%= artwork.name %></td>
+          <td><%= artwork.isle.name %></td>
           <td>
             <span><%= show_button Routes.artwork_show_path(@socket, :show, artwork) %></span>
             <span><%= edit_button Routes.artwork_index_path(@socket, :edit, artwork) %></span>

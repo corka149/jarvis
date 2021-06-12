@@ -7,7 +7,6 @@
 <div class="button-bar">
   <%= add_button Routes.isle_index_path(@socket, :new) %>
 </div>
-
 <!-- Form -->
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal JarvisWeb.IsleLive.FormComponent,
@@ -18,13 +17,13 @@
     user: @user,
     return_to: Routes.isle_index_path(@socket, :index) %>
 <% end %>
-
 <!-- Data table -->
 <div>
   <table class="pure-table">
     <thead>
       <tr>
         <th><%= dgettext "animalxing", "Name" %></th>
+        <th><%= dgettext "animalxing", "Belongs to" %></th>
         <th></th>
       </tr>
     </thead>
@@ -32,6 +31,7 @@
       <%= for isle <- @isles do %>
         <tr id="isle-<%= isle.id %>">
           <td><%= isle.name %></td>
+          <td><%= isle.user_group.name %></td>
           <td>
             <span><%= show_button Routes.isle_show_path(@socket, :show, isle) %></span>
             <span><%= edit_button Routes.isle_index_path(@socket, :edit, isle) %></span>
