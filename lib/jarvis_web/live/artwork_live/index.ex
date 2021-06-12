@@ -13,6 +13,8 @@ defmodule JarvisWeb.ArtworkLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
+    IO.inspect(session)
+
     {:ok, socket |> assign_artworks |> assign_user(session)}
   end
 
@@ -65,8 +67,8 @@ defmodule JarvisWeb.ArtworkLive.Index do
     assign(socket, :artworks, list_artworks())
   end
 
-  defp assign_user(socket, session) do
-    assign(socket, :user, session |> Map.get("user_id") |> Accounts.get_user!())
+  defp assign_user(socket, %{"user_id" => user_id}) do
+    assign(socket, :user, Accounts.get_user!(user_id))
   end
 
   defp list_artworks do

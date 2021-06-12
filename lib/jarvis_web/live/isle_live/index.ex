@@ -56,8 +56,8 @@ defmodule JarvisWeb.IsleLive.Index do
     assign(socket, :isles, list_isles())
   end
 
-  defp assign_user(socket, session) do
-    assign(socket, :user, session |> Map.get("user_id") |> Accounts.get_user!())
+  defp assign_user(socket, %{"user_id" => user_id}) do
+    assign(socket, :user, Accounts.get_user!(user_id))
   end
 
   defp list_isles do
