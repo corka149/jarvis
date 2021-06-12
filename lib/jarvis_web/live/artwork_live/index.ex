@@ -13,8 +13,6 @@ defmodule JarvisWeb.ArtworkLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
-    IO.inspect(session)
-
     {:ok, socket |> assign_artworks |> assign_user(session)}
   end
 
