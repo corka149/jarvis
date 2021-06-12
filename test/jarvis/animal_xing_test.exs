@@ -28,12 +28,21 @@ defmodule Jarvis.AnimalXingTest do
 
     test "list_artworks/0 returns all artworks" do
       artwork = artwork_fixture()
-      assert AnimalXing.list_artworks() == [artwork]
+      artwork = %{artwork | isle: nil}
+
+      artwork_from_db = AnimalXing.list_artworks() |> Enum.map(fn a -> %{a | isle: nil} end)
+
+      assert artwork_from_db == [artwork]
     end
 
     test "get_artwork!/1 returns the artwork with given id" do
       artwork = artwork_fixture()
-      assert AnimalXing.get_artwork!(artwork.id) == artwork
+      artwork = %{artwork | isle: nil}
+
+      artwork_from_db = AnimalXing.get_artwork!(artwork.id)
+      artwork_from_db = %{artwork_from_db | isle: nil}
+
+      assert artwork_from_db == artwork
     end
 
     test "create_artwork/1 with valid data creates a artwork" do
@@ -59,8 +68,14 @@ defmodule Jarvis.AnimalXingTest do
 
     test "update_artwork/2 with invalid data returns error changeset" do
       artwork = artwork_fixture()
+      artwork = %{artwork | isle: nil}
+
       assert {:error, %Ecto.Changeset{}} = AnimalXing.update_artwork(artwork, @invalid_attrs)
-      assert artwork == AnimalXing.get_artwork!(artwork.id)
+
+      artwork_from_db = AnimalXing.get_artwork!(artwork.id)
+      artwork_from_db = %{artwork_from_db | isle: nil}
+
+      assert artwork == artwork_from_db
     end
 
     test "delete_artwork/1 deletes the artwork" do
@@ -95,7 +110,11 @@ defmodule Jarvis.AnimalXingTest do
 
     test "list_isles/0 returns all isles" do
       isle = isle_fixture()
-      assert AnimalXing.list_isles() == [isle]
+      isle = %{isle | user_group: nil}
+
+      isle_from_db = AnimalXing.list_isles() |> Enum.map(fn i -> %{i | user_group: nil} end)
+
+      assert isle_from_db == [isle]
     end
 
     test "get_isle!/1 returns the isle with given id" do

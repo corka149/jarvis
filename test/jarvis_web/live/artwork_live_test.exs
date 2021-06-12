@@ -4,14 +4,41 @@ defmodule JarvisWeb.ArtworkLiveTest do
   import Phoenix.LiveViewTest
 
   alias Jarvis.AnimalXing
+  import Jarvis.TestHelper
 
-  @create_attrs %{name: "some name"}
-  @update_attrs %{name: "some updated name"}
+  @create_attrs %{
+    name: "some name"
+  }
+  @update_attrs %{
+    name: "some updated name"
+  }
   @invalid_attrs %{name: nil}
 
-  defp fixture(:artwork) do
-    {:ok, artwork} = AnimalXing.create_artwork(@create_attrs)
+  @valid_attrs_isle %{name: "some name"}
+
+  def fixture(:artwork) do
+    user_group = gen_test_data(:user_group)
+    {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+
+    {:ok, artwork} = AnimalXing.create_artwork(@create_attrs, isle)
     artwork
+  end
+
+  def fixture(:isle) do
+    user_group = gen_test_data(:user_group)
+    {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+    isle
+  end
+
+  setup %{conn: conn} do
+    isle = fixture(:isle)
+    user = gen_test_data(:user)
+
+    conn =
+      conn
+      |> Phoenix.ConnTest.init_test_session(user_id: user.id)
+
+    {:ok, conn: conn, isle: isle}
   end
 
   defp create_artwork(_) do
@@ -32,7 +59,7 @@ defmodule JarvisWeb.ArtworkLiveTest do
     test "saves new artwork", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.artwork_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Artwork") |> render_click() =~
+      assert index_live |> element("a", "add") |> render_click() =~
                "New Artwork"
 
       assert_patch(index_live, Routes.artwork_index_path(conn, :new))
@@ -54,7 +81,7 @@ defmodule JarvisWeb.ArtworkLiveTest do
     test "updates artwork in listing", %{conn: conn, artwork: artwork} do
       {:ok, index_live, _html} = live(conn, Routes.artwork_index_path(conn, :index))
 
-      assert index_live |> element("#artwork-#{artwork.id} a", "Edit") |> render_click() =~
+      assert index_live |> element("#artwork-#{artwork.id} a", "create") |> render_click() =~
                "Edit Artwork"
 
       assert_patch(index_live, Routes.artwork_index_path(conn, :edit, artwork))
@@ -76,7 +103,7 @@ defmodule JarvisWeb.ArtworkLiveTest do
     test "deletes artwork in listing", %{conn: conn, artwork: artwork} do
       {:ok, index_live, _html} = live(conn, Routes.artwork_index_path(conn, :index))
 
-      assert index_live |> element("#artwork-#{artwork.id} a", "Delete") |> render_click()
+      assert index_live |> element("#artwork-#{artwork.id} a", "delete") |> render_click()
       refute has_element?(index_live, "#artwork-#{artwork.id}")
     end
   end
@@ -94,7 +121,7 @@ defmodule JarvisWeb.ArtworkLiveTest do
     test "updates artwork within modal", %{conn: conn, artwork: artwork} do
       {:ok, show_live, _html} = live(conn, Routes.artwork_show_path(conn, :show, artwork))
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
+      assert show_live |> element("a", "create") |> render_click() =~
                "Edit Artwork"
 
       assert_patch(show_live, Routes.artwork_show_path(conn, :edit, artwork))
