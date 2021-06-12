@@ -1,4 +1,8 @@
 defmodule JarvisWeb.ArtworkLive.Show do
+  @moduledoc """
+  Live view for showing an artwork.
+  """
+
   use JarvisWeb, :live_view
 
   alias Jarvis.Accounts

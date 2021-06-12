@@ -1,4 +1,8 @@
 defmodule JarvisWeb.ArtworkLive.Index do
+  @moduledoc """
+  Live view for listing artworks.
+  """
+
   use JarvisWeb, :live_view
 
   alias Jarvis.Accounts

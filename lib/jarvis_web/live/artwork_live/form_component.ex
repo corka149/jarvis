@@ -1,4 +1,8 @@
 defmodule JarvisWeb.ArtworkLive.FormComponent do
+  @moduledoc """
+  Live view for artwork form component.
+  """
+
   use JarvisWeb, :live_component
 
   alias Jarvis.Accounts
