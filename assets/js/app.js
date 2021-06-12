@@ -35,7 +35,7 @@ window.liveSocket = liveSocket
 
 
 // source: https://purecss.io/layouts/side-menu/
-var initMenu = function (window, document) {
+window.initMenu = function (window, document) {
     function getElements() {
         return {
             layout: document.getElementById('layout'),

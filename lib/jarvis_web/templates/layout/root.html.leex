@@ -31,7 +31,8 @@
         </div>
       </div>
     </div>
-    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>">
+    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <script>
       initMenu(this, this.document);
     </script>
   </body>
