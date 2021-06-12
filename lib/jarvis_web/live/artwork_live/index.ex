@@ -18,8 +18,30 @@ defmodule JarvisWeb.ArtworkLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
+    :ok = Phoenix.PubSub.subscribe(Jarvis.PubSub, "artworks")
+
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
+
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    artwork = AnimalXing.get_artwork!(id)
+    {:ok, _} = AnimalXing.delete_artwork(artwork)
+
+    :ok = broadcast_change()
+
+    {:noreply, assign(socket, :artworks, list_artworks())}
+  end
+
+  @impl true
+  def handle_info(message, socket) do
+    case message do
+      :artworks_changed -> {:noreply, socket |> assign_artworks}
+      _ -> {:noreply, socket}
+    end
+  end
+
+  # ===== PRIVATE =====
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
@@ -39,16 +61,6 @@ defmodule JarvisWeb.ArtworkLive.Index do
     |> assign(:artwork, nil)
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    artwork = AnimalXing.get_artwork!(id)
-    {:ok, _} = AnimalXing.delete_artwork(artwork)
-
-    {:noreply, assign(socket, :artworks, list_artworks())}
-  end
-
-  # ===== PRIVATE =====
-
   defp assign_artworks(socket) do
     assign(socket, :artworks, list_artworks())
   end
@@ -59,5 +71,9 @@ defmodule JarvisWeb.ArtworkLive.Index do
 
   defp list_artworks do
     AnimalXing.list_artworks()
+  end
+
+  defp broadcast_change do
+    Phoenix.PubSub.broadcast(Jarvis.PubSub, "artworks", :artworks_changed)
   end
 end

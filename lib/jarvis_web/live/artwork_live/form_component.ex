@@ -31,15 +31,17 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  # ===== PRIVATE =====
-
   def handle_event("save", %{"artwork" => artwork_params}, socket) do
     save_artwork(socket, socket.assigns.action, artwork_params)
   end
 
+  # ===== PRIVATE =====
+
   defp save_artwork(socket, :edit, artwork_params) do
     case AnimalXing.update_artwork(socket.assigns.artwork, artwork_params) do
       {:ok, _artwork} ->
+        :ok = broadcast_change()
+
         {:noreply,
          socket
          |> put_flash(:info, dgettext("animalxing", "Artwork updated successfully"))
@@ -55,6 +57,8 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
 
     case AnimalXing.create_artwork(artwork_params, isle) do
       {:ok, _artwork} ->
+        :ok = broadcast_change()
+
         {:noreply,
          socket
          |> put_flash(:info, dgettext("animalxing", "Artwork created successfully"))
@@ -72,5 +76,9 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
   defp isle_names_with_ids(%Accounts.User{} = _user) do
     AnimalXing.list_isles()
     |> Enum.map(&{&1.name, &1.id})
+  end
+
+  defp broadcast_change do
+    Phoenix.PubSub.broadcast(Jarvis.PubSub, "artworks", :artworks_changed)
   end
 end
