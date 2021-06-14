@@ -10,8 +10,8 @@ defmodule JarvisWeb.IsleLive.Show do
   """
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(_params, session, socket) do
+    {:ok, socket |> assign_user(session)}
   end
 
   @impl true
@@ -23,4 +23,14 @@ defmodule JarvisWeb.IsleLive.Show do
   end
 
   defp page_title(:show), do: dgettext("animalxing", "Show isle")
+
+  # user_id is available but user is not needed here
+  defp assign_user(socket, %{"user_id" => _user_id}) do
+    socket
+  end
+
+  # No user there - not authenticated
+  defp assign_user(socket, _) do
+    redirect(socket, to: Routes.auth_path(socket, :signin))
+  end
 end

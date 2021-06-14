@@ -30,4 +30,9 @@ defmodule JarvisWeb.ArtworkLive.Show do
   defp assign_user(socket, %{"user_id" => user_id}) do
     assign(socket, :user, Accounts.get_user!(user_id))
   end
+
+  # No user there - not authenticated
+  defp assign_user(socket, _) do
+    redirect(socket, to: Routes.auth_path(socket, :signin))
+  end
 end
