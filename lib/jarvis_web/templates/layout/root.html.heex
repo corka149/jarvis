@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
-    <link rel="manifest" href="<%= Routes.static_path(@conn, "/manifest.json") %>"/>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/css/app.css")}/>
+    <link rel="manifest" href={Routes.static_path(@conn, "/manifest.json")}/>
   </head>
   <body>
     <div id="layout">
@@ -20,7 +20,7 @@
         <div class="header">
           <h1>
             <a href="/" class="brand-logo">
-              <img class="pure-img" src="<%= Routes.static_path(@conn, "/images/logo_jarvis.svg") %>" alt="jARVIS">
+              <img class="pure-img" src={Routes.static_path(@conn, "/images/logo_jarvis.svg")} alt="jARVIS">
             </a>
           </h1>
           <h2><%= gettext "Your friendly assistent" %></h2>
@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <script type="text/javascript" src={Routes.static_path(@conn, "/js/app.js")}></script>
     <script>
       initMenu(this, this.document);
     </script>
