@@ -7,7 +7,7 @@ RUN mix do local.hex --force, local.rebar --force
 ENV MIX_ENV=prod
 RUN mix deps.get && \
   mix release && \
-  mix phx.digest
+  mix assets.deploy
 
 RUN mkdir /jarvis && \
   cp -r _build/prod/rel/jarvis /jarvis

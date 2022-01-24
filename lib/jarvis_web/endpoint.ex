@@ -21,7 +21,7 @@ defmodule JarvisWeb.Endpoint do
     at: "/",
     from: :jarvis,
     gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt manifest.json)
+    only: ~w(assets fonts images favicon.ico robots.txt manifest.json)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

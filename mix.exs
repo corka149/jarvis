@@ -4,7 +4,7 @@ defmodule Jarvis.MixProject do
   def project do
     [
       app: :jarvis,
-      version: "4.2.4",
+      version: "4.2.5",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -56,6 +56,7 @@ defmodule Jarvis.MixProject do
       {:argon2_elixir, "~> 2.4"},
       {:uuid, "~> 1.1"},
       {:phoenix_live_view, "~> 0.17.5"},
+      {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
 
       # tools
       ## linting
@@ -76,7 +77,7 @@ defmodule Jarvis.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
+      "assets.deploy": ["esbuild default --minify", "phx.digest"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
