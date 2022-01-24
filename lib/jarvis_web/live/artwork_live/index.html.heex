@@ -29,7 +29,7 @@
     </thead>
     <tbody id="artworks">
       <%= for artwork <- @artworks do %>
-        <tr id={"artwork-" + artwork.id}>
+        <tr id={"artwork-#{artwork.id}"}>
           <td><%= artwork.name %></td>
           <td><%= artwork.isle.name %></td>
           <td>

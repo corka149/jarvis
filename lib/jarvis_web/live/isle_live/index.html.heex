@@ -29,7 +29,7 @@
     </thead>
     <tbody id="isles">
       <%= for isle <- @isles do %>
-        <tr id={"isle-" + isle.id}>
+        <tr id={"isle-#{isle.id}"}>
           <td><%= isle.name %></td>
           <td><%= isle.user_group.name %></td>
           <td>
