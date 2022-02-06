@@ -6,100 +6,100 @@ defmodule Jarvis.Inventory do
   import Ecto.Query, warn: false
   alias Jarvis.Repo
 
-  alias Jarvis.Inventory.Artwork
+  alias Jarvis.Inventory.Item
 
   @doc """
-  Returns the list of artworks.
+  Returns the list of items.
 
   ## Examples
 
-      iex> list_artworks()
-      [%Artwork{}, ...]
+      iex> list_items()
+      [%Item{}, ...]
 
   """
-  def list_artworks do
-    Repo.all(Artwork) |> Repo.preload(:place)
+  def list_items do
+    Repo.all(Item) |> Repo.preload(:place)
   end
 
   @doc """
-  Gets a single artwork.
+  Gets a single item.
 
-  Raises `Ecto.NoResultsError` if the Artwork does not exist.
+  Raises `Ecto.NoResultsError` if the Item does not exist.
 
   ## Examples
 
-      iex> get_artwork!(123)
-      %Artwork{}
+      iex> get_item!(123)
+      %Item{}
 
-      iex> get_artwork!(456)
+      iex> get_item!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_artwork!(id), do: Repo.get!(Artwork, id) |> Repo.preload(:place)
+  def get_item!(id), do: Repo.get!(Item, id) |> Repo.preload(:place)
 
   @doc """
-  Creates a artwork.
+  Creates a item.
 
   ## Examples
 
-      iex> create_artwork(%{field: value}, place)
-      {:ok, %Artwork{}}
+      iex> create_item(%{field: value}, place)
+      {:ok, %Item{}}
 
-      iex> create_artwork(%{field: bad_value}, place)
+      iex> create_item(%{field: bad_value}, place)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_artwork(attrs \\ %{}, place) do
-    Ecto.build_assoc(place, :artworks)
-    |> Artwork.changeset(attrs)
+  def create_item(attrs \\ %{}, place) do
+    Ecto.build_assoc(place, :items)
+    |> Item.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a artwork.
+  Updates a item.
 
   ## Examples
 
-      iex> update_artwork(artwork, %{field: new_value})
-      {:ok, %Artwork{}}
+      iex> update_item(item, %{field: new_value})
+      {:ok, %Item{}}
 
-      iex> update_artwork(artwork, %{field: bad_value})
+      iex> update_item(item, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_artwork(%Artwork{} = artwork, attrs) do
-    artwork
-    |> Artwork.changeset(attrs)
+  def update_item(%Item{} = item, attrs) do
+    item
+    |> Item.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a artwork.
+  Deletes a item.
 
   ## Examples
 
-      iex> delete_artwork(artwork)
-      {:ok, %Artwork{}}
+      iex> delete_item(item)
+      {:ok, %Item{}}
 
-      iex> delete_artwork(artwork)
+      iex> delete_item(item)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_artwork(%Artwork{} = artwork) do
-    Repo.delete(artwork)
+  def delete_item(%Item{} = item) do
+    Repo.delete(item)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking artwork changes.
+  Returns an `%Ecto.Changeset{}` for tracking item changes.
 
   ## Examples
 
-      iex> change_artwork(artwork)
-      %Ecto.Changeset{data: %Artwork{}}
+      iex> change_item(item)
+      %Ecto.Changeset{data: %Item{}}
 
   """
-  def change_artwork(%Artwork{} = artwork, attrs \\ %{}) do
-    Artwork.changeset(artwork, attrs)
+  def change_item(%Item{} = item, attrs \\ %{}) do
+    Item.changeset(item, attrs)
   end
 
   alias Jarvis.Inventory.Place

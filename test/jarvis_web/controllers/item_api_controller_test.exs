@@ -1,8 +1,8 @@
-defmodule JarvisWeb.ArtworkApiControllerTest do
+defmodule JarvisWeb.ItemApiControllerTest do
   use JarvisWeb.ConnCase
 
   alias Jarvis.Inventory
-  alias Jarvis.Inventory.Artwork
+  alias Jarvis.Inventory.Item
   alias Jarvis.Inventory.Place
 
   import Jarvis.TestHelper
@@ -17,12 +17,12 @@ defmodule JarvisWeb.ArtworkApiControllerTest do
 
   @valid_attrs_place %{name: "some name"}
 
-  def fixture(:artwork) do
+  def fixture(:item) do
     user_group = gen_test_data(:user_group)
     {:ok, place} = Inventory.create_place(@valid_attrs_place, user_group)
 
-    {:ok, artwork} = Inventory.create_artwork(@create_attrs, place)
-    artwork
+    {:ok, item} = Inventory.create_item(@create_attrs, place)
+    item
   end
 
   def fixture(:place) do
@@ -43,26 +43,26 @@ defmodule JarvisWeb.ArtworkApiControllerTest do
     {:ok, conn: conn, place: place}
   end
 
-  defp create_artwork(_) do
-    artwork = fixture(:artwork)
-    %{artwork: artwork}
+  defp create_item(_) do
+    item = fixture(:item)
+    %{item: item}
   end
 
   # ===== TESTS =====
 
   describe "index" do
-    test "lists all artworks", %{conn: conn, place: %Place{id: place_id}} do
-      conn = get(conn, Routes.artwork_api_path(conn, :index, place_id))
+    test "lists all items", %{conn: conn, place: %Place{id: place_id}} do
+      conn = get(conn, Routes.item_api_path(conn, :index, place_id))
       assert json_response(conn, 200)["data"] == []
     end
   end
 
-  describe "create artwork" do
-    test "renders artwork when data is valid", %{conn: conn, place: %Place{id: place_id}} do
-      conn = post(conn, Routes.artwork_api_path(conn, :create, place_id), artwork: @create_attrs)
+  describe "create item" do
+    test "renders item when data is valid", %{conn: conn, place: %Place{id: place_id}} do
+      conn = post(conn, Routes.item_api_path(conn, :create, place_id), item: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, Routes.artwork_api_path(conn, :show, place_id, id))
+      conn = get(conn, Routes.item_api_path(conn, :show, place_id, id))
 
       assert %{
                "id" => _,
@@ -71,25 +71,24 @@ defmodule JarvisWeb.ArtworkApiControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, place: %Place{id: place_id}} do
-      conn = post(conn, Routes.artwork_api_path(conn, :create, place_id), artwork: @invalid_attrs)
+      conn = post(conn, Routes.item_api_path(conn, :create, place_id), item: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
-  describe "update artwork" do
-    setup [:create_artwork]
+  describe "update item" do
+    setup [:create_item]
 
-    test "renders artwork when data is valid", %{
+    test "renders item when data is valid", %{
       conn: conn,
-      artwork: %Artwork{id: id} = artwork,
+      item: %Item{id: id} = item,
       place: %Place{id: place_id}
     } do
-      conn =
-        put(conn, Routes.artwork_api_path(conn, :update, place_id, artwork), artwork: @update_attrs)
+      conn = put(conn, Routes.item_api_path(conn, :update, place_id, item), item: @update_attrs)
 
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, Routes.artwork_api_path(conn, :show, place_id, id))
+      conn = get(conn, Routes.item_api_path(conn, :show, place_id, id))
 
       assert %{
                "id" => _,
@@ -99,27 +98,24 @@ defmodule JarvisWeb.ArtworkApiControllerTest do
 
     test "renders errors when data is invalid", %{
       conn: conn,
-      artwork: artwork,
+      item: item,
       place: %Place{id: place_id}
     } do
-      conn =
-        put(conn, Routes.artwork_api_path(conn, :update, place_id, artwork),
-          artwork: @invalid_attrs
-        )
+      conn = put(conn, Routes.item_api_path(conn, :update, place_id, item), item: @invalid_attrs)
 
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
-  describe "delete artwork" do
-    setup [:create_artwork]
+  describe "delete item" do
+    setup [:create_item]
 
-    test "deletes chosen artwork", %{conn: conn, artwork: artwork, place: %Place{id: place_id}} do
-      conn = delete(conn, Routes.artwork_api_path(conn, :delete, place_id, artwork))
+    test "deletes chosen item", %{conn: conn, item: item, place: %Place{id: place_id}} do
+      conn = delete(conn, Routes.item_api_path(conn, :delete, place_id, item))
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, Routes.artwork_api_path(conn, :show, place_id, artwork))
+        get(conn, Routes.item_api_path(conn, :show, place_id, item))
       end
     end
   end

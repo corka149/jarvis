@@ -68,13 +68,13 @@ defmodule JarvisWeb.Router do
     live "/places/:id/edit", PlaceLive.Index, :edit
     live "/places/:id", PlaceLive.Show, :show
 
-    # Artworks
-    live "/artworks", ArtworkLive.Index, :index
-    live "/artworks/new", ArtworkLive.Index, :new
-    live "/artworks/:id/edit", ArtworkLive.Index, :edit
+    # Items
+    live "/items", ItemLive.Index, :index
+    live "/items/new", ItemLive.Index, :new
+    live "/items/:id/edit", ItemLive.Index, :edit
 
-    live "/artworks/:id", ArtworkLive.Show, :show
-    live "/artworks/:id/show/edit", ArtworkLive.Show, :edit
+    live "/items/:id", ItemLive.Show, :show
+    live "/items/:id/show/edit", ItemLive.Show, :edit
   end
 
   # ### ### ### ### ### #
@@ -97,6 +97,6 @@ defmodule JarvisWeb.Router do
     pipe_through :api
 
     resources "/places", PlaceApiController, except: [:new, :edit]
-    resources "/places/:belongs_to/artworks", ArtworkApiController, except: [:new, :edit]
+    resources "/places/:belongs_to/items", ItemApiController, except: [:new, :edit]
   end
 end

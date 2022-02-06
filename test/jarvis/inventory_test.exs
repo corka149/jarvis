@@ -5,8 +5,8 @@ defmodule Jarvis.InventoryTest do
 
   import Jarvis.TestHelper
 
-  describe "artworks" do
-    alias Jarvis.Inventory.Artwork
+  describe "items" do
+    alias Jarvis.Inventory.Item
 
     @valid_attrs %{name: "some name"}
     @update_attrs %{name: "some updated name"}
@@ -14,79 +14,79 @@ defmodule Jarvis.InventoryTest do
 
     @valid_attrs_place %{name: "some name"}
 
-    def artwork_fixture(attrs \\ %{}) do
+    def item_fixture(attrs \\ %{}) do
       user_group = gen_test_data(:user_group)
       {:ok, place} = Inventory.create_place(@valid_attrs_place, user_group)
 
-      {:ok, artwork} =
+      {:ok, item} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Inventory.create_artwork(place)
+        |> Inventory.create_item(place)
 
-      artwork
+      item
     end
 
-    test "list_artworks/0 returns all artworks" do
-      artwork = artwork_fixture()
-      artwork = %{artwork | place: nil}
+    test "list_items/0 returns all items" do
+      item = item_fixture()
+      item = %{item | place: nil}
 
-      artwork_from_db = Inventory.list_artworks() |> Enum.map(fn a -> %{a | place: nil} end)
+      item_from_db = Inventory.list_items() |> Enum.map(fn a -> %{a | place: nil} end)
 
-      assert artwork_from_db == [artwork]
+      assert item_from_db == [item]
     end
 
-    test "get_artwork!/1 returns the artwork with given id" do
-      artwork = artwork_fixture()
-      artwork = %{artwork | place: nil}
+    test "get_item!/1 returns the item with given id" do
+      item = item_fixture()
+      item = %{item | place: nil}
 
-      artwork_from_db = Inventory.get_artwork!(artwork.id)
-      artwork_from_db = %{artwork_from_db | place: nil}
+      item_from_db = Inventory.get_item!(item.id)
+      item_from_db = %{item_from_db | place: nil}
 
-      assert artwork_from_db == artwork
+      assert item_from_db == item
     end
 
-    test "create_artwork/1 with valid data creates a artwork" do
+    test "create_item/1 with valid data creates a item" do
       user_group = gen_test_data(:user_group)
       {:ok, place} = Inventory.create_place(@valid_attrs_place, user_group)
 
-      assert {:ok, %Artwork{} = artwork} = Inventory.create_artwork(@valid_attrs, place)
-      assert artwork.name == "some name"
+      assert {:ok, %Item{} = item} = Inventory.create_item(@valid_attrs, place)
+      assert item.name == "some name"
     end
 
-    test "create_artwork/1 with invalid data returns error changeset" do
+    test "create_item/1 with invalid data returns error changeset" do
       user_group = gen_test_data(:user_group)
       {:ok, place} = Inventory.create_place(@valid_attrs_place, user_group)
 
-      assert {:error, %Ecto.Changeset{}} = Inventory.create_artwork(@invalid_attrs, place)
+      assert {:error, %Ecto.Changeset{}} = Inventory.create_item(@invalid_attrs, place)
     end
 
-    test "update_artwork/2 with valid data updates the artwork" do
-      artwork = artwork_fixture()
-      assert {:ok, %Artwork{} = artwork} = Inventory.update_artwork(artwork, @update_attrs)
-      assert artwork.name == "some updated name"
+    test "update_item/2 with valid data updates the item" do
+      item = item_fixture()
+      assert {:ok, %Item{} = item} = Inventory.update_item(item, @update_attrs)
+      assert item.name == "some updated name"
     end
 
-    test "update_artwork/2 with invalid data returns error changeset" do
-      artwork = artwork_fixture()
-      artwork = %{artwork | place: nil}
+    test "update_item/2 with invalid data returns error changeset" do
+      item = item_fixture()
+      item = %{item | place: nil}
 
-      assert {:error, %Ecto.Changeset{}} = Inventory.update_artwork(artwork, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Inventory.update_item(item, @invalid_attrs)
 
-      artwork_from_db = Inventory.get_artwork!(artwork.id)
-      artwork_from_db = %{artwork_from_db | place: nil}
+      item_from_db = Inventory.get_item!(item.id)
+      item_from_db = %{item_from_db | place: nil}
 
-      assert artwork == artwork_from_db
+      assert item == item_from_db
     end
 
-    test "delete_artwork/1 deletes the artwork" do
-      artwork = artwork_fixture()
-      assert {:ok, %Artwork{}} = Inventory.delete_artwork(artwork)
-      assert_raise Ecto.NoResultsError, fn -> Inventory.get_artwork!(artwork.id) end
+    test "delete_item/1 deletes the item" do
+      item = item_fixture()
+      assert {:ok, %Item{}} = Inventory.delete_item(item)
+      assert_raise Ecto.NoResultsError, fn -> Inventory.get_item!(item.id) end
     end
 
-    test "change_artwork/1 returns a artwork changeset" do
-      artwork = artwork_fixture()
-      assert %Ecto.Changeset{} = Inventory.change_artwork(artwork)
+    test "change_item/1 returns a item changeset" do
+      item = item_fixture()
+      assert %Ecto.Changeset{} = Inventory.change_item(item)
     end
   end
 

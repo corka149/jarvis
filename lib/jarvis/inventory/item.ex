@@ -1,6 +1,6 @@
-defmodule Jarvis.Inventory.Artwork do
+defmodule Jarvis.Inventory.Item do
   @moduledoc """
-  Database module for the entity artwork.
+  Database module for the entity item.
   """
   use Ecto.Schema
   import Ecto.Changeset
@@ -13,8 +13,8 @@ defmodule Jarvis.Inventory.Artwork do
   end
 
   @doc false
-  def changeset(artwork, attrs) do
-    artwork
+  def changeset(item, attrs) do
+    item
     |> cast(attrs, [:name, :belongs_to])
     |> validate_required([:name, :belongs_to])
   end

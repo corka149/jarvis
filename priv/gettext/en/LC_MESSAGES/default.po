@@ -102,5 +102,5 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:39
-msgid "Artworks"
+msgid "Items"
 msgstr ""

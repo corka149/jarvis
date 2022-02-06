@@ -12,28 +12,28 @@ msgstr ""
 "Plural-Forms: nplurals=2\n"
 
 #, elixir-format
-#: lib/jarvis_web/live/artwork_live/form_component.ex:64
-msgid "Artwork created successfully"
-msgstr "Kunstwerk angelegt"
+#: lib/jarvis_web/live/item_live/form_component.ex:64
+msgid "Item created successfully"
+msgstr "Gegenstand angelegt"
 
 #, elixir-format
-#: lib/jarvis_web/live/artwork_live/form_component.ex:47
-msgid "Artwork updated successfully"
-msgstr "Kunstwerk aktualisiert"
+#: lib/jarvis_web/live/item_live/form_component.ex:47
+msgid "Item updated successfully"
+msgstr "Gegenstand aktualisiert"
 
 #, elixir-format
-#: lib/jarvis_web/live/artwork_live/form_component.html.leex:21
-#: lib/jarvis_web/live/artwork_live/index.html.leex:26 lib/jarvis_web/live/artwork_live/show.html.leex:26
+#: lib/jarvis_web/live/item_live/form_component.html.leex:21
+#: lib/jarvis_web/live/item_live/index.html.leex:26 lib/jarvis_web/live/item_live/show.html.leex:26
 #: lib/jarvis_web/live/isle_live/form_component.html.leex:23 lib/jarvis_web/live/isle_live/index.html.leex:26
 #: lib/jarvis_web/live/isle_live/show.html.leex:16
 msgid "Belongs to"
 msgstr "Gehört zu"
 
 #, elixir-format
-#: lib/jarvis_web/live/artwork_live/index.ex:48
-#: lib/jarvis_web/live/artwork_live/show.ex:28
-msgid "Edit Artwork"
-msgstr "Editiere Kunstwerk"
+#: lib/jarvis_web/live/item_live/index.ex:48
+#: lib/jarvis_web/live/item_live/show.ex:28
+msgid "Edit Item"
+msgstr "Editiere Gegenstand"
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.ex:29
@@ -51,9 +51,9 @@ msgid "Place updated successfully"
 msgstr "Platz aktualisiert"
 
 #, elixir-format
-#: lib/jarvis_web/live/artwork_live/index.ex:60
-msgid "Listing Artworks"
-msgstr "Kunstwerkübersicht"
+#: lib/jarvis_web/live/item_live/index.ex:60
+msgid "Listing Items"
+msgstr "Gegenstandsübersicht"
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.ex:41
@@ -61,17 +61,17 @@ msgid "Listing Places"
 msgstr "Platzübersicht"
 
 #, elixir-format
-#: lib/jarvis_web/live/artwork_live/form_component.html.leex:15
-#: lib/jarvis_web/live/artwork_live/index.html.leex:25 lib/jarvis_web/live/artwork_live/show.html.leex:22
+#: lib/jarvis_web/live/item_live/form_component.html.leex:15
+#: lib/jarvis_web/live/item_live/index.html.leex:25 lib/jarvis_web/live/item_live/show.html.leex:22
 #: lib/jarvis_web/live/isle_live/form_component.html.leex:17 lib/jarvis_web/live/isle_live/index.html.leex:25
 #: lib/jarvis_web/live/isle_live/show.html.leex:12
 msgid "Name"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/live/artwork_live/index.ex:54
-msgid "New Artwork"
-msgstr "Neues Kunstwerk"
+#: lib/jarvis_web/live/item_live/index.ex:54
+msgid "New Item"
+msgstr "Neuer Gegenstand"
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.ex:35
@@ -79,10 +79,10 @@ msgid "New Place"
 msgstr "Neuer Platz"
 
 #, elixir-format
-#: lib/jarvis_web/live/artwork_live/show.ex:27
-#: lib/jarvis_web/live/artwork_live/show.html.leex:3
-msgid "Show artwork"
-msgstr "Kunstwerkdetails"
+#: lib/jarvis_web/live/item_live/show.ex:27
+#: lib/jarvis_web/live/item_live/show.html.leex:3
+msgid "Show item"
+msgstr "Gegenstanddetails"
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/show.ex:25
@@ -91,9 +91,9 @@ msgid "Show place"
 msgstr "Platzdetails"
 
 #, elixir-format, fuzzy
-#: lib/jarvis_web/live/artwork_live/index.html.leex:3
-msgid "All Artworks"
-msgstr "Alle Kunstwerke"
+#: lib/jarvis_web/live/item_live/index.html.leex:3
+msgid "All Items"
+msgstr "Alle Gegenstände"
 
 #, elixir-format, fuzzy
 #: lib/jarvis_web/live/isle_live/index.html.leex:3

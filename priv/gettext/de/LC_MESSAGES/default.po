@@ -102,5 +102,5 @@ msgstr "Plätze"
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:39
-msgid "Artworks"
-msgstr "Kunstwerke"
+msgid "Items"
+msgstr "Gegenstände"
