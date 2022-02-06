@@ -66,7 +66,9 @@ defmodule JarvisWeb.ItemLive.Index do
   end
 
   defp assign_user(socket, %{"user_id" => user_id}) do
-    assign(socket, :user, Accounts.get_user!(user_id))
+    user = Accounts.get_user!(user_id)
+    Gettext.put_locale(user.default_language)
+    assign(socket, :user, user)
   end
 
   # No user there - not authenticated
