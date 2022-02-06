@@ -97,7 +97,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:36
-msgid "Isles"
+msgid "Places"
 msgstr ""
 
 #, elixir-format

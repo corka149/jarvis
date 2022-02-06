@@ -18,7 +18,7 @@ defmodule Jarvis.Inventory do
 
   """
   def list_artworks do
-    Repo.all(Artwork) |> Repo.preload(:isle)
+    Repo.all(Artwork) |> Repo.preload(:place)
   end
 
   @doc """
@@ -35,22 +35,22 @@ defmodule Jarvis.Inventory do
       ** (Ecto.NoResultsError)
 
   """
-  def get_artwork!(id), do: Repo.get!(Artwork, id) |> Repo.preload(:isle)
+  def get_artwork!(id), do: Repo.get!(Artwork, id) |> Repo.preload(:place)
 
   @doc """
   Creates a artwork.
 
   ## Examples
 
-      iex> create_artwork(%{field: value}, isle)
+      iex> create_artwork(%{field: value}, place)
       {:ok, %Artwork{}}
 
-      iex> create_artwork(%{field: bad_value}, isle)
+      iex> create_artwork(%{field: bad_value}, place)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_artwork(attrs \\ %{}, isle) do
-    Ecto.build_assoc(isle, :artworks)
+  def create_artwork(attrs \\ %{}, place) do
+    Ecto.build_assoc(place, :artworks)
     |> Artwork.changeset(attrs)
     |> Repo.insert()
   end
@@ -102,99 +102,99 @@ defmodule Jarvis.Inventory do
     Artwork.changeset(artwork, attrs)
   end
 
-  alias Jarvis.Inventory.Isle
+  alias Jarvis.Inventory.Place
 
   @doc """
-  Returns the list of isles.
+  Returns the list of places.
 
   ## Examples
 
-      iex> list_isles()
-      [%Isle{}, ...]
+      iex> list_places()
+      [%Place{}, ...]
 
   """
-  def list_isles do
-    Repo.all(Isle) |> Repo.preload(:user_group)
+  def list_places do
+    Repo.all(Place) |> Repo.preload(:user_group)
   end
 
   @doc """
-  Gets a single isle.
+  Gets a single place.
 
-  Raises `Ecto.NoResultsError` if the Isle does not exist.
+  Raises `Ecto.NoResultsError` if the Place does not exist.
 
   ## Examples
 
-      iex> get_isle!(123)
-      %Isle{}
+      iex> get_place!(123)
+      %Place{}
 
-      iex> get_isle!(456)
+      iex> get_place!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_isle!(id), do: Repo.get!(Isle, id) |> Repo.preload(:user_group)
+  def get_place!(id), do: Repo.get!(Place, id) |> Repo.preload(:user_group)
 
   @doc """
-  Creates a isle.
+  Creates a place.
 
   ## Examples
 
-      iex> create_isle(%{field: value}, user_group)
-      {:ok, %Isle{}}
+      iex> create_place(%{field: value}, user_group)
+      {:ok, %Place{}}
 
-      iex> create_isle(%{field: bad_value}, user_group)
+      iex> create_place(%{field: bad_value}, user_group)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_isle(attrs \\ %{}, user_group) do
-    Ecto.build_assoc(user_group, :isles)
-    |> Isle.changeset(attrs)
+  def create_place(attrs \\ %{}, user_group) do
+    Ecto.build_assoc(user_group, :places)
+    |> Place.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a isle.
+  Updates a place.
 
   ## Examples
 
-      iex> update_isle(isle, %{field: new_value})
-      {:ok, %Isle{}}
+      iex> update_place(place, %{field: new_value})
+      {:ok, %Place{}}
 
-      iex> update_isle(isle, %{field: bad_value})
+      iex> update_place(place, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_isle(%Isle{} = isle, attrs) do
-    isle
-    |> Isle.changeset(attrs)
+  def update_place(%Place{} = place, attrs) do
+    place
+    |> Place.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a isle.
+  Deletes a place.
 
   ## Examples
 
-      iex> delete_isle(isle)
-      {:ok, %Isle{}}
+      iex> delete_place(place)
+      {:ok, %Place{}}
 
-      iex> delete_isle(isle)
+      iex> delete_place(place)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_isle(%Isle{} = isle) do
-    Repo.delete(isle)
+  def delete_place(%Place{} = place) do
+    Repo.delete(place)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking isle changes.
+  Returns an `%Ecto.Changeset{}` for tracking place changes.
 
   ## Examples
 
-      iex> change_isle(isle)
-      %Ecto.Changeset{data: %Isle{}}
+      iex> change_place(place)
+      %Ecto.Changeset{data: %Place{}}
 
   """
-  def change_isle(%Isle{} = isle, attrs \\ %{}) do
-    Isle.changeset(isle, attrs)
+  def change_place(%Place{} = place, attrs \\ %{}) do
+    Place.changeset(place, attrs)
   end
 end

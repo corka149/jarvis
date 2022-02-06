@@ -37,18 +37,18 @@ msgstr "Editiere Kunstwerk"
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.ex:29
-msgid "Edit Isle"
-msgstr "Editiere Inseln"
+msgid "Edit Place"
+msgstr "Editiere Platz"
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/form_component.ex:63
-msgid "Isle created successfully"
-msgstr "Insel angelegt"
+msgid "Place created successfully"
+msgstr "Platz angelegt"
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/form_component.ex:47
-msgid "Isle updated successfully"
-msgstr "Insel aktualisiert"
+msgid "Place updated successfully"
+msgstr "Platz aktualisiert"
 
 #, elixir-format
 #: lib/jarvis_web/live/artwork_live/index.ex:60
@@ -57,8 +57,8 @@ msgstr "Kunstwerkübersicht"
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.ex:41
-msgid "Listing Isles"
-msgstr "Inselübersicht"
+msgid "Listing Places"
+msgstr "Platzübersicht"
 
 #, elixir-format
 #: lib/jarvis_web/live/artwork_live/form_component.html.leex:15
@@ -75,8 +75,8 @@ msgstr "Neues Kunstwerk"
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.ex:35
-msgid "New Isle"
-msgstr "Neue Insel"
+msgid "New Place"
+msgstr "Neuer Platz"
 
 #, elixir-format
 #: lib/jarvis_web/live/artwork_live/show.ex:27
@@ -87,8 +87,8 @@ msgstr "Kunstwerkdetails"
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/show.ex:25
 #: lib/jarvis_web/live/isle_live/show.html.leex:3
-msgid "Show isle"
-msgstr "Inseldetails"
+msgid "Show place"
+msgstr "Platzdetails"
 
 #, elixir-format, fuzzy
 #: lib/jarvis_web/live/artwork_live/index.html.leex:3
@@ -97,5 +97,5 @@ msgstr "Alle Kunstwerke"
 
 #, elixir-format, fuzzy
 #: lib/jarvis_web/live/isle_live/index.html.leex:3
-msgid "All Isles"
-msgstr "Alle Inseln"
+msgid "All Places"
+msgstr "Alle Platz"

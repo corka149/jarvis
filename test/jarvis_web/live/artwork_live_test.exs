@@ -14,31 +14,31 @@ defmodule JarvisWeb.ArtworkLiveTest do
   }
   @invalid_attrs %{name: nil}
 
-  @valid_attrs_isle %{name: "some name"}
+  @valid_attrs_place %{name: "some name"}
 
   def fixture(:artwork) do
     user_group = gen_test_data(:user_group)
-    {:ok, isle} = Inventory.create_isle(@valid_attrs_isle, user_group)
+    {:ok, place} = Inventory.create_place(@valid_attrs_place, user_group)
 
-    {:ok, artwork} = Inventory.create_artwork(@create_attrs, isle)
+    {:ok, artwork} = Inventory.create_artwork(@create_attrs, place)
     artwork
   end
 
-  def fixture(:isle) do
+  def fixture(:place) do
     user_group = gen_test_data(:user_group)
-    {:ok, isle} = Inventory.create_isle(@valid_attrs_isle, user_group)
-    isle
+    {:ok, place} = Inventory.create_place(@valid_attrs_place, user_group)
+    place
   end
 
   setup %{conn: conn} do
-    isle = fixture(:isle)
+    place = fixture(:place)
     user = gen_test_data(:user)
 
     conn =
       conn
       |> Phoenix.ConnTest.init_test_session(user_id: user.id)
 
-    {:ok, conn: conn, isle: isle}
+    {:ok, conn: conn, place: place}
   end
 
   defp create_artwork(_) do

@@ -18,9 +18,9 @@ defmodule JarvisWeb.ArtworkApiController do
   end
 
   def create(conn, %{"artwork" => artwork_params, "belongs_to" => belongs_to}) do
-    isle = Inventory.get_isle!(belongs_to)
+    place = Inventory.get_place!(belongs_to)
 
-    with {:ok, %Artwork{} = artwork} <- Inventory.create_artwork(artwork_params, isle) do
+    with {:ok, %Artwork{} = artwork} <- Inventory.create_artwork(artwork_params, place) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.artwork_api_path(conn, :show, belongs_to, artwork))

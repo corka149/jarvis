@@ -33,7 +33,7 @@
           <%= gettext("Inventory") %>
         </li>
         <li class="pure-menu-item">
-          <%= link gettext("Isles"), to: Routes.isle_index_path(@conn, :index), class: "pure-menu-link" %>
+          <%= link gettext("Places"), to: Routes.place_index_path(@conn, :index), class: "pure-menu-link" %>
         </li>
         <li class="pure-menu-item">
           <%= link gettext("Artworks"), to: Routes.artwork_index_path(@conn, :index), class: "pure-menu-link" %>

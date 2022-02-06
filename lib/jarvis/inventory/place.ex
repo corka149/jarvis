@@ -1,6 +1,6 @@
-defmodule Jarvis.Inventory.Isle do
+defmodule Jarvis.Inventory.Place do
   @moduledoc """
-  Database module for the entity isle.
+  Database module for the entity place.
   """
   use Ecto.Schema
   import Ecto.Changeset
@@ -15,8 +15,8 @@ defmodule Jarvis.Inventory.Isle do
   end
 
   @doc false
-  def changeset(isle, attrs) do
-    isle
+  def changeset(place, attrs) do
+    place
     |> cast(attrs, [:name, :owned_by])
     |> validate_required([:name, :owned_by])
   end

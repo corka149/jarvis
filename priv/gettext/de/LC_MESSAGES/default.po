@@ -97,8 +97,8 @@ msgstr "Inventar"
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:36
-msgid "Isles"
-msgstr "Inseln"
+msgid "Places"
+msgstr "Plätze"
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:39

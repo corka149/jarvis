@@ -62,11 +62,11 @@ defmodule JarvisWeb.Router do
   scope "/inventory", JarvisWeb do
     pipe_through :browser
 
-    # Isles
-    live "/isles", IsleLive.Index, :index
-    live "/isles/new", IsleLive.Index, :new
-    live "/isles/:id/edit", IsleLive.Index, :edit
-    live "/isles/:id", IsleLive.Show, :show
+    # Places
+    live "/places", PlaceLive.Index, :index
+    live "/places/new", PlaceLive.Index, :new
+    live "/places/:id/edit", PlaceLive.Index, :edit
+    live "/places/:id", PlaceLive.Show, :show
 
     # Artworks
     live "/artworks", ArtworkLive.Index, :index
@@ -96,7 +96,7 @@ defmodule JarvisWeb.Router do
   scope "/v1/inventory", JarvisWeb do
     pipe_through :api
 
-    resources "/isles", IsleApiController, except: [:new, :edit]
-    resources "/isles/:belongs_to/artworks", ArtworkApiController, except: [:new, :edit]
+    resources "/places", PlaceApiController, except: [:new, :edit]
+    resources "/places/:belongs_to/artworks", ArtworkApiController, except: [:new, :edit]
   end
 end

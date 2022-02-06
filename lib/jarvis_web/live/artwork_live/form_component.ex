@@ -53,9 +53,9 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
   end
 
   defp save_artwork(socket, :new, %{"belongs_to" => belongs_to} = artwork_params) do
-    isle = Inventory.get_isle!(belongs_to)
+    place = Inventory.get_place!(belongs_to)
 
-    case Inventory.create_artwork(artwork_params, isle) do
+    case Inventory.create_artwork(artwork_params, place) do
       {:ok, _artwork} ->
         :ok = broadcast_change()
 
@@ -70,11 +70,11 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
   end
 
   defp assign_groups(socket, user) do
-    socket |> assign(:isles, isle_names_with_ids(user))
+    socket |> assign(:places, place_names_with_ids(user))
   end
 
-  defp isle_names_with_ids(%Accounts.User{} = _user) do
-    Inventory.list_isles()
+  defp place_names_with_ids(%Accounts.User{} = _user) do
+    Inventory.list_places()
     |> Enum.map(&{&1.name, &1.id})
   end
 

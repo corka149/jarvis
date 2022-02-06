@@ -7,7 +7,7 @@ defmodule Jarvis.Inventory.Artwork do
 
   schema "artworks" do
     field :name, :string
-    belongs_to :isle, Jarvis.Inventory.Isle, foreign_key: :belongs_to
+    belongs_to :place, Jarvis.Inventory.Place, foreign_key: :belongs_to
 
     timestamps()
   end

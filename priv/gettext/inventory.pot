@@ -36,17 +36,17 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.ex:29
-msgid "Edit Isle"
+msgid "Edit Place"
 msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/form_component.ex:63
-msgid "Isle created successfully"
+msgid "Place created successfully"
 msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/form_component.ex:47
-msgid "Isle updated successfully"
+msgid "Place updated successfully"
 msgstr ""
 
 #, elixir-format
@@ -56,7 +56,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.ex:41
-msgid "Listing Isles"
+msgid "Listing Places"
 msgstr ""
 
 #, elixir-format
@@ -74,7 +74,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.ex:35
-msgid "New Isle"
+msgid "New Place"
 msgstr ""
 
 #, elixir-format
@@ -86,7 +86,7 @@ msgstr ""
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/show.ex:25
 #: lib/jarvis_web/live/isle_live/show.html.leex:3
-msgid "Show isle"
+msgid "Show place"
 msgstr ""
 
 #, elixir-format
@@ -96,5 +96,5 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/live/isle_live/index.html.leex:3
-msgid "All Isles"
+msgid "All Places"
 msgstr ""

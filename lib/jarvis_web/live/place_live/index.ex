@@ -1,21 +1,21 @@
-defmodule JarvisWeb.IsleLive.Index do
+defmodule JarvisWeb.PlaceLive.Index do
   use JarvisWeb, :live_view
 
   alias Jarvis.Accounts
   alias Jarvis.Inventory
-  alias Jarvis.Inventory.Isle
+  alias Jarvis.Inventory.Place
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @moduledoc """
-  Live view for listing isles.
+  Live view for listing places.
   """
 
   @impl true
   def mount(_params, session, socket) do
     {:ok,
      socket
-     |> assign_isles()
+     |> assign_places()
      |> assign_user(session)}
   end
 
@@ -26,34 +26,34 @@ defmodule JarvisWeb.IsleLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, dgettext("inventory", "Edit Isle"))
-    |> assign(:isle, Inventory.get_isle!(id))
+    |> assign(:page_title, dgettext("inventory", "Edit Place"))
+    |> assign(:place, Inventory.get_place!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, dgettext("inventory", "New Isle"))
-    |> assign(:isle, %Isle{})
+    |> assign(:page_title, dgettext("inventory", "New Place"))
+    |> assign(:place, %Place{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, dgettext("inventory", "Listing Isles"))
-    |> assign(:isle, nil)
+    |> assign(:page_title, dgettext("inventory", "Listing Places"))
+    |> assign(:place, nil)
   end
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    isle = Inventory.get_isle!(id)
-    {:ok, _} = Inventory.delete_isle(isle)
+    place = Inventory.get_place!(id)
+    {:ok, _} = Inventory.delete_place(place)
 
-    {:noreply, assign(socket, :isles, list_isles())}
+    {:noreply, assign(socket, :places, list_places())}
   end
 
   # ===== PRIVATE =====
 
-  defp assign_isles(socket) do
-    assign(socket, :isles, list_isles())
+  defp assign_places(socket) do
+    assign(socket, :places, list_places())
   end
 
   defp assign_user(socket, %{"user_id" => user_id}) do
@@ -65,7 +65,7 @@ defmodule JarvisWeb.IsleLive.Index do
     redirect(socket, to: Routes.auth_path(socket, :signin))
   end
 
-  defp list_isles do
-    Inventory.list_isles()
+  defp list_places do
+    Inventory.list_places()
   end
 end

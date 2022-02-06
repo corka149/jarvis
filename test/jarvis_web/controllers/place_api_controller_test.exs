@@ -1,8 +1,8 @@
-defmodule JarvisWeb.IsleApiControllerTest do
+defmodule JarvisWeb.PlaceApiControllerTest do
   use JarvisWeb.ConnCase
 
   alias Jarvis.Inventory
-  alias Jarvis.Inventory.Isle
+  alias Jarvis.Inventory.Place
 
   import Jarvis.TestHelper
 
@@ -14,11 +14,11 @@ defmodule JarvisWeb.IsleApiControllerTest do
   }
   @invalid_attrs %{name: nil}
 
-  def fixture(:isle) do
+  def fixture(:place) do
     user_group = gen_test_data(:user_group)
 
-    {:ok, isle} = Inventory.create_isle(@create_attrs, user_group)
-    isle
+    {:ok, place} = Inventory.create_place(@create_attrs, user_group)
+    place
   end
 
   setup %{conn: conn} do
@@ -32,29 +32,29 @@ defmodule JarvisWeb.IsleApiControllerTest do
     {:ok, conn: conn}
   end
 
-  defp create_isle(_) do
-    isle = fixture(:isle)
-    %{isle: isle}
+  defp create_place(_) do
+    place = fixture(:place)
+    %{place: place}
   end
 
   # ===== TESTS =====
 
   describe "index" do
-    test "lists all isles", %{conn: conn} do
-      conn = get(conn, Routes.isle_api_path(conn, :index))
+    test "lists all places", %{conn: conn} do
+      conn = get(conn, Routes.place_api_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end
   end
 
-  describe "create isle" do
-    test "renders isle when data is valid", %{conn: conn} do
+  describe "create place" do
+    test "renders place when data is valid", %{conn: conn} do
       user_group = gen_test_data(:user_group)
       create_attrs = Map.put(@create_attrs, :owned_by, user_group.id)
 
-      conn = post(conn, Routes.isle_api_path(conn, :create), isle: create_attrs)
+      conn = post(conn, Routes.place_api_path(conn, :create), place: create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, Routes.isle_api_path(conn, :show, id))
+      conn = get(conn, Routes.place_api_path(conn, :show, id))
 
       assert %{
                "id" => _,
@@ -66,19 +66,19 @@ defmodule JarvisWeb.IsleApiControllerTest do
       user_group = gen_test_data(:user_group)
       invalid_attrs = Map.put(@invalid_attrs, :owned_by, user_group.id)
 
-      conn = post(conn, Routes.isle_api_path(conn, :create), isle: invalid_attrs)
+      conn = post(conn, Routes.place_api_path(conn, :create), place: invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
-  describe "update isle" do
-    setup [:create_isle]
+  describe "update place" do
+    setup [:create_place]
 
-    test "renders isle when data is valid", %{conn: conn, isle: %Isle{id: id} = isle} do
-      conn = put(conn, Routes.isle_api_path(conn, :update, isle), isle: @update_attrs)
+    test "renders place when data is valid", %{conn: conn, place: %Place{id: id} = place} do
+      conn = put(conn, Routes.place_api_path(conn, :update, place), place: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, Routes.isle_api_path(conn, :show, id))
+      conn = get(conn, Routes.place_api_path(conn, :show, id))
 
       assert %{
                "id" => _,
@@ -86,21 +86,21 @@ defmodule JarvisWeb.IsleApiControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
-    test "renders errors when data is invalid", %{conn: conn, isle: isle} do
-      conn = put(conn, Routes.isle_api_path(conn, :update, isle), isle: @invalid_attrs)
+    test "renders errors when data is invalid", %{conn: conn, place: place} do
+      conn = put(conn, Routes.place_api_path(conn, :update, place), place: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
-  describe "delete isle" do
-    setup [:create_isle]
+  describe "delete place" do
+    setup [:create_place]
 
-    test "deletes chosen isle", %{conn: conn, isle: isle} do
-      conn = delete(conn, Routes.isle_api_path(conn, :delete, isle))
+    test "deletes chosen place", %{conn: conn, place: place} do
+      conn = delete(conn, Routes.place_api_path(conn, :delete, place))
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, Routes.isle_api_path(conn, :show, isle))
+        get(conn, Routes.place_api_path(conn, :show, place))
       end
     end
   end

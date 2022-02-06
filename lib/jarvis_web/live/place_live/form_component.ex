@@ -1,4 +1,4 @@
-defmodule JarvisWeb.IsleLive.FormComponent do
+defmodule JarvisWeb.PlaceLive.FormComponent do
   use JarvisWeb, :live_component
 
   alias Jarvis.Accounts
@@ -7,12 +7,12 @@ defmodule JarvisWeb.IsleLive.FormComponent do
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @moduledoc """
-  Live view for editing or creating isles.
+  Live view for editing or creating places.
   """
 
   @impl true
-  def update(%{isle: isle} = assigns, socket) do
-    changeset = Inventory.change_isle(isle)
+  def update(%{place: place} = assigns, socket) do
+    changeset = Inventory.change_place(place)
 
     {:ok,
      socket
@@ -22,29 +22,29 @@ defmodule JarvisWeb.IsleLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"isle" => isle_params}, socket) do
+  def handle_event("validate", %{"place" => place_params}, socket) do
     changeset =
-      socket.assigns.isle
-      |> Inventory.change_isle(isle_params)
+      socket.assigns.place
+      |> Inventory.change_place(place_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", %{"isle" => isle_params}, socket) do
-    save_isle(socket, socket.assigns.action, isle_params)
+  def handle_event("save", %{"place" => place_params}, socket) do
+    save_place(socket, socket.assigns.action, place_params)
   end
 
   # ===== PRIVATE =====
 
-  defp save_isle(socket, :edit, isle_params) do
-    case Inventory.update_isle(socket.assigns.isle, isle_params) do
-      {:ok, _isle} ->
+  defp save_place(socket, :edit, place_params) do
+    case Inventory.update_place(socket.assigns.place, place_params) do
+      {:ok, _place} ->
         {:noreply,
          socket
          |> put_flash(
            :info,
-           dgettext("inventory", "Isle updated successfully")
+           dgettext("inventory", "Place updated successfully")
          )
          |> push_redirect(to: socket.assigns.return_to)}
 
@@ -53,14 +53,14 @@ defmodule JarvisWeb.IsleLive.FormComponent do
     end
   end
 
-  defp save_isle(socket, :new, %{"belongs_to" => belongs_to} = isle_params) do
+  defp save_place(socket, :new, %{"belongs_to" => belongs_to} = place_params) do
     user_group = Accounts.get_user_group!(belongs_to)
 
-    case Inventory.create_isle(isle_params, user_group) do
-      {:ok, _isle} ->
+    case Inventory.create_place(place_params, user_group) do
+      {:ok, _place} ->
         {:noreply,
          socket
-         |> put_flash(:info, dgettext("inventory", "Isle created successfully"))
+         |> put_flash(:info, dgettext("inventory", "Place created successfully"))
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
