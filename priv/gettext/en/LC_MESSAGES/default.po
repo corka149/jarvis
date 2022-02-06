@@ -92,15 +92,15 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:33
-msgid "Animalxing"
+msgid "Inventory"
 msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:36
-msgid "Isles"
+msgid "Places"
 msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:39
-msgid "Artworks"
+msgid "Items"
 msgstr ""

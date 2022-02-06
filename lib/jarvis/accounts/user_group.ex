@@ -14,8 +14,8 @@ defmodule Jarvis.Accounts.UserGroup do
     # ShoppingLists
     has_many :shoppinglists, Jarvis.ShoppingLists.ShoppingList, foreign_key: :belongs_to
 
-    # AnimalXing
-    has_many :isles, Jarvis.AnimalXing.Isle, foreign_key: :owned_by
+    # Inventory
+    has_many :places, Jarvis.Inventory.Place, foreign_key: :owned_by
 
     timestamps()
   end

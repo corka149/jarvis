@@ -20,7 +20,7 @@ docker pull corka149/jarvis
     2. Added finance domain
 4. Version is the comeback of jARVIS as multipage application.
     1. Removed finance domain
-    2. Added animalxing domain with live views 🔥
+    2. Added inventory domain with live views 🔥
 
 ## Getting started
 

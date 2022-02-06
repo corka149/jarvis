@@ -5,18 +5,18 @@
     </h2>
   </div>
   <.form let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-target={@myself}
-    id="artwork-form" class="pure-form pure-form-aligned">
+    id="item-form" class="pure-form pure-form-aligned">
   <fieldset>
     <!-- NAME -->
     <div class="pure-control-group">
-      <%= label f, :name, dgettext("animalxing", "Name") %>
+      <%= label f, :name, dgettext("inventory", "Name") %>
       <%= text_input f, :name %>
       <%= error_tag f, :name %>
     </div>
     <!-- BELONGS_TO -->
     <div class="pure-control-group">
-      <%= label f, :belongs_to, dgettext("animalxing", "Belongs to") %>
-      <%= select f, :belongs_to, @isles %>
+      <%= label f, :belongs_to, dgettext("inventory", "Belongs to") %>
+      <%= select f, :belongs_to, @places %>
       <%= error_tag f, :belongs_to %>
     </div>
   </fieldset>

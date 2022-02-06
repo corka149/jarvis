@@ -59,22 +59,22 @@ defmodule JarvisWeb.Router do
     resources "/:shopping_list_id/items", ItemController, except: [:show]
   end
 
-  scope "/animalxing", JarvisWeb do
+  scope "/inventory", JarvisWeb do
     pipe_through :browser
 
-    # Isles
-    live "/isles", IsleLive.Index, :index
-    live "/isles/new", IsleLive.Index, :new
-    live "/isles/:id/edit", IsleLive.Index, :edit
-    live "/isles/:id", IsleLive.Show, :show
+    # Places
+    live "/places", PlaceLive.Index, :index
+    live "/places/new", PlaceLive.Index, :new
+    live "/places/:id/edit", PlaceLive.Index, :edit
+    live "/places/:id", PlaceLive.Show, :show
 
-    # Artworks
-    live "/artworks", ArtworkLive.Index, :index
-    live "/artworks/new", ArtworkLive.Index, :new
-    live "/artworks/:id/edit", ArtworkLive.Index, :edit
+    # Items
+    live "/items", ItemLive.Index, :index
+    live "/items/new", ItemLive.Index, :new
+    live "/items/:id/edit", ItemLive.Index, :edit
 
-    live "/artworks/:id", ArtworkLive.Show, :show
-    live "/artworks/:id/show/edit", ArtworkLive.Show, :edit
+    live "/items/:id", ItemLive.Show, :show
+    live "/items/:id/show/edit", ItemLive.Show, :edit
   end
 
   # ### ### ### ### ### #
@@ -93,10 +93,10 @@ defmodule JarvisWeb.Router do
     get "/usergroups", UserGroupApiController, :index
   end
 
-  scope "/v1/animalxing", JarvisWeb do
+  scope "/v1/inventory", JarvisWeb do
     pipe_through :api
 
-    resources "/isles", IsleApiController, except: [:new, :edit]
-    resources "/isles/:belongs_to/artworks", ArtworkApiController, except: [:new, :edit]
+    resources "/places", PlaceApiController, except: [:new, :edit]
+    resources "/places/:belongs_to/items", ItemApiController, except: [:new, :edit]
   end
 end

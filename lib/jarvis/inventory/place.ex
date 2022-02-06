@@ -1,13 +1,13 @@
-defmodule Jarvis.AnimalXing.Isle do
+defmodule Jarvis.Inventory.Place do
   @moduledoc """
-  Database module for the entity isle.
+  Database module for the entity place.
   """
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "isles" do
     field :name, :string
-    has_many :artworks, Jarvis.AnimalXing.Artwork, foreign_key: :belongs_to
+    has_many :items, Jarvis.Inventory.Item, foreign_key: :belongs_to
 
     belongs_to :user_group, Jarvis.Accounts.UserGroup, foreign_key: :owned_by
 
@@ -15,8 +15,8 @@ defmodule Jarvis.AnimalXing.Isle do
   end
 
   @doc false
-  def changeset(isle, attrs) do
-    isle
+  def changeset(place, attrs) do
+    place
     |> cast(attrs, [:name, :owned_by])
     |> validate_required([:name, :owned_by])
   end

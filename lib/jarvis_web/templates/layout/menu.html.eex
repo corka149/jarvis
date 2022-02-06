@@ -28,15 +28,15 @@
         <li class="pure-menu-item">
           <%= link gettext("Membership"), to: Routes.invitation_path(@conn, :index), class: "pure-menu-link" %>
         </li>
-        <!-- ANIMALXING -->
+        <!-- Inventory -->
         <li class="pure-menu-item menu-item-divided menu-item-header">
-          <%= gettext("Animalxing") %>
+          <%= gettext("Inventory") %>
         </li>
         <li class="pure-menu-item">
-          <%= link gettext("Isles"), to: Routes.isle_index_path(@conn, :index), class: "pure-menu-link" %>
+          <%= link gettext("Places"), to: Routes.place_index_path(@conn, :index), class: "pure-menu-link" %>
         </li>
         <li class="pure-menu-item">
-          <%= link gettext("Artworks"), to: Routes.artwork_index_path(@conn, :index), class: "pure-menu-link" %>
+          <%= link gettext("Items"), to: Routes.item_index_path(@conn, :index), class: "pure-menu-link" %>
         </li>
         <!-- OTHER -->
         <li class="pure-menu-item menu-item-divided">

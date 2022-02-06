@@ -1,12 +1,12 @@
-defmodule JarvisWeb.IsleLive.Show do
+defmodule JarvisWeb.PlaceLive.Show do
   use JarvisWeb, :live_view
 
-  alias Jarvis.AnimalXing
+  alias Jarvis.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @moduledoc """
-  Live view for showing a single isle.
+  Live view for showing a single place.
   """
 
   @impl true
@@ -19,10 +19,10 @@ defmodule JarvisWeb.IsleLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:isle, AnimalXing.get_isle!(id))}
+     |> assign(:place, Inventory.get_place!(id))}
   end
 
-  defp page_title(:show), do: dgettext("animalxing", "Show isle")
+  defp page_title(:show), do: dgettext("inventory", "Show place")
 
   # user_id is available but user is not needed here
   defp assign_user(socket, %{"user_id" => _user_id}) do

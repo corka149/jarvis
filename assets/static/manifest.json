@@ -1,7 +1,7 @@
 {
     "name": "jARVIS",
     "short_name": "jARVIS",
-    "description": "A helper for shopping lists and Animal Xing.",
+    "description": "A helper for shopping lists and inventory.",
     "icons": [
         {
             "src": "images/logo_jarvis.svg",
