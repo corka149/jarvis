@@ -6,7 +6,7 @@ defmodule JarvisWeb.ArtworkLive.Show do
   use JarvisWeb, :live_view
 
   alias Jarvis.Accounts
-  alias Jarvis.AnimalXing
+  alias Jarvis.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
@@ -20,12 +20,12 @@ defmodule JarvisWeb.ArtworkLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:artwork, AnimalXing.get_artwork!(id))}
+     |> assign(:artwork, Inventory.get_artwork!(id))}
   end
 
   # ===== PRIVATE =====
-  defp page_title(:show), do: dgettext("animalxing", "Show artwork")
-  defp page_title(:edit), do: dgettext("animalxing", "Edit Artwork")
+  defp page_title(:show), do: dgettext("inventory", "Show artwork")
+  defp page_title(:edit), do: dgettext("inventory", "Edit Artwork")
 
   defp assign_user(socket, %{"user_id" => user_id}) do
     assign(socket, :user, Accounts.get_user!(user_id))

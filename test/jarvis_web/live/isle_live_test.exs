@@ -4,14 +4,14 @@ defmodule JarvisWeb.IsleLiveTest do
   import Phoenix.LiveViewTest
   import Jarvis.TestHelper
 
-  alias Jarvis.AnimalXing
+  alias Jarvis.Inventory
 
   @create_attrs %{name: "some name", belongs_to: nil}
   @update_attrs %{name: "some updated name", belongs_to: nil}
   @invalid_attrs %{name: nil, belongs_to: nil}
 
   defp fixture(:isle, user_group) do
-    {:ok, isle} = AnimalXing.create_isle(@create_attrs, user_group)
+    {:ok, isle} = Inventory.create_isle(@create_attrs, user_group)
     isle
   end
 

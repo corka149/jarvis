@@ -1,9 +1,9 @@
 defmodule JarvisWeb.ArtworkApiControllerTest do
   use JarvisWeb.ConnCase
 
-  alias Jarvis.AnimalXing
-  alias Jarvis.AnimalXing.Artwork
-  alias Jarvis.AnimalXing.Isle
+  alias Jarvis.Inventory
+  alias Jarvis.Inventory.Artwork
+  alias Jarvis.Inventory.Isle
 
   import Jarvis.TestHelper
 
@@ -19,15 +19,15 @@ defmodule JarvisWeb.ArtworkApiControllerTest do
 
   def fixture(:artwork) do
     user_group = gen_test_data(:user_group)
-    {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+    {:ok, isle} = Inventory.create_isle(@valid_attrs_isle, user_group)
 
-    {:ok, artwork} = AnimalXing.create_artwork(@create_attrs, isle)
+    {:ok, artwork} = Inventory.create_artwork(@create_attrs, isle)
     artwork
   end
 
   def fixture(:isle) do
     user_group = gen_test_data(:user_group)
-    {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+    {:ok, isle} = Inventory.create_isle(@valid_attrs_isle, user_group)
     isle
   end
 

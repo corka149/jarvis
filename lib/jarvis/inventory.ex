@@ -1,12 +1,12 @@
-defmodule Jarvis.AnimalXing do
+defmodule Jarvis.Inventory do
   @moduledoc """
-  The AnimalXing context.
+  The Inventory context.
   """
 
   import Ecto.Query, warn: false
   alias Jarvis.Repo
 
-  alias Jarvis.AnimalXing.Artwork
+  alias Jarvis.Inventory.Artwork
 
   @doc """
   Returns the list of artworks.
@@ -102,7 +102,7 @@ defmodule Jarvis.AnimalXing do
     Artwork.changeset(artwork, attrs)
   end
 
-  alias Jarvis.AnimalXing.Isle
+  alias Jarvis.Inventory.Isle
 
   @doc """
   Returns the list of isles.

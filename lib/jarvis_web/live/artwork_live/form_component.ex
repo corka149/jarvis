@@ -6,13 +6,13 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
   use JarvisWeb, :live_component
 
   alias Jarvis.Accounts
-  alias Jarvis.AnimalXing
+  alias Jarvis.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @impl true
   def update(%{artwork: artwork} = assigns, socket) do
-    changeset = AnimalXing.change_artwork(artwork)
+    changeset = Inventory.change_artwork(artwork)
 
     {:ok,
      socket
@@ -25,7 +25,7 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
   def handle_event("validate", %{"artwork" => artwork_params}, socket) do
     changeset =
       socket.assigns.artwork
-      |> AnimalXing.change_artwork(artwork_params)
+      |> Inventory.change_artwork(artwork_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -38,13 +38,13 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
   # ===== PRIVATE =====
 
   defp save_artwork(socket, :edit, artwork_params) do
-    case AnimalXing.update_artwork(socket.assigns.artwork, artwork_params) do
+    case Inventory.update_artwork(socket.assigns.artwork, artwork_params) do
       {:ok, _artwork} ->
         :ok = broadcast_change()
 
         {:noreply,
          socket
-         |> put_flash(:info, dgettext("animalxing", "Artwork updated successfully"))
+         |> put_flash(:info, dgettext("inventory", "Artwork updated successfully"))
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -53,15 +53,15 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
   end
 
   defp save_artwork(socket, :new, %{"belongs_to" => belongs_to} = artwork_params) do
-    isle = AnimalXing.get_isle!(belongs_to)
+    isle = Inventory.get_isle!(belongs_to)
 
-    case AnimalXing.create_artwork(artwork_params, isle) do
+    case Inventory.create_artwork(artwork_params, isle) do
       {:ok, _artwork} ->
         :ok = broadcast_change()
 
         {:noreply,
          socket
-         |> put_flash(:info, dgettext("animalxing", "Artwork created successfully"))
+         |> put_flash(:info, dgettext("inventory", "Artwork created successfully"))
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -74,7 +74,7 @@ defmodule JarvisWeb.ArtworkLive.FormComponent do
   end
 
   defp isle_names_with_ids(%Accounts.User{} = _user) do
-    AnimalXing.list_isles()
+    Inventory.list_isles()
     |> Enum.map(&{&1.name, &1.id})
   end
 

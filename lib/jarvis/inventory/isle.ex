@@ -1,4 +1,4 @@
-defmodule Jarvis.AnimalXing.Isle do
+defmodule Jarvis.Inventory.Isle do
   @moduledoc """
   Database module for the entity isle.
   """
@@ -7,7 +7,7 @@ defmodule Jarvis.AnimalXing.Isle do
 
   schema "isles" do
     field :name, :string
-    has_many :artworks, Jarvis.AnimalXing.Artwork, foreign_key: :belongs_to
+    has_many :artworks, Jarvis.Inventory.Artwork, foreign_key: :belongs_to
 
     belongs_to :user_group, Jarvis.Accounts.UserGroup, foreign_key: :owned_by
 

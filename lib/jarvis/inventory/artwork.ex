@@ -1,4 +1,4 @@
-defmodule Jarvis.AnimalXing.Artwork do
+defmodule Jarvis.Inventory.Artwork do
   @moduledoc """
   Database module for the entity artwork.
   """
@@ -7,7 +7,7 @@ defmodule Jarvis.AnimalXing.Artwork do
 
   schema "artworks" do
     field :name, :string
-    belongs_to :isle, Jarvis.AnimalXing.Isle, foreign_key: :belongs_to
+    belongs_to :isle, Jarvis.Inventory.Isle, foreign_key: :belongs_to
 
     timestamps()
   end

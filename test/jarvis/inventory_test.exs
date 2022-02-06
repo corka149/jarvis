@@ -1,12 +1,12 @@
-defmodule Jarvis.AnimalXingTest do
+defmodule Jarvis.InventoryTest do
   use Jarvis.DataCase
 
-  alias Jarvis.AnimalXing
+  alias Jarvis.Inventory
 
   import Jarvis.TestHelper
 
   describe "artworks" do
-    alias Jarvis.AnimalXing.Artwork
+    alias Jarvis.Inventory.Artwork
 
     @valid_attrs %{name: "some name"}
     @update_attrs %{name: "some updated name"}
@@ -16,12 +16,12 @@ defmodule Jarvis.AnimalXingTest do
 
     def artwork_fixture(attrs \\ %{}) do
       user_group = gen_test_data(:user_group)
-      {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+      {:ok, isle} = Inventory.create_isle(@valid_attrs_isle, user_group)
 
       {:ok, artwork} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> AnimalXing.create_artwork(isle)
+        |> Inventory.create_artwork(isle)
 
       artwork
     end
@@ -30,7 +30,7 @@ defmodule Jarvis.AnimalXingTest do
       artwork = artwork_fixture()
       artwork = %{artwork | isle: nil}
 
-      artwork_from_db = AnimalXing.list_artworks() |> Enum.map(fn a -> %{a | isle: nil} end)
+      artwork_from_db = Inventory.list_artworks() |> Enum.map(fn a -> %{a | isle: nil} end)
 
       assert artwork_from_db == [artwork]
     end
@@ -39,7 +39,7 @@ defmodule Jarvis.AnimalXingTest do
       artwork = artwork_fixture()
       artwork = %{artwork | isle: nil}
 
-      artwork_from_db = AnimalXing.get_artwork!(artwork.id)
+      artwork_from_db = Inventory.get_artwork!(artwork.id)
       artwork_from_db = %{artwork_from_db | isle: nil}
 
       assert artwork_from_db == artwork
@@ -47,22 +47,22 @@ defmodule Jarvis.AnimalXingTest do
 
     test "create_artwork/1 with valid data creates a artwork" do
       user_group = gen_test_data(:user_group)
-      {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+      {:ok, isle} = Inventory.create_isle(@valid_attrs_isle, user_group)
 
-      assert {:ok, %Artwork{} = artwork} = AnimalXing.create_artwork(@valid_attrs, isle)
+      assert {:ok, %Artwork{} = artwork} = Inventory.create_artwork(@valid_attrs, isle)
       assert artwork.name == "some name"
     end
 
     test "create_artwork/1 with invalid data returns error changeset" do
       user_group = gen_test_data(:user_group)
-      {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+      {:ok, isle} = Inventory.create_isle(@valid_attrs_isle, user_group)
 
-      assert {:error, %Ecto.Changeset{}} = AnimalXing.create_artwork(@invalid_attrs, isle)
+      assert {:error, %Ecto.Changeset{}} = Inventory.create_artwork(@invalid_attrs, isle)
     end
 
     test "update_artwork/2 with valid data updates the artwork" do
       artwork = artwork_fixture()
-      assert {:ok, %Artwork{} = artwork} = AnimalXing.update_artwork(artwork, @update_attrs)
+      assert {:ok, %Artwork{} = artwork} = Inventory.update_artwork(artwork, @update_attrs)
       assert artwork.name == "some updated name"
     end
 
@@ -70,9 +70,9 @@ defmodule Jarvis.AnimalXingTest do
       artwork = artwork_fixture()
       artwork = %{artwork | isle: nil}
 
-      assert {:error, %Ecto.Changeset{}} = AnimalXing.update_artwork(artwork, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Inventory.update_artwork(artwork, @invalid_attrs)
 
-      artwork_from_db = AnimalXing.get_artwork!(artwork.id)
+      artwork_from_db = Inventory.get_artwork!(artwork.id)
       artwork_from_db = %{artwork_from_db | isle: nil}
 
       assert artwork == artwork_from_db
@@ -80,18 +80,18 @@ defmodule Jarvis.AnimalXingTest do
 
     test "delete_artwork/1 deletes the artwork" do
       artwork = artwork_fixture()
-      assert {:ok, %Artwork{}} = AnimalXing.delete_artwork(artwork)
-      assert_raise Ecto.NoResultsError, fn -> AnimalXing.get_artwork!(artwork.id) end
+      assert {:ok, %Artwork{}} = Inventory.delete_artwork(artwork)
+      assert_raise Ecto.NoResultsError, fn -> Inventory.get_artwork!(artwork.id) end
     end
 
     test "change_artwork/1 returns a artwork changeset" do
       artwork = artwork_fixture()
-      assert %Ecto.Changeset{} = AnimalXing.change_artwork(artwork)
+      assert %Ecto.Changeset{} = Inventory.change_artwork(artwork)
     end
   end
 
   describe "isles" do
-    alias Jarvis.AnimalXing.Isle
+    alias Jarvis.Inventory.Isle
 
     @valid_attrs %{name: "some name"}
     @update_attrs %{name: "some updated name"}
@@ -103,7 +103,7 @@ defmodule Jarvis.AnimalXingTest do
       {:ok, isle} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> AnimalXing.create_isle(user_group)
+        |> Inventory.create_isle(user_group)
 
       isle
     end
@@ -112,7 +112,7 @@ defmodule Jarvis.AnimalXingTest do
       isle = isle_fixture()
       isle = %{isle | user_group: nil}
 
-      isle_from_db = AnimalXing.list_isles() |> Enum.map(fn i -> %{i | user_group: nil} end)
+      isle_from_db = Inventory.list_isles() |> Enum.map(fn i -> %{i | user_group: nil} end)
 
       assert isle_from_db == [isle]
     end
@@ -121,7 +121,7 @@ defmodule Jarvis.AnimalXingTest do
       isle = isle_fixture()
       isle = Map.delete(isle, :user_group)
 
-      isle_from_db = AnimalXing.get_isle!(isle.id)
+      isle_from_db = Inventory.get_isle!(isle.id)
       isle_from_db = Map.delete(isle_from_db, :user_group)
 
       assert isle_from_db == isle
@@ -130,19 +130,19 @@ defmodule Jarvis.AnimalXingTest do
     test "create_isle/1 with valid data creates a isle" do
       user_group = gen_test_data(:user_group)
 
-      assert {:ok, %Isle{} = isle} = AnimalXing.create_isle(@valid_attrs, user_group)
+      assert {:ok, %Isle{} = isle} = Inventory.create_isle(@valid_attrs, user_group)
       assert isle.name == "some name"
     end
 
     test "create_isle/1 with invalid data returns error changeset" do
       user_group = gen_test_data(:user_group)
 
-      assert {:error, %Ecto.Changeset{}} = AnimalXing.create_isle(@invalid_attrs, user_group)
+      assert {:error, %Ecto.Changeset{}} = Inventory.create_isle(@invalid_attrs, user_group)
     end
 
     test "update_isle/2 with valid data updates the isle" do
       isle = isle_fixture()
-      assert {:ok, %Isle{} = isle} = AnimalXing.update_isle(isle, @update_attrs)
+      assert {:ok, %Isle{} = isle} = Inventory.update_isle(isle, @update_attrs)
       assert isle.name == "some updated name"
     end
 
@@ -150,9 +150,9 @@ defmodule Jarvis.AnimalXingTest do
       isle = isle_fixture()
       isle = Map.delete(isle, :user_group)
 
-      assert {:error, %Ecto.Changeset{}} = AnimalXing.update_isle(isle, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Inventory.update_isle(isle, @invalid_attrs)
 
-      isle_from_db = AnimalXing.get_isle!(isle.id)
+      isle_from_db = Inventory.get_isle!(isle.id)
       isle_from_db = Map.delete(isle_from_db, :user_group)
 
       assert isle == isle_from_db
@@ -160,13 +160,13 @@ defmodule Jarvis.AnimalXingTest do
 
     test "delete_isle/1 deletes the isle" do
       isle = isle_fixture()
-      assert {:ok, %Isle{}} = AnimalXing.delete_isle(isle)
-      assert_raise Ecto.NoResultsError, fn -> AnimalXing.get_isle!(isle.id) end
+      assert {:ok, %Isle{}} = Inventory.delete_isle(isle)
+      assert_raise Ecto.NoResultsError, fn -> Inventory.get_isle!(isle.id) end
     end
 
     test "change_isle/1 returns a isle changeset" do
       isle = isle_fixture()
-      assert %Ecto.Changeset{} = AnimalXing.change_isle(isle)
+      assert %Ecto.Changeset{} = Inventory.change_isle(isle)
     end
   end
 end

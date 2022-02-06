@@ -2,8 +2,8 @@ defmodule JarvisWeb.IsleLive.Index do
   use JarvisWeb, :live_view
 
   alias Jarvis.Accounts
-  alias Jarvis.AnimalXing
-  alias Jarvis.AnimalXing.Isle
+  alias Jarvis.Inventory
+  alias Jarvis.Inventory.Isle
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
@@ -26,26 +26,26 @@ defmodule JarvisWeb.IsleLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, dgettext("animalxing", "Edit Isle"))
-    |> assign(:isle, AnimalXing.get_isle!(id))
+    |> assign(:page_title, dgettext("inventory", "Edit Isle"))
+    |> assign(:isle, Inventory.get_isle!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, dgettext("animalxing", "New Isle"))
+    |> assign(:page_title, dgettext("inventory", "New Isle"))
     |> assign(:isle, %Isle{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, dgettext("animalxing", "Listing Isles"))
+    |> assign(:page_title, dgettext("inventory", "Listing Isles"))
     |> assign(:isle, nil)
   end
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    isle = AnimalXing.get_isle!(id)
-    {:ok, _} = AnimalXing.delete_isle(isle)
+    isle = Inventory.get_isle!(id)
+    {:ok, _} = Inventory.delete_isle(isle)
 
     {:noreply, assign(socket, :isles, list_isles())}
   end
@@ -66,6 +66,6 @@ defmodule JarvisWeb.IsleLive.Index do
   end
 
   defp list_isles do
-    AnimalXing.list_isles()
+    Inventory.list_isles()
   end
 end

@@ -59,7 +59,7 @@ defmodule JarvisWeb.Router do
     resources "/:shopping_list_id/items", ItemController, except: [:show]
   end
 
-  scope "/animalxing", JarvisWeb do
+  scope "/inventory", JarvisWeb do
     pipe_through :browser
 
     # Isles
@@ -93,7 +93,7 @@ defmodule JarvisWeb.Router do
     get "/usergroups", UserGroupApiController, :index
   end
 
-  scope "/v1/animalxing", JarvisWeb do
+  scope "/v1/inventory", JarvisWeb do
     pipe_through :api
 
     resources "/isles", IsleApiController, except: [:new, :edit]

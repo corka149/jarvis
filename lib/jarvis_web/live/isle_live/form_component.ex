@@ -2,7 +2,7 @@ defmodule JarvisWeb.IsleLive.FormComponent do
   use JarvisWeb, :live_component
 
   alias Jarvis.Accounts
-  alias Jarvis.AnimalXing
+  alias Jarvis.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
@@ -12,7 +12,7 @@ defmodule JarvisWeb.IsleLive.FormComponent do
 
   @impl true
   def update(%{isle: isle} = assigns, socket) do
-    changeset = AnimalXing.change_isle(isle)
+    changeset = Inventory.change_isle(isle)
 
     {:ok,
      socket
@@ -25,7 +25,7 @@ defmodule JarvisWeb.IsleLive.FormComponent do
   def handle_event("validate", %{"isle" => isle_params}, socket) do
     changeset =
       socket.assigns.isle
-      |> AnimalXing.change_isle(isle_params)
+      |> Inventory.change_isle(isle_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -38,13 +38,13 @@ defmodule JarvisWeb.IsleLive.FormComponent do
   # ===== PRIVATE =====
 
   defp save_isle(socket, :edit, isle_params) do
-    case AnimalXing.update_isle(socket.assigns.isle, isle_params) do
+    case Inventory.update_isle(socket.assigns.isle, isle_params) do
       {:ok, _isle} ->
         {:noreply,
          socket
          |> put_flash(
            :info,
-           dgettext("animalxing", "Isle updated successfully")
+           dgettext("inventory", "Isle updated successfully")
          )
          |> push_redirect(to: socket.assigns.return_to)}
 
@@ -56,11 +56,11 @@ defmodule JarvisWeb.IsleLive.FormComponent do
   defp save_isle(socket, :new, %{"belongs_to" => belongs_to} = isle_params) do
     user_group = Accounts.get_user_group!(belongs_to)
 
-    case AnimalXing.create_isle(isle_params, user_group) do
+    case Inventory.create_isle(isle_params, user_group) do
       {:ok, _isle} ->
         {:noreply,
          socket
-         |> put_flash(:info, dgettext("animalxing", "Isle created successfully"))
+         |> put_flash(:info, dgettext("inventory", "Isle created successfully"))
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

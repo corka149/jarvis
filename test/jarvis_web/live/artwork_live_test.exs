@@ -3,7 +3,7 @@ defmodule JarvisWeb.ArtworkLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias Jarvis.AnimalXing
+  alias Jarvis.Inventory
   import Jarvis.TestHelper
 
   @create_attrs %{
@@ -18,15 +18,15 @@ defmodule JarvisWeb.ArtworkLiveTest do
 
   def fixture(:artwork) do
     user_group = gen_test_data(:user_group)
-    {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+    {:ok, isle} = Inventory.create_isle(@valid_attrs_isle, user_group)
 
-    {:ok, artwork} = AnimalXing.create_artwork(@create_attrs, isle)
+    {:ok, artwork} = Inventory.create_artwork(@create_attrs, isle)
     artwork
   end
 
   def fixture(:isle) do
     user_group = gen_test_data(:user_group)
-    {:ok, isle} = AnimalXing.create_isle(@valid_attrs_isle, user_group)
+    {:ok, isle} = Inventory.create_isle(@valid_attrs_isle, user_group)
     isle
   end
 

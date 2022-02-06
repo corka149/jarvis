@@ -1,8 +1,8 @@
 defmodule JarvisWeb.IsleApiControllerTest do
   use JarvisWeb.ConnCase
 
-  alias Jarvis.AnimalXing
-  alias Jarvis.AnimalXing.Isle
+  alias Jarvis.Inventory
+  alias Jarvis.Inventory.Isle
 
   import Jarvis.TestHelper
 
@@ -17,7 +17,7 @@ defmodule JarvisWeb.IsleApiControllerTest do
   def fixture(:isle) do
     user_group = gen_test_data(:user_group)
 
-    {:ok, isle} = AnimalXing.create_isle(@create_attrs, user_group)
+    {:ok, isle} = Inventory.create_isle(@create_attrs, user_group)
     isle
   end
 

@@ -91,7 +91,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:33
-msgid "Animalxing"
+msgid "Inventory"
 msgstr ""
 
 #, elixir-format

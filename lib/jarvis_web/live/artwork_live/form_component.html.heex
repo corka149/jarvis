@@ -9,13 +9,13 @@
   <fieldset>
     <!-- NAME -->
     <div class="pure-control-group">
-      <%= label f, :name, dgettext("animalxing", "Name") %>
+      <%= label f, :name, dgettext("inventory", "Name") %>
       <%= text_input f, :name %>
       <%= error_tag f, :name %>
     </div>
     <!-- BELONGS_TO -->
     <div class="pure-control-group">
-      <%= label f, :belongs_to, dgettext("animalxing", "Belongs to") %>
+      <%= label f, :belongs_to, dgettext("inventory", "Belongs to") %>
       <%= select f, :belongs_to, @isles %>
       <%= error_tag f, :belongs_to %>
     </div>

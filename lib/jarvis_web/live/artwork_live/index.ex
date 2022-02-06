@@ -6,8 +6,8 @@ defmodule JarvisWeb.ArtworkLive.Index do
   use JarvisWeb, :live_view
 
   alias Jarvis.Accounts
-  alias Jarvis.AnimalXing
-  alias Jarvis.AnimalXing.Artwork
+  alias Jarvis.Inventory
+  alias Jarvis.Inventory.Artwork
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
@@ -25,8 +25,8 @@ defmodule JarvisWeb.ArtworkLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    artwork = AnimalXing.get_artwork!(id)
-    {:ok, _} = AnimalXing.delete_artwork(artwork)
+    artwork = Inventory.get_artwork!(id)
+    {:ok, _} = Inventory.delete_artwork(artwork)
 
     :ok = broadcast_change()
 
@@ -45,19 +45,19 @@ defmodule JarvisWeb.ArtworkLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, dgettext("animalxing", "Edit Artwork"))
-    |> assign(:artwork, AnimalXing.get_artwork!(id))
+    |> assign(:page_title, dgettext("inventory", "Edit Artwork"))
+    |> assign(:artwork, Inventory.get_artwork!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, dgettext("animalxing", "New Artwork"))
+    |> assign(:page_title, dgettext("inventory", "New Artwork"))
     |> assign(:artwork, %Artwork{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, dgettext("animalxing", "Listing Artworks"))
+    |> assign(:page_title, dgettext("inventory", "Listing Artworks"))
     |> assign(:artwork, nil)
   end
 
@@ -75,7 +75,7 @@ defmodule JarvisWeb.ArtworkLive.Index do
   end
 
   defp list_artworks do
-    AnimalXing.list_artworks()
+    Inventory.list_artworks()
   end
 
   defp broadcast_change do

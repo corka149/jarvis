@@ -28,9 +28,9 @@
         <li class="pure-menu-item">
           <%= link gettext("Membership"), to: Routes.invitation_path(@conn, :index), class: "pure-menu-link" %>
         </li>
-        <!-- ANIMALXING -->
+        <!-- Inventory -->
         <li class="pure-menu-item menu-item-divided menu-item-header">
-          <%= gettext("Animalxing") %>
+          <%= gettext("Inventory") %>
         </li>
         <li class="pure-menu-item">
           <%= link gettext("Isles"), to: Routes.isle_index_path(@conn, :index), class: "pure-menu-link" %>

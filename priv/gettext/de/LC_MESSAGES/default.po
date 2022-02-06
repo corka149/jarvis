@@ -92,8 +92,8 @@ msgstr "Benutzer"
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:33
-msgid "Animalxing"
-msgstr ""
+msgid "Inventory"
+msgstr "Inventar"
 
 #, elixir-format
 #: lib/jarvis_web/templates/layout/menu.html.eex:36
