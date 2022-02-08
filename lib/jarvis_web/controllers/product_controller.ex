@@ -1,8 +1,9 @@
-defmodule JarvisWeb.ItemController do
+defmodule JarvisWeb.ProductController do
   use JarvisWeb, :controller
 
-  alias Jarvis.ItemAuthorization
+  alias Jarvis.ProductAuthorization
   alias Jarvis.ShoppingLists
+  alias Jarvis.ShoppingLists.Product
   alias Jarvis.ShoppingLists.ShoppingListAuthorization
 
   action_fallback JarvisWeb.FallbackController
@@ -10,10 +11,10 @@ defmodule JarvisWeb.ItemController do
   plug JarvisWeb.Plugs.RequireAuthentication
 
   plug JarvisWeb.Plugs.RequireAuthorization,
-       %{authorization_border: ItemAuthorization} when action in [:edit, :update, :delete]
+       %{authorization_border: ProductAuthorization} when action in [:edit, :update, :delete]
 
   def index(conn, %{"shopping_list_id" => shopping_list_id}) do
-    redirect(conn, to: Routes.item_path(conn, :new, shopping_list_id))
+    redirect(conn, to: Routes.product_path(conn, :new, shopping_list_id))
   end
 
   def new(conn, %{"shopping_list_id" => shopping_list_id}) do
@@ -35,7 +36,7 @@ defmodule JarvisWeb.ItemController do
 
     case ShoppingLists.create_item(items_params, shopping_list) do
       {:ok, _item} ->
-        redirect(conn, to: Routes.item_path(conn, :new, shopping_list_id))
+        redirect(conn, to: Routes.product_path(conn, :new, shopping_list_id))
 
       {:error, changeset} ->
         conn
@@ -61,7 +62,7 @@ defmodule JarvisWeb.ItemController do
 
     case ShoppingLists.update_item(item, item_params) do
       {:ok, _item} ->
-        redirect(conn, to: Routes.item_path(conn, :new, shopping_list_id))
+        redirect(conn, to: Routes.product_path(conn, :new, shopping_list_id))
 
       {:error, changeset} ->
         conn
@@ -74,13 +75,13 @@ defmodule JarvisWeb.ItemController do
     item = ShoppingLists.get_item!(item_id)
     {:ok, _item} = ShoppingLists.delete_item(item)
 
-    redirect(conn, to: Routes.item_path(conn, :new, shopping_list_id))
+    redirect(conn, to: Routes.product_path(conn, :new, shopping_list_id))
   end
 
   ## Private functions
 
   defp new_form(conn, shopping_list_id, opts \\ []) do
-    changeset = Keyword.get(opts, :changeset, ShoppingLists.change_item(%ShoppingLists.Item{}))
+    changeset = Keyword.get(opts, :changeset, ShoppingLists.change_item(%Product{}))
     shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
     items = ShoppingLists.list_items_by_shopping_list(shopping_list)
 

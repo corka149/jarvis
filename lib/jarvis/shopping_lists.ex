@@ -7,7 +7,7 @@ defmodule Jarvis.ShoppingLists do
   alias Jarvis.Repo
 
   alias Jarvis.Accounts.User
-  alias Jarvis.ShoppingLists.Item
+  alias Jarvis.ShoppingLists.Product
   alias Jarvis.ShoppingLists.ShoppingList
 
   @doc """
@@ -122,7 +122,7 @@ defmodule Jarvis.ShoppingLists do
 
   """
   def delete_shopping_list(%ShoppingList{} = shopping_list) do
-    from(item in Item, where: item.shopping_list_id == ^shopping_list.id)
+    from(item in Product, where: item.shopping_list_id == ^shopping_list.id)
     |> Repo.delete_all()
 
     Repo.delete(shopping_list)
@@ -147,16 +147,16 @@ defmodule Jarvis.ShoppingLists do
   def create_item(attrs \\ %{}, shopping_list) do
     shopping_list
     |> Ecto.build_assoc(:items)
-    |> Item.changeset(attrs)
+    |> Product.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
   Updates an existing item associated with a shopping list.
   """
-  def update_item(%Item{} = item, attrs) do
+  def update_item(%Product{} = item, attrs) do
     item
-    |> Item.changeset(attrs)
+    |> Product.changeset(attrs)
     |> Repo.update()
   end
 
@@ -173,11 +173,11 @@ defmodule Jarvis.ShoppingLists do
   end
 
   def get_item!(id) do
-    Repo.get!(Item, id)
+    Repo.get!(Product, id)
     |> Repo.preload(:shopping_list)
   end
 
-  def delete_item(%Item{} = item) do
+  def delete_item(%Product{} = item) do
     Repo.delete(item)
   end
 
@@ -186,13 +186,13 @@ defmodule Jarvis.ShoppingLists do
   (Useful for validation)
   """
   def change_item(item, attrs \\ %{}) do
-    Item.changeset(item, attrs)
+    Product.changeset(item, attrs)
   end
 
   @doc """
   Lists all items that belong to a certain shopping list.
   """
   def list_items_by_shopping_list(%ShoppingList{id: id}) do
-    Repo.all(from it in Item, where: it.shopping_list_id == ^id)
+    Repo.all(from it in Product, where: it.shopping_list_id == ^id)
   end
 end

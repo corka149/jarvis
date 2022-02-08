@@ -1,4 +1,4 @@
-defmodule Jarvis.ItemAuthorization do
+defmodule Jarvis.ProductAuthorization do
   @moduledoc """
   Defines who can access items.
   """
