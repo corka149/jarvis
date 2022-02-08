@@ -5,7 +5,7 @@ defmodule Jarvis.ShoppingLists.Item do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "items" do
+  schema "products" do
     field :amount, :integer
     field :name, :string
     belongs_to :shopping_list, Jarvis.ShoppingLists.ShoppingList
