@@ -56,7 +56,7 @@ defmodule JarvisWeb.Router do
 
     get "/open", ShoppingListController, :index_open_lists
     resources "/", ShoppingListController
-    resources "/:shopping_list_id/items", ItemController, except: [:show]
+    resources "/:shopping_list_id/products", ProductController, except: [:show]
   end
 
   scope "/inventory", JarvisWeb do
@@ -91,12 +91,5 @@ defmodule JarvisWeb.Router do
     pipe_through :api
 
     get "/usergroups", UserGroupApiController, :index
-  end
-
-  scope "/v1/inventory", JarvisWeb do
-    pipe_through :api
-
-    resources "/places", PlaceApiController, except: [:new, :edit]
-    resources "/places/:belongs_to/items", ItemApiController, except: [:new, :edit]
   end
 end

@@ -1,5 +1,0 @@
-<!-- Form -->
-<%= render "form.html", Map.put(assigns, :action, Routes.item_path(@conn, :create, @shopping_list.id)) %>
-
-<!-- Item list -->
-<%= render "list.html", assigns %>

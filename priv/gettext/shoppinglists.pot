@@ -34,8 +34,8 @@ msgid "Edit shopping list"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/item/form.html.eex:20
-#: lib/jarvis_web/templates/item/list.html.eex:9
+#: lib/jarvis_web/templates/product/form.html.eex:20
+#: lib/jarvis_web/templates/product/list.html.eex:9
 msgid "Amount"
 msgstr ""
 
@@ -45,9 +45,9 @@ msgid "All shopping lists"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/item/form.html.eex:14
-#: lib/jarvis_web/templates/item/list.html.eex:6
-msgid "Item name"
+#: lib/jarvis_web/templates/product/form.html.eex:14
+#: lib/jarvis_web/templates/product/list.html.eex:6
+msgid "Product name"
 msgstr ""
 
 #, elixir-format
@@ -67,8 +67,8 @@ msgid "Open shopping lists"
 msgstr ""
 
 #, elixir-format
-#: lib/jarvis_web/templates/item/form.html.eex:3
-#: lib/jarvis_web/templates/item/index.html.eex:3 lib/jarvis_web/templates/shopping_list/show.html.eex:3
+#: lib/jarvis_web/templates/product/form.html.eex:3
+#: lib/jarvis_web/templates/product/index.html.eex:3 lib/jarvis_web/templates/shopping_list/show.html.eex:3
 msgid "Shopping list"
 msgstr ""
 

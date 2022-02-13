@@ -1,4 +1,4 @@
-defmodule JarvisWeb.ItemControllerTest do
+defmodule JarvisWeb.ProductControllerTest do
   alias Jarvis.ShoppingLists
 
   import Jarvis.TestHelper
@@ -15,35 +15,35 @@ defmodule JarvisWeb.ItemControllerTest do
     planned_for: ~D[2010-04-17]
   }
 
-  def fixture(:item) do
+  def fixture(:product) do
     group = gen_test_data(:user_group)
     user = group.user
     {:ok, shopping_list} = ShoppingLists.create_shopping_list(@valid_attrs_shopping_list, group)
-    {:ok, item} = ShoppingLists.create_item(@create_attrs, shopping_list)
-    {item, shopping_list, group, user}
+    {:ok, product} = ShoppingLists.create_product(@create_attrs, shopping_list)
+    {product, shopping_list, group, user}
   end
 
-  defp create_item(_) do
-    {item, shopping_list, _group, user} = fixture(:item)
-    {:ok, item: item, shopping_list: shopping_list, user: user}
+  defp create_product(_) do
+    {product, shopping_list, _group, user} = fixture(:product)
+    {:ok, product: product, shopping_list: shopping_list, user: user}
   end
 
   # ===== TESTS =====
 
   describe "index" do
-    setup [:create_item]
+    setup [:create_product]
 
-    test "lists all items", %{conn: conn, user: user, shopping_list: shopping_list} do
+    test "lists all products", %{conn: conn, user: user, shopping_list: shopping_list} do
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
-        |> get(Routes.item_path(conn, :index, shopping_list.id))
+        |> get(Routes.product_path(conn, :index, shopping_list.id))
 
-      assert redirected_to(conn) == Routes.item_path(conn, :new, shopping_list.id)
+      assert redirected_to(conn) == Routes.product_path(conn, :new, shopping_list.id)
     end
   end
 
-  describe "create item" do
-    setup [:create_item]
+  describe "create product" do
+    setup [:create_product]
 
     test "show new form", %{
       conn: conn,
@@ -52,79 +52,79 @@ defmodule JarvisWeb.ItemControllerTest do
     } do
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
-        |> get(Routes.item_path(conn, :new, shopping_list.id))
+        |> get(Routes.product_path(conn, :new, shopping_list.id))
 
       assert html_response(conn, 200) =~ "Shopping list for"
       assert html_response(conn, 200) =~ Date.to_string(shopping_list.planned_for)
-      assert html_response(conn, 200) =~ "name=\"item[name]\""
-      assert html_response(conn, 200) =~ "name=\"item[amount]\""
+      assert html_response(conn, 200) =~ "name=\"product[name]\""
+      assert html_response(conn, 200) =~ "name=\"product[amount]\""
     end
 
-    test "use valid attrs for creating item", %{
+    test "use valid attrs for creating product", %{
       conn: conn,
       user: user,
       shopping_list: shopping_list
     } do
-      route = Routes.item_path(conn, :create, shopping_list.id)
+      route = Routes.product_path(conn, :create, shopping_list.id)
 
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
-        |> get(Routes.item_path(conn, :new, shopping_list.id))
+        |> get(Routes.product_path(conn, :new, shopping_list.id))
 
-      conn = post(conn, route, item: @create_attrs)
+      conn = post(conn, route, product: @create_attrs)
       assert redirected_to(conn) =~ route
 
-      conn = get(conn, Routes.item_path(conn, :new, shopping_list.id))
+      conn = get(conn, Routes.product_path(conn, :new, shopping_list.id))
       assert html_response(conn, 200) =~ @create_attrs.name
       assert html_response(conn, 200) =~ Integer.to_string(@create_attrs.amount)
     end
 
-    test "use invalid attrs for creating item and expect error", %{
+    test "use invalid attrs for creating product and expect error", %{
       conn: conn,
       user: user,
       shopping_list: shopping_list
     } do
-      route = Routes.item_path(conn, :create, shopping_list.id)
+      route = Routes.product_path(conn, :create, shopping_list.id)
 
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
-        |> post(route, item: @invalid_attrs)
+        |> post(route, product: @invalid_attrs)
 
       assert html_response(conn, 400) =~ "is invalid"
       assert html_response(conn, 400) =~ "can&#39;t be blank"
     end
   end
 
-  describe "update item" do
-    setup [:create_item]
+  describe "update product" do
+    setup [:create_product]
 
     test "render edit form", %{
       conn: conn,
       user: user,
       shopping_list: shopping_list,
-      item: item
+      product: product
     } do
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
-        |> get(Routes.item_path(conn, :edit, shopping_list.id, item))
+        |> get(Routes.product_path(conn, :edit, shopping_list.id, product))
 
-      assert html_response(conn, 200) =~ "value=\"#{item.name}\""
-      assert html_response(conn, 200) =~ "value=\"#{item.amount}\""
+      assert html_response(conn, 200) =~ "value=\"#{product.name}\""
+      assert html_response(conn, 200) =~ "value=\"#{product.amount}\""
     end
 
-    test "update item with valid attrs", %{
+    test "update product with valid attrs", %{
       conn: conn,
       user: user,
       shopping_list: shopping_list,
-      item: item
+      product: product
     } do
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
-        |> put(Routes.item_path(conn, :update, shopping_list.id, item),
-          item: @update_attrs
+        |> put(Routes.product_path(conn, :update, shopping_list.id, product),
+          product: @update_attrs
         )
 
-      route = Routes.item_path(conn, :new, shopping_list.id)
+      route = Routes.product_path(conn, :new, shopping_list.id)
       assert redirected_to(conn) =~ route
 
       conn = get(conn, route)
@@ -132,57 +132,57 @@ defmodule JarvisWeb.ItemControllerTest do
       assert html_response(conn, 200) =~ Integer.to_string(@update_attrs.amount)
     end
 
-    test "update item with invalid attrs and expect error", %{
+    test "update product with invalid attrs and expect error", %{
       conn: conn,
       user: user,
       shopping_list: shopping_list,
-      item: item
+      product: product
     } do
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
-        |> put(Routes.item_path(conn, :update, shopping_list.id, item),
-          item: @invalid_attrs
+        |> put(Routes.product_path(conn, :update, shopping_list.id, product),
+          product: @invalid_attrs
         )
 
       assert html_response(conn, 400) =~ "is invalid"
       assert html_response(conn, 400) =~ "can&#39;t be blank"
     end
 
-    test "update item without authorization and expect rejection", %{
+    test "update product without authorization and expect rejection", %{
       conn: conn,
       shopping_list: shopping_list,
-      item: item
+      product: product
     } do
       another_user = gen_test_data(:user)
 
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: another_user.id)
-        |> put(Routes.item_path(conn, :update, shopping_list.id, item),
-          item: @invalid_attrs
+        |> put(Routes.product_path(conn, :update, shopping_list.id, product),
+          product: @invalid_attrs
         )
 
       assert response(conn, 403) =~ "You are not allow to do this"
     end
   end
 
-  describe "delete item" do
-    setup [:create_item]
+  describe "delete product" do
+    setup [:create_product]
 
-    test "delete existing item", %{
+    test "delete existing product", %{
       conn: conn,
       user: user,
       shopping_list: shopping_list,
-      item: item
+      product: product
     } do
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
-        |> delete(Routes.item_path(conn, :delete, shopping_list.id, item))
+        |> delete(Routes.product_path(conn, :delete, shopping_list.id, product))
 
-      route = Routes.item_path(conn, :new, shopping_list.id)
+      route = Routes.product_path(conn, :new, shopping_list.id)
       assert redirected_to(conn) =~ route
 
       conn = get(conn, route)
-      assert not (html_response(conn, 200) =~ item.name)
+      assert not (html_response(conn, 200) =~ product.name)
     end
   end
 end

@@ -1,11 +1,11 @@
-defmodule Jarvis.ShoppingLists.Item do
+defmodule Jarvis.ShoppingLists.Product do
   @moduledoc """
-  Database module for the entity item.
+  Database module for the entity product.
   """
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "items" do
+  schema "products" do
     field :amount, :integer
     field :name, :string
     belongs_to :shopping_list, Jarvis.ShoppingLists.ShoppingList
@@ -14,8 +14,8 @@ defmodule Jarvis.ShoppingLists.Item do
   end
 
   @doc false
-  def changeset(item, attrs) do
-    item
+  def changeset(product, attrs) do
+    product
     |> cast(attrs, [:name, :amount, :shopping_list_id])
     |> validate_required([:name, :amount, :shopping_list_id])
   end

@@ -5,7 +5,7 @@ defmodule Jarvis.Inventory.Item do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "artworks" do
+  schema "items" do
     field :name, :string
     belongs_to :place, Jarvis.Inventory.Place, foreign_key: :belongs_to
 
