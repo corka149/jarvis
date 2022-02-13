@@ -15,8 +15,8 @@
     </thead>
     <tbody>
       <%= for it <- @products do %>
-        <tr id="product-<%= it.id %>">
-          <td onclick="toggleProduct('product-<%= it.id %>')">
+        <tr id={"product-#{it.id}"}>
+          <td onclick={"toggleProduct('product-#{it.id}')"}>
             <%= it.name %>
           </td>
           <td>
