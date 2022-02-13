@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th>
-          <%= dgettext("shoppinglists", "product name") %>
+          <%= dgettext("shoppinglists", "Product name") %>
         </th>
         <th>
           <%= dgettext("shoppinglists", "Amount") %>
