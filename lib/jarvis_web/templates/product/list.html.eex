@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th>
-          <%= dgettext("shoppinglists", "Item name") %>
+          <%= dgettext("shoppinglists", "product name") %>
         </th>
         <th>
           <%= dgettext("shoppinglists", "Amount") %>
@@ -14,9 +14,9 @@
       </tr>
     </thead>
     <tbody>
-      <%= for it <- @items do %>
-        <tr id="item-<%= it.id %>">
-          <td onclick="toggleItem('item-<%= it.id %>')">
+      <%= for it <- @products do %>
+        <tr id="product-<%= it.id %>">
+          <td onclick="toggleProduct('product-<%= it.id %>')">
             <%= it.name %>
           </td>
           <td>
@@ -32,12 +32,12 @@
   </table>
 </div>
 <script>
-  const toggleItem = (id) => {
-      const item = document.getElementById(id);
-      if (item.style.color === 'lightgrey') {
-          item.style.color = 'black'
+  const toggleProduct = (id) => {
+      const product = document.getElementById(id);
+      if (product.style.color === 'lightgrey') {
+          product.style.color = 'black'
       } else {
-          item.style.color = 'lightgrey';
+          product.style.color = 'lightgrey';
       }
   };
 </script>

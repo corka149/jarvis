@@ -14,8 +14,8 @@ defmodule Jarvis.ShoppingLists.Product do
   end
 
   @doc false
-  def changeset(item, attrs) do
-    item
+  def changeset(product, attrs) do
+    product
     |> cast(attrs, [:name, :amount, :shopping_list_id])
     |> validate_required([:name, :amount, :shopping_list_id])
   end

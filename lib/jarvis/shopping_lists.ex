@@ -50,7 +50,7 @@ defmodule Jarvis.ShoppingLists do
   def list_open_shoppinglists_of_today do
     from(sl in ShoppingList, where: not sl.done and sl.planned_for == ^Date.utc_today())
     |> Repo.all()
-    |> Repo.preload([:usergroup, :items])
+    |> Repo.preload([:usergroup, :products])
   end
 
   @doc """
@@ -110,7 +110,7 @@ defmodule Jarvis.ShoppingLists do
   end
 
   @doc """
-  Deletes a ShoppingList and its items.
+  Deletes a ShoppingList and its products.
 
   ## Examples
 
@@ -122,7 +122,7 @@ defmodule Jarvis.ShoppingLists do
 
   """
   def delete_shopping_list(%ShoppingList{} = shopping_list) do
-    from(item in Product, where: item.shopping_list_id == ^shopping_list.id)
+    from(product in Product, where: product.shopping_list_id == ^shopping_list.id)
     |> Repo.delete_all()
 
     Repo.delete(shopping_list)
@@ -142,57 +142,57 @@ defmodule Jarvis.ShoppingLists do
   end
 
   @doc """
-  Creates a new item associated with a shopping list.
+  Creates a new product associated with a shopping list.
   """
-  def create_item(attrs \\ %{}, shopping_list) do
+  def create_product(attrs \\ %{}, shopping_list) do
     shopping_list
-    |> Ecto.build_assoc(:items)
+    |> Ecto.build_assoc(:products)
     |> Product.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates an existing item associated with a shopping list.
+  Updates an existing product associated with a shopping list.
   """
-  def update_item(%Product{} = item, attrs) do
-    item
+  def update_product(%Product{} = product, attrs) do
+    product
     |> Product.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Creates a new item or update an existing one when attrs contains
+  Creates a new product or update an existing one when attrs contains
   an ID.
   """
-  def create_or_update_item(attrs, shopping_list) do
+  def create_or_update_product(attrs, shopping_list) do
     case attrs do
-      %{"id" => ""} -> create_item(attrs, shopping_list)
-      %{"id" => id} -> get_item!(id) |> update_item(attrs)
-      _ -> create_item(attrs, shopping_list)
+      %{"id" => ""} -> create_product(attrs, shopping_list)
+      %{"id" => id} -> get_product!(id) |> update_product(attrs)
+      _ -> create_product(attrs, shopping_list)
     end
   end
 
-  def get_item!(id) do
+  def get_product!(id) do
     Repo.get!(Product, id)
     |> Repo.preload(:shopping_list)
   end
 
-  def delete_item(%Product{} = item) do
-    Repo.delete(item)
+  def delete_product(%Product{} = product) do
+    Repo.delete(product)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking item changes.
+  Returns an `%Ecto.Changeset{}` for tracking product changes.
   (Useful for validation)
   """
-  def change_item(item, attrs \\ %{}) do
-    Product.changeset(item, attrs)
+  def change_product(product, attrs \\ %{}) do
+    Product.changeset(product, attrs)
   end
 
   @doc """
-  Lists all items that belong to a certain shopping list.
+  Lists all products that belong to a certain shopping list.
   """
-  def list_items_by_shopping_list(%ShoppingList{id: id}) do
+  def list_products_by_shopping_list(%ShoppingList{id: id}) do
     Repo.all(from it in Product, where: it.shopping_list_id == ^id)
   end
 end
