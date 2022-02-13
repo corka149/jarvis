@@ -92,11 +92,4 @@ defmodule JarvisWeb.Router do
 
     get "/usergroups", UserGroupApiController, :index
   end
-
-  scope "/v1/inventory", JarvisWeb do
-    pipe_through :api
-
-    resources "/places", PlaceApiController, except: [:new, :edit]
-    resources "/places/:belongs_to/items", ItemApiController, except: [:new, :edit]
-  end
 end
