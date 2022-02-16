@@ -22,7 +22,7 @@
     </thead>
     <tbody>
       <%= for group <- @user_groups do %>
-        <tr onclick="window.open('<%= Routes.user_group_path(@conn, :show, group) %>', '_self')">
+        <tr onclick={"window.open('#{Routes.user_group_path(@conn, :show, group)}', '_self')"}>
           <td><%= group.id %></td>
           <td><%= group.name %></td>
         </tr>
