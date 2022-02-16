@@ -19,7 +19,7 @@
     </thead>
     <tbody>
       <%= for list <- @shopping_lists do %>
-        <tr onclick="window.open('<%= Routes.shopping_list_path(@conn, :show, list) %>', '_self')">
+        <tr onclick={"window.open('#{Routes.shopping_list_path(@conn, :show, list)}', '_self')"}>
           <td><%= list.id %></td>
           <td><%= list.usergroup.name %></td>
           <td><%= list.planned_for %></td>
