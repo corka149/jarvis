@@ -53,6 +53,13 @@ Important environment variables for prod release:
  * GITHUB_CLIENT_SECRET - oauth with github
  * GITHUB_CALLBACK_PATH_PREFIX - will be added to callback url (useful for ingress)
 
+## Architecture
+
+This services follows the explicit architecture.
+* [Explicit architecture by Herberto Graça](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/)
+* [Explicit architecture](https://miro.com/app/board/o9J_lY8cG_k=/)
+* [Explicit architecture by Peter and Code for Elixir](https://www.youtube.com/watch?v=iGTCZt9Z8A8)
+
 ## Important notes
 
 Execute the following as often as possible and fix what you can:
