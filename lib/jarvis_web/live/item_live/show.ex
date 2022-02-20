@@ -5,8 +5,8 @@ defmodule JarvisWeb.ItemLive.Show do
 
   use JarvisWeb, :live_view
 
-  alias Jarvis.Accounts
   alias Jarvis.Inventory
+  alias Jarvis.Repo.Accounts
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 

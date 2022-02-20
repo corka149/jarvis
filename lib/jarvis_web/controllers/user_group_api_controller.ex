@@ -1,7 +1,7 @@
 defmodule JarvisWeb.UserGroupApiController do
   use JarvisWeb, :controller
 
-  alias Jarvis.Accounts
+  alias Jarvis.Repo.Accounts
 
   action_fallback JarvisWeb.FallbackController
 

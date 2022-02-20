@@ -4,7 +4,7 @@ defmodule JarvisWeb.Plugs.SetUser do
   """
   import Plug.Conn
 
-  alias Jarvis.Accounts
+  alias Jarvis.Repo.Accounts
 
   require Logger
 

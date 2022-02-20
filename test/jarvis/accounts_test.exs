@@ -4,6 +4,7 @@ defmodule Jarvis.AccountsTest do
   import Jarvis.TestHelper
 
   alias Jarvis.Accounts
+  alias Jarvis.Repo.Accounts
 
   describe "users" do
     alias Jarvis.Accounts.User
@@ -129,7 +130,7 @@ defmodule Jarvis.AccountsTest do
     def user_group_fixture(attrs \\ %{}) do
       {:ok, user} =
         update_with_unique_email(@valid_attrs_user)
-        |> Jarvis.Accounts.create_user()
+        |> Jarvis.Repo.Accounts.create_user()
 
       {:ok, user_group} =
         attrs
@@ -155,7 +156,7 @@ defmodule Jarvis.AccountsTest do
     test "create_user_group/1 with valid data creates a user_group" do
       {:ok, user} =
         update_with_unique_email(@valid_attrs_user)
-        |> Jarvis.Accounts.create_user()
+        |> Jarvis.Repo.Accounts.create_user()
 
       assert {:ok, %UserGroup{} = user_group} = Accounts.create_user_group(@valid_attrs, user)
       assert user_group.name == "some name"

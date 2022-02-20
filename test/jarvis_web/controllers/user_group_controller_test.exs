@@ -1,5 +1,6 @@
 defmodule JarvisWeb.UserGroupControllerTest do
   alias Jarvis.Accounts
+  alias Jarvis.Repo.Accounts
 
   import Jarvis.TestHelper
 
@@ -22,7 +23,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
   def fixture(:user_group) do
     {:ok, user} =
       update_with_unique_email(@valid_attrs_user)
-      |> Jarvis.Accounts.create_user()
+      |> Jarvis.Repo.Accounts.create_user()
 
     {:ok, user_group} = Accounts.create_user_group(@create_attrs, user)
 

@@ -1,6 +1,7 @@
 defmodule Jarvis.ShoppingListsTest do
   use Jarvis.DataCase
 
+  alias Jarvis.Repo.Accounts
   alias Jarvis.ShoppingLists
 
   describe "shoppinglists" do
@@ -19,8 +20,8 @@ defmodule Jarvis.ShoppingListsTest do
     }
 
     def shopping_list_fixture(attrs \\ %{}) do
-      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
-      {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
+      {:ok, user} = Accounts.create_user(@valid_attrs_user)
+      {_, group} = Accounts.create_user_group(@valid_attrs_group, user)
 
       {:ok, shopping_list} =
         attrs
@@ -47,8 +48,8 @@ defmodule Jarvis.ShoppingListsTest do
     end
 
     test "create_shopping_list/1 with valid data creates a shopping_list" do
-      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
-      {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
+      {:ok, user} = Accounts.create_user(@valid_attrs_user)
+      {_, group} = Accounts.create_user_group(@valid_attrs_group, user)
 
       assert {:ok, %ShoppingList{} = shopping_list} =
                ShoppingLists.create_shopping_list(@valid_attrs, group)
@@ -58,8 +59,8 @@ defmodule Jarvis.ShoppingListsTest do
     end
 
     test "create_shopping_list/1 with invalid data returns error changeset" do
-      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
-      {_, group} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
+      {:ok, user} = Accounts.create_user(@valid_attrs_user)
+      {_, group} = Accounts.create_user_group(@valid_attrs_group, user)
 
       assert {:error, %Ecto.Changeset{}} =
                ShoppingLists.create_shopping_list(@invalid_attrs, group)

@@ -4,6 +4,7 @@ defmodule JarvisWeb.PlaceLive.Index do
   alias Jarvis.Accounts
   alias Jarvis.Inventory
   alias Jarvis.Inventory.Place
+  alias Jarvis.Repo.Accounts
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 

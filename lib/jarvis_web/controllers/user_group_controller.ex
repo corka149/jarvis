@@ -1,7 +1,8 @@
 defmodule JarvisWeb.UserGroupController do
   use JarvisWeb, :controller
 
-  alias Jarvis.Accounts
+  alias Jarvis.Accounts.UserGroup
+  alias Jarvis.Repo.Accounts
 
   action_fallback JarvisWeb.FallbackController
 
@@ -24,7 +25,7 @@ defmodule JarvisWeb.UserGroupController do
   end
 
   def new(conn, _params) do
-    changeset = Accounts.change_user_group(%Accounts.UserGroup{})
+    changeset = Accounts.change_user_group(%UserGroup{})
 
     conn
     |> render("new.html", changeset: changeset)

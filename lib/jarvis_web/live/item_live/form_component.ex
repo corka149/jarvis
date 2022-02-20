@@ -5,7 +5,7 @@ defmodule JarvisWeb.ItemLive.FormComponent do
 
   use JarvisWeb, :live_component
 
-  alias Jarvis.Accounts
+  alias Jarvis.Accounts.User
   alias Jarvis.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
@@ -73,7 +73,7 @@ defmodule JarvisWeb.ItemLive.FormComponent do
     socket |> assign(:places, place_names_with_ids(user))
   end
 
-  defp place_names_with_ids(%Accounts.User{} = _user) do
+  defp place_names_with_ids(%User{} = _user) do
     Inventory.list_places()
     |> Enum.map(&{&1.name, &1.id})
   end

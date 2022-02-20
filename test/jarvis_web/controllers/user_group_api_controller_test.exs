@@ -1,5 +1,5 @@
 defmodule JarvisWeb.UserGroupApiControllerTest do
-  alias Jarvis.Accounts
+  alias Jarvis.Repo.Accounts
 
   import Jarvis.TestHelper
 

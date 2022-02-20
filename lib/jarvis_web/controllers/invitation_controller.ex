@@ -1,5 +1,7 @@
 defmodule JarvisWeb.InvitationController do
-  alias Jarvis.Accounts
+  alias Jarvis.Accounts.Invitation
+  alias Jarvis.Accounts.User
+  alias Jarvis.Repo.Accounts
 
   use JarvisWeb, :controller
 
@@ -16,7 +18,7 @@ defmodule JarvisWeb.InvitationController do
   end
 
   def new(conn, _params) do
-    changeset = Accounts.change_invitation(%Accounts.Invitation{})
+    changeset = Accounts.change_invitation(%Invitation{})
 
     render(conn, "new.html",
       changeset: changeset,
@@ -69,7 +71,7 @@ defmodule JarvisWeb.InvitationController do
     end
   end
 
-  defp group_names_with_ids(%Accounts.User{} = user) do
+  defp group_names_with_ids(%User{} = user) do
     Accounts.list_usergroups_by_membership_or_owner(user)
     |> Enum.map(&{&1.name, &1.id})
   end

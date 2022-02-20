@@ -1,4 +1,4 @@
-defmodule Jarvis.Accounts do
+defmodule Jarvis.Repo.Accounts do
   @moduledoc """
   The Accounts context.
   """

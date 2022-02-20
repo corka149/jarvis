@@ -1,4 +1,6 @@
 defmodule JarvisWeb.AuthControllerTest do
+  alias Jarvis.Repo.Accounts
+
   use JarvisWeb.ConnCase
   use Plug.Test
 
@@ -13,7 +15,7 @@ defmodule JarvisWeb.AuthControllerTest do
   }
 
   setup do
-    {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+    {:ok, user} = Accounts.create_user(@valid_attrs_user)
     {:ok, user: user}
   end
 

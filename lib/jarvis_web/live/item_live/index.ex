@@ -8,6 +8,7 @@ defmodule JarvisWeb.ItemLive.Index do
   alias Jarvis.Accounts
   alias Jarvis.Inventory
   alias Jarvis.Inventory.Item
+  alias Jarvis.Repo.Accounts
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 

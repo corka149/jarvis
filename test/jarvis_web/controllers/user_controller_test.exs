@@ -5,6 +5,7 @@ defmodule JarvisWeb.UserControllerTest do
   import Jarvis.TestHelper
 
   alias Jarvis.Accounts.User
+  alias Jarvis.Repo.Accounts
 
   @create_attrs %{
     email: "someemail@test.xyz",
@@ -25,7 +26,7 @@ defmodule JarvisWeb.UserControllerTest do
   def fixture(:user) do
     {:ok, user} =
       update_with_unique_email(@create_attrs)
-      |> Jarvis.Accounts.create_user()
+      |> Accounts.create_user()
 
     user
   end

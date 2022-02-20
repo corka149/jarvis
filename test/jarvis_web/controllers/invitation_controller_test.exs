@@ -1,5 +1,6 @@
 defmodule JarvisWeb.InvitationControllerTest do
   alias Jarvis.Accounts
+  alias Jarvis.Repo.Accounts
 
   import Jarvis.TestHelper
 
@@ -24,8 +25,9 @@ defmodule JarvisWeb.InvitationControllerTest do
   end
 
   def fixture(:user_and_group) do
-    {:ok, user} = Jarvis.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
-    {:ok, _} = Jarvis.Accounts.create_user_group(@valid_attrs_group, user)
+    {:ok, user} = Jarvis.Repo.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
+
+    {:ok, _} = Jarvis.Repo.Accounts.create_user_group(@valid_attrs_group, user)
     user |> Jarvis.Repo.preload(:usergroups)
   end
 
@@ -40,7 +42,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
   describe "index" do
     test "lists all invitations", %{conn: conn} do
-      {:ok, user} = Jarvis.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.Repo.Accounts.create_user(@valid_attrs_user)
 
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
@@ -57,7 +59,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
     test "redirects to show when data is valid", %{conn: conn, group: group} do
       {_, user} =
-        Jarvis.Accounts.create_user(%{
+        Jarvis.Repo.Accounts.create_user(%{
           email: "someemail@test.xyz",
           name: "Bob",
           provider: "some provider",

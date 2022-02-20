@@ -1,7 +1,8 @@
 defmodule JarvisWeb.ShoppingListController do
   use JarvisWeb, :controller
 
-  alias Jarvis.Accounts
+  alias Jarvis.Accounts.User
+  alias Jarvis.Repo.Accounts
   alias Jarvis.ShoppingLists
   alias Jarvis.ShoppingLists.ShoppingList
   alias Jarvis.ShoppingLists.ShoppingListAuthorization
@@ -106,7 +107,7 @@ defmodule JarvisWeb.ShoppingListController do
 
   ## Private functions
 
-  defp group_names_with_ids(%Accounts.User{} = user) do
+  defp group_names_with_ids(%User{} = user) do
     Accounts.list_usergroups_by_membership_or_owner(user)
     |> Enum.map(&{&1.name, &1.id})
   end

@@ -1,7 +1,7 @@
 defmodule JarvisWeb.AuthController do
   use JarvisWeb, :controller
 
-  alias Jarvis.Accounts
+  alias Jarvis.Repo.Accounts
 
   def signin_by_jarvis(conn, params) do
     params

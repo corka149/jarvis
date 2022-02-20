@@ -1,8 +1,9 @@
 defmodule JarvisWeb.PlaceLive.FormComponent do
   use JarvisWeb, :live_component
 
-  alias Jarvis.Accounts
+  alias Jarvis.Accounts.User
   alias Jarvis.Inventory
+  alias Jarvis.Repo.Accounts
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
@@ -72,7 +73,7 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
     socket |> assign(:user_groups, group_names_with_ids(user))
   end
 
-  defp group_names_with_ids(%Accounts.User{} = user) do
+  defp group_names_with_ids(%User{} = user) do
     Accounts.list_usergroups_by_membership_or_owner(user)
     |> Enum.map(&{&1.name, &1.id})
   end
