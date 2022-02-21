@@ -1,11 +1,11 @@
 defmodule JarvisWeb.AuthController do
   use JarvisWeb, :controller
 
-  alias Jarvis.Repo.Accounts
+  alias Jarvis.ApplicationServices.Accounts
 
   def signin_by_jarvis(conn, params) do
     params
-    |> verify_user()
+    |> Accounts.verify_user()
     |> init_session(conn)
   end
 
@@ -34,17 +34,5 @@ defmodule JarvisWeb.AuthController do
     |> put_flash(:error, dgettext("accounts", "Sign in failed"))
     |> put_status(403)
     |> render("signin.html")
-  end
-
-  # Check credentials for jarvis user
-  defp verify_user(%{"password" => password, "email" => email}) do
-    case email |> Accounts.get_user_by_email() do
-      %{provider: "jarvis"} = user -> Argon2.check_pass(user, password)
-      _ -> {:error, "Not a jARVIS user"}
-    end
-  end
-
-  defp verify_user(_) do
-    {:error, "missing credentials"}
   end
 end
