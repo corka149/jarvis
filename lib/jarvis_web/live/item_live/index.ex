@@ -6,9 +6,9 @@ defmodule JarvisWeb.ItemLive.Index do
   use JarvisWeb, :live_view
 
   alias Jarvis.Accounts
-  alias Jarvis.Inventory
   alias Jarvis.Inventory.Item
   alias Jarvis.Repo.Accounts
+  alias Jarvis.Repo.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 

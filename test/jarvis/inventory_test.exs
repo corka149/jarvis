@@ -1,7 +1,7 @@
 defmodule Jarvis.InventoryTest do
   use Jarvis.DataCase
 
-  alias Jarvis.Inventory
+  alias Jarvis.Repo.Inventory
 
   import Jarvis.TestHelper
 

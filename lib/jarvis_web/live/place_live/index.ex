@@ -2,9 +2,9 @@ defmodule JarvisWeb.PlaceLive.Index do
   use JarvisWeb, :live_view
 
   alias Jarvis.Accounts
-  alias Jarvis.Inventory
   alias Jarvis.Inventory.Place
   alias Jarvis.Repo.Accounts
+  alias Jarvis.Repo.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 

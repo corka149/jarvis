@@ -1,7 +1,7 @@
 defmodule JarvisWeb.PlaceLive.Show do
   use JarvisWeb, :live_view
 
-  alias Jarvis.Inventory
+  alias Jarvis.Repo.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 

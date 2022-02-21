@@ -4,7 +4,7 @@ defmodule JarvisWeb.PlaceLiveTest do
   import Phoenix.LiveViewTest
   import Jarvis.TestHelper
 
-  alias Jarvis.Inventory
+  alias Jarvis.Repo.Inventory
 
   @create_attrs %{name: "some name", belongs_to: nil}
   @update_attrs %{name: "some updated name", belongs_to: nil}

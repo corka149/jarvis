@@ -6,7 +6,7 @@ defmodule JarvisWeb.ItemLive.FormComponent do
   use JarvisWeb, :live_component
 
   alias Jarvis.Accounts.User
-  alias Jarvis.Inventory
+  alias Jarvis.Repo.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 

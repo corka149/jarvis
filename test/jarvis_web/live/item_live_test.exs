@@ -3,7 +3,7 @@ defmodule JarvisWeb.ItemLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias Jarvis.Inventory
+  alias Jarvis.Repo.Inventory
   import Jarvis.TestHelper
 
   @create_attrs %{

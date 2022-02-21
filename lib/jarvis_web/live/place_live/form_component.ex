@@ -2,8 +2,8 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
   use JarvisWeb, :live_component
 
   alias Jarvis.Accounts.User
-  alias Jarvis.Inventory
   alias Jarvis.Repo.Accounts
+  alias Jarvis.Repo.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
