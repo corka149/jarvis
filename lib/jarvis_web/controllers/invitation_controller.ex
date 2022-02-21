@@ -1,7 +1,8 @@
 defmodule JarvisWeb.InvitationController do
   alias Jarvis.Accounts.Invitation
   alias Jarvis.Accounts.User
-  alias Jarvis.Repo.Accounts
+  alias Jarvis.ApplicationServices.Accounts
+  alias Jarvis.Repo.Accounts, as: AccountsRepo
 
   use JarvisWeb, :controller
 
@@ -11,14 +12,14 @@ defmodule JarvisWeb.InvitationController do
 
   def index(conn, _params) do
     render(conn, "index.html",
-      received_invitations: Accounts.list_initations_by_invitee(conn.assigns.user),
-      created_invitations: Accounts.list_invitations_by_host(conn.assigns.user),
-      memberships: Accounts.list_usergroups_by_membership(conn.assigns.user)
+      received_invitations: AccountsRepo.list_initations_by_invitee(conn.assigns.user),
+      created_invitations: AccountsRepo.list_invitations_by_host(conn.assigns.user),
+      memberships: AccountsRepo.list_usergroups_by_membership(conn.assigns.user)
     )
   end
 
   def new(conn, _params) do
-    changeset = Accounts.change_invitation(%Invitation{})
+    changeset = AccountsRepo.change_invitation(%Invitation{})
 
     render(conn, "new.html",
       changeset: changeset,
@@ -27,7 +28,7 @@ defmodule JarvisWeb.InvitationController do
   end
 
   def create(conn, %{"invitation" => invitation_params}) do
-    invite_user_to_group(conn.assigns.user, invitation_params)
+    Accounts.invite_user_to_group(conn.assigns.user, invitation_params)
 
     conn
     |> put_flash(:info, dgettext("accounts", "Invitation submitted."))
@@ -35,44 +36,26 @@ defmodule JarvisWeb.InvitationController do
   end
 
   def delete(conn, %{"id" => id}) do
-    case Accounts.get_invitation(id) do
-      {:ok, invitation} ->
-        Accounts.delete_invitation(invitation)
-    end
+    Accounts.delete_invitation(id)
 
     redirect(conn, to: Routes.invitation_path(conn, :index))
   end
 
-  def accept(conn, %{"id" => id}) do
-    invitation = Accounts.get_invitation!(id)
+  def accept(conn, %{"id" => invitation_id}) do
+    case Accounts.accept_invitation(invitation_id, conn.assigns.user.id) do
+      :ok ->
+        redirect(conn, to: Routes.invitation_path(conn, :index))
 
-    if invitation.invitee.id == conn.assigns.user.id do
-      {:ok, _} = Accounts.add_user_to_group(invitation.invitee, invitation.usergroup)
-      {:ok, _} = Accounts.delete_invitation(invitation)
-
-      redirect(conn, to: Routes.invitation_path(conn, :index))
-    else
-      conn
-      |> send_resp(403, dgettext("errors", "You are not allow to do this"))
+      {:error, _} ->
+        conn
+        |> send_resp(403, dgettext("errors", "You are not allow to do this"))
     end
   end
 
   ## Private functions
 
-  # Creates a new invitation if an user exists with the provided name.
-  defp invite_user_to_group(host, invitation_params) do
-    user_group = invitation_params["usergroup_id"] |> Accounts.get_user_group!()
-
-    case Accounts.is_group_owner(host, user_group) &&
-           Accounts.get_user_by_email(invitation_params["invitee_email"]) do
-      false -> nil
-      nil -> nil
-      invitee -> Accounts.create_invitation(invitation_params, user_group, host, invitee)
-    end
-  end
-
   defp group_names_with_ids(%User{} = user) do
-    Accounts.list_usergroups_by_membership_or_owner(user)
+    AccountsRepo.list_usergroups_by_membership_or_owner(user)
     |> Enum.map(&{&1.name, &1.id})
   end
 end
