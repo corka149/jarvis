@@ -60,9 +60,9 @@ defmodule Jarvis.MixProject do
 
       # tools
       ## linting
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       ## type checking
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
 
       # testing
       {:floki, ">= 0.30.0", only: :test}
