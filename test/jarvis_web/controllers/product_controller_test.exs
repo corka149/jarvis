@@ -1,5 +1,5 @@
 defmodule JarvisWeb.ProductControllerTest do
-  alias Jarvis.ShoppingLists
+  alias Jarvis.Repo.ShoppingLists
 
   import Jarvis.TestHelper
 

@@ -2,7 +2,7 @@ defmodule Jarvis.ShoppingListsTest do
   use Jarvis.DataCase
 
   alias Jarvis.Repo.Accounts
-  alias Jarvis.ShoppingLists
+  alias Jarvis.Repo.ShoppingLists
 
   describe "shoppinglists" do
     alias Jarvis.ShoppingLists.ShoppingList

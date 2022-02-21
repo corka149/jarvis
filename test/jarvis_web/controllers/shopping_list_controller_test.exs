@@ -1,6 +1,6 @@
 defmodule JarvisWeb.ShoppingListControllerTest do
   alias Jarvis.Repo.Accounts
-  alias Jarvis.ShoppingLists
+  alias Jarvis.Repo.ShoppingLists
 
   import Jarvis.TestHelper
 
@@ -138,7 +138,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     end
 
     test "redirects when data is valid", %{conn: conn, shopping_list: shopping_list} do
-      group = Jarvis.ShoppingLists.get_shopping_list!(shopping_list.id).usergroup
+      group = ShoppingLists.get_shopping_list!(shopping_list.id).usergroup
       user = Accounts.get_user_group!(group.id).user
 
       conn =

@@ -1,4 +1,4 @@
-defmodule Jarvis.ShoppingLists do
+defmodule Jarvis.Repo.ShoppingLists do
   @moduledoc """
   The ShoppingLists context.
   """
@@ -40,17 +40,8 @@ defmodule Jarvis.ShoppingLists do
   Returns all shopping lists which are not done for a specific user.
   """
   def list_open_shoppinglists(%User{} = user) do
-    Jarvis.ShoppingLists.list_shoppinglists_for_user(user)
+    list_shoppinglists_for_user(user)
     |> Enum.filter(fn sl -> !sl.done end)
-  end
-
-  @doc """
-  Returns every open shopping list.
-  """
-  def list_open_shoppinglists_of_today do
-    from(sl in ShoppingList, where: not sl.done and sl.planned_for == ^Date.utc_today())
-    |> Repo.all()
-    |> Repo.preload([:usergroup, :products])
   end
 
   @doc """

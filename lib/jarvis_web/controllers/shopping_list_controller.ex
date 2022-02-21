@@ -3,7 +3,7 @@ defmodule JarvisWeb.ShoppingListController do
 
   alias Jarvis.Accounts.User
   alias Jarvis.Repo.Accounts
-  alias Jarvis.ShoppingLists
+  alias Jarvis.Repo.ShoppingLists
   alias Jarvis.ShoppingLists.ShoppingList
   alias Jarvis.ShoppingLists.ShoppingListAuthorization
 
