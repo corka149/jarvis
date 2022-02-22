@@ -25,5 +25,5 @@ RUN chown -R jarvis:jarvis /jarvis
 ## RUN
 USER jarvis
 EXPOSE 4000 4001
-ENTRYPOINT ["/jarvis/bin/jarvis"]
-CMD ["start"]
+
+CMD /jarvis/bin/migrate && /jarvis/bin/server

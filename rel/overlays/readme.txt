@@ -1,0 +1,1 @@
+The files in the rel/overlays directory are copied into every release environment.
