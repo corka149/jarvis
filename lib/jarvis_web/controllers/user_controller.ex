@@ -27,14 +27,17 @@ defmodule JarvisWeb.UserController do
     user = Accounts.get_user!(conn.assigns.user.id)
 
     case confirm_password_matches?(user_params) do
-      [] ->
+      :ok ->
         do_update(conn, user, user_params)
 
-      errors ->
+      {:error, :not_matching_confirm_password} ->
         changset = Accounts.change_user(user, user_params)
 
         conn
-        |> render("edit.html", changeset: changset, errors: errors)
+        |> render("edit.html",
+          changeset: changset,
+          errors: [confirm_password: {"confirm password does not match", []}]
+        )
     end
   end
 
@@ -52,9 +55,9 @@ defmodule JarvisWeb.UserController do
 
   defp confirm_password_matches?(user_params) do
     if Map.get(user_params, "password") != Map.get(user_params, "confirm_password") do
-      [confirm_password: {"confirm password does not match", []}]
+      {:error, :not_matching_confirm_password}
     else
-      []
+      :ok
     end
   end
 

@@ -2,10 +2,8 @@ defmodule JarvisWeb.ShoppingListController do
   use JarvisWeb, :controller
 
   alias Jarvis.Accounts.User
-  alias Jarvis.Repo.Accounts
-  alias Jarvis.Repo.ShoppingLists
-  alias Jarvis.ShoppingLists.ShoppingList
-  alias Jarvis.ShoppingLists.ShoppingListAuthorization
+  alias Jarvis.Repo.{Accounts, ShoppingLists}
+  alias Jarvis.ShoppingLists.{ShoppingList, ShoppingListAuthorization}
 
   action_fallback JarvisWeb.FallbackController
 
