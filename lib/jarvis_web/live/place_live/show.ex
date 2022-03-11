@@ -1,7 +1,7 @@
 defmodule JarvisWeb.PlaceLive.Show do
   use JarvisWeb, :live_view
 
-  alias Jarvis.Repo.Inventory
+  alias Jarvis.InventoryRepo
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
@@ -19,7 +19,7 @@ defmodule JarvisWeb.PlaceLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:place, Inventory.get_place!(id))}
+     |> assign(:place, InventoryRepo.get_place!(id))}
   end
 
   defp page_title(:show), do: dgettext("inventory", "Show place")

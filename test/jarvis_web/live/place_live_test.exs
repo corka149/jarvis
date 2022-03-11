@@ -4,14 +4,14 @@ defmodule JarvisWeb.PlaceLiveTest do
   import Phoenix.LiveViewTest
   import Jarvis.TestHelper
 
-  alias Jarvis.Repo.Inventory
+  alias Jarvis.InventoryRepo
 
   @create_attrs %{name: "some name", belongs_to: nil}
   @update_attrs %{name: "some updated name", belongs_to: nil}
   @invalid_attrs %{name: nil, belongs_to: nil}
 
   defp fixture(:place, user_group) do
-    {:ok, place} = Inventory.create_place(@create_attrs, user_group)
+    {:ok, place} = InventoryRepo.create_place(@create_attrs, user_group)
     place
   end
 

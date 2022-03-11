@@ -1,4 +1,4 @@
-defmodule Jarvis.Repo.Inventory do
+defmodule Jarvis.InventoryRepo do
   @moduledoc """
   The Inventory context.
   """

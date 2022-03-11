@@ -3,7 +3,7 @@ defmodule JarvisWeb.ItemLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias Jarvis.Repo.Inventory
+  alias Jarvis.InventoryRepo
   import Jarvis.TestHelper
 
   @create_attrs %{
@@ -18,15 +18,15 @@ defmodule JarvisWeb.ItemLiveTest do
 
   def fixture(:item) do
     user_group = gen_test_data(:user_group)
-    {:ok, place} = Inventory.create_place(@valid_attrs_place, user_group)
+    {:ok, place} = InventoryRepo.create_place(@valid_attrs_place, user_group)
 
-    {:ok, item} = Inventory.create_item(@create_attrs, place)
+    {:ok, item} = InventoryRepo.create_item(@create_attrs, place)
     item
   end
 
   def fixture(:place) do
     user_group = gen_test_data(:user_group)
-    {:ok, place} = Inventory.create_place(@valid_attrs_place, user_group)
+    {:ok, place} = InventoryRepo.create_place(@valid_attrs_place, user_group)
     place
   end
 

@@ -6,13 +6,13 @@ defmodule JarvisWeb.ItemLive.FormComponent do
   use JarvisWeb, :live_component
 
   alias Jarvis.Accounts.User
-  alias Jarvis.Repo.Inventory
+  alias Jarvis.InventoryRepo
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @impl true
   def update(%{item: item} = assigns, socket) do
-    changeset = Inventory.change_item(item)
+    changeset = InventoryRepo.change_item(item)
 
     {:ok,
      socket
@@ -25,7 +25,7 @@ defmodule JarvisWeb.ItemLive.FormComponent do
   def handle_event("validate", %{"item" => item_params}, socket) do
     changeset =
       socket.assigns.item
-      |> Inventory.change_item(item_params)
+      |> InventoryRepo.change_item(item_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -38,7 +38,7 @@ defmodule JarvisWeb.ItemLive.FormComponent do
   # ===== PRIVATE =====
 
   defp save_item(socket, :edit, item_params) do
-    case Inventory.update_item(socket.assigns.item, item_params) do
+    case InventoryRepo.update_item(socket.assigns.item, item_params) do
       {:ok, _item} ->
         :ok = broadcast_change()
 
@@ -53,9 +53,9 @@ defmodule JarvisWeb.ItemLive.FormComponent do
   end
 
   defp save_item(socket, :new, %{"belongs_to" => belongs_to} = item_params) do
-    place = Inventory.get_place!(belongs_to)
+    place = InventoryRepo.get_place!(belongs_to)
 
-    case Inventory.create_item(item_params, place) do
+    case InventoryRepo.create_item(item_params, place) do
       {:ok, _item} ->
         :ok = broadcast_change()
 
@@ -74,7 +74,7 @@ defmodule JarvisWeb.ItemLive.FormComponent do
   end
 
   defp place_names_with_ids(%User{} = _user) do
-    Inventory.list_places()
+    InventoryRepo.list_places()
     |> Enum.map(&{&1.name, &1.id})
   end
 
