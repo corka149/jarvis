@@ -1,8 +1,8 @@
 defmodule JarvisWeb.InvitationController do
   alias Jarvis.Accounts.Invitation
   alias Jarvis.Accounts.User
+  alias Jarvis.AccountsAppService
   alias Jarvis.AccountsRepo
-  alias Jarvis.ApplicationServices.Accounts
 
   use JarvisWeb, :controller
 
@@ -28,7 +28,7 @@ defmodule JarvisWeb.InvitationController do
   end
 
   def create(conn, %{"invitation" => invitation_params}) do
-    Accounts.invite_user_to_group(conn.assigns.user, invitation_params)
+    AccountsAppService.invite_user_to_group(conn.assigns.user, invitation_params)
 
     conn
     |> put_flash(:info, dgettext("accounts", "Invitation submitted."))
@@ -36,13 +36,13 @@ defmodule JarvisWeb.InvitationController do
   end
 
   def delete(conn, %{"id" => id}) do
-    Accounts.delete_invitation(id)
+    AccountsAppService.delete_invitation(id)
 
     redirect(conn, to: Routes.invitation_path(conn, :index))
   end
 
   def accept(conn, %{"id" => invitation_id}) do
-    case Accounts.accept_invitation(invitation_id, conn.assigns.user.id) do
+    case AccountsAppService.accept_invitation(invitation_id, conn.assigns.user.id) do
       :ok ->
         redirect(conn, to: Routes.invitation_path(conn, :index))
 

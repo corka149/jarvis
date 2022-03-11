@@ -1,4 +1,4 @@
-defmodule Jarvis.ApplicationServices.Accounts do
+defmodule Jarvis.AccountsAppService do
   @moduledoc """
   Offer services around accounts.
   """

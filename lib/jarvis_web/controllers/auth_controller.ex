@@ -1,11 +1,11 @@
 defmodule JarvisWeb.AuthController do
   use JarvisWeb, :controller
 
-  alias Jarvis.ApplicationServices.Accounts
+  alias Jarvis.AccountsAppService
 
   def signin_by_jarvis(conn, params) do
     params
-    |> Accounts.verify_user()
+    |> AccountsAppService.verify_user()
     |> init_session(conn)
   end
 
