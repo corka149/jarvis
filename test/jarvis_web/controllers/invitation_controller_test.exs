@@ -1,6 +1,5 @@
 defmodule JarvisWeb.InvitationControllerTest do
-  alias Jarvis.Accounts
-  alias Jarvis.Repo.Accounts
+  alias Jarvis.AccountsRepo
 
   import Jarvis.TestHelper
 
@@ -20,14 +19,14 @@ defmodule JarvisWeb.InvitationControllerTest do
   def fixture(:invitation) do
     user = fixture(:user_and_group)
     [group | _] = user.usergroups
-    {:ok, invitation} = Accounts.create_invitation(@create_attrs, group, user, user)
+    {:ok, invitation} = AccountsRepo.create_invitation(@create_attrs, group, user, user)
     invitation
   end
 
   def fixture(:user_and_group) do
-    {:ok, user} = Jarvis.Repo.Accounts.create_user(update_with_unique_email(@valid_attrs_user))
+    {:ok, user} = Jarvis.AccountsRepo.create_user(update_with_unique_email(@valid_attrs_user))
 
-    {:ok, _} = Jarvis.Repo.Accounts.create_user_group(@valid_attrs_group, user)
+    {:ok, _} = Jarvis.AccountsRepo.create_user_group(@valid_attrs_group, user)
     user |> Jarvis.Repo.preload(:usergroups)
   end
 
@@ -42,7 +41,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
   describe "index" do
     test "lists all invitations", %{conn: conn} do
-      {:ok, user} = Jarvis.Repo.Accounts.create_user(@valid_attrs_user)
+      {:ok, user} = Jarvis.AccountsRepo.create_user(@valid_attrs_user)
 
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: user.id)
@@ -59,7 +58,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
     test "redirects to show when data is valid", %{conn: conn, group: group} do
       {_, user} =
-        Jarvis.Repo.Accounts.create_user(%{
+        Jarvis.AccountsRepo.create_user(%{
           email: "someemail@test.xyz",
           name: "Bob",
           provider: "some provider",
@@ -110,7 +109,7 @@ defmodule JarvisWeb.InvitationControllerTest do
     test "authorized accept of invitation", %{conn: conn, invitation: invitation} do
       conn = Phoenix.ConnTest.init_test_session(conn, user_id: invitation.invitee_id)
       index_url = Routes.invitation_path(conn, :index)
-      host = Accounts.get_user!(invitation.host_id)
+      host = AccountsRepo.get_user!(invitation.host_id)
 
       conn = get(conn, index_url)
       assert html_response(conn, 200) =~ host.name
@@ -129,7 +128,7 @@ defmodule JarvisWeb.InvitationControllerTest do
 
       user = fixture(:user_and_group)
       [group | _] = user.usergroups
-      {:ok, invitation} = Accounts.create_invitation(@create_attrs, group, user, user)
+      {:ok, invitation} = AccountsRepo.create_invitation(@create_attrs, group, user, user)
 
       conn =
         conn

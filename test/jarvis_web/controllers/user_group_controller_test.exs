@@ -1,6 +1,5 @@
 defmodule JarvisWeb.UserGroupControllerTest do
-  alias Jarvis.Accounts
-  alias Jarvis.Repo.Accounts
+  alias Jarvis.AccountsRepo
 
   import Jarvis.TestHelper
 
@@ -23,9 +22,9 @@ defmodule JarvisWeb.UserGroupControllerTest do
   def fixture(:user_group) do
     {:ok, user} =
       update_with_unique_email(@valid_attrs_user)
-      |> Jarvis.Repo.Accounts.create_user()
+      |> AccountsRepo.create_user()
 
-    {:ok, user_group} = Accounts.create_user_group(@create_attrs, user)
+    {:ok, user_group} = AccountsRepo.create_user_group(@create_attrs, user)
 
     user_group
     |> Jarvis.Repo.preload(:user)
@@ -41,7 +40,7 @@ defmodule JarvisWeb.UserGroupControllerTest do
         default_language: "en"
       }
       |> update_with_unique_email()
-      |> Accounts.create_user()
+      |> AccountsRepo.create_user()
 
     {:ok, invitee} =
       %{
@@ -52,14 +51,14 @@ defmodule JarvisWeb.UserGroupControllerTest do
         default_language: "en"
       }
       |> update_with_unique_email()
-      |> Accounts.create_user()
+      |> AccountsRepo.create_user()
 
-    {:ok, user_group} = Accounts.create_user_group(%{name: "some name"}, host)
+    {:ok, user_group} = AccountsRepo.create_user_group(%{name: "some name"}, host)
 
     {:ok, invitation} =
       %{}
       |> Enum.into(@valid_attrs_invitation)
-      |> Accounts.create_invitation(user_group, host, invitee)
+      |> AccountsRepo.create_invitation(user_group, host, invitee)
 
     %{invitation: invitation, host: host, invitee: invitee}
   end
@@ -80,10 +79,10 @@ defmodule JarvisWeb.UserGroupControllerTest do
 
     test "lists all usergroups to which an user belong or owns", %{conn: conn} do
       %{invitation: invitation, invitee: invitee} = fixture(:invitation)
-      invitation = Accounts.get_invitation!(invitation.id)
-      {:ok, _} = Accounts.add_user_to_group(invitee, invitation.usergroup)
-      {:ok, _} = Accounts.delete_invitation(invitation)
-      {:ok, _user_group} = Accounts.create_user_group(%{name: "some name2"}, invitee)
+      invitation = AccountsRepo.get_invitation!(invitation.id)
+      {:ok, _} = AccountsRepo.add_user_to_group(invitee, invitation.usergroup)
+      {:ok, _} = AccountsRepo.delete_invitation(invitation)
+      {:ok, _user_group} = AccountsRepo.create_user_group(%{name: "some name2"}, invitee)
 
       conn =
         Phoenix.ConnTest.init_test_session(conn, user_id: invitee.id)

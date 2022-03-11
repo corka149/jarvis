@@ -1,5 +1,5 @@
 defmodule JarvisWeb.UserGroupApiControllerTest do
-  alias Jarvis.Repo.Accounts
+  alias Jarvis.AccountsRepo
 
   import Jarvis.TestHelper
 
@@ -11,7 +11,7 @@ defmodule JarvisWeb.UserGroupApiControllerTest do
   def fixture(:user_group) do
     user = gen_test_data(:user)
 
-    {:ok, user_group} = Accounts.create_user_group(@create_attrs, user)
+    {:ok, user_group} = AccountsRepo.create_user_group(@create_attrs, user)
 
     user_group
     |> Jarvis.Repo.preload(:user)

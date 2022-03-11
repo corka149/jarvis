@@ -5,7 +5,7 @@ defmodule JarvisWeb.ItemLive.Show do
 
   use JarvisWeb, :live_view
 
-  alias Jarvis.Repo.Accounts
+  alias Jarvis.AccountsRepo
   alias Jarvis.Repo.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
@@ -28,7 +28,7 @@ defmodule JarvisWeb.ItemLive.Show do
   defp page_title(:edit), do: dgettext("inventory", "Edit Item")
 
   defp assign_user(socket, %{"user_id" => user_id}) do
-    assign(socket, :user, Accounts.get_user!(user_id))
+    assign(socket, :user, AccountsRepo.get_user!(user_id))
   end
 
   # No user there - not authenticated

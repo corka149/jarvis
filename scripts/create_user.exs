@@ -8,6 +8,6 @@ valid_attrs_user = %{
   password: "THIS_15_password"
 }
 
-with {:ok, _} <- Jarvis.Repo.Accounts.create_user(valid_attrs_user) do
+with {:ok, _} <- Jarvis.AccountsRepo.create_user(valid_attrs_user) do
   IO.puts("=====\nCreate user Ash with credentials 'ash@test.xyz' / 'THIS_15_password'\n=====")
 end

@@ -2,7 +2,8 @@ defmodule JarvisWeb.ShoppingListController do
   use JarvisWeb, :controller
 
   alias Jarvis.Accounts.User
-  alias Jarvis.Repo.{Accounts, ShoppingLists}
+  alias Jarvis.AccountsRepo
+  alias Jarvis.Repo.ShoppingLists
   alias Jarvis.ShoppingLists.{ShoppingList, ShoppingListAuthorization}
 
   action_fallback JarvisWeb.FallbackController
@@ -46,7 +47,7 @@ defmodule JarvisWeb.ShoppingListController do
   end
 
   def create(conn, %{"shopping_list" => %{"belongs_to" => user_group_id} = shopping_list_params}) do
-    user_group = Accounts.get_user_group!(user_group_id)
+    user_group = AccountsRepo.get_user_group!(user_group_id)
 
     case ShoppingLists.create_shopping_list(shopping_list_params, user_group) do
       {:ok, shopping_list} ->
@@ -106,7 +107,7 @@ defmodule JarvisWeb.ShoppingListController do
   ## Private functions
 
   defp group_names_with_ids(%User{} = user) do
-    Accounts.list_usergroups_by_membership_or_owner(user)
+    AccountsRepo.list_usergroups_by_membership_or_owner(user)
     |> Enum.map(&{&1.name, &1.id})
   end
 end

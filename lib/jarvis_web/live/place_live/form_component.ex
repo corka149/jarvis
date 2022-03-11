@@ -2,7 +2,7 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
   use JarvisWeb, :live_component
 
   alias Jarvis.Accounts.User
-  alias Jarvis.Repo.Accounts
+  alias Jarvis.AccountsRepo
   alias Jarvis.Repo.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
@@ -55,7 +55,7 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
   end
 
   defp save_place(socket, :new, %{"belongs_to" => belongs_to} = place_params) do
-    user_group = Accounts.get_user_group!(belongs_to)
+    user_group = AccountsRepo.get_user_group!(belongs_to)
 
     case Inventory.create_place(place_params, user_group) do
       {:ok, _place} ->
@@ -74,7 +74,7 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
   end
 
   defp group_names_with_ids(%User{} = user) do
-    Accounts.list_usergroups_by_membership_or_owner(user)
+    AccountsRepo.list_usergroups_by_membership_or_owner(user)
     |> Enum.map(&{&1.name, &1.id})
   end
 end

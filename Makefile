@@ -9,14 +9,14 @@ dev: launch-database
 
 check: launch-database
 	mix format
-	mix test
+	mix test --warnings-as-errors
 	mix dialyzer
 	mix credo --strict
 
 
 install:
 	MIX_ENV=prod mix deps.get --only prod
-	MIX_ENV=prod mix compile
+	MIX_ENV=prod mix compile --warnings-as-errors
 	npm install --prefix ./assets
 	npm run deploy --prefix ./assets
 	MIX_ENV=prod mix phx.digest

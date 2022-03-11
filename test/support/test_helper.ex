@@ -3,7 +3,7 @@ defmodule Jarvis.TestHelper do
   Collection of functions for testing ONLY.
   """
 
-  alias Jarvis.Repo.Accounts
+  alias Jarvis.AccountsRepo
 
   @doc """
   Updates a map with user params with a unique email address
@@ -29,7 +29,7 @@ defmodule Jarvis.TestHelper do
 
     {:ok, user} =
       update_with_unique_email(valid_attrs_user)
-      |> Accounts.create_user()
+      |> AccountsRepo.create_user()
 
     user
   end
@@ -41,7 +41,7 @@ defmodule Jarvis.TestHelper do
     {:ok, user_group} =
       %{}
       |> Enum.into(valid_attrs_group)
-      |> Accounts.create_user_group(user)
+      |> AccountsRepo.create_user_group(user)
 
     Jarvis.Repo.preload(user_group, :user)
   end

@@ -3,7 +3,7 @@ defmodule Jarvis.ApplicationServices.Accounts do
   Offer services around accounts.
   """
 
-  alias Jarvis.Repo.Accounts, as: AccountsRepo
+  alias Jarvis.AccountsRepo
 
   @doc """
   Check credentials for jarvis user

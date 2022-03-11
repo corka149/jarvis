@@ -4,7 +4,7 @@ defmodule JarvisWeb.Plugs.SetUser do
   """
   import Plug.Conn
 
-  alias Jarvis.Repo.Accounts
+  alias Jarvis.AccountsRepo
 
   require Logger
 
@@ -19,7 +19,7 @@ defmodule JarvisWeb.Plugs.SetUser do
     conn = fetch_session(conn)
     user_id = get_session(conn, :user_id)
 
-    if user = user_id && Accounts.get_user!(user_id) do
+    if user = user_id && AccountsRepo.get_user!(user_id) do
       assign(conn, :user, user)
     else
       Logger.info("Could not assign an user to the connection.")

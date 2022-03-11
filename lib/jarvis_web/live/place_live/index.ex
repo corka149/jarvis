@@ -1,9 +1,8 @@
 defmodule JarvisWeb.PlaceLive.Index do
   use JarvisWeb, :live_view
 
-  alias Jarvis.Accounts
+  alias Jarvis.AccountsRepo
   alias Jarvis.Inventory.Place
-  alias Jarvis.Repo.Accounts
   alias Jarvis.Repo.Inventory
 
   import JarvisWeb.Gettext, only: [dgettext: 2]
@@ -58,7 +57,7 @@ defmodule JarvisWeb.PlaceLive.Index do
   end
 
   defp assign_user(socket, %{"user_id" => user_id}) do
-    user = Accounts.get_user!(user_id)
+    user = AccountsRepo.get_user!(user_id)
     Gettext.put_locale(user.default_language)
     assign(socket, :user, user)
   end
