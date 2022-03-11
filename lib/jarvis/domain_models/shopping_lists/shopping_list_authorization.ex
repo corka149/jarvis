@@ -2,14 +2,14 @@ defmodule Jarvis.ShoppingLists.ShoppingListAuthorization do
   @moduledoc """
   Defines who can access shopping lists.
   """
-  alias Jarvis.Repo.ShoppingLists
   alias Jarvis.ShoppingLists.ShoppingList
+  alias Jarvis.ShoppingListsRepo
 
   @behaviour JarvisWeb.AuthorizationBorder
 
   @impl JarvisWeb.AuthorizationBorder
   def is_allowed_to_cross?(user, shopping_list_id) do
-    shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
+    shopping_list = ShoppingListsRepo.get_shopping_list!(shopping_list_id)
 
     is_group_member(user.usergroups, shopping_list) or
       is_group_member(user.member_of, shopping_list)

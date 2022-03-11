@@ -1,6 +1,6 @@
 defmodule JarvisWeb.ShoppingListControllerTest do
   alias Jarvis.AccountsRepo
-  alias Jarvis.Repo.ShoppingLists
+  alias Jarvis.ShoppingListsRepo
 
   import Jarvis.TestHelper
 
@@ -15,7 +15,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     group = gen_test_data(:user_group)
     user = group.user
 
-    {:ok, shopping_list} = ShoppingLists.create_shopping_list(@create_attrs, group)
+    {:ok, shopping_list} = ShoppingListsRepo.create_shopping_list(@create_attrs, group)
     {shopping_list, group, user}
   end
 
@@ -138,7 +138,7 @@ defmodule JarvisWeb.ShoppingListControllerTest do
     end
 
     test "redirects when data is valid", %{conn: conn, shopping_list: shopping_list} do
-      group = ShoppingLists.get_shopping_list!(shopping_list.id).usergroup
+      group = ShoppingListsRepo.get_shopping_list!(shopping_list.id).usergroup
       user = AccountsRepo.get_user_group!(group.id).user
 
       conn =

@@ -2,7 +2,7 @@ defmodule Jarvis.ShoppingListsTest do
   use Jarvis.DataCase
 
   alias Jarvis.AccountsRepo
-  alias Jarvis.Repo.ShoppingLists
+  alias Jarvis.ShoppingListsRepo
 
   describe "shoppinglists" do
     alias Jarvis.ShoppingLists.ShoppingList
@@ -26,7 +26,7 @@ defmodule Jarvis.ShoppingListsTest do
       {:ok, shopping_list} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> ShoppingLists.create_shopping_list(group)
+        |> ShoppingListsRepo.create_shopping_list(group)
 
       shopping_list
     end
@@ -36,7 +36,7 @@ defmodule Jarvis.ShoppingListsTest do
         shopping_list_fixture()
         |> Jarvis.Repo.preload(:usergroup)
 
-      assert ShoppingLists.list_shoppinglists() == [shopping_list]
+      assert ShoppingListsRepo.list_shoppinglists() == [shopping_list]
     end
 
     test "get_shopping_list!/1 returns the shopping_list with given id" do
@@ -44,7 +44,7 @@ defmodule Jarvis.ShoppingListsTest do
         shopping_list_fixture()
         |> Jarvis.Repo.preload(:usergroup)
 
-      assert ShoppingLists.get_shopping_list!(shopping_list.id) == shopping_list
+      assert ShoppingListsRepo.get_shopping_list!(shopping_list.id) == shopping_list
     end
 
     test "create_shopping_list/1 with valid data creates a shopping_list" do
@@ -52,7 +52,7 @@ defmodule Jarvis.ShoppingListsTest do
       {_, group} = AccountsRepo.create_user_group(@valid_attrs_group, user)
 
       assert {:ok, %ShoppingList{} = shopping_list} =
-               ShoppingLists.create_shopping_list(@valid_attrs, group)
+               ShoppingListsRepo.create_shopping_list(@valid_attrs, group)
 
       assert shopping_list.done == true
       assert shopping_list.planned_for == ~D[2010-04-17]
@@ -63,14 +63,14 @@ defmodule Jarvis.ShoppingListsTest do
       {_, group} = AccountsRepo.create_user_group(@valid_attrs_group, user)
 
       assert {:error, %Ecto.Changeset{}} =
-               ShoppingLists.create_shopping_list(@invalid_attrs, group)
+               ShoppingListsRepo.create_shopping_list(@invalid_attrs, group)
     end
 
     test "update_shopping_list/2 with valid data updates the shopping_list" do
       shopping_list = shopping_list_fixture()
 
       assert {:ok, %ShoppingList{} = shopping_list} =
-               ShoppingLists.update_shopping_list(shopping_list, @update_attrs)
+               ShoppingListsRepo.update_shopping_list(shopping_list, @update_attrs)
 
       assert shopping_list.done == false
       assert shopping_list.planned_for == ~D[2011-05-18]
@@ -82,23 +82,23 @@ defmodule Jarvis.ShoppingListsTest do
         |> Jarvis.Repo.preload(:usergroup)
 
       assert {:error, %Ecto.Changeset{}} =
-               ShoppingLists.update_shopping_list(shopping_list, @invalid_attrs)
+               ShoppingListsRepo.update_shopping_list(shopping_list, @invalid_attrs)
 
-      assert shopping_list == ShoppingLists.get_shopping_list!(shopping_list.id)
+      assert shopping_list == ShoppingListsRepo.get_shopping_list!(shopping_list.id)
     end
 
     test "delete_shopping_list/1 deletes the shopping_list" do
       shopping_list = shopping_list_fixture()
-      assert {:ok, %ShoppingList{}} = ShoppingLists.delete_shopping_list(shopping_list)
+      assert {:ok, %ShoppingList{}} = ShoppingListsRepo.delete_shopping_list(shopping_list)
 
       assert_raise Ecto.NoResultsError, fn ->
-        ShoppingLists.get_shopping_list!(shopping_list.id)
+        ShoppingListsRepo.get_shopping_list!(shopping_list.id)
       end
     end
 
     test "change_shopping_list/1 returns a shopping_list changeset" do
       shopping_list = shopping_list_fixture()
-      assert %Ecto.Changeset{} = ShoppingLists.change_shopping_list(shopping_list)
+      assert %Ecto.Changeset{} = ShoppingListsRepo.change_shopping_list(shopping_list)
     end
   end
 end

@@ -1,4 +1,4 @@
-defmodule Jarvis.Repo.ShoppingLists do
+defmodule Jarvis.ShoppingListsRepo do
   @moduledoc """
   The ShoppingLists context.
   """

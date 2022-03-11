@@ -1,5 +1,5 @@
 defmodule JarvisWeb.ProductControllerTest do
-  alias Jarvis.Repo.ShoppingLists
+  alias Jarvis.ShoppingListsRepo
 
   import Jarvis.TestHelper
 
@@ -18,8 +18,11 @@ defmodule JarvisWeb.ProductControllerTest do
   def fixture(:product) do
     group = gen_test_data(:user_group)
     user = group.user
-    {:ok, shopping_list} = ShoppingLists.create_shopping_list(@valid_attrs_shopping_list, group)
-    {:ok, product} = ShoppingLists.create_product(@create_attrs, shopping_list)
+
+    {:ok, shopping_list} =
+      ShoppingListsRepo.create_shopping_list(@valid_attrs_shopping_list, group)
+
+    {:ok, product} = ShoppingListsRepo.create_product(@create_attrs, shopping_list)
     {product, shopping_list, group, user}
   end
 

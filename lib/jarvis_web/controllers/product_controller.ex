@@ -2,9 +2,9 @@ defmodule JarvisWeb.ProductController do
   use JarvisWeb, :controller
 
   alias Jarvis.ProductAuthorization
-  alias Jarvis.Repo.ShoppingLists
   alias Jarvis.ShoppingLists.Product
   alias Jarvis.ShoppingLists.ShoppingListAuthorization
+  alias Jarvis.ShoppingListsRepo
 
   action_fallback JarvisWeb.FallbackController
 
@@ -32,9 +32,9 @@ defmodule JarvisWeb.ProductController do
   end
 
   def create(conn, %{"shopping_list_id" => shopping_list_id, "product" => products_params}) do
-    shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
+    shopping_list = ShoppingListsRepo.get_shopping_list!(shopping_list_id)
 
-    case ShoppingLists.create_product(products_params, shopping_list) do
+    case ShoppingListsRepo.create_product(products_params, shopping_list) do
       {:ok, _product} ->
         redirect(conn, to: Routes.product_path(conn, :new, shopping_list_id))
 
@@ -46,8 +46,8 @@ defmodule JarvisWeb.ProductController do
   end
 
   def edit(conn, %{"shopping_list_id" => shopping_list_id, "id" => product_id}) do
-    product = ShoppingLists.get_product!(product_id)
-    changeset = ShoppingLists.change_product(product)
+    product = ShoppingListsRepo.get_product!(product_id)
+    changeset = ShoppingListsRepo.change_product(product)
 
     edit_form(conn, shopping_list_id, product, changeset)
   end
@@ -57,10 +57,10 @@ defmodule JarvisWeb.ProductController do
         "id" => product_id,
         "product" => product_params
       }) do
-    product = ShoppingLists.get_product!(product_id)
+    product = ShoppingListsRepo.get_product!(product_id)
     {_, product_params} = Map.pop(product_params, :belongs_to)
 
-    case ShoppingLists.update_product(product, product_params) do
+    case ShoppingListsRepo.update_product(product, product_params) do
       {:ok, _product} ->
         redirect(conn, to: Routes.product_path(conn, :new, shopping_list_id))
 
@@ -72,8 +72,8 @@ defmodule JarvisWeb.ProductController do
   end
 
   def delete(conn, %{"shopping_list_id" => shopping_list_id, "id" => product_id}) do
-    product = ShoppingLists.get_product!(product_id)
-    {:ok, _product} = ShoppingLists.delete_product(product)
+    product = ShoppingListsRepo.get_product!(product_id)
+    {:ok, _product} = ShoppingListsRepo.delete_product(product)
 
     redirect(conn, to: Routes.product_path(conn, :new, shopping_list_id))
   end
@@ -81,17 +81,17 @@ defmodule JarvisWeb.ProductController do
   ## Private functions
 
   defp new_form(conn, shopping_list_id, opts \\ []) do
-    changeset = Keyword.get(opts, :changeset, ShoppingLists.change_product(%Product{}))
-    shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
-    products = ShoppingLists.list_products_by_shopping_list(shopping_list)
+    changeset = Keyword.get(opts, :changeset, ShoppingListsRepo.change_product(%Product{}))
+    shopping_list = ShoppingListsRepo.get_shopping_list!(shopping_list_id)
+    products = ShoppingListsRepo.list_products_by_shopping_list(shopping_list)
 
     conn
     |> render("new.html", changeset: changeset, shopping_list: shopping_list, products: products)
   end
 
   defp edit_form(conn, shopping_list_id, product, changeset) do
-    shopping_list = ShoppingLists.get_shopping_list!(shopping_list_id)
-    products = ShoppingLists.list_products_by_shopping_list(shopping_list)
+    shopping_list = ShoppingListsRepo.get_shopping_list!(shopping_list_id)
+    products = ShoppingListsRepo.list_products_by_shopping_list(shopping_list)
 
     conn
     |> render("edit.html",
