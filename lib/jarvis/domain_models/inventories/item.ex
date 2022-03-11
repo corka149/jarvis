@@ -1,4 +1,4 @@
-defmodule Jarvis.Inventory.Item do
+defmodule Jarvis.Inventories.Item do
   @moduledoc """
   Database module for the entity item.
   """
@@ -7,7 +7,7 @@ defmodule Jarvis.Inventory.Item do
 
   schema "items" do
     field :name, :string
-    belongs_to :place, Jarvis.Inventory.Place, foreign_key: :belongs_to
+    belongs_to :place, Jarvis.Inventories.Place, foreign_key: :belongs_to
 
     timestamps()
   end

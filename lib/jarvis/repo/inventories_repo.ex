@@ -1,4 +1,4 @@
-defmodule Jarvis.InventoryRepo do
+defmodule Jarvis.InventoriesRepo do
   @moduledoc """
   The Inventory context.
   """
@@ -6,7 +6,7 @@ defmodule Jarvis.InventoryRepo do
   import Ecto.Query, warn: false
   alias Jarvis.Repo
 
-  alias Jarvis.Inventory.Item
+  alias Jarvis.Inventories.Item
 
   @doc """
   Returns the list of items.
@@ -102,7 +102,7 @@ defmodule Jarvis.InventoryRepo do
     Item.changeset(item, attrs)
   end
 
-  alias Jarvis.Inventory.Place
+  alias Jarvis.Inventories.Place
 
   @doc """
   Returns the list of places.

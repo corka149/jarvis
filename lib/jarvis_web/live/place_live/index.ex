@@ -2,10 +2,9 @@ defmodule JarvisWeb.PlaceLive.Index do
   use JarvisWeb, :live_view
 
   alias Jarvis.AccountsRepo
-  alias Jarvis.Inventory.Place
-  alias Jarvis.InventoryRepo
-
-  import JarvisWeb.Gettext, only: [dgettext: 2]
+  alias Jarvis.Inventories.Place
+  alias Jarvis.InventoriesRepo
+  import(JarvisWeb.Gettext, only: [dgettext: 2])
 
   @moduledoc """
   Live view for listing places.
@@ -27,7 +26,7 @@ defmodule JarvisWeb.PlaceLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, dgettext("inventory", "Edit Place"))
-    |> assign(:place, InventoryRepo.get_place!(id))
+    |> assign(:place, InventoriesRepo.get_place!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -44,8 +43,8 @@ defmodule JarvisWeb.PlaceLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    place = InventoryRepo.get_place!(id)
-    {:ok, _} = InventoryRepo.delete_place(place)
+    place = InventoriesRepo.get_place!(id)
+    {:ok, _} = InventoriesRepo.delete_place(place)
 
     {:noreply, assign(socket, :places, list_places())}
   end
@@ -68,6 +67,6 @@ defmodule JarvisWeb.PlaceLive.Index do
   end
 
   defp list_places do
-    InventoryRepo.list_places()
+    InventoriesRepo.list_places()
   end
 end

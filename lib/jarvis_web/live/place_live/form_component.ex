@@ -3,8 +3,7 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
 
   alias Jarvis.Accounts.User
   alias Jarvis.AccountsRepo
-  alias Jarvis.InventoryRepo
-
+  alias Jarvis.InventoriesRepo
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @moduledoc """
@@ -13,7 +12,7 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
 
   @impl true
   def update(%{place: place} = assigns, socket) do
-    changeset = InventoryRepo.change_place(place)
+    changeset = InventoriesRepo.change_place(place)
 
     {:ok,
      socket
@@ -26,7 +25,7 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
   def handle_event("validate", %{"place" => place_params}, socket) do
     changeset =
       socket.assigns.place
-      |> InventoryRepo.change_place(place_params)
+      |> InventoriesRepo.change_place(place_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -39,7 +38,7 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
   # ===== PRIVATE =====
 
   defp save_place(socket, :edit, place_params) do
-    case InventoryRepo.update_place(socket.assigns.place, place_params) do
+    case InventoriesRepo.update_place(socket.assigns.place, place_params) do
       {:ok, _place} ->
         {:noreply,
          socket
@@ -57,7 +56,7 @@ defmodule JarvisWeb.PlaceLive.FormComponent do
   defp save_place(socket, :new, %{"belongs_to" => belongs_to} = place_params) do
     user_group = AccountsRepo.get_user_group!(belongs_to)
 
-    case InventoryRepo.create_place(place_params, user_group) do
+    case InventoriesRepo.create_place(place_params, user_group) do
       {:ok, _place} ->
         {:noreply,
          socket

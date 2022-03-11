@@ -1,4 +1,4 @@
-defmodule Jarvis.Inventory.Place do
+defmodule Jarvis.Inventories.Place do
   @moduledoc """
   Database module for the entity place.
   """
@@ -7,7 +7,7 @@ defmodule Jarvis.Inventory.Place do
 
   schema "isles" do
     field :name, :string
-    has_many :items, Jarvis.Inventory.Item, foreign_key: :belongs_to
+    has_many :items, Jarvis.Inventories.Item, foreign_key: :belongs_to
 
     belongs_to :user_group, Jarvis.Accounts.UserGroup, foreign_key: :owned_by
 

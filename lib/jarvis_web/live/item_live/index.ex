@@ -6,9 +6,8 @@ defmodule JarvisWeb.ItemLive.Index do
   use JarvisWeb, :live_view
 
   alias Jarvis.AccountsRepo
-  alias Jarvis.Inventory.Item
-  alias Jarvis.InventoryRepo
-
+  alias Jarvis.Inventories.Item
+  alias Jarvis.InventoriesRepo
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @impl true
@@ -25,8 +24,8 @@ defmodule JarvisWeb.ItemLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    item = InventoryRepo.get_item!(id)
-    {:ok, _} = InventoryRepo.delete_item(item)
+    item = InventoriesRepo.get_item!(id)
+    {:ok, _} = InventoriesRepo.delete_item(item)
 
     :ok = broadcast_change()
 
@@ -46,7 +45,7 @@ defmodule JarvisWeb.ItemLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, dgettext("inventory", "Edit Item"))
-    |> assign(:item, InventoryRepo.get_item!(id))
+    |> assign(:item, InventoriesRepo.get_item!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -77,7 +76,7 @@ defmodule JarvisWeb.ItemLive.Index do
   end
 
   defp list_items do
-    InventoryRepo.list_items()
+    InventoriesRepo.list_items()
   end
 
   defp broadcast_change do

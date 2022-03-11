@@ -6,8 +6,7 @@ defmodule JarvisWeb.ItemLive.Show do
   use JarvisWeb, :live_view
 
   alias Jarvis.AccountsRepo
-  alias Jarvis.InventoryRepo
-
+  alias Jarvis.InventoriesRepo
   import JarvisWeb.Gettext, only: [dgettext: 2]
 
   @impl true
@@ -20,7 +19,7 @@ defmodule JarvisWeb.ItemLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:item, InventoryRepo.get_item!(id))}
+     |> assign(:item, InventoriesRepo.get_item!(id))}
   end
 
   # ===== PRIVATE =====
