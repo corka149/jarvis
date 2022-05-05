@@ -53,4 +53,14 @@ defmodule Jarvis.AccountsAppService do
       {:error, :not_own_invitation}
     end
   end
+
+  @doc """
+  Renews the API token of the user.
+  """
+  def rotate_api_token(user_id) do
+    new_token = Ecto.UUID.generate()
+
+    AccountsRepo.get_user!(user_id)
+    |> AccountsRepo.update_user(%{api_token: new_token})
+  end
 end

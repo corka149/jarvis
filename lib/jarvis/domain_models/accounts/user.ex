@@ -20,6 +20,7 @@ defmodule Jarvis.Accounts.User do
     has_many :created_invitations, Jarvis.Accounts.Invitation, foreign_key: :host_id
     has_many :received_invitations, Jarvis.Accounts.Invitation, foreign_key: :invitee_id
     field :default_language, :string
+    field :api_token, :binary_id
 
     timestamps()
   end
@@ -29,7 +30,7 @@ defmodule Jarvis.Accounts.User do
     attrs = trim_values(attrs)
 
     user
-    |> cast(attrs, [:name, :email, :provider, :token, :default_language, :password])
+    |> cast(attrs, [:name, :email, :provider, :token, :default_language, :password, :api_token])
     |> validate_format(:email, email_validation())
     |> validate_required([:name, :email, :provider, :token])
     |> unique_constraint(:email)
