@@ -18,4 +18,9 @@
     <div class="pure-u-1 pure-u-md-1-3 read-only-label"><%= dgettext "accounts", "Default language" %></div>
     <div class="pure-u-1 pure-u-md-2-3 read-only-value"><%= language_name(@user.default_language) %></div>
   </div>
+  <!-- API token -->
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-1-3 read-only-label"><%= dgettext "accounts", "API token" %></div>
+    <div class="pure-u-1 pure-u-md-2-3 read-only-value"><%= @user.api_token %></div>
+  </div>
 </div>

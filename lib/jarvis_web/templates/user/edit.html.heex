@@ -34,6 +34,11 @@
     <%= password_input form, :confirm_password %>
     <%= error_tag @errors, :confirm_password %>
   </div>
+  <!-- API token -->
+  <div class="pure-control-group" hx-get={Routes.user_path(@conn, :rotate_token)} hx-trigger="click">
+    <label class="validate" for="user_api_token">API token</label>
+    <input readonly value={@conn.assigns.user.api_token} />
+  </div>
   <div>
     <%= save_button() %>
   </div>

@@ -43,6 +43,7 @@ defmodule JarvisWeb.Router do
     pipe_through :browser
 
     resources "/user", UserController, only: [:show, :edit, :update, :delete], singleton: true
+    get "/users/rotate_token", UserController, :rotate_token
 
     delete "/usergroups/:id/leave", UserGroupController, :leave_group
     resources "/usergroups", UserGroupController

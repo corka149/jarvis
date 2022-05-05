@@ -3,12 +3,14 @@ defmodule JarvisWeb.UserController do
 
   alias Jarvis.Accounts.User
   alias Jarvis.AccountsRepo
+  alias Jarvis.AccountsAppService
 
   require Logger
 
   action_fallback JarvisWeb.FallbackController
 
-  plug JarvisWeb.Plugs.RequireAuthentication when action in [:show, :edit, :update, :delete]
+  plug JarvisWeb.Plugs.RequireAuthentication
+       when action in [:show, :edit, :update, :delete, :rotate_token]
 
   def show(conn, _params) do
     user = AccountsRepo.get_user!(conn.assigns.user.id)
@@ -49,6 +51,14 @@ defmodule JarvisWeb.UserController do
       |> configure_session(drop: true)
       |> redirect(to: Routes.page_path(conn, :index))
     end
+  end
+
+  def rotate_token(conn, _params) do
+    {:ok, %{api_token: api_token}} = conn.assigns.user.id |> AccountsAppService.rotate_api_token()
+
+    conn
+    |> put_root_layout(false)
+    |> render("rotate_api_token.html", api_token: api_token)
   end
 
   ## Private functions
