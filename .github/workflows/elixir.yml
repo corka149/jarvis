@@ -39,7 +39,7 @@ jobs:
 
   analyze:
     runs-on: ubuntu-latest
-    name: Dialyzer - OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Analyse - OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     steps:
       - uses: actions/checkout@v2
       - name: Setup elixir

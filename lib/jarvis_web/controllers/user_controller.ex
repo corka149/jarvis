@@ -2,8 +2,8 @@ defmodule JarvisWeb.UserController do
   use JarvisWeb, :controller
 
   alias Jarvis.Accounts.User
-  alias Jarvis.AccountsRepo
   alias Jarvis.AccountsAppService
+  alias Jarvis.AccountsRepo
 
   require Logger
 
