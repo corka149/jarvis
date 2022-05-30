@@ -3,6 +3,7 @@ defmodule JarvisWeb.ShoppingListApiView do
   This view represents all possible response structure.
   """
   use JarvisWeb, :view
+  alias JarvisWeb.ProductApiView
   alias JarvisWeb.ShoppingListApiView
 
   def render("index.json", %{shopping_lists_api: shopping_lists}) do
@@ -14,6 +15,8 @@ defmodule JarvisWeb.ShoppingListApiView do
   end
 
   def render("shopping_list.json", %{shopping_list_api: shopping_list}) do
-    %{id: shopping_list.id, planned_for: shopping_list.planned_for}
+    products = render_many(shopping_list.products, ProductApiView, "product.json")
+
+    %{id: shopping_list.id, planned_for: shopping_list.planned_for, products: products}
   end
 end

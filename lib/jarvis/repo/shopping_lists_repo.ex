@@ -40,8 +40,16 @@ defmodule Jarvis.ShoppingListsRepo do
   Returns all shopping lists which are not done for a specific user.
   """
   def list_open_shoppinglists(%User{} = user) do
-    list_shoppinglists_for_user(user)
-    |> Enum.filter(fn sl -> !sl.done end)
+    group_ids = Enum.map(user.usergroups, & &1.id) ++ Enum.map(user.member_of, & &1.id)
+
+    from(sl in ShoppingList, where: sl.belongs_to in ^group_ids and not sl.done)
+    |> Repo.all()
+    |> Repo.preload(:usergroup)
+  end
+
+  def with_products(shoppinglists) do
+    shoppinglists
+    |> Repo.preload(:products)
   end
 
   @doc """

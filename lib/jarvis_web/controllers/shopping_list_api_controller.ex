@@ -8,7 +8,10 @@ defmodule JarvisWeb.ShoppingListApiController do
   plug JarvisWeb.Plugs.RequireAuthentication
 
   def index(conn, _params) do
-    shopping_lists = ShoppingListsRepo.list_shoppinglists_for_user(conn.assigns.user)
+    shopping_lists =
+      conn.assigns.user
+      |> ShoppingListsRepo.list_open_shoppinglists()
+      |> ShoppingListsRepo.with_products()
 
     render(conn, "index.json", shopping_lists_api: shopping_lists)
   end

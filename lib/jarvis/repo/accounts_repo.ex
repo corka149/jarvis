@@ -44,7 +44,7 @@ defmodule Jarvis.AccountsRepo do
 
   def get_user_by_token!(token) do
     from(u in User, where: u.api_token == ^token, preload: [:usergroups, :member_of])
-    |> Repo.one!()
+    |> Repo.one()
   end
 
   @doc """
