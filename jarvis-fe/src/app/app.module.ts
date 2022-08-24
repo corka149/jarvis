@@ -11,6 +11,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent, WelcomeComponent],
@@ -24,6 +25,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     MatSidenavModule,
     MatListModule,
     MatDividerModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
