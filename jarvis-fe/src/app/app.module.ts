@@ -12,9 +12,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ListOverviewComponent } from './list-overview/list-overview.component';
 
 @NgModule({
-  declarations: [AppComponent, WelcomeComponent],
+  declarations: [AppComponent, WelcomeComponent, ListOverviewComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

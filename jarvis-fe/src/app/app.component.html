@@ -9,8 +9,8 @@
   >
     <mat-toolbar>Menü</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Alle Listen</a>
-      <a mat-list-item href="#">Offene Listen</a>
+      <a mat-list-item routerLink="/lists">Alle Listen</a>
+      <a mat-list-item routerLink="/lists">Offene Listen</a>
       <a mat-list-item href="#">Neue Liste</a>
       <mat-divider></mat-divider>
       <a mat-list-item href="#">Abmelden</a>
@@ -28,6 +28,10 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>jARVIS</span>
+      <span style="width: 100%"></span>
+      <a mat-mini-fab routerLink="/welcome">
+        <mat-icon>home</mat-icon>
+      </a>
     </mat-toolbar>
     <!-- ROUTER START -->
     <div class="content">
