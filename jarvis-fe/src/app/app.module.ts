@@ -13,6 +13,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ListOverviewComponent } from './list-overview/list-overview.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [AppComponent, WelcomeComponent, ListOverviewComponent],
@@ -27,6 +28,7 @@ import { ListOverviewComponent } from './list-overview/list-overview.component';
     MatListModule,
     MatDividerModule,
     AppRoutingModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

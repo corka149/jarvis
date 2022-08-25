@@ -1,5 +1,6 @@
 export interface List {
-  id: number;
+  no: number;
   owner: string;
   occursAt: Date;
+  open: boolean;
 }
