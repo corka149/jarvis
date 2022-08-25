@@ -7,8 +7,20 @@ import { Observable, of } from 'rxjs';
 })
 export class ListService {
   private lists: List[] = [
-    { no: 5, owner: 'Alice', occursAt: new Date(), open: true },
-    { no: 7, owner: 'Bob', occursAt: new Date(), open: false },
+    {
+      id: '0066263e-49b2-4f5b-88b1-f5167b01a098',
+      no: 5,
+      owner: 'Alice',
+      occursAt: new Date(),
+      open: true,
+    },
+    {
+      id: '5a76e0f3-9dfa-4acb-9b8f-29eeaca244d5',
+      no: 7,
+      owner: 'Bob',
+      occursAt: new Date(),
+      open: false,
+    },
   ];
 
   constructor() {}

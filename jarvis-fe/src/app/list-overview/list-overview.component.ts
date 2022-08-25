@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService } from '../list.service';
 import { List } from '../models/list';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-overview',
@@ -15,7 +15,8 @@ export class ListOverviewComponent implements OnInit {
 
   constructor(
     private listService: ListService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -26,5 +27,9 @@ export class ListOverviewComponent implements OnInit {
         .getLists(this.showClosed)
         .subscribe((lists) => (this.lists = lists));
     });
+  }
+
+  openDetails(list: List) {
+    this.router.navigate(['lists', 'details', list.id]);
   }
 }

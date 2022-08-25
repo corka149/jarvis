@@ -14,9 +14,10 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ListOverviewComponent } from './list-overview/list-overview.component';
 import { MatTableModule } from '@angular/material/table';
+import { ListDetailsComponent } from './list-details/list-details.component';
 
 @NgModule({
-  declarations: [AppComponent, WelcomeComponent, ListOverviewComponent],
+  declarations: [AppComponent, WelcomeComponent, ListOverviewComponent, ListDetailsComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
