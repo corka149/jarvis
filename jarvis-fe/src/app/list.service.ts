@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { List } from './models/list';
 import { Observable, of } from 'rxjs';
 
+type MaybeList = List | undefined;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -29,5 +31,10 @@ export class ListService {
     const filtered = this.lists.filter((it) => it.open || showClosed);
 
     return of(filtered);
+  }
+
+  getList(id: string): Observable<MaybeList> {
+    const list = this.lists.find((list) => list.id === id);
+    return of(list);
   }
 }

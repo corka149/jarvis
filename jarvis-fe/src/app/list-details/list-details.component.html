@@ -1,1 +1,7 @@
-<p>list-details works!</p>
+<div *ngIf="!!selectList">
+  <h1>Listendetails</h1>
+</div>
+
+<div *ngIf="!selectList">
+  <p>No shopping list available.</p>
+</div>
