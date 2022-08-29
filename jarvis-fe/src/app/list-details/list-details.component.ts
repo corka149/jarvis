@@ -26,7 +26,7 @@ export class ListDetailsComponent implements OnInit {
     this._adapter.setLocale('de');
     let id = this.route.snapshot.paramMap.get('id');
 
-    if (!!id) {
+    if (!!id && id !== 'new') {
       this.listService.getList(id).subscribe((list) => {
         if (!!list) {
           this.selectList = list;
@@ -34,6 +34,8 @@ export class ListDetailsComponent implements OnInit {
 
         this.setupForm(this.selectList);
       });
+    } else {
+      this.setupForm(this.selectList);
     }
   }
 

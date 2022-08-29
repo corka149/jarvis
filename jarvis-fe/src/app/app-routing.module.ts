@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
   { path: 'lists', component: ListOverviewComponent },
   { path: 'lists/details/:id', component: ListDetailsComponent },
+  { path: 'lists/details/new', component: ListDetailsComponent },
 ];
 
 @NgModule({
