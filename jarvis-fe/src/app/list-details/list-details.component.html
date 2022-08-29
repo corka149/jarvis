@@ -30,7 +30,7 @@
       <div *ngFor="let product of productDetails.controls; let i = index">
         <div [formGroupName]="i">
           <!-- PRODUCT NAME -->
-          <mat-form-field style="width: 73%; padding-right: 1%">
+          <mat-form-field style="width: 66%; padding-right: 1%">
             <mat-label *ngIf="i === 0">Gegenstand</mat-label>
             <input matInput placeholder="" formControlName="name" />
           </mat-form-field>
