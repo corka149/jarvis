@@ -15,6 +15,10 @@ export class ListService {
       owner: 'Alice',
       occursAt: new Date(),
       open: true,
+      products: [
+        { name: 'Bread', amount: 1337 },
+        { name: 'Bread', amount: 42 },
+      ],
     },
     {
       id: '5a76e0f3-9dfa-4acb-9b8f-29eeaca244d5',
@@ -22,6 +26,10 @@ export class ListService {
       owner: 'Bob',
       occursAt: new Date(),
       open: false,
+      products: [
+        { name: 'Bread', amount: 1337 },
+        { name: 'Bread', amount: 42 },
+      ],
     },
   ];
 
