@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ListService } from '../list.service';
 import { List } from '../models/list';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +15,8 @@ export class ListDetailsComponent implements OnInit {
 
   selectList?: List;
 
+  @Input('list-id') listId?: string;
+
   constructor(
     private listService: ListService,
     private route: ActivatedRoute,
@@ -24,10 +26,10 @@ export class ListDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this._adapter.setLocale('de');
-    let id = this.route.snapshot.paramMap.get('id');
+    console.log(this.listId);
 
-    if (!!id && id !== 'new') {
-      this.listService.getList(id).subscribe((list) => {
+    if (!!this.listId && this.listId !== 'new') {
+      this.listService.getList(this.listId).subscribe((list) => {
         if (!!list) {
           this.selectList = list;
         }
