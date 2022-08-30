@@ -28,6 +28,7 @@ import {
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NewListComponent } from './new-list/new-list.component';
 import { EditListComponent } from './edit-list/edit-list.component';
+import { LogInComponent } from './log-in/log-in.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { EditListComponent } from './edit-list/edit-list.component';
     ListDetailsComponent,
     NewListComponent,
     EditListComponent,
+    LogInComponent,
   ],
   imports: [
     BrowserModule,

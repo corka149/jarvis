@@ -8,7 +8,8 @@
     [opened]="(isHandset$ | async) === false"
   >
     <mat-toolbar>Menü</mat-toolbar>
-    <mat-nav-list>
+    <!-- LOGGED IN -->
+    <mat-nav-list *ngIf="authService.isLoggedIn">
       <a mat-list-item routerLink="/lists">Offene Listen</a>
       <a mat-list-item routerLink="/lists" [queryParams]="{ showClosed: true }"
         >Alle Listen</a
@@ -16,6 +17,10 @@
       <a mat-list-item routerLink="/lists/details/new">Neue Liste</a>
       <mat-divider></mat-divider>
       <a mat-list-item href="#">Abmelden</a>
+    </mat-nav-list>
+    <!-- NO LOG IN -->
+    <mat-nav-list *ngIf="!authService.isLoggedIn">
+      <a mat-list-item routerLink="/login">Anmelden</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
