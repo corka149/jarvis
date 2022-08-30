@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ListService } from '../list.service';
 import { List } from '../models/list';
-import { ActivatedRoute } from '@angular/router';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { Product } from '../models/product';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-list-details',
@@ -19,8 +19,8 @@ export class ListDetailsComponent implements OnInit {
   @Input('list-id') listId?: string;
 
   constructor(
+    private location: Location,
     private listService: ListService,
-    private route: ActivatedRoute,
     private fb: FormBuilder,
     private _adapter: DateAdapter<any>
   ) {}
@@ -38,6 +38,14 @@ export class ListDetailsComponent implements OnInit {
       });
     } else {
       this.setupForm(this.selectList);
+    }
+  }
+
+  deleteList() {
+    if (!!this.listId) {
+      this.listService
+        .deleteList(this.listId)
+        .subscribe((_success) => this.location.back());
     }
   }
 
@@ -61,6 +69,19 @@ export class ListDetailsComponent implements OnInit {
     }
   }
 
+  onSubmit() {
+    if (!!this.listForm && this.listForm.valid) {
+      const list: List = this.listForm.value;
+
+      list.id = this.selectList?.id;
+      list.no = this.selectList?.no;
+
+      this.listService
+        .saveList(list)
+        .subscribe((_list) => this.location.back());
+    }
+  }
+
   get productDetails(): FormArray {
     return this.listForm?.get('productDetails') as FormArray;
   }
@@ -80,8 +101,8 @@ export class ListDetailsComponent implements OnInit {
     );
 
     this.listForm = this.fb.group({
-      owner: formData.owner,
-      occursAt: formData.occursAt,
+      owner: [formData.owner, Validators.required],
+      occursAt: [formData.occursAt, Validators.required],
       open: formData.open,
       productDetails: this.fb.array(productDetails),
     });

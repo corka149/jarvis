@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { List } from './models/list';
 import { Observable, of } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 type MaybeList = List | undefined;
 
@@ -44,5 +45,33 @@ export class ListService {
   getList(id: string): Observable<MaybeList> {
     const list = this.lists.find((list) => list.id === id);
     return of(list);
+  }
+
+  saveList(list: List): Observable<MaybeList> {
+    if (!!list.id) {
+      this.lists = this.lists.map((l) => (l.id === list.id ? list : l));
+    } else {
+      list.id = uuidv4();
+      this.lists.push(list);
+    }
+
+    return of(list);
+  }
+
+  deleteList(listId: string): Observable<boolean> {
+    let deleted = false;
+    const newLists = new Array<List>();
+
+    for (const list of this.lists) {
+      if (list.id !== listId) {
+        newLists.push(list);
+      } else {
+        deleted = true;
+      }
+    }
+
+    this.lists = newLists;
+
+    return of(deleted);
   }
 }

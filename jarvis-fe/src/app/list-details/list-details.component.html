@@ -1,5 +1,5 @@
 <div *ngIf="!!listForm">
-  <form [formGroup]="listForm">
+  <form [formGroup]="listForm" (ngSubmit)="onSubmit()">
     <!-- OWNER -->
     <div>
       <mat-form-field appearance="fill" style="width: 100%">
@@ -58,7 +58,34 @@
     </div>
 
     <div>
-      <button mat-mini-fab style="float: right" (click)="addProduct()">
+      <!-- DELETE -->
+      <button
+        mat-mini-fab
+        (click)="deleteList()"
+        color="danger"
+        type="button"
+        *ngIf="!!listId && listId !== 'new'"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <!-- SAVE -->
+      <button
+        mat-mini-fab
+        style="float: right; margin-left: 1rem"
+        color="primary"
+        [disabled]="!listForm.valid"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+
+      <!-- ADD -->
+      <button
+        mat-mini-fab
+        style="float: right"
+        (click)="addProduct()"
+        type="button"
+      >
         <mat-icon>add</mat-icon>
       </button>
     </div>
