@@ -37,7 +37,7 @@ export class ListService {
   constructor() {}
 
   getLists(showClosed = false): Observable<List[]> {
-    const filtered = this.lists.filter((it) => it.done || showClosed);
+    const filtered = this.lists.filter((it) => !it.done || showClosed);
 
     return of(filtered);
   }
