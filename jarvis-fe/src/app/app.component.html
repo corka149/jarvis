@@ -16,7 +16,7 @@
       >
       <a mat-list-item routerLink="/lists/details/new">Neue Liste</a>
       <mat-divider></mat-divider>
-      <a mat-list-item href="#">Abmelden</a>
+      <button mat-list-item type="button" (click)="logOut()">Abmelden</button>
     </mat-nav-list>
     <!-- NO LOG IN -->
     <mat-nav-list *ngIf="!authService.isLoggedIn">
