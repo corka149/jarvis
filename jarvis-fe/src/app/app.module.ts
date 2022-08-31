@@ -29,6 +29,8 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NewListComponent } from './new-list/new-list.component';
 import { EditListComponent } from './edit-list/edit-list.component';
 import { LogInComponent } from './log-in/log-in.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,12 @@ import { LogInComponent } from './log-in/log-in.component';
     MatSlideToggleModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     {
