@@ -90,7 +90,7 @@ export class ListDetailsComponent implements OnInit {
     const formData: List = list ?? {
       owner: '',
       occursAt: new Date(),
-      open: true,
+      done: false,
       products: [],
     };
 
@@ -103,7 +103,7 @@ export class ListDetailsComponent implements OnInit {
     this.listForm = this.fb.group({
       owner: [formData.owner, Validators.required],
       occursAt: [formData.occursAt, Validators.required],
-      open: formData.open,
+      done: formData.done,
       productDetails: this.fb.array(productDetails),
     });
   }

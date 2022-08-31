@@ -15,7 +15,7 @@ export class ListService {
       no: 5,
       owner: 'Alice',
       occursAt: new Date(),
-      open: true,
+      done: false,
       products: [
         { name: 'Bread', amount: 1337 },
         { name: 'Bread', amount: 42 },
@@ -26,7 +26,7 @@ export class ListService {
       no: 7,
       owner: 'Bob',
       occursAt: new Date(),
-      open: false,
+      done: true,
       products: [
         { name: 'Bread', amount: 1337 },
         { name: 'Bread', amount: 42 },
@@ -37,7 +37,7 @@ export class ListService {
   constructor() {}
 
   getLists(showClosed = false): Observable<List[]> {
-    const filtered = this.lists.filter((it) => it.open || showClosed);
+    const filtered = this.lists.filter((it) => it.done || showClosed);
 
     return of(filtered);
   }

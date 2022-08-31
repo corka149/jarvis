@@ -5,6 +5,6 @@ export interface List {
   no?: number;
   owner: string;
   occursAt: Date;
-  open: boolean;
+  done: boolean;
   products?: Product[];
 }
