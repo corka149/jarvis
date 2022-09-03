@@ -1,0 +1,23 @@
+name: CI Angular app through Github Actions
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+          cache-dependency-path: jarvis-fe/package-lock.json
+
+      - name: Setup
+        run: |
+          cd jarvis-fe
+          npm ci
+
+      - name: Test
+        run: |
+          cd jarvis-fe
+          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI

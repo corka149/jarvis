@@ -1,5 +1,0 @@
-_build
-*/node_modules*
-deps
-.elixir_ls
-.vscode
