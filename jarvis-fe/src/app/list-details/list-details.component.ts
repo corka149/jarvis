@@ -88,7 +88,7 @@ export class ListDetailsComponent implements OnInit {
 
   private setupForm(list?: List): void {
     const formData: List = list ?? {
-      owner: '',
+      reason: '',
       occursAt: new Date(),
       done: false,
       products: [],
@@ -101,7 +101,7 @@ export class ListDetailsComponent implements OnInit {
     );
 
     this.listForm = this.fb.group({
-      owner: [formData.owner, Validators.required],
+      reason: [formData.reason, Validators.required],
       occursAt: [formData.occursAt, Validators.required],
       done: formData.done,
       productDetails: this.fb.array(productDetails),

@@ -3,7 +3,7 @@ import { Product } from './product';
 export interface List {
   id?: string;
   no?: number;
-  owner: string;
+  reason: string;
   occursAt: Date;
   done: boolean;
   products?: Product[];

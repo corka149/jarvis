@@ -13,7 +13,7 @@ export class ListService {
     {
       id: '0066263e-49b2-4f5b-88b1-f5167b01a098',
       no: 5,
-      owner: 'Alice',
+      reason: 'Birthday',
       occursAt: new Date(),
       done: false,
       products: [
@@ -24,7 +24,7 @@ export class ListService {
     {
       id: '5a76e0f3-9dfa-4acb-9b8f-29eeaca244d5',
       no: 7,
-      owner: 'Bob',
+      reason: 'Family',
       occursAt: new Date(),
       done: true,
       products: [

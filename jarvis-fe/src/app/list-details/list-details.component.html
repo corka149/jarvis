@@ -1,10 +1,10 @@
 <div *ngIf="!!listForm">
   <form [formGroup]="listForm" (ngSubmit)="onSubmit()">
-    <!-- OWNER -->
+    <!-- REASON -->
     <div>
       <mat-form-field appearance="fill" style="width: 100%">
         <mat-label>Für</mat-label>
-        <input matInput formControlName="owner" />
+        <input matInput formControlName="reason" />
       </mat-form-field>
     </div>
 

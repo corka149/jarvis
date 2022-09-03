@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./list-overview.component.css'],
 })
 export class ListOverviewComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'owner', 'occursAt'];
+  displayedColumns: string[] = ['no', 'reason', 'occursAt'];
   lists: List[] = [];
   showClosed: boolean = false;
 
