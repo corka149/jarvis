@@ -1,4 +1,6 @@
-use actix_web::{Responder, Scope, web, get, post, put, delete};
+use actix_web::{Responder, Scope, web, get, post, put, delete, HttpResponse};
+use actix_web::http::header::ContentType;
+use super::dto::List;
 
 pub fn api_v1() -> Scope {
     web::scope("/v1")
@@ -37,7 +39,9 @@ fn user_api() -> Scope {
 
 #[get("")]
 async fn get_lists() -> impl Responder {
-    "not_implemented"
+    let lists = vec![List::new()];
+
+    ok(List::lists_to_json(&lists))
 }
 
 #[post("")]
@@ -46,8 +50,10 @@ async fn create_list() -> impl Responder {
 }
 
 #[get("/{list_id}")]
-async fn get_list(list_id: web::Path<String>) -> impl Responder {
-    format!("not_implemented: {list_id}")
+async fn get_list(_list_id: web::Path<String>) -> impl Responder {
+    let list = List::new();
+
+    ok(list.to_json())
 }
 
 #[delete("/{list_id}")]
@@ -58,4 +64,10 @@ async fn delete_list(list_id: web::Path<String>) -> impl Responder {
 #[put("/{list_id}")]
 async fn update_list(list_id: web::Path<String>) -> impl Responder {
     format!("not_implemented: {list_id}")
+}
+
+fn ok(json: String) -> HttpResponse {
+    HttpResponse::Ok()
+        .content_type(ContentType::json())
+        .body(json)
 }

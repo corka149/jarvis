@@ -1,4 +1,5 @@
 mod api_v1;
+mod dto;
 
 use actix_web::{App, HttpServer};
 
