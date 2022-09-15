@@ -1,9 +1,22 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize)]
+pub struct Organization {
+    uuid: String,
+    name: String,
+    users: Vec<User>
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct User {
+    uuid: String,
+    name: String,
+}
 
 #[derive(Serialize, Deserialize)]
 pub struct Credentials {
     name: String,
-    password: String
+    password: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -30,15 +43,7 @@ impl List {
             reason: "Birthday".to_string(),
             occurs_at: "2022-08-11T12:00".to_string(),
             done: false,
-            products: Some(Vec::new())
+            products: Some(Vec::new()),
         }
-    }
-
-    pub fn to_json(&self) -> String {
-        serde_json::to_string(self).unwrap()
-    }
-
-    pub fn lists_to_json(lists: &Vec<List>) -> String {
-        serde_json::to_string(lists).unwrap()
     }
 }

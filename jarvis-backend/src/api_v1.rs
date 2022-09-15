@@ -1,6 +1,8 @@
-use actix_web::{Responder, Scope, web, get, post, put, delete, HttpResponse};
+use actix_web::{delete, get, HttpResponse, post, put, Responder, Scope, web};
 use actix_web::http::header::ContentType;
-use super::dto::List;
+use serde::Serialize;
+
+use super::model::List;
 
 pub fn api_v1() -> Scope {
     web::scope("/v1")
@@ -41,7 +43,7 @@ fn user_api() -> Scope {
 async fn get_lists() -> impl Responder {
     let lists = vec![List::new()];
 
-    ok(List::lists_to_json(&lists))
+    ok(lists)
 }
 
 #[post("")]
@@ -53,7 +55,7 @@ async fn create_list() -> impl Responder {
 async fn get_list(_list_id: web::Path<String>) -> impl Responder {
     let list = List::new();
 
-    ok(list.to_json())
+    ok(list)
 }
 
 #[delete("/{list_id}")]
@@ -66,8 +68,14 @@ async fn update_list(list_id: web::Path<String>) -> impl Responder {
     format!("not_implemented: {list_id}")
 }
 
-fn ok(json: String) -> HttpResponse {
+fn ok<T: Serialize + Sized>(data: T) -> HttpResponse {
+    let json = to_json(&data);
+
     HttpResponse::Ok()
         .content_type(ContentType::json())
         .body(json)
+}
+
+fn to_json<T: Serialize + Sized>(list: &T) -> String {
+    serde_json::to_string(list).unwrap()
 }
