@@ -1,5 +1,6 @@
 use actix_web::{delete, get, HttpResponse, post, put, Responder, Scope, web};
 use actix_web::http::header::ContentType;
+use actix_session::Session;
 use serde::Serialize;
 
 use super::model::List;
@@ -19,7 +20,9 @@ fn auth_api() -> Scope {
 }
 
 #[post("/login")]
-async fn login() -> impl Responder {
+async fn login(session: Session) -> impl Responder {
+    session.insert("user_id", "affa0db4-20d3-4c4a-a643-313aa0473bc6").unwrap();
+
     "not_implemented"
 }
 
