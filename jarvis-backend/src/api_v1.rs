@@ -1,6 +1,6 @@
+use actix_session::Session;
 use actix_web::{delete, get, HttpResponse, post, put, Responder, Scope, web};
 use actix_web::http::header::ContentType;
-use actix_session::Session;
 use serde::Serialize;
 
 use super::model::List;
@@ -8,7 +8,7 @@ use super::model::List;
 pub fn api_v1() -> Scope {
     web::scope("/v1")
         .service(auth_api())
-        .service(user_api())
+        .service(list_api())
 }
 
 // ===== AUTH =====
@@ -33,7 +33,7 @@ async fn logout() -> impl Responder {
 
 // ===== LIST =====
 
-fn user_api() -> Scope {
+fn list_api() -> Scope {
     web::scope("/lists")
         .service(get_lists)
         .service(create_list)
@@ -71,6 +71,8 @@ async fn update_list(list_id: web::Path<String>) -> impl Responder {
     format!("not_implemented: {list_id}")
 }
 
+// ===== RESPONSES =====
+
 fn ok<T: Serialize + Sized>(data: T) -> HttpResponse {
     let json = to_json(&data);
 
@@ -78,6 +80,8 @@ fn ok<T: Serialize + Sized>(data: T) -> HttpResponse {
         .content_type(ContentType::json())
         .body(json)
 }
+
+// ===== HELPERS =====
 
 fn to_json<T: Serialize + Sized>(list: &T) -> String {
     serde_json::to_string(list).unwrap()
