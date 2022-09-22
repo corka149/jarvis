@@ -1,27 +1,29 @@
 use actix_session::Session;
-use actix_web::{delete, get, HttpResponse, post, put, Responder, Scope, web};
+use actix_web::body::{BoxBody, EitherBody};
+use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
 use actix_web::http::header::ContentType;
+use actix_web::{delete, get, post, put, web, Error, HttpResponse, Responder, Scope};
 use serde::Serialize;
+
+use crate::security::AuthTransformer;
 
 use super::model::List;
 
 pub fn api_v1() -> Scope {
-    web::scope("/v1")
-        .service(auth_api())
-        .service(list_api())
+    web::scope("/v1").service(auth_api()).service(list_api())
 }
 
 // ===== AUTH =====
 
 fn auth_api() -> Scope {
-    web::scope("/auth")
-        .service(login)
-        .service(logout)
+    web::scope("/auth").service(login).service(logout)
 }
 
 #[post("/login")]
 async fn login(session: Session) -> impl Responder {
-    session.insert("user_id", "affa0db4-20d3-4c4a-a643-313aa0473bc6").unwrap();
+    session
+        .insert("user_id", "affa0db4-20d3-4c4a-a643-313aa0473bc6")
+        .unwrap();
 
     "not_implemented"
 }
@@ -33,8 +35,19 @@ async fn logout() -> impl Responder {
 
 // ===== LIST =====
 
-fn list_api() -> Scope {
+fn list_api() -> actix_web::Scope<
+    impl ServiceFactory<
+        ServiceRequest,
+        Response = ServiceResponse<EitherBody<BoxBody>>,
+        Error = Error,
+        Config = (),
+        InitError = (),
+    >,
+> {
+    let auth_transformer = AuthTransformer {};
+
     web::scope("/lists")
+        .wrap(auth_transformer)
         .service(get_lists)
         .service(create_list)
         .service(get_list)
