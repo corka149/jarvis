@@ -9,6 +9,7 @@ use mongodb::{bson::doc, options::FindOptions};
 use serde::Serialize;
 
 use crate::security::AuthTransformer;
+use crate::storage;
 
 use super::model::List;
 
@@ -60,18 +61,7 @@ fn list_api() -> actix_web::Scope<
 
 #[get("")]
 async fn get_lists(db_client: web::Data<Client>) -> impl Responder {
-    let db = db_client.database("jarvis");
-    let coll = db.collection::<List>("lists");
-
-    let filter = doc! {};
-    let find_options = FindOptions::default();
-    let mut cursor = coll.find(filter, find_options).await.unwrap();
-
-    let mut lists: Vec<List> = Vec::new();
-
-    while let Some(list) = cursor.try_next().await.unwrap() {
-        lists.push(list);
-    }
+    let lists = storage::find_all_lists(&db_client).await;
 
     ok(lists)
 }
