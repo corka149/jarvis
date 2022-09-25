@@ -3,6 +3,9 @@ use actix_web::body::{BoxBody, EitherBody};
 use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
 use actix_web::http::header::ContentType;
 use actix_web::{delete, get, post, put, web, Error, HttpResponse, Responder, Scope};
+use futures::stream::TryStreamExt;
+use mongodb::Client;
+use mongodb::{bson::doc, options::FindOptions};
 use serde::Serialize;
 
 use crate::security::AuthTransformer;
@@ -56,8 +59,19 @@ fn list_api() -> actix_web::Scope<
 }
 
 #[get("")]
-async fn get_lists() -> impl Responder {
-    let lists = vec![List::new()];
+async fn get_lists(db_client: web::Data<Client>) -> impl Responder {
+    let db = db_client.database("jarvis");
+    let coll = db.collection::<List>("lists");
+
+    let filter = doc! {};
+    let find_options = FindOptions::default();
+    let mut cursor = coll.find(filter, find_options).await.unwrap();
+
+    let mut lists: Vec<List> = Vec::new();
+
+    while let Some(list) = cursor.try_next().await.unwrap() {
+        lists.push(list);
+    }
 
     ok(lists)
 }

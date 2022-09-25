@@ -88,7 +88,7 @@ pub fn new_session_store() -> SessionMiddleware<CookieSessionStore> {
     SessionMiddleware::new(session_store, secret_key)
 }
 
-// TODO The secret key would usually be read from a configuration file/environment variables.
+// TODO config
 fn get_secret_key() -> Key {
     let base = "a".repeat(64);
     let key = base.as_ref();

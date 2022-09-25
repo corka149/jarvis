@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 pub struct Organization {
     uuid: String,
     name: String,
-    users: Vec<User>
+    users: Vec<User>,
 }
 
 #[derive(Serialize, Deserialize)]
