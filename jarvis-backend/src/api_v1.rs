@@ -1,10 +1,10 @@
 use actix_session::Session;
 use actix_web::body::{BoxBody, EitherBody};
 use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
-use actix_web::http::header::ContentType;
-use actix_web::{delete, get, post, put, web, Error, HttpResponse, Responder, Scope};
+use actix_web::web::Json;
+use actix_web::{delete, get, post, put, web, Either, Error, HttpResponse, Responder, Scope};
 use futures_util::StreamExt;
-use serde::Serialize;
+use mongodb::bson::oid::ObjectId;
 
 use crate::security::AuthTransformer;
 use crate::MongoRepo;
@@ -37,7 +37,7 @@ async fn logout() -> impl Responder {
 
 // ===== LIST =====
 
-fn list_api() -> actix_web::Scope<
+fn list_api() -> Scope<
     impl ServiceFactory<
         ServiceRequest,
         Response = ServiceResponse<EitherBody<BoxBody>>,
@@ -61,7 +61,7 @@ fn list_api() -> actix_web::Scope<
 async fn get_lists(repo: web::Data<MongoRepo>) -> impl Responder {
     let lists = repo.find_all_lists().await;
 
-    ok(lists)
+    Json(lists)
 }
 
 const MAX_SIZE: usize = 262_144; // max payload size is 256k
@@ -84,14 +84,22 @@ async fn create_list(mut payload: web::Payload, repo: web::Data<MongoRepo>) -> i
 
     let list = repo.insert_list(list).await;
 
-    ok(list)
+    Json(list)
 }
 
 #[get("/{list_id}")]
-async fn get_list(_list_id: web::Path<String>) -> impl Responder {
-    let list = List::new();
+async fn get_list(
+    list_id: web::Path<String>,
+    repo: web::Data<MongoRepo>,
+) -> Either<Json<List>, HttpResponse> {
+    let id = ObjectId::parse_str(list_id.into_inner()).unwrap();
+    let list = repo.find_by_id(id).await;
 
-    ok(list)
+    if let Some(list) = list {
+        Either::Left(Json(list))
+    } else {
+        Either::Right(HttpResponse::NotFound().finish())
+    }
 }
 
 #[delete("/{list_id}")]
@@ -102,20 +110,4 @@ async fn delete_list(list_id: web::Path<String>) -> impl Responder {
 #[put("/{list_id}")]
 async fn update_list(list_id: web::Path<String>) -> impl Responder {
     format!("not_implemented: {list_id}")
-}
-
-// ===== RESPONSES =====
-
-fn ok<T: Serialize + Sized>(data: T) -> HttpResponse {
-    let json = to_json(&data);
-
-    HttpResponse::Ok()
-        .content_type(ContentType::json())
-        .body(json)
-}
-
-// ===== HELPERS =====
-
-fn to_json<T: Serialize + Sized>(list: &T) -> String {
-    serde_json::to_string(list).unwrap()
 }

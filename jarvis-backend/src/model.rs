@@ -40,14 +40,10 @@ pub struct List {
 }
 
 impl List {
-    pub fn new() -> Self {
-        List {
-            _id: None,
-            no: None,
-            reason: "Birthday".to_string(),
-            occurs_at: chrono::Utc::now(),
-            done: false,
-            products: Some(Vec::new()),
+    /// Generates ID if not yet existing.
+    pub fn gen_id(&mut self) {
+        if self._id.is_none() {
+            self._id = Some(ObjectId::new());
         }
     }
 }

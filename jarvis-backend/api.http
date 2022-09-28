@@ -5,7 +5,7 @@ POST http://localhost:8080/v1/auth/login
 GET http://localhost:8080/v1/lists
 
 ### GET ONE
-GET http://localhost:8080/v1/lists/foo
+GET http://localhost:8080/v1/lists/6334a2ef4740b23e3ed6cb71
 
 
 ### CREATE

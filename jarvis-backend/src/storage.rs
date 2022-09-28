@@ -1,5 +1,6 @@
 use futures::stream::TryStreamExt;
-use mongodb::options::FindOptions;
+use mongodb::bson::oid::ObjectId;
+use mongodb::options::{FindOneOptions, FindOptions};
 use mongodb::{bson::doc, options::ClientOptions, Client, Collection};
 
 use crate::model::List;
@@ -51,7 +52,17 @@ impl MongoRepo {
         lists
     }
 
-    pub async fn insert_list(&self, list: List) -> List {
+    pub async fn find_by_id(&self, id: ObjectId) -> Option<List> {
+        let coll = self.list_coll();
+
+        let filter = doc! { "_id": id  };
+        let find_options = FindOneOptions::default();
+
+        coll.find_one(filter, find_options).await.unwrap()
+    }
+
+    pub async fn insert_list(&self, mut list: List) -> List {
+        list.gen_id();
         let coll: Collection<List> = self.list_coll();
         coll.insert_one(&list, None).await.unwrap();
         list
