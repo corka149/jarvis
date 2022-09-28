@@ -1,3 +1,6 @@
+use chrono::DateTime;
+use mongodb::bson;
+use mongodb::bson::oid::ObjectId;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -27,10 +30,11 @@ pub struct Product {
 
 #[derive(Serialize, Deserialize)]
 pub struct List {
-    id: Option<String>,
+    _id: Option<ObjectId>,
     no: Option<usize>,
     reason: String,
-    occurs_at: String,
+    #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]
+    occurs_at: DateTime<chrono::Utc>,
     done: bool,
     products: Option<Vec<Product>>,
 }
@@ -38,10 +42,10 @@ pub struct List {
 impl List {
     pub fn new() -> Self {
         List {
-            id: None,
+            _id: None,
             no: None,
             reason: "Birthday".to_string(),
-            occurs_at: "2022-08-11T12:00".to_string(),
+            occurs_at: chrono::Utc::now(),
             done: false,
             products: Some(Vec::new()),
         }

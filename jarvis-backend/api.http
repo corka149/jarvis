@@ -1,4 +1,34 @@
+### LOGIN
 POST http://localhost:8080/v1/auth/login
 
-###
+### GET ALL
 GET http://localhost:8080/v1/lists
+
+### GET ONE
+GET http://localhost:8080/v1/lists/foo
+
+
+### CREATE
+POST http://localhost:8080/v1/lists
+Content-Type: application/json
+
+{
+  "no": 1,
+  "reason": "birthday",
+  "occurs_at": {
+    "$date": {
+      "$numberLong": "1664194915000"
+    }
+  },
+  "done": false,
+  "products": [
+    {
+      "name": "bread",
+      "amount": 1
+    },
+    {
+      "name": "apples",
+      "amount": 42
+    }
+  ]
+}
