@@ -3,6 +3,7 @@ use actix_web::body::{BoxBody, EitherBody};
 use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
 use actix_web::{delete, get, post, put, web, Error, HttpResponse, Responder, Scope};
 use mongodb::bson::oid::ObjectId;
+use serde::{Deserialize, Serialize};
 
 use crate::security::{AuthTransformer, UserData};
 use crate::MongoRepo;
@@ -15,15 +16,43 @@ pub fn api_v1() -> Scope {
 
 // ===== AUTH =====
 
+#[derive(Serialize, Deserialize)]
+struct LoginData {
+    email: String,
+    password: String,
+}
+
 fn auth_api() -> Scope {
     web::scope("/auth").service(login).service(logout)
 }
 
 #[post("/login")]
-async fn login(session: Session) -> impl Responder {
-    let user = UserData::new();
+async fn login(
+    login_data: web::Json<LoginData>,
+    session: Session,
+    repo: web::Data<MongoRepo>,
+) -> impl Responder {
+    let user = match repo.find_user_by_email(&login_data.email).await {
+        Ok(Some(user)) => user,
+        Ok(None) => return HttpResponse::Unauthorized().finish(),
+        Err(err) => {
+            log::error!("Error while fetching user by email: {:?}", err);
+            return HttpResponse::InternalServerError().finish();
+        }
+    };
 
-    if let Err(err) = session.insert("user", user) {
+    match bcrypt::verify(&login_data.password, &user.password) {
+        Ok(true) => {}
+        Ok(false) => return HttpResponse::Unauthorized().finish(),
+        Err(err) => {
+            log::error!("Error while verifying password: {:?}", err);
+            return HttpResponse::InternalServerError().finish();
+        }
+    };
+
+    let user_data = UserData::new(&user);
+
+    if let Err(err) = session.insert("user", user_data) {
         log::error!("Could not add user data to session: {:?}", err);
         return HttpResponse::InternalServerError().finish();
     }
@@ -89,7 +118,7 @@ async fn get_list(list_id: web::Path<String>, repo: web::Data<MongoRepo>) -> imp
         Err(_err) => return HttpResponse::BadRequest().finish(),
     };
 
-    match repo.find_by_id(id).await {
+    match repo.find_list_by_id(id).await {
         Ok(Some(list)) => HttpResponse::Ok().json(list),
         Ok(None) => HttpResponse::NotFound().finish(),
         Err(err) => {
@@ -106,7 +135,7 @@ async fn delete_list(list_id: web::Path<String>, repo: web::Data<MongoRepo>) -> 
         Err(_err) => return HttpResponse::BadRequest().finish(),
     };
 
-    if let Err(err) = repo.delete_by_id(id).await {
+    if let Err(err) = repo.delete_list_by_id(id).await {
         log::error!("Error while deleting list {}: {:?}", id, err)
     }
 

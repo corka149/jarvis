@@ -1,6 +1,7 @@
 use std::future::{ready, Ready};
 
 use crate::configuration;
+use crate::model::User;
 use actix_session::storage::CookieSessionStore;
 use actix_session::{SessionExt, SessionMiddleware};
 use actix_web::body::EitherBody;
@@ -18,11 +19,10 @@ pub struct UserData {
 }
 
 impl UserData {
-    // TODO get data from user model
-    pub fn new() -> Self {
+    pub fn new(user: &User) -> Self {
         Self {
-            user_uuid: "a57999c1-d24d-40f4-8efd-04321b5e4cdb".to_string(),
-            organization_id: "c69b364a-5cf1-49e0-93bd-b7fc1dc99122".to_string(),
+            user_uuid: user.uuid.to_string(),
+            organization_id: user.organization_uuid.to_string(),
         }
     }
 }

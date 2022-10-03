@@ -4,7 +4,7 @@ use mongodb::bson::oid::ObjectId;
 use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
 use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
 
-use crate::model::List;
+use crate::model::{List, User};
 
 pub struct MongoRepo {
     mongo_client: Client,
@@ -37,6 +37,11 @@ impl MongoRepo {
         db.collection::<List>("lists")
     }
 
+    fn user_coll(&self) -> Collection<User> {
+        let db = self.mongo_client.database("jarvis");
+        db.collection::<User>("users")
+    }
+
     pub async fn find_all_lists(&self) -> Result<Vec<List>, error::Error> {
         let coll = self.list_coll();
 
@@ -53,12 +58,21 @@ impl MongoRepo {
         Ok(lists)
     }
 
-    pub async fn find_by_id(&self, id: ObjectId) -> Result<Option<List>, error::Error> {
+    pub async fn find_list_by_id(&self, id: ObjectId) -> Result<Option<List>, error::Error> {
         let coll = self.list_coll();
 
         let filter = doc! { "_id": id  };
         let find_options = FindOneOptions::default();
 
+        coll.find_one(filter, find_options).await
+    }
+    
+    pub async fn find_user_by_email(&self, email: &str) -> Result<Option<User>, error::Error> {
+        let coll = self.user_coll();
+        
+        let filter = doc! {"email": email};
+        let find_options = FindOneOptions::default();
+        
         coll.find_one(filter, find_options).await
     }
 
@@ -69,7 +83,7 @@ impl MongoRepo {
         Ok(list)
     }
 
-    pub async fn delete_by_id(&self, id: ObjectId) -> error::Result<results::DeleteResult> {
+    pub async fn delete_list_by_id(&self, id: ObjectId) -> error::Result<results::DeleteResult> {
         let coll: Collection<List> = self.list_coll();
 
         let filter = doc! { "_id": id  };

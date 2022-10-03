@@ -18,7 +18,7 @@ pub struct User {
     pub organization_uuid: bson::Uuid,
     name: String,
     email: String,
-    password: String,
+    pub password: String,
 }
 
 #[derive(Serialize, Deserialize)]
