@@ -81,6 +81,7 @@ impl List {
 
         if with_id {
             doc.insert("_id", self._id);
+            doc.insert("organization_uuid", self.organization_uuid);
         }
 
         doc
