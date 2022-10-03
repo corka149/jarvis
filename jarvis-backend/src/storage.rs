@@ -5,6 +5,7 @@ use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, UpdateOptions
 use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
 
 use crate::model::{List, User};
+use crate::security::UserData;
 
 pub struct MongoRepo {
     mongo_client: Client,
@@ -66,18 +67,23 @@ impl MongoRepo {
 
         coll.find_one(filter, find_options).await
     }
-    
+
     pub async fn find_user_by_email(&self, email: &str) -> Result<Option<User>, error::Error> {
         let coll = self.user_coll();
-        
+
         let filter = doc! {"email": email};
         let find_options = FindOneOptions::default();
-        
+
         coll.find_one(filter, find_options).await
     }
 
-    pub async fn insert_list(&self, mut list: List) -> Result<List, error::Error> {
+    pub async fn insert_list(
+        &self,
+        mut list: List,
+        user_data: UserData,
+    ) -> Result<List, error::Error> {
         list.gen_id();
+        list.organization_uuid = Some(user_data.organization_id);
         let coll: Collection<List> = self.list_coll();
         coll.insert_one(&list, None).await?;
         Ok(list)

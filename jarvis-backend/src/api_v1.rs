@@ -101,8 +101,21 @@ async fn get_lists(repo: web::Data<MongoRepo>) -> impl Responder {
 }
 
 #[post("")]
-async fn create_list(list: web::Json<List>, repo: web::Data<MongoRepo>) -> impl Responder {
-    match repo.insert_list(list.into_inner()).await {
+async fn create_list(
+    list: web::Json<List>,
+    repo: web::Data<MongoRepo>,
+    session: Session,
+) -> impl Responder {
+    let user_data = match session.get::<UserData>("user") {
+        Ok(Some(user_data)) => user_data,
+        Ok(None) => return HttpResponse::Unauthorized().finish(),
+        Err(err) => {
+            log::error!("Error while getting user data: {:?}", err);
+            return HttpResponse::InternalServerError().finish();
+        }
+    };
+
+    match repo.insert_list(list.into_inner(), user_data).await {
         Ok(list) => HttpResponse::Ok().json(list),
         Err(err) => {
             log::error!("Creating list failed: {:?}", err);

@@ -10,19 +10,20 @@ use actix_web::{
     Error, HttpResponse,
 };
 use futures_util::future::LocalBoxFuture;
+use mongodb::bson;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct UserData {
-    user_uuid: String,
-    organization_id: String,
+    pub user_uuid: bson::Uuid,
+    pub organization_id: bson::Uuid,
 }
 
 impl UserData {
     pub fn new(user: &User) -> Self {
         Self {
-            user_uuid: user.uuid.to_string(),
-            organization_id: user.organization_uuid.to_string(),
+            user_uuid: user.uuid,
+            organization_id: user.organization_uuid,
         }
     }
 }
