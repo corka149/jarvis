@@ -30,7 +30,7 @@ async fn login(session: Session) -> impl Responder {
 
 #[post("/logout")]
 async fn logout(session: Session) -> impl Responder {
-    session.remove("user_id");
+    session.purge();
 
     HttpResponse::Ok().finish()
 }
