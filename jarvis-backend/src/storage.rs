@@ -43,10 +43,10 @@ impl MongoRepo {
         db.collection::<User>("users")
     }
 
-    pub async fn find_all_lists(&self) -> Result<Vec<List>, error::Error> {
+    pub async fn find_all_lists(&self, user_data: UserData) -> Result<Vec<List>, error::Error> {
         let coll = self.list_coll();
 
-        let filter = doc! {};
+        let filter = doc! {"organization_uuid": user_data.organization_uuid};
         let find_options = FindOptions::default();
         let mut cursor = coll.find(filter, find_options).await?;
 
@@ -59,10 +59,14 @@ impl MongoRepo {
         Ok(lists)
     }
 
-    pub async fn find_list_by_id(&self, id: ObjectId) -> Result<Option<List>, error::Error> {
+    pub async fn find_list_by_id(
+        &self,
+        id: ObjectId,
+        user_data: UserData,
+    ) -> Result<Option<List>, error::Error> {
         let coll = self.list_coll();
 
-        let filter = doc! { "_id": id  };
+        let filter = doc! { "_id": id, "organization_uuid": user_data.organization_uuid };
         let find_options = FindOneOptions::default();
 
         coll.find_one(filter, find_options).await
@@ -83,16 +87,20 @@ impl MongoRepo {
         user_data: UserData,
     ) -> Result<List, error::Error> {
         list.gen_id();
-        list.organization_uuid = Some(user_data.organization_id);
+        list.organization_uuid = Some(user_data.organization_uuid);
         let coll: Collection<List> = self.list_coll();
         coll.insert_one(&list, None).await?;
         Ok(list)
     }
 
-    pub async fn delete_list_by_id(&self, id: ObjectId) -> error::Result<results::DeleteResult> {
+    pub async fn delete_list_by_id(
+        &self,
+        id: ObjectId,
+        user_data: UserData,
+    ) -> error::Result<results::DeleteResult> {
         let coll: Collection<List> = self.list_coll();
 
-        let filter = doc! { "_id": id  };
+        let filter = doc! { "_id": id, "organization_uuid": user_data.organization_uuid };
         let delete_options = DeleteOptions::default();
 
         coll.delete_one(filter, delete_options).await
@@ -102,10 +110,11 @@ impl MongoRepo {
         &self,
         id: ObjectId,
         list: List,
+        user_data: UserData,
     ) -> error::Result<results::UpdateResult> {
         let coll: Collection<List> = self.list_coll();
 
-        let filter = doc! { "_id": id  };
+        let filter = doc! { "_id": id, "organization_uuid": user_data.organization_uuid };
         let update_options = UpdateOptions::default();
 
         let update = doc! {

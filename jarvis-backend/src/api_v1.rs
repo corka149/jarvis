@@ -90,8 +90,13 @@ fn list_api() -> Scope<
 }
 
 #[get("")]
-async fn get_lists(repo: web::Data<MongoRepo>) -> impl Responder {
-    match repo.find_all_lists().await {
+async fn get_lists(repo: web::Data<MongoRepo>, session: Session) -> impl Responder {
+    let user_data = match get_user_data(session) {
+        Ok(user_data) => user_data,
+        Err(failed) => return failed,
+    };
+
+    match repo.find_all_lists(user_data).await {
         Ok(lists) => HttpResponse::Ok().json(lists),
         Err(err) => {
             log::error!("Could not get lists: {:?}", err);
@@ -106,13 +111,9 @@ async fn create_list(
     repo: web::Data<MongoRepo>,
     session: Session,
 ) -> impl Responder {
-    let user_data = match session.get::<UserData>("user") {
-        Ok(Some(user_data)) => user_data,
-        Ok(None) => return HttpResponse::Unauthorized().finish(),
-        Err(err) => {
-            log::error!("Error while getting user data: {:?}", err);
-            return HttpResponse::InternalServerError().finish();
-        }
+    let user_data = match get_user_data(session) {
+        Ok(user_data) => user_data,
+        Err(failed) => return failed,
     };
 
     match repo.insert_list(list.into_inner(), user_data).await {
@@ -125,13 +126,22 @@ async fn create_list(
 }
 
 #[get("/{list_id}")]
-async fn get_list(list_id: web::Path<String>, repo: web::Data<MongoRepo>) -> impl Responder {
+async fn get_list(
+    list_id: web::Path<String>,
+    repo: web::Data<MongoRepo>,
+    session: Session,
+) -> impl Responder {
     let id = match ObjectId::parse_str(list_id.into_inner()) {
         Ok(id) => id,
         Err(_err) => return HttpResponse::BadRequest().finish(),
     };
 
-    match repo.find_list_by_id(id).await {
+    let user_data = match get_user_data(session) {
+        Ok(user_data) => user_data,
+        Err(failed) => return failed,
+    };
+
+    match repo.find_list_by_id(id, user_data).await {
         Ok(Some(list)) => HttpResponse::Ok().json(list),
         Ok(None) => HttpResponse::NotFound().finish(),
         Err(err) => {
@@ -142,13 +152,22 @@ async fn get_list(list_id: web::Path<String>, repo: web::Data<MongoRepo>) -> imp
 }
 
 #[delete("/{list_id}")]
-async fn delete_list(list_id: web::Path<String>, repo: web::Data<MongoRepo>) -> impl Responder {
+async fn delete_list(
+    list_id: web::Path<String>,
+    repo: web::Data<MongoRepo>,
+    session: Session,
+) -> impl Responder {
     let id = match ObjectId::parse_str(list_id.into_inner()) {
         Ok(id) => id,
         Err(_err) => return HttpResponse::BadRequest().finish(),
     };
 
-    if let Err(err) = repo.delete_list_by_id(id).await {
+    let user_data = match get_user_data(session) {
+        Ok(user_data) => user_data,
+        Err(failed) => return failed,
+    };
+
+    if let Err(err) = repo.delete_list_by_id(id, user_data).await {
         log::error!("Error while deleting list {}: {:?}", id, err)
     }
 
@@ -160,16 +179,36 @@ async fn update_list(
     list_id: web::Path<String>,
     list: web::Json<List>,
     repo: web::Data<MongoRepo>,
+    session: Session,
 ) -> impl Responder {
     let id = match ObjectId::parse_str(list_id.into_inner()) {
         Ok(id) => id,
         Err(_err) => return HttpResponse::BadRequest().finish(),
     };
 
-    if let Err(err) = repo.update_list(id, list.into_inner()).await {
+    let user_data = match get_user_data(session) {
+        Ok(user_data) => user_data,
+        Err(failed) => return failed,
+    };
+
+    if let Err(err) = repo.update_list(id, list.into_inner(), user_data).await {
         log::error!("Could not update list: {:?}", err);
         return HttpResponse::InternalServerError().finish();
     }
 
     HttpResponse::NoContent().finish()
+}
+
+fn get_user_data(session: Session) -> Result<UserData, HttpResponse> {
+    match session.get::<UserData>("user") {
+        Ok(Some(user_data)) => {
+            log::debug!("Received data: {:?}", user_data);
+            Ok(user_data)
+        }
+        Ok(None) => Err(HttpResponse::Unauthorized().finish()),
+        Err(err) => {
+            log::error!("Error while getting user data: {:?}", err);
+            Err(HttpResponse::InternalServerError().finish())
+        }
+    }
 }

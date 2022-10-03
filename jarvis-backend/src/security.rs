@@ -13,17 +13,17 @@ use futures_util::future::LocalBoxFuture;
 use mongodb::bson;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct UserData {
     pub user_uuid: bson::Uuid,
-    pub organization_id: bson::Uuid,
+    pub organization_uuid: bson::Uuid,
 }
 
 impl UserData {
     pub fn new(user: &User) -> Self {
         Self {
             user_uuid: user.uuid,
-            organization_id: user.organization_uuid,
+            organization_uuid: user.organization_uuid,
         }
     }
 }
