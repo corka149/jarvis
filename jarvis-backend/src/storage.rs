@@ -21,10 +21,13 @@ impl Clone for MongoRepo {
 impl MongoRepo {
     pub async fn new(config: configuration::Database) -> MongoRepo {
         // Parse a connection string into an options struct.
-        let client_options = ClientOptions::parse(config.connection).await.unwrap();
+        let client_options = ClientOptions::parse(config.connection)
+            .await
+            .expect("Could not parse options for MongoDB");
 
         // Get a handle to the deployment.
-        let mongo_client = Client::with_options(client_options).unwrap();
+        let mongo_client =
+            Client::with_options(client_options).expect("Could not build MongoDB client");
 
         MongoRepo { mongo_client }
     }
@@ -34,36 +37,36 @@ impl MongoRepo {
         db.collection::<List>("lists")
     }
 
-    pub async fn find_all_lists(&self) -> Vec<List> {
+    pub async fn find_all_lists(&self) -> Result<Vec<List>, error::Error> {
         let coll = self.list_coll();
 
         let filter = doc! {};
         let find_options = FindOptions::default();
-        let mut cursor = coll.find(filter, find_options).await.unwrap();
+        let mut cursor = coll.find(filter, find_options).await?;
 
         let mut lists: Vec<List> = Vec::new();
 
-        while let Some(list) = cursor.try_next().await.unwrap() {
+        while let Some(list) = cursor.try_next().await? {
             lists.push(list);
         }
 
-        lists
+        Ok(lists)
     }
 
-    pub async fn find_by_id(&self, id: ObjectId) -> Option<List> {
+    pub async fn find_by_id(&self, id: ObjectId) -> Result<Option<List>, error::Error> {
         let coll = self.list_coll();
 
         let filter = doc! { "_id": id  };
         let find_options = FindOneOptions::default();
 
-        coll.find_one(filter, find_options).await.unwrap()
+        coll.find_one(filter, find_options).await
     }
 
-    pub async fn insert_list(&self, mut list: List) -> List {
+    pub async fn insert_list(&self, mut list: List) -> Result<List, error::Error> {
         list.gen_id();
         let coll: Collection<List> = self.list_coll();
-        coll.insert_one(&list, None).await.unwrap();
-        list
+        coll.insert_one(&list, None).await?;
+        Ok(list)
     }
 
     pub async fn delete_by_id(&self, id: ObjectId) -> error::Result<results::DeleteResult> {
