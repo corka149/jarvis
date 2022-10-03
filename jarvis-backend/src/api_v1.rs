@@ -25,12 +25,14 @@ async fn login(session: Session) -> impl Responder {
         .insert("user_id", "affa0db4-20d3-4c4a-a643-313aa0473bc6")
         .unwrap();
 
-    "not_implemented"
+    HttpResponse::Ok().finish()
 }
 
 #[post("/logout")]
-async fn logout() -> impl Responder {
-    "not_implemented"
+async fn logout(session: Session) -> impl Responder {
+    session.remove("user_id");
+
+    HttpResponse::Ok().finish()
 }
 
 // ===== LIST =====
@@ -93,10 +95,14 @@ async fn delete_list(list_id: web::Path<String>, repo: web::Data<MongoRepo>) -> 
 }
 
 #[put("/{list_id}")]
-async fn update_list(list_id: web::Path<String>, list: web::Json<List>, repo: web::Data<MongoRepo>) -> impl Responder {
+async fn update_list(
+    list_id: web::Path<String>,
+    list: web::Json<List>,
+    repo: web::Data<MongoRepo>,
+) -> impl Responder {
     let id = ObjectId::parse_str(list_id.into_inner()).unwrap();
-    
+
     repo.update_list(id, list.into_inner()).await.unwrap();
-    
+
     HttpResponse::NoContent().finish()
 }

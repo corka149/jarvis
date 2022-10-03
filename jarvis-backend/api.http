@@ -1,6 +1,9 @@
 ### LOGIN
 POST http://localhost:8080/v1/auth/login
 
+### LOGOUT
+POST http://localhost:8080/v1/auth/logout
+
 ### GET ALL
 GET http://localhost:8080/v1/lists
 
