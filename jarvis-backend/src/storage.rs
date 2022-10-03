@@ -1,6 +1,6 @@
 use futures::stream::TryStreamExt;
 use mongodb::bson::oid::ObjectId;
-use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions};
+use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
 use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
 
 use crate::model::List;
@@ -75,5 +75,22 @@ impl MongoRepo {
         let delete_options = DeleteOptions::default();
 
         coll.delete_one(filter, delete_options).await
+    }
+
+    pub async fn update_list(
+        &self,
+        id: ObjectId,
+        list: List,
+    ) -> error::Result<results::UpdateResult> {
+        let coll: Collection<List> = self.list_coll();
+
+        let filter = doc! { "_id": id  };
+        let update_options = UpdateOptions::default();
+
+        let update = doc! {
+            "$set": list.as_doc(false)
+        };
+
+        coll.update_one(filter, update, update_options).await
     }
 }

@@ -35,3 +35,28 @@ Content-Type: application/json
 
 ### DELETE
 DELETE http://localhost:8080/v1/lists/6334a2ef4740b23e3ed6cb71
+
+### UPDATE
+PUT http://localhost:8080/v1/lists/633a7046c9797d3aab817596
+Content-Type: application/json
+
+{
+  "no": 1,
+  "reason": "holiday",
+  "occurs_at": {
+    "$date": {
+      "$numberLong": "1664194915000"
+    }
+  },
+  "done": true,
+  "products": [
+    {
+      "name": "bread",
+      "amount": 1
+    },
+    {
+      "name": "water",
+      "amount": 42
+    }
+  ]
+}
