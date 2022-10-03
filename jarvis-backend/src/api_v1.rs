@@ -1,17 +1,13 @@
 use actix_session::Session;
 use actix_web::body::{BoxBody, EitherBody};
 use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
-use actix_web::web::Json;
 use actix_web::{delete, get, post, put, web, Error, HttpResponse, Responder, Scope};
-use futures_util::StreamExt;
 use mongodb::bson::oid::ObjectId;
 
 use crate::security::AuthTransformer;
 use crate::MongoRepo;
 
 use super::model::List;
-
-const ERROR_CONTENT_TO_BIG: &str = "0a903e62-3588-44fb-8e7a-37edfa176382";
 
 pub fn api_v1() -> Scope {
     web::scope("/v1").service(auth_api()).service(list_api())
@@ -66,26 +62,9 @@ async fn get_lists(repo: web::Data<MongoRepo>) -> impl Responder {
     HttpResponse::Ok().json(lists)
 }
 
-const MAX_SIZE: usize = 262_144; // max payload size is 256k
-
 #[post("")]
-async fn create_list(mut payload: web::Payload, repo: web::Data<MongoRepo>) -> impl Responder {
-    // payload is a stream of Bytes objects
-    let mut body = web::BytesMut::new();
-
-    while let Some(chunk) = payload.next().await {
-        let chunk = chunk.unwrap();
-        // limit max size of in-memory payload
-        if (body.len() + chunk.len()) > MAX_SIZE {
-            return HttpResponse::BadRequest().body(ERROR_CONTENT_TO_BIG);
-        }
-        body.extend_from_slice(&chunk);
-    }
-
-    // body is loaded, now we can deserialize serde-json
-    let list = serde_json::from_slice::<List>(&body).unwrap();
-
-    let list = repo.insert_list(list).await;
+async fn create_list(list: web::Json<List>, repo: web::Data<MongoRepo>) -> impl Responder {
+    let list = repo.insert_list(list.into_inner()).await;
 
     HttpResponse::Ok().json(list)
 }
