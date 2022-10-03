@@ -1,9 +1,9 @@
 use std::future::{ready, Ready};
 
+use crate::configuration;
 use actix_session::storage::CookieSessionStore;
 use actix_session::{SessionExt, SessionMiddleware};
 use actix_web::body::EitherBody;
-use actix_web::cookie::Key;
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
     Error, HttpResponse,
@@ -82,15 +82,10 @@ where
 
 // ===== Sessions =====
 
-pub fn new_session_store() -> SessionMiddleware<CookieSessionStore> {
-    let secret_key = get_secret_key();
+pub fn new_session_store(
+    config: &configuration::Security,
+) -> SessionMiddleware<CookieSessionStore> {
+    let secret_key = config.get_key();
     let session_store = CookieSessionStore::default();
     SessionMiddleware::new(session_store, secret_key)
-}
-
-// TODO config
-fn get_secret_key() -> Key {
-    let base = "a".repeat(64);
-    let key = base.as_ref();
-    Key::from(key)
 }

@@ -1,3 +1,4 @@
+use crate::configuration;
 use futures::stream::TryStreamExt;
 use mongodb::bson::oid::ObjectId;
 use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
@@ -18,12 +19,9 @@ impl Clone for MongoRepo {
 }
 
 impl MongoRepo {
-    pub async fn new() -> MongoRepo {
-        // TODO config
+    pub async fn new(config: configuration::Database) -> MongoRepo {
         // Parse a connection string into an options struct.
-        let client_options = ClientOptions::parse("mongodb://localhost:27017")
-            .await
-            .unwrap();
+        let client_options = ClientOptions::parse(config.connection).await.unwrap();
 
         // Get a handle to the deployment.
         let mongo_client = Client::with_options(client_options).unwrap();

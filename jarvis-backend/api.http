@@ -8,7 +8,7 @@ POST http://localhost:8080/v1/auth/logout
 GET http://localhost:8080/v1/lists
 
 ### GET ONE
-GET http://localhost:8080/v1/lists/6334a2ef4740b23e3ed6cb71
+GET http://localhost:8080/v1/lists/633a70926c00a3708d74fe5d
 
 
 ### CREATE
