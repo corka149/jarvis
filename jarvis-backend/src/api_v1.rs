@@ -4,7 +4,7 @@ use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
 use actix_web::{delete, get, post, put, web, Error, HttpResponse, Responder, Scope};
 use mongodb::bson::oid::ObjectId;
 
-use crate::security::AuthTransformer;
+use crate::security::{AuthTransformer, UserData};
 use crate::MongoRepo;
 
 use super::model::List;
@@ -21,8 +21,10 @@ fn auth_api() -> Scope {
 
 #[post("/login")]
 async fn login(session: Session) -> impl Responder {
-    if let Err(err) = session.insert("user_id", "affa0db4-20d3-4c4a-a643-313aa0473bc6") {
-        log::error!("Could not add user id to session: {:?}", err);
+    let user = UserData::new();
+
+    if let Err(err) = session.insert("user", user) {
+        log::error!("Could not add user data to session: {:?}", err);
         return HttpResponse::InternalServerError().finish();
     }
 

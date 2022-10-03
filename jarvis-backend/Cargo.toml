@@ -16,6 +16,7 @@ futures = "0.3.24"
 log = "0.4"
 env_logger = "0.9"
 chrono = "0.4.22"
+bcrypt = "0.13"
 
 [dependencies.config]
 version = "0.13.1"

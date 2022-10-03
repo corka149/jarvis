@@ -6,15 +6,19 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct Organization {
-    uuid: String,
+    _id: ObjectId,
+    uuid: bson::Uuid,
     name: String,
-    users: Vec<User>,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct User {
-    uuid: String,
+    _id: ObjectId,
+    pub uuid: bson::Uuid,
+    pub organization_uuid: bson::Uuid,
     name: String,
+    email: String,
+    password: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -41,6 +45,7 @@ impl Product {
 #[derive(Serialize, Deserialize)]
 pub struct List {
     _id: Option<ObjectId>,
+    organization_uuid: bson::Uuid,
     no: Option<i32>,
     reason: String,
     #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]

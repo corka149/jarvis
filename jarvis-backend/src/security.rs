@@ -9,6 +9,23 @@ use actix_web::{
     Error, HttpResponse,
 };
 use futures_util::future::LocalBoxFuture;
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize)]
+pub struct UserData {
+    user_uuid: String,
+    organization_id: String,
+}
+
+impl UserData {
+    // TODO get data from user model
+    pub fn new() -> Self {
+        Self {
+            user_uuid: "a57999c1-d24d-40f4-8efd-04321b5e4cdb".to_string(),
+            organization_id: "c69b364a-5cf1-49e0-93bd-b7fc1dc99122".to_string(),
+        }
+    }
+}
 
 // There are two steps in middleware processing.
 // 1. Middleware initialization, middleware factory gets called with
@@ -62,7 +79,7 @@ where
         // Request
         let session = request.get_session();
 
-        return if let Ok(Some(_user_id)) = session.get::<String>("user_id") {
+        return if let Ok(Some(_user)) = session.get::<UserData>("user") {
             let fut = self.service.call(request);
 
             // Success Response
