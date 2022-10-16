@@ -33,6 +33,15 @@ export class AuthenticationService {
     this.storeState();
   }
 
+  /**
+   * Checks if client is authenticated.
+   */
+  check(): Observable<boolean> {
+    return this.httpClient
+      .head(`${AUTH_API}/check`, { observe: 'response' })
+      .pipe(map((response: HttpResponse<Object>) => response.status === 200));
+  }
+
   set isLoggedIn(loggedIn: boolean) {
     this._isLoggedIn = loggedIn;
   }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { List } from './models/list';
-import { map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { HttpClient } from '@angular/common/http';
+import { ErrorHandlerService } from './error-handler.service';
 
 type MaybeList = List | undefined;
 
@@ -37,16 +38,28 @@ export class ListService {
     },
   ];
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private errorHandler: ErrorHandlerService
+  ) {}
 
   getLists(showClosed = false): Observable<List[]> {
-    return this.httpClient.get<List[]>(LIST_API).pipe(map(this.mapFromDtos()));
+    const emptyList: List[] = [];
+    return this.httpClient
+      .get<List[]>(LIST_API)
+      .pipe(
+        map(this.mapFromDtos()),
+        catchError(this.errorHandler.handleError(emptyList))
+      );
   }
 
-  getList(id: string): Observable<List> {
+  getList(id: string): Observable<MaybeList> {
     return this.httpClient
       .get<List>(`${LIST_API}/${id}`)
-      .pipe(map(this.mapFromDto));
+      .pipe(
+        map(this.mapFromDto),
+        catchError(this.errorHandler.handleError(undefined))
+      );
   }
 
   saveList(list: List): Observable<MaybeList> {
