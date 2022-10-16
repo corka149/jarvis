@@ -5,6 +5,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { Product } from '../models/product';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-details',
@@ -22,7 +23,8 @@ export class ListDetailsComponent implements OnInit {
     private location: Location,
     private listService: ListService,
     private fb: FormBuilder,
-    private _adapter: DateAdapter<any>
+    private _adapter: DateAdapter<any>,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -51,9 +53,9 @@ export class ListDetailsComponent implements OnInit {
 
   addProduct() {
     if (!!this.listForm) {
-      const productDetails = this.listForm.get('productDetails') as FormArray;
+      const products = this.listForm.get('products') as FormArray;
 
-      productDetails.push(
+      products.push(
         this.fb.group({
           name: '',
           amount: 0,
@@ -64,8 +66,8 @@ export class ListDetailsComponent implements OnInit {
 
   removeProduct(i: number) {
     if (!!this.listForm) {
-      const productDetails = this.listForm.get('productDetails') as FormArray;
-      productDetails.removeAt(i);
+      const products = this.listForm.get('products') as FormArray;
+      products.removeAt(i);
     }
   }
 
@@ -76,14 +78,18 @@ export class ListDetailsComponent implements OnInit {
       list.id = this.selectList?.id;
       list.no = this.selectList?.no;
 
-      this.listService
-        .saveList(list)
-        .subscribe((_list) => this.location.back());
+      this.listService.saveList(list).subscribe((_list) => {
+        if (!!this.listId) {
+          this.location.back();
+        } else {
+          this.router.navigate(['lists']);
+        }
+      });
     }
   }
 
-  get productDetails(): FormArray {
-    return this.listForm?.get('productDetails') as FormArray;
+  get products(): FormArray {
+    return this.listForm?.get('products') as FormArray;
   }
 
   private setupForm(list?: List): void {
@@ -96,7 +102,7 @@ export class ListDetailsComponent implements OnInit {
 
     const products = formData.products ?? [];
 
-    const productDetails = products.map((product: Product) =>
+    const productsForm = products.map((product: Product) =>
       this.fb.group(product)
     );
 
@@ -104,7 +110,7 @@ export class ListDetailsComponent implements OnInit {
       reason: [formData.reason, Validators.required],
       occursAt: [formData.occursAt, Validators.required],
       done: formData.done,
-      productDetails: this.fb.array(productDetails),
+      products: this.fb.array(productsForm),
     });
   }
 }

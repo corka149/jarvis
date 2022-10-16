@@ -26,8 +26,8 @@
     <mat-divider style="margin: 1rem 0"></mat-divider>
 
     <!-- PRODUCTS -->
-    <div *ngIf="!!productDetails" formArrayName="productDetails">
-      <div *ngFor="let product of productDetails.controls; let i = index">
+    <div *ngIf="!!products" formArrayName="products">
+      <div *ngFor="let product of products.controls; let i = index">
         <div [formGroupName]="i">
           <!-- PRODUCT NAME -->
           <mat-form-field style="width: 66%; padding-right: 1%">
