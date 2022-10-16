@@ -1,10 +1,9 @@
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-const USER = {
-  name: 'jarvis',
-  password: 'password',
-};
+const AUTH_API = '/v1/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -12,23 +11,41 @@ const USER = {
 export class AuthenticationService {
   private _isLoggedIn = false;
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     this.loadState();
   }
 
-  logIn(username: string, password: string): Observable<boolean> {
-    this._isLoggedIn = USER.name === username && USER.password === password;
-    this.storeState();
-    return of(this._isLoggedIn);
+  logIn(email: string, password: string): Observable<boolean> {
+    const credentials = {
+      email: email,
+      password: password,
+    };
+
+    return this.httpClient
+      .post(`${AUTH_API}/login`, credentials, { observe: 'response' })
+      .pipe(map(this.handleLogin));
   }
 
   logOut() {
+    this.httpClient.post(`${AUTH_API}/logout`, {}).subscribe();
+
     this._isLoggedIn = false;
     this.storeState();
   }
 
+  set isLoggedIn(loggedIn: boolean) {
+    this._isLoggedIn = loggedIn;
+  }
+
   get isLoggedIn(): boolean {
+    this.loadState();
     return this._isLoggedIn;
+  }
+
+  private handleLogin(response: HttpResponse<Object>): boolean {
+    let isLoggedIn = response.status === 200;
+    localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+    return isLoggedIn;
   }
 
   private loadState() {
