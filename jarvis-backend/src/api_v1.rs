@@ -1,7 +1,7 @@
 use actix_session::Session;
 use actix_web::body::{BoxBody, EitherBody};
 use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
-use actix_web::{delete, get, post, put, web, Error, HttpResponse, Responder, Scope};
+use actix_web::{delete, get, head, post, put, web, Error, HttpResponse, Responder, Scope};
 use mongodb::bson::oid::ObjectId;
 use serde::{Deserialize, Serialize};
 
@@ -23,7 +23,10 @@ struct LoginData {
 }
 
 fn auth_api() -> Scope {
-    web::scope("/auth").service(login).service(logout)
+    web::scope("/auth")
+        .service(login)
+        .service(logout)
+        .service(check)
 }
 
 #[post("/login")]
@@ -65,6 +68,15 @@ async fn logout(session: Session) -> impl Responder {
     session.purge();
 
     HttpResponse::Ok().finish()
+}
+
+#[head("/check")]
+async fn check(session: Session) -> impl Responder {
+    if let Ok(Some(_user)) = session.get::<UserData>("user") {
+        HttpResponse::Ok().finish()
+    } else {
+        HttpResponse::Unauthorized().finish()
+    }
 }
 
 // ===== LIST =====
