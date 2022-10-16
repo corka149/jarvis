@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { List } from './models/list';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
+import { HttpClient } from '@angular/common/http';
 
 type MaybeList = List | undefined;
+
+const LIST_API = 'v1/lists';
 
 @Injectable({
   providedIn: 'root',
@@ -34,17 +37,16 @@ export class ListService {
     },
   ];
 
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   getLists(showClosed = false): Observable<List[]> {
-    const filtered = this.lists.filter((it) => !it.done || showClosed);
-
-    return of(filtered);
+    return this.httpClient.get<List[]>(LIST_API).pipe(map(this.mapFromDtos()));
   }
 
-  getList(id: string): Observable<MaybeList> {
-    const list = this.lists.find((list) => list.id === id);
-    return of(list);
+  getList(id: string): Observable<List> {
+    return this.httpClient
+      .get<List>(`${LIST_API}/${id}`)
+      .pipe(map(this.mapFromDto));
   }
 
   saveList(list: List): Observable<MaybeList> {
@@ -73,5 +75,30 @@ export class ListService {
     this.lists = newLists;
 
     return of(deleted);
+  }
+
+  private mapFromDtos() {
+    const self = this;
+
+    return function (lists: List[]): List[] {
+      return lists.map(self.mapFromDto);
+    };
+  }
+
+  private mapFromDto(list: any) {
+    if (
+      list &&
+      list['occurs_at'] &&
+      list['occurs_at']['$date'] &&
+      list['occurs_at']['$date']['$numberLong']
+    ) {
+      list['occursAt'] = new Date(+list['occurs_at']['$date']['$numberLong']);
+    }
+
+    if (list && list['_id'] && list['_id']['$oid']) {
+      list.id = list['_id']['$oid'];
+    }
+
+    return list;
   }
 }
