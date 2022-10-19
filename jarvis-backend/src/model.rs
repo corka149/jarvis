@@ -1,21 +1,22 @@
+use crate::dto;
 use chrono::DateTime;
 use mongodb::bson;
 use mongodb::bson::oid::ObjectId;
-use mongodb::bson::{doc, Document};
+use mongodb::bson::{doc, Document, Uuid};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct Organization {
     _id: ObjectId,
-    uuid: bson::Uuid,
+    uuid: Uuid,
     name: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct User {
     _id: ObjectId,
-    pub uuid: bson::Uuid,
-    pub organization_uuid: bson::Uuid,
+    pub uuid: Uuid,
+    pub organization_uuid: Uuid,
     name: String,
     email: String,
     pub password: String,
@@ -29,8 +30,8 @@ pub struct Credentials {
 
 #[derive(Serialize, Deserialize)]
 pub struct Product {
-    name: String,
-    amount: i32,
+    pub(crate) name: String,
+    pub(crate) amount: i32,
 }
 
 impl Product {
@@ -42,16 +43,25 @@ impl Product {
     }
 }
 
+impl From<dto::Product> for Product {
+    fn from(dto: dto::Product) -> Self {
+        Product {
+            name: dto.name,
+            amount: dto.amount,
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct List {
-    _id: Option<ObjectId>,
-    pub organization_uuid: Option<bson::Uuid>,
-    no: Option<i32>,
-    reason: String,
+    pub(crate) _id: Option<ObjectId>,
+    pub(crate) organization_uuid: Option<bson::Uuid>,
+    pub(crate) no: Option<i32>,
+    pub(crate) reason: String,
     #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]
-    occurs_at: DateTime<chrono::Utc>,
-    done: bool,
-    products: Option<Vec<Product>>,
+    pub(crate) occurs_at: DateTime<chrono::Utc>,
+    pub(crate) done: bool,
+    pub(crate) products: Option<Vec<Product>>,
 }
 
 impl List {
@@ -85,5 +95,44 @@ impl List {
         }
 
         doc
+    }
+}
+
+impl From<dto::List> for List {
+    fn from(dto: dto::List) -> Self {
+        let id: Option<ObjectId> = match dto.id {
+            None => None,
+            Some(id) => match ObjectId::parse_str(id) {
+                Ok(id) => Some(id),
+                Err(_) => None,
+            },
+        };
+
+        let orga_id = match dto.organization_uuid {
+            None => None,
+            Some(orga_id) => match Uuid::parse_str(orga_id) {
+                Ok(orga_id) => Some(orga_id),
+                Err(_) => None,
+            },
+        };
+
+        let mut products: Vec<Product> = Vec::new();
+
+        if let Some(prods) = dto.products {
+            for prod in prods {
+                let mdl = prod.into();
+                products.push(mdl);
+            }
+        }
+
+        List {
+            _id: id,
+            organization_uuid: orga_id,
+            no: dto.no,
+            reason: dto.reason,
+            occurs_at: dto.occurs_at,
+            done: dto.done,
+            products: Some(products),
+        }
     }
 }

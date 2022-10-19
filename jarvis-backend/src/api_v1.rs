@@ -5,6 +5,7 @@ use actix_web::{delete, get, head, post, put, web, Error, HttpResponse, Responde
 use mongodb::bson::oid::ObjectId;
 use serde::{Deserialize, Serialize};
 
+use crate::dto;
 use crate::security::{AuthTransformer, UserData};
 use crate::MongoRepo;
 
@@ -109,7 +110,16 @@ async fn get_lists(repo: web::Data<MongoRepo>, session: Session) -> impl Respond
     };
 
     match repo.find_all_lists(user_data).await {
-        Ok(lists) => HttpResponse::Ok().json(lists),
+        Ok(lists) => {
+            let mut dtos: Vec<dto::List> = Vec::new();
+
+            for list in lists {
+                let dto: dto::List = list.into();
+                dtos.push(dto)
+            }
+
+            HttpResponse::Ok().json(dtos)
+        }
         Err(err) => {
             log::error!("Could not get lists: {:?}", err);
             HttpResponse::InternalServerError().finish()
@@ -119,7 +129,7 @@ async fn get_lists(repo: web::Data<MongoRepo>, session: Session) -> impl Respond
 
 #[post("")]
 async fn create_list(
-    list: web::Json<List>,
+    list: web::Json<dto::List>,
     repo: web::Data<MongoRepo>,
     session: Session,
 ) -> impl Responder {
@@ -128,8 +138,13 @@ async fn create_list(
         Err(failed) => return failed,
     };
 
-    match repo.insert_list(list.into_inner(), user_data).await {
-        Ok(list) => HttpResponse::Ok().json(list),
+    let model: List = list.into_inner().into();
+
+    match repo.insert_list(model, user_data).await {
+        Ok(list) => {
+            let dto: dto::List = list.into();
+            HttpResponse::Ok().json(dto)
+        }
         Err(err) => {
             log::error!("Creating list failed: {:?}", err);
             HttpResponse::InternalServerError().finish()
@@ -154,7 +169,10 @@ async fn get_list(
     };
 
     match repo.find_list_by_id(id, user_data).await {
-        Ok(Some(list)) => HttpResponse::Ok().json(list),
+        Ok(Some(list)) => {
+            let dto: dto::List = list.into();
+            HttpResponse::Ok().json(dto)
+        }
         Ok(None) => HttpResponse::NotFound().finish(),
         Err(err) => {
             log::error!("Could not get list: {:?}", err);
@@ -189,7 +207,7 @@ async fn delete_list(
 #[put("/{list_id}")]
 async fn update_list(
     list_id: web::Path<String>,
-    list: web::Json<List>,
+    list: web::Json<dto::List>,
     repo: web::Data<MongoRepo>,
     session: Session,
 ) -> impl Responder {
@@ -203,7 +221,9 @@ async fn update_list(
         Err(failed) => return failed,
     };
 
-    if let Err(err) = repo.update_list(id, list.into_inner(), user_data).await {
+    let model: List = list.into_inner().into();
+
+    if let Err(err) = repo.update_list(id, model, user_data).await {
         log::error!("Could not update list: {:?}", err);
         return HttpResponse::InternalServerError().finish();
     }

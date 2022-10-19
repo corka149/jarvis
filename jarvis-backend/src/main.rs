@@ -7,6 +7,7 @@ use env_logger::Env;
 
 mod api_v1;
 mod configuration;
+mod dto;
 mod model;
 mod security;
 mod storage;

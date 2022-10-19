@@ -17,7 +17,7 @@ HEAD http://localhost:8080/v1/auth/check
 GET http://localhost:8080/v1/lists
 
 ### GET ONE
-GET http://localhost:8080/v1/lists/633b3984c7f874e6fe52d159
+GET http://localhost:8080/v1/lists/634c705e193c67cbb579395c
 
 
 ### CREATE
@@ -26,12 +26,8 @@ Content-Type: application/json
 
 {
   "no": 1,
-  "reason": "birthday",
-  "occurs_at": {
-    "$date": {
-      "$numberLong": "1664194915000"
-    }
-  },
+  "reason": "holiday",
+  "occurs_at": 1664194915,
   "done": false,
   "products": [
     {
@@ -49,26 +45,22 @@ Content-Type: application/json
 DELETE http://localhost:8080/v1/lists/6334a2ef4740b23e3ed6cb71
 
 ### UPDATE
-PUT http://localhost:8080/v1/lists/633a7046c9797d3aab817596
+PUT http://localhost:8080/v1/lists/63505ceeb7dac520fafd9ad9
 Content-Type: application/json
 
 {
   "no": 1,
   "reason": "holiday",
-  "occurs_at": {
-    "$date": {
-      "$numberLong": "1664194915000"
-    }
-  },
+  "occurs_at": 1664194915,
   "done": true,
   "products": [
     {
-      "name": "bread",
-      "amount": 1
+      "name": "beer",
+      "amount": 22
     },
     {
-      "name": "water",
-      "amount": 42
+      "name": "butter",
+      "amount": 3
     }
   ]
 }

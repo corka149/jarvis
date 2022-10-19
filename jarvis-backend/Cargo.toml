@@ -15,7 +15,7 @@ mongodb = { version = "2.3.0", features = ["bson-chrono-0_4"] }
 futures = "0.3.24"
 log = "0.4"
 env_logger = "0.9"
-chrono = "0.4.22"
+chrono = { version = "0.4.22", features = ["serde"] }
 bcrypt = "0.13"
 
 [dependencies.config]
