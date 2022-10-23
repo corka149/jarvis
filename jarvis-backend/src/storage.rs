@@ -43,10 +43,19 @@ impl MongoRepo {
         db.collection::<User>("users")
     }
 
-    pub async fn find_all_lists(&self, user_data: UserData) -> Result<Vec<List>, error::Error> {
+    pub async fn find_all_lists(
+        &self,
+        user_data: UserData,
+        show_closed: bool,
+    ) -> Result<Vec<List>, error::Error> {
         let coll = self.list_coll();
 
-        let filter = doc! {"organization_uuid": user_data.organization_uuid};
+        let mut filter = doc! {"organization_uuid": user_data.organization_uuid};
+
+        if !show_closed {
+            filter.insert("done", false);
+        }
+
         let find_options = FindOptions::default();
         let mut cursor = coll.find(filter, find_options).await?;
 

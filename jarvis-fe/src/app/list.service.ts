@@ -21,8 +21,7 @@ export class ListService {
   getLists(showClosed = false): Observable<List[]> {
     const emptyList: List[] = [];
 
-    const params = new HttpParams();
-    params.append('showClosed', showClosed);
+    const params = new HttpParams().set('show_closed', showClosed);
 
     return this.httpClient
       .get<List[]>(LIST_API, { params: params })
@@ -76,36 +75,19 @@ export class ListService {
   }
 
   private mapFromDto(list: any) {
-    if (
-      list &&
-      list['occurs_at'] &&
-      list['occurs_at']['$date'] &&
-      list['occurs_at']['$date']['$numberLong']
-    ) {
-      list['occursAt'] = new Date(+list['occurs_at']['$date']['$numberLong']);
-    }
-
-    if (list && list['_id'] && list['_id']['$oid']) {
-      list.id = list['_id']['$oid'];
+    if (list && list['occurs_at']) {
+      list['occursAt'] = new Date(list['occurs_at'] * 1000);
     }
 
     return list;
   }
 
   private mapToDto(list: any) {
-    const numberLong = list.occursAt.getTime();
+    let numberLong = list.occursAt.getTime
+      ? list.occursAt.getTime()
+      : +list.occursAt / 1000;
 
-    list['occurs_at'] = {
-      $date: {
-        $numberLong: '' + numberLong,
-      },
-    };
-
-    if (list && list['_id'] && list['_id']['$oid']) {
-      list['_id'] = {
-        $oid: list.id,
-      };
-    }
+    list['occurs_at'] = Math.round(numberLong);
 
     return list;
   }

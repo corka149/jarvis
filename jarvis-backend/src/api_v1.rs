@@ -102,14 +102,25 @@ fn list_api() -> Scope<
         .service(update_list)
 }
 
+#[derive(Debug, Deserialize)]
+struct GetListsQuery {
+    show_closed: Option<bool>,
+}
+
 #[get("")]
-async fn get_lists(repo: web::Data<MongoRepo>, session: Session) -> impl Responder {
+async fn get_lists(
+    repo: web::Data<MongoRepo>,
+    query: web::Query<GetListsQuery>,
+    session: Session,
+) -> impl Responder {
     let user_data = match get_user_data(session) {
         Ok(user_data) => user_data,
         Err(failed) => return failed,
     };
 
-    match repo.find_all_lists(user_data).await {
+    let show_closed = query.show_closed.unwrap_or(false);
+
+    match repo.find_all_lists(user_data, show_closed).await {
         Ok(lists) => {
             let mut dtos: Vec<dto::List> = Vec::new();
 
