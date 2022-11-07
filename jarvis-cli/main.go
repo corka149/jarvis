@@ -21,8 +21,12 @@ THE SOFTWARE.
 */
 package main
 
-import "github.com/corka149/jarvis/jarvis-cli/cmd"
+import (
+	"github.com/corka149/jarvis/jarvis-cli/cmd"
+	"github.com/corka149/jarvis/jarvis-cli/config"
+)
 
 func main() {
+	config.LoadConfig()
 	cmd.Execute()
 }
