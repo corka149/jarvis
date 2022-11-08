@@ -24,20 +24,46 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"fmt"
-
+	"errors"
+	"github.com/corka149/jarvis/jarvis-cli/util"
 	"github.com/spf13/cobra"
+	"strings"
 )
 
 // addCmd represents the add command
-var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "Adds a new organisation",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
-	},
-}
+var (
+	addCmd = &cobra.Command{
+		Use:   "add",
+		Short: "Adds a new organisation",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runOrgaAdd()
+		},
+	}
+	orgaName string
+)
 
 func init() {
 	orgaCmd.AddCommand(addCmd)
+
+	addCmd.Flags().StringVarP(&orgaName, "name", "n", "", "Name of the new organization")
+}
+
+func runOrgaAdd() error {
+
+	if orgaName == "" {
+		name, err := util.RequestUser("organization name")
+		if err != nil {
+			return err
+		}
+
+		orgaName = name
+	}
+
+	orgaName = strings.TrimSpace(orgaName)
+
+	if len(orgaName) == 0 {
+		return errors.New("organization name is empty")
+	}
+
+	return nil
 }

@@ -42,6 +42,4 @@ func LoadConfig() {
 	if err != nil {
 		panic(fmt.Errorf("fatal error reading config: %w", err))
 	}
-
-	fmt.Printf("%s\n", config)
 }
