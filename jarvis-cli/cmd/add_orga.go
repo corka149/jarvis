@@ -25,6 +25,7 @@ package cmd
 
 import (
 	"errors"
+	"github.com/corka149/jarvis/jarvis-cli/db"
 	"github.com/corka149/jarvis/jarvis-cli/util"
 	"github.com/spf13/cobra"
 	"strings"
@@ -64,6 +65,14 @@ func runOrgaAdd() error {
 	if len(orgaName) == 0 {
 		return errors.New("organization name is empty")
 	}
+
+	c, err := db.New()
+	if err != nil {
+		return err
+	}
+
+	c.AddOrga()
+	defer c.Disconnect()
 
 	return nil
 }

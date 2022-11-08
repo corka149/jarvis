@@ -5,6 +5,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+var Config CliConfig
+
 type LoggingConfig struct {
 	Level string
 }
@@ -36,9 +38,7 @@ func LoadConfig() {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
 
-	var config CliConfig
-
-	err = viper.Unmarshal(&config)
+	err = viper.Unmarshal(&Config)
 	if err != nil {
 		panic(fmt.Errorf("fatal error reading config: %w", err))
 	}
