@@ -25,6 +25,7 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"github.com/corka149/jarvis/jarvis-cli/db"
 	"github.com/corka149/jarvis/jarvis-cli/util"
 	"github.com/spf13/cobra"
@@ -50,7 +51,6 @@ func init() {
 }
 
 func runOrgaAdd() error {
-
 	if orgaName == "" {
 		name, err := util.RequestUser("organization name")
 		if err != nil {
@@ -67,12 +67,24 @@ func runOrgaAdd() error {
 	}
 
 	c, err := db.New()
+	defer c.Disconnect()
+
 	if err != nil {
 		return err
 	}
 
-	c.AddOrga()
-	defer c.Disconnect()
+	orga, err := c.GetOrga(orgaName)
+	if err != nil {
+		return err
+	}
+
+	if orga != nil {
+		return errors.New("organization with this name already exists")
+	}
+
+	newUuid, err := c.AddOrga(orgaName)
+
+	fmt.Printf("Organization was added with uuid %s\n", *newUuid)
 
 	return nil
 }
