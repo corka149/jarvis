@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"golang.org/x/crypto/bcrypt"
 	"os"
 	"time"
 )
@@ -17,6 +18,15 @@ type Orga struct {
 	ID   primitive.ObjectID `bson:"_id, omitempty"`
 	Uuid string             `bson:"uuid,omitempty"`
 	Name string             `bson:"name,omitempty"`
+}
+
+type User struct {
+	ID               primitive.ObjectID `bson:"_id, omitempty"`
+	Uuid             string             `bson:"uuid,omitempty"`
+	OrganizationUuid string             `bson:"organization_uuid,omitempty"`
+	Name             string             `bson:"name,omitempty"`
+	Email            string             `bson:"email,omitempty"`
+	Password         string             `bson:"password,omitempty"`
 }
 
 type Client struct {
@@ -48,6 +58,10 @@ func (c *Client) Disconnect() {
 		os.Exit(1)
 	}
 }
+
+// ============================
+// ===== ===== ORGA ===== =====
+// ============================
 
 func (c *Client) GetOrga(name string) (*Orga, error) {
 	coll := c.orgaColl()
@@ -92,10 +106,75 @@ func (c *Client) AddOrga(name string) (*string, error) {
 	return &newUuid, nil
 }
 
+// ============================
+// ===== ===== USER ===== =====
+// ============================
+
+func (c *Client) GetUser(email string) (*User, error) {
+	coll := c.userColl()
+	ctx, cancel := defaultCtx()
+	defer cancel()
+	cursor, err := coll.Find(ctx, bson.D{{"email", email}})
+	if err != nil {
+		return nil, err
+	}
+
+	if !cursor.Next(ctx) {
+		return nil, nil
+	}
+
+	var user User
+	err = cursor.Decode(&user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (c *Client) AddUser(name string, email string, password string, orga Orga) (*string, error) {
+	ctx, cancel := defaultCtx()
+	defer cancel()
+
+	newUuid := uuid.New().String()
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	hashedPasswordPwd := string(hashedPassword)
+
+	if err != nil {
+		return nil, err
+	}
+
+	user := bson.D{
+		{"uuid", newUuid},
+		{"organization_uuid", orga.Uuid},
+		{"name", name},
+		{"email", email},
+		{"password", hashedPasswordPwd},
+	}
+
+	coll := c.userColl()
+
+	_, err = coll.InsertOne(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &newUuid, nil
+}
+
+// ==============================
+// ===== ===== HELPER ===== =====
+// ==============================
+
 func defaultCtx() (context.Context, context.CancelFunc) {
 	return context.WithTimeout(context.Background(), 10*time.Second)
 }
 
 func (c *Client) orgaColl() *mongo.Collection {
-	return c.mongoClient.Database("jarvis").Collection("organization")
+	return c.mongoClient.Database("jarvis").Collection("organizations")
+}
+
+func (c *Client) userColl() *mongo.Collection {
+	return c.mongoClient.Database("jarvis").Collection("users")
 }

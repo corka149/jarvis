@@ -32,22 +32,22 @@ import (
 	"strings"
 )
 
-// addCmd represents the add command
 var (
-	addCmd = &cobra.Command{
+	// addOrgaCmd represents the add command
+	addOrgaCmd = &cobra.Command{
 		Use:   "add",
 		Short: "Adds a new organisation",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runOrgaAdd()
 		},
 	}
-	orgaName string
+
 )
 
 func init() {
-	orgaCmd.AddCommand(addCmd)
+	orgaCmd.AddCommand(addOrgaCmd)
 
-	addCmd.Flags().StringVarP(&orgaName, "name", "n", "", "Name of the new organization")
+	addOrgaCmd.Flags().StringVarP(&orgaName, "name", "n", "", "Name of the new organization")
 }
 
 func runOrgaAdd() error {
