@@ -6,6 +6,7 @@ import (
 	"github.com/corka149/jarvis/jarvis-cli/config"
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/bsontype"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -16,14 +17,14 @@ import (
 
 type Orga struct {
 	ID   primitive.ObjectID `bson:"_id, omitempty"`
-	Uuid string             `bson:"uuid,omitempty"`
+	Uuid primitive.Binary   `bson:"uuid,omitempty"`
 	Name string             `bson:"name,omitempty"`
 }
 
 type User struct {
 	ID               primitive.ObjectID `bson:"_id, omitempty"`
-	Uuid             string             `bson:"uuid,omitempty"`
-	OrganizationUuid string             `bson:"organization_uuid,omitempty"`
+	Uuid             primitive.Binary   `bson:"uuid,omitempty"`
+	OrganizationUuid primitive.Binary   `bson:"organization_uuid,omitempty"`
 	Name             string             `bson:"name,omitempty"`
 	Email            string             `bson:"email,omitempty"`
 	Password         string             `bson:"password,omitempty"`
@@ -85,20 +86,25 @@ func (c *Client) GetOrga(name string) (*Orga, error) {
 	return &orga, nil
 }
 
-func (c *Client) AddOrga(name string) (*string, error) {
+func (c *Client) AddOrga(name string) (*uuid.UUID, error) {
 	ctx, cancel := defaultCtx()
 	defer cancel()
 
-	newUuid := uuid.New().String()
+	newUuid := uuid.New()
+
+	newUuidBinary, err := newUuid.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
 
 	orga := bson.D{
-		{"uuid", newUuid},
+		{"uuid", primitive.Binary{Subtype: bsontype.BinaryUUID, Data: newUuidBinary}},
 		{"name", name},
 	}
 
 	coll := c.orgaColl()
 
-	_, err := coll.InsertOne(ctx, orga)
+	_, err = coll.InsertOne(ctx, orga)
 	if err != nil {
 		return nil, err
 	}
@@ -132,11 +138,16 @@ func (c *Client) GetUser(email string) (*User, error) {
 	return &user, nil
 }
 
-func (c *Client) AddUser(name string, email string, password string, orga Orga) (*string, error) {
+func (c *Client) AddUser(name string, email string, password string, orga Orga) (*uuid.UUID, error) {
 	ctx, cancel := defaultCtx()
 	defer cancel()
 
-	newUuid := uuid.New().String()
+	newUuid := uuid.New()
+
+	newUuidBinary, err := newUuid.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	hashedPasswordPwd := string(hashedPassword)
@@ -146,7 +157,7 @@ func (c *Client) AddUser(name string, email string, password string, orga Orga) 
 	}
 
 	user := bson.D{
-		{"uuid", newUuid},
+		{"uuid", primitive.Binary{Subtype: bsontype.BinaryUUID, Data: newUuidBinary}},
 		{"organization_uuid", orga.Uuid},
 		{"name", name},
 		{"email", email},
