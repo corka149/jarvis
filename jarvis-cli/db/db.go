@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/corka149/jarvis/jarvis-cli/config"
 	"github.com/google/uuid"
@@ -172,6 +173,23 @@ func (c *Client) AddUser(name string, email string, password string, orga Orga) 
 	}
 
 	return &newUuid, nil
+}
+
+func (c *Client) DeleteOrga(name string) error {
+	ctx, cancel := defaultCtx()
+	defer cancel()
+
+	query := bson.D{
+		{"name", name},
+	}
+
+	result, err := c.orgaColl().DeleteOne(ctx, query)
+
+	if result.DeletedCount != 1 {
+		return errors.New("could not delete user")
+	}
+
+	return err
 }
 
 // ==============================

@@ -24,20 +24,63 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"errors"
 	"fmt"
-
+	"github.com/corka149/jarvis/jarvis-cli/db"
+	"github.com/corka149/jarvis/jarvis-cli/util"
 	"github.com/spf13/cobra"
+	"strings"
 )
 
 // deleteOrgaCmd represents the delete command
 var deleteOrgaCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Deletes an existing organisation",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
-	},
+	RunE:  runOrgaDelete,
 }
 
 func init() {
 	orgaCmd.AddCommand(deleteOrgaCmd)
+
+	deleteOrgaCmd.Flags().StringVarP(&orgaName, "name", "n", "", "Name of the new organization")
+}
+
+func runOrgaDelete(cmd *cobra.Command, args []string) error {
+	if orgaName == "" {
+		name, err := util.RequestUser("organization name")
+		if err != nil {
+			return err
+		}
+
+		orgaName = name
+	}
+
+	orgaName = strings.TrimSpace(orgaName)
+
+	if len(orgaName) == 0 {
+		return errors.New("organization name is empty")
+	}
+
+	c, err := db.New()
+	defer c.Disconnect()
+
+	if err != nil {
+		return err
+	}
+
+	orga, err := c.GetOrga(orgaName)
+	if err != nil {
+		return err
+	}
+	if orga == nil {
+		return errors.New("no organization exists with this name")
+	}
+
+	if err = c.DeleteOrga(orgaName); err != nil {
+		return err
+	}
+
+	fmt.Printf("Delete organization %s\n", orgaName)
+
+	return nil
 }
