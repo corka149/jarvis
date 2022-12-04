@@ -24,7 +24,11 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"errors"
 	"fmt"
+	"github.com/corka149/jarvis/jarvis-cli/db"
+	"github.com/corka149/jarvis/jarvis-cli/util"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -33,11 +37,51 @@ import (
 var deleteUserCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Deletes an user from the system",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
-	},
+	RunE:  runDeleteUser,
 }
 
 func init() {
 	userCmd.AddCommand(deleteUserCmd)
+
+	deleteUserCmd.Flags().StringVarP(&email, "email", "e", "", "E-Mail of the new user")
+}
+
+func runDeleteUser(cmd *cobra.Command, args []string) error {
+	if email == "" {
+		e, err := util.RequestUser("email")
+		if err != nil {
+			return err
+		}
+
+		email = e
+	}
+
+	email = strings.TrimSpace(email)
+
+	if len(email) == 0 {
+		return errors.New("email is empty")
+	}
+
+	c, err := db.New()
+	defer c.Disconnect()
+
+	if err != nil {
+		return err
+	}
+
+	user, err := c.GetUser(email)
+	if err != nil {
+		return err
+	}
+	if user == nil {
+		return errors.New("no user exists with this email")
+	}
+
+	if err = c.DeleteUser(email); err != nil {
+		return err
+	}
+
+	fmt.Printf("delete user %s\n", email)
+
+	return nil
 }

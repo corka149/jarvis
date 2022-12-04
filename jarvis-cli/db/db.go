@@ -205,6 +205,23 @@ func (c *Client) DeleteByOrga(orga *Orga) (int64, error) {
 	return result.DeletedCount, err
 }
 
+func (c *Client) DeleteUser(email string) error {
+	ctx, cancel := defaultCtx()
+	defer cancel()
+
+	query := bson.D{
+		{"email", email},
+	}
+
+	result, err := c.userColl().DeleteOne(ctx, query)
+
+	if result.DeletedCount != 1 {
+		return errors.New("could not delete user")
+	}
+
+	return err
+}
+
 // ==============================
 // ===== ===== HELPER ===== =====
 // ==============================
