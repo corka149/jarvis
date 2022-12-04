@@ -258,6 +258,38 @@ func (c *Client) DeleteUser(email string) error {
 	return err
 }
 
+func (c *Client) UpdatePassword(email string, password string) error {
+	ctx, cancel := defaultCtx()
+	defer cancel()
+
+	query := bson.D{
+		{"email", email},
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+
+	if err != nil {
+		return err
+	}
+
+	hashedPasswordPwd := string(hashedPassword)
+
+	update := bson.D{
+		{"$set", bson.D{{"password", hashedPasswordPwd}}},
+	}
+
+	result, err := c.userColl().UpdateOne(ctx, query, update)
+	if err != nil {
+		return err
+	}
+
+	if result.MatchedCount != 1 {
+		return errors.New("could not update password")
+	}
+
+	return nil
+}
+
 // ==============================
 // ===== ===== HELPER ===== =====
 // ==============================

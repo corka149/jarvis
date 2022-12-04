@@ -29,60 +29,37 @@ import (
 	"github.com/corka149/jarvis/jarvis-cli/db"
 	"github.com/corka149/jarvis/jarvis-cli/util"
 	"github.com/spf13/cobra"
-	"net/mail"
 	"strings"
 )
 
-// addUserCmd represents the add command
-var addUserCmd = &cobra.Command{
-	Use:   "add",
-	Short: "Adds a new user",
-	RunE:  runAddUser,
+// passwdCmd represents the update command
+var passwdCmd = &cobra.Command{
+	Use:   "passwd",
+	Short: "Updates password of an user",
+	RunE:  runUserPasswd,
 }
 
 func init() {
-	userCmd.AddCommand(addUserCmd)
+	userCmd.AddCommand(passwdCmd)
 
-	addUserCmd.Flags().StringVarP(&orgaName, "organization", "o", "", "Name of the organization to which the user shall belong")
-	addUserCmd.Flags().StringVarP(&userName, "name", "n", "", "Name of the new user")
-	addUserCmd.Flags().StringVarP(&email, "email", "e", "", "E-Mail of the new user")
-	addUserCmd.Flags().StringVarP(&password, "password", "p", "", "Password for accessing jARVIS")
+	passwdCmd.Flags().StringVarP(&email, "email", "e", "", "E-Mail of user")
+	passwdCmd.Flags().StringVarP(&password, "password", "p", "", "Password for accessing jARVIS")
 }
 
-func runAddUser(cmd *cobra.Command, args []string) error {
-	if orgaName == "" {
-		name, err := util.RequestUser("organization name")
-		if err != nil {
-			return err
-		}
-
-		orgaName = name
-	}
-	orgaName = strings.TrimSpace(orgaName)
-
-	if userName == "" {
-		name, err := util.RequestUser("user name")
-		if err != nil {
-			return err
-		}
-
-		userName = name
-	}
-	userName = strings.TrimSpace(userName)
-
+func runUserPasswd(cmd *cobra.Command, args []string) error {
 	if email == "" {
-		name, err := util.RequestUser("e-mail")
+		e, err := util.RequestUser("email")
 		if err != nil {
 			return err
 		}
 
-		email = name
+		email = e
 	}
+
 	email = strings.TrimSpace(email)
 
-	_, err := mail.ParseAddress(email)
-	if err != nil {
-		return err
+	if len(email) == 0 {
+		return errors.New("email is empty")
 	}
 
 	if password == "" {
@@ -106,31 +83,11 @@ func runAddUser(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	user, err := c.GetUser(email)
-	if err != nil {
-		return err
+	err = c.UpdatePassword(email, password)
+
+	if err == nil {
+		fmt.Println("password updated")
 	}
 
-	if user != nil {
-		return errors.New("user with the given email already exists")
-	}
-
-	orga, err := c.GetOrga(orgaName)
-	if err != nil {
-		return err
-	}
-
-	if orga == nil {
-		text := fmt.Sprintf("no organization with name %s exists", orgaName)
-		return errors.New(text)
-	}
-
-	newUuid, err := c.AddUser(userName, email, password, *orga)
-	if err != nil {
-		return err
-	}
-
-	fmt.Printf("user was added with uuid %s\n", *newUuid)
-
-	return nil
+	return err
 }
