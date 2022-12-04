@@ -76,11 +76,28 @@ func runOrgaDelete(cmd *cobra.Command, args []string) error {
 		return errors.New("no organization exists with this name")
 	}
 
+	deleted, err := c.DeleteByOrga(orga)
+	if err != nil {
+		fmt.Printf("error on deleting user which belong to organization %s: %x", orgaName, err)
+		answer, err := util.RequestUser("'yes' for continuing")
+
+		if err != nil {
+			return err
+		}
+
+		if answer != "yes" {
+			fmt.Println("abort requested by user after error")
+		}
+
+	} else {
+		fmt.Printf("deleted %d users that belong to organization %s\n", deleted, orgaName)
+	}
+
 	if err = c.DeleteOrga(orgaName); err != nil {
 		return err
 	}
 
-	fmt.Printf("Delete organization %s\n", orgaName)
+	fmt.Printf("delete organization %s\n", orgaName)
 
 	return nil
 }

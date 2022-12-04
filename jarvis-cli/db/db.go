@@ -113,6 +113,23 @@ func (c *Client) AddOrga(name string) (*uuid.UUID, error) {
 	return &newUuid, nil
 }
 
+func (c *Client) DeleteOrga(name string) error {
+	ctx, cancel := defaultCtx()
+	defer cancel()
+
+	query := bson.D{
+		{"name", name},
+	}
+
+	result, err := c.orgaColl().DeleteOne(ctx, query)
+
+	if result.DeletedCount != 1 {
+		return errors.New("could not delete user")
+	}
+
+	return err
+}
+
 // ============================
 // ===== ===== USER ===== =====
 // ============================
@@ -175,21 +192,17 @@ func (c *Client) AddUser(name string, email string, password string, orga Orga) 
 	return &newUuid, nil
 }
 
-func (c *Client) DeleteOrga(name string) error {
+func (c *Client) DeleteByOrga(orga *Orga) (int64, error) {
 	ctx, cancel := defaultCtx()
 	defer cancel()
 
 	query := bson.D{
-		{"name", name},
+		{"organization_uuid", orga.Uuid},
 	}
 
-	result, err := c.orgaColl().DeleteOne(ctx, query)
+	result, err := c.userColl().DeleteMany(ctx, query)
 
-	if result.DeletedCount != 1 {
-		return errors.New("could not delete user")
-	}
-
-	return err
+	return result.DeletedCount, err
 }
 
 // ==============================

@@ -126,7 +126,7 @@ func runAddUser(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Printf("User was added with uuid %s\n", *newUuid)
+	fmt.Printf("user was added with uuid %s\n", *newUuid)
 
 	return nil
 }

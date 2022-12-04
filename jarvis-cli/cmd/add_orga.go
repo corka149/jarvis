@@ -41,7 +41,6 @@ var (
 			return runOrgaAdd()
 		},
 	}
-
 )
 
 func init() {
@@ -84,7 +83,7 @@ func runOrgaAdd() error {
 
 	newUuid, err := c.AddOrga(orgaName)
 
-	fmt.Printf("Organization was added with uuid %s\n", *newUuid)
+	fmt.Printf("organization was added with uuid %s\n", *newUuid)
 
 	return nil
 }
