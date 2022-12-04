@@ -24,20 +24,59 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"errors"
 	"fmt"
-
+	"github.com/corka149/jarvis/jarvis-cli/db"
+	"github.com/corka149/jarvis/jarvis-cli/util"
 	"github.com/spf13/cobra"
+	"strings"
 )
 
 // showOrgaCmd represents the show command
 var showOrgaCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show details of an organisation",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("show called")
-	},
+	RunE:  runOrgaShow,
 }
 
 func init() {
 	orgaCmd.AddCommand(showOrgaCmd)
+
+	showOrgaCmd.Flags().StringVarP(&orgaName, "name", "n", "", "Name of organization")
+}
+
+func runOrgaShow(cmd *cobra.Command, args []string) error {
+	if orgaName == "" {
+		name, err := util.RequestUser("organization name")
+		if err != nil {
+			return err
+		}
+
+		orgaName = name
+	}
+
+	orgaName = strings.TrimSpace(orgaName)
+
+	if len(orgaName) == 0 {
+		return errors.New("organization name is empty")
+	}
+
+	c, err := db.New()
+	defer c.Disconnect()
+
+	if err != nil {
+		return err
+	}
+
+	orga, err := c.GetOrga(orgaName)
+	if err != nil {
+		return err
+	}
+	if orga == nil {
+		return errors.New("no organization exists with this name")
+	}
+
+	fmt.Printf("%s\n", orga)
+
+	return nil
 }

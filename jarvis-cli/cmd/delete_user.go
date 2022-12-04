@@ -43,7 +43,7 @@ var deleteUserCmd = &cobra.Command{
 func init() {
 	userCmd.AddCommand(deleteUserCmd)
 
-	deleteUserCmd.Flags().StringVarP(&email, "email", "e", "", "E-Mail of the new user")
+	deleteUserCmd.Flags().StringVarP(&email, "email", "e", "", "E-Mail of user")
 }
 
 func runDeleteUser(cmd *cobra.Command, args []string) error {

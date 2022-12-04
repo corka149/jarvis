@@ -42,7 +42,7 @@ var deleteOrgaCmd = &cobra.Command{
 func init() {
 	orgaCmd.AddCommand(deleteOrgaCmd)
 
-	deleteOrgaCmd.Flags().StringVarP(&orgaName, "name", "n", "", "Name of the new organization")
+	deleteOrgaCmd.Flags().StringVarP(&orgaName, "name", "n", "", "Name of organization")
 }
 
 func runOrgaDelete(cmd *cobra.Command, args []string) error {

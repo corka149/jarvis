@@ -24,20 +24,59 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"errors"
 	"fmt"
-
+	"github.com/corka149/jarvis/jarvis-cli/db"
+	"github.com/corka149/jarvis/jarvis-cli/util"
 	"github.com/spf13/cobra"
+	"strings"
 )
 
 // showUserCmd represents the show command
 var showUserCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Outputs user information",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("show called")
-	},
+	RunE:  runUserShow,
 }
 
 func init() {
 	userCmd.AddCommand(showUserCmd)
+
+	showUserCmd.Flags().StringVarP(&email, "email", "e", "", "E-Mail of user")
+}
+
+func runUserShow(cmd *cobra.Command, args []string) error {
+	if email == "" {
+		e, err := util.RequestUser("email")
+		if err != nil {
+			return err
+		}
+
+		email = e
+	}
+
+	email = strings.TrimSpace(email)
+
+	if len(email) == 0 {
+		return errors.New("email is empty")
+	}
+
+	c, err := db.New()
+	defer c.Disconnect()
+
+	if err != nil {
+		return err
+	}
+
+	user, err := c.GetUser(email)
+	if err != nil {
+		return err
+	}
+	if user == nil {
+		return errors.New("no user exists with this email")
+	}
+
+	fmt.Printf("%s\n", user)
+
+	return nil
 }

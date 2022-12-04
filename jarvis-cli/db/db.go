@@ -22,6 +22,16 @@ type Orga struct {
 	Name string             `bson:"name,omitempty"`
 }
 
+func (o *Orga) String() string {
+	oUuid, err := uuid.FromBytes(o.Uuid.Data)
+
+	if err != nil {
+		return fmt.Sprintf("Orga{uuid: <%s>, name: %s}", err, o.Name)
+	}
+
+	return fmt.Sprintf("Orga{uuid: %s, name: %s}", oUuid, o.Name)
+}
+
 type User struct {
 	ID               primitive.ObjectID `bson:"_id, omitempty"`
 	Uuid             primitive.Binary   `bson:"uuid,omitempty"`
@@ -29,6 +39,32 @@ type User struct {
 	Name             string             `bson:"name,omitempty"`
 	Email            string             `bson:"email,omitempty"`
 	Password         string             `bson:"password,omitempty"`
+}
+
+func (o *User) String() string {
+	oUuid, err := uuid.FromBytes(o.OrganizationUuid.Data)
+
+	var oUuidStr string
+
+	if err != nil {
+		oUuidStr = fmt.Sprintf("<%s>", err)
+	} else {
+		oUuidStr = oUuid.String()
+	}
+
+	uUuid, err := uuid.FromBytes(o.Uuid.Data)
+
+	var uUuidStr string
+
+	if err != nil {
+		uUuidStr = fmt.Sprintf("<%s>", err)
+	} else {
+		uUuidStr = uUuid.String()
+	}
+
+	fmtStr := "User{uuid: %s, organization_uuid: %s, name: %s, email: %s}"
+
+	return fmt.Sprintf(fmtStr, oUuidStr, uUuidStr, o.Name, o.Email)
 }
 
 type Client struct {
