@@ -5,6 +5,7 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { ListService } from '../list.service';
 
 import { ListDetailsComponent } from './list-details.component';
 
@@ -21,6 +22,14 @@ describe('ListDetailsComponent', () => {
           provide: DateAdapter,
           useClass: MomentDateAdapter,
           deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+        {
+          provide: ListDetailsComponent,
+          useValue: {},
+        },
+        {
+          provide: ListService,
+          useValue: {},
         },
       ],
     }).compileComponents();
