@@ -6,3 +6,5 @@ database:
 
 security:
   secret_key: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+static_file_dir: /tmp

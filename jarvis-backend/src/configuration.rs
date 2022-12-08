@@ -31,6 +31,7 @@ pub struct Configuration {
     pub logging: Logging,
     pub database: Database,
     pub security: Security,
+    pub static_file_dir: String,
 }
 
 impl Configuration {
