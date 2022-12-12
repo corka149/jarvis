@@ -25,12 +25,12 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(Data::new(mongo_repo.clone()))
             .service(api_v1::api_v1())
-            .service(fs::Files::new("/", static_file_dir.clone()).show_files_listing())
+            .service(fs::Files::new("/", static_file_dir.clone()).index_file("index.html"))
             .wrap(security::new_session_store(&config.security))
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", 8080))?
     .run()
     .await
 }
