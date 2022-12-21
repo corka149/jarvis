@@ -6,6 +6,7 @@ import { DateAdapter } from '@angular/material/core';
 import { Product } from '../models/product';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-list-details',
@@ -16,6 +17,8 @@ export class ListDetailsComponent implements OnInit {
   listForm?: FormGroup;
 
   selectList?: List;
+
+  readonly = true;
 
   @Input('list-id') listId?: string;
 
@@ -88,14 +91,28 @@ export class ListDetailsComponent implements OnInit {
     }
   }
 
+  toggleReadonly() {
+    this.readonly = !this.readonly;
+
+    if (this.readonly) {
+      this.listForm?.disable();
+    } else {
+      this.listForm?.enable();
+    }
+  }
+
   get products(): FormArray {
     return this.listForm?.get('products') as FormArray;
+  }
+
+  get isReadonly(): boolean {
+    return this.listId !== 'new' && this.readonly;
   }
 
   private setupForm(list?: List): void {
     const formData: List = list ?? {
       reason: '',
-      occursAt: new Date(),
+      occursAt: moment(),
       done: false,
       products: [],
     };
@@ -103,7 +120,7 @@ export class ListDetailsComponent implements OnInit {
     const products = formData.products ?? [];
 
     const productsForm = products.map((product: Product) =>
-      this.fb.group(product)
+      this.fb.group(product, {})
     );
 
     this.listForm = this.fb.group({
@@ -112,5 +129,7 @@ export class ListDetailsComponent implements OnInit {
       done: formData.done,
       products: this.fb.array(productsForm),
     });
+
+    this.listForm.disable();
   }
 }

@@ -21,50 +21,19 @@ docker pull corka149/jarvis
 4. Version is the comeback of jARVIS as multipage application.
     1. Removed finance domain
     2. Added inventory domain with live views 🔥
+ 5. Version: Tech stack switch to
+    1. Rust for backend
+    2. Angular with TypeScript for frontend
+    3. Go for management cli
 
 ## Getting started
 
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Run `make launch-database`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+* [Backend](jarvis-backend/README.md)
+* [Frontend](jarvis-fe/README.md)
+* [CLI](jarvis-cli/README.md)
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Building
 
-Just run `mix docker`. It will take care of everything for you. :)
-
-## Configuration
-
-Important environment variables for prod release:
-
- * HOST - used by Phoenix for URL creation
- * PORT - on which jARVIS should listen
- * SECRET_KEY_BASE - encryption base for cookies
- * DB_USERNAME - username for access to database
- * DB_PASSWORD - password for access to database
- * DB_NAME - name of the selected database
- * DB_HOST - host of database
- * GITHUB_CLIENT_ID - oauth with github
- * GITHUB_CLIENT_SECRET - oauth with github
- * GITHUB_CALLBACK_PATH_PREFIX - will be added to callback url (useful for ingress)
-
-## Architecture
-
-This services follows the explicit architecture.
-* [Explicit architecture by Herberto Graça](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/)
-* [Explicit architecture](https://miro.com/app/board/o9J_lY8cG_k=/)
-* [Explicit architecture by Peter and Code for Elixir](https://www.youtube.com/watch?v=iGTCZt9Z8A8)
-
-## Important notes
-
-Execute the following as often as possible and fix what you can:
-
- * `mix format` - formats code
- * `mix test` - for ExUnit tests
- * `mix dialyzer` - for type checking
- * `mix credo` - for linting
+Just run `build.sh`. It will take care of everything for you. :)

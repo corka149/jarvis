@@ -4,6 +4,7 @@ import { catchError, map, Observable, of } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ErrorHandlerService } from './error-handler.service';
+import * as moment from 'moment';
 
 type MaybeList = List | undefined;
 
@@ -76,18 +77,14 @@ export class ListService {
 
   private mapFromDto(list: any) {
     if (list && list['occurs_at']) {
-      list['occursAt'] = new Date(list['occurs_at'] * 1000);
+      list['occursAt'] = moment(list['occurs_at']);
     }
 
     return list;
   }
 
   private mapToDto(list: any) {
-    let numberLong = list.occursAt.getTime
-      ? list.occursAt.getTime()
-      : +list.occursAt / 1000;
-
-    list['occurs_at'] = Math.round(numberLong);
+    list['occurs_at'] = +list.occursAt;
 
     return list;
   }
