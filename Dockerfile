@@ -1,29 +1,30 @@
-# BUILD
-FROM elixir:1.12 AS build
+# ===== ===== FE BUILD ===== =====
 
-COPY . .
-RUN mix do local.hex --force, local.rebar --force
+FROM node:16 as fe-build
 
-ENV MIX_ENV=prod
-RUN mix deps.get && \
-  mix release && \
-  mix assets.deploy
+ADD ./jarvis-fe /opt/jarvis-fe
 
-RUN mkdir /jarvis && \
-  cp -r _build/prod/rel/jarvis /jarvis
+WORKDIR /opt/jarvis-fe
 
-# RUNTIME
-FROM elixir:1.12-slim
-LABEL maintainer="corka149 <corka149@mailbox.org>"
+RUN npm install
 
-COPY --from=build /jarvis .
+RUN npm run ng build --optimization
 
-## Security
-RUN groupadd -r jarvis && useradd -r -s /bin/false -g jarvis jarvis
-RUN chown -R jarvis:jarvis /jarvis
+# ===== ===== BE BUILD ===== =====
 
-## RUN
-USER jarvis
-EXPOSE 4000 4001
+FROM rust:1.65 as be-build
 
-CMD /jarvis/bin/migrate && /jarvis/bin/server
+ADD ./jarvis-backend /opt/jarvis-be
+
+WORKDIR /opt/jarvis-be
+
+RUN cargo build --release
+
+# ===== ===== jarvis ===== =====
+
+FROM gcr.io/distroless/cc
+
+COPY --from=fe-build /opt/jarvis-fe/dist/jarvis-fe /jarvis-fe
+COPY --from=be-build /opt/jarvis-be/target/release/jarvis-backend /
+
+CMD ["./jarvis-backend"]

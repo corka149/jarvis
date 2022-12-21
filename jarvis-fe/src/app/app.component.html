@@ -1,0 +1,49 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>Menü</mat-toolbar>
+    <!-- LOGGED IN -->
+    <mat-nav-list *ngIf="authService.isLoggedIn">
+      <a mat-list-item routerLink="/lists">Offene Listen</a>
+      <a mat-list-item routerLink="/lists" [queryParams]="{ showClosed: true }"
+        >Alle Listen</a
+      >
+      <a mat-list-item routerLink="/lists/details/new">Neue Liste</a>
+      <mat-divider></mat-divider>
+      <button mat-list-item type="button" (click)="logOut()">Abmelden</button>
+    </mat-nav-list>
+    <!-- NO LOG IN -->
+    <mat-nav-list *ngIf="!authService.isLoggedIn">
+      <a mat-list-item routerLink="/login">Anmelden</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>{{ title }}</span>
+      <span style="width: 100%"></span>
+      <a mat-mini-fab routerLink="/welcome">
+        <mat-icon>home</mat-icon>
+      </a>
+    </mat-toolbar>
+    <!-- ROUTER START -->
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+    <!-- ROUTER END -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,97 @@
+<div *ngIf="!!listForm">
+  <form [formGroup]="listForm" (ngSubmit)="onSubmit()">
+    <!-- REASON -->
+    <div>
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Für</mat-label>
+        <input matInput formControlName="reason" />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <!-- DONE -->
+      <mat-slide-toggle matInput formControlName="done" style="width: 45%"
+        >Erledigt</mat-slide-toggle
+      >
+      <!-- OCCURS AT -->
+      <mat-form-field appearance="fill" style="width: 55%">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="occursAt" />
+        <mat-hint>DD.MM.YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <mat-divider style="margin: 1rem 0"></mat-divider>
+
+    <!-- PRODUCTS -->
+    <div *ngIf="!!products" formArrayName="products">
+      <div *ngFor="let product of products.controls; let i = index">
+        <div [formGroupName]="i">
+          <!-- PRODUCT NAME -->
+          <mat-form-field style="width: 66%; padding-right: 1%">
+            <mat-label *ngIf="i === 0">Gegenstand</mat-label>
+            <input matInput placeholder="" formControlName="name" />
+          </mat-form-field>
+
+          <!-- PRODUCT AMOUNT -->
+          <mat-form-field style="width: 20%">
+            <mat-label *ngIf="i === 0">Menge</mat-label>
+            <input
+              matInput
+              placeholder=""
+              formControlName="amount"
+              type="number"
+            />
+          </mat-form-field>
+
+          <button
+            (click)="removeProduct(i)"
+            mat-icon-button
+            style="float: right"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- DELETE -->
+      <button
+        mat-mini-fab
+        (click)="deleteList()"
+        color="danger"
+        type="button"
+        *ngIf="!!listId && listId !== 'new'"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <!-- SAVE -->
+      <button
+        mat-mini-fab
+        style="float: right; margin-left: 1rem"
+        color="primary"
+        [disabled]="!listForm.valid"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+
+      <!-- ADD -->
+      <button
+        mat-mini-fab
+        style="float: right"
+        (click)="addProduct()"
+        type="button"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="!listForm">
+  <p>Loading...</p>
+</div>

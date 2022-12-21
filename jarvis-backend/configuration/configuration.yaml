@@ -1,0 +1,10 @@
+logging:
+  level: debug
+
+database:
+  connection: mongodb://localhost:27017
+
+security:
+  secret_key: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+static_file_dir: /tmp
