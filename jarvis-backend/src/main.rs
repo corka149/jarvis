@@ -7,6 +7,7 @@ use actix_web::{App, HttpServer};
 use env_logger::Env;
 
 mod api_v1;
+mod cli;
 mod configuration;
 mod dto;
 mod model;
