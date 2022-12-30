@@ -1,0 +1,9 @@
+jarvis-fe/.angular
+jarvis-fe/.vscode
+jarvis-fe/dist
+jarvis-fe/node_modules
+
+jarvis-backend/.idea
+jarvis-backend/target
+
+jarvis-cli/.idea
