@@ -130,6 +130,8 @@ export class ListDetailsComponent implements OnInit {
       products: this.fb.array(productsForm),
     });
 
-    this.listForm.disable();
+    if (this.isReadonly) {
+      this.listForm.disable();
+    }
   }
 }
