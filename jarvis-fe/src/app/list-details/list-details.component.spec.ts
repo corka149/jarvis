@@ -42,4 +42,25 @@ describe('ListDetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should be readonly', () => {
+    component.listId = '1';
+    component.readonly = true;
+
+    expect(component.isReadonly).toBeTruthy();
+  });
+
+  it('should not be readonly on existing list in edit mode', () => {
+    component.listId = '1';
+    component.readonly = false;
+
+    expect(component.isReadonly).toBeFalsy();
+  });
+
+  it('should not be readonly on new list', () => {
+    component.listId = 'new';
+    component.readonly = true;
+
+    expect(component.isReadonly).toBeFalsy();
+  });
 });
