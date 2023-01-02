@@ -4,7 +4,7 @@ use mongodb::bson::oid::ObjectId;
 use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
 use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
 
-use crate::model::{List, User};
+use crate::model::{List, Organization, User};
 use crate::security::UserData;
 
 pub struct MongoRepo {
@@ -43,6 +43,13 @@ impl MongoRepo {
         db.collection::<User>("users")
     }
 
+    fn orga_coll(&self) -> Collection<Organization> {
+        let db = self.mongo_client.database("jarvis");
+        db.collection::<Organization>("organizations")
+    }
+
+    // ===== ===== LIST ===== =====
+
     pub async fn find_all_lists(
         &self,
         user_data: UserData,
@@ -76,15 +83,6 @@ impl MongoRepo {
         let coll = self.list_coll();
 
         let filter = doc! { "_id": id, "organization_uuid": user_data.organization_uuid };
-        let find_options = FindOneOptions::default();
-
-        coll.find_one(filter, find_options).await
-    }
-
-    pub async fn find_user_by_email(&self, email: &str) -> Result<Option<User>, error::Error> {
-        let coll = self.user_coll();
-
-        let filter = doc! {"email": email};
         let find_options = FindOneOptions::default();
 
         coll.find_one(filter, find_options).await
@@ -131,5 +129,16 @@ impl MongoRepo {
         };
 
         coll.update_one(filter, update, update_options).await
+    }
+
+    // ===== ===== USER ===== =====
+
+    pub async fn find_user_by_email(&self, email: &str) -> Result<Option<User>, error::Error> {
+        let coll = self.user_coll();
+
+        let filter = doc! {"email": email};
+        let find_options = FindOneOptions::default();
+
+        coll.find_one(filter, find_options).await
     }
 }
