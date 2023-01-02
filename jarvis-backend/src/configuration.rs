@@ -8,7 +8,7 @@ pub struct Logging {
     pub level: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Database {
     pub connection: String,
 }

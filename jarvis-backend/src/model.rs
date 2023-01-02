@@ -14,12 +14,25 @@ pub struct Organization {
 
 #[derive(Serialize, Deserialize)]
 pub struct User {
-    _id: ObjectId,
+    pub _id: ObjectId,
     pub uuid: Uuid,
     pub organization_uuid: Uuid,
-    name: String,
-    email: String,
+    pub name: String,
+    pub email: String,
     pub password: String,
+}
+
+impl User {
+    pub fn new(organization: Organization, name: &str, email: &str, password: &str) -> Self {
+        Self {
+            _id: ObjectId::new(),
+            uuid: Uuid::new(),
+            organization_uuid: organization.uuid,
+            name: name.to_string(),
+            email: email.to_string(),
+            password: password.to_string()
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize)]
@@ -30,8 +43,8 @@ pub struct Credentials {
 
 #[derive(Serialize, Deserialize)]
 pub struct Product {
-    pub(crate) name: String,
-    pub(crate) amount: i32,
+    pub name: String,
+    pub amount: i32,
 }
 
 impl Product {
@@ -54,14 +67,14 @@ impl From<dto::Product> for Product {
 
 #[derive(Serialize, Deserialize)]
 pub struct List {
-    pub(crate) _id: Option<ObjectId>,
-    pub(crate) organization_uuid: Option<bson::Uuid>,
-    pub(crate) no: Option<i32>,
-    pub(crate) reason: String,
+    pub _id: Option<ObjectId>,
+    pub organization_uuid: Option<Uuid>,
+    pub no: Option<i32>,
+    pub reason: String,
     #[serde(with = "bson::serde_helpers::chrono_datetime_as_bson_datetime")]
-    pub(crate) occurs_at: DateTime<chrono::Utc>,
-    pub(crate) done: bool,
-    pub(crate) products: Option<Vec<Product>>,
+    pub occurs_at: DateTime<chrono::Utc>,
+    pub done: bool,
+    pub products: Option<Vec<Product>>,
 }
 
 impl List {

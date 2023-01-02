@@ -141,4 +141,24 @@ impl MongoRepo {
 
         coll.find_one(filter, find_options).await
     }
+
+    pub async fn insert_user(&self, user: User) -> Result<User, error::Error> {
+        let coll: Collection<User> = self.user_coll();
+        coll.insert_one(&user, None).await?;
+        Ok(user)
+    }
+
+    // ===== ===== ORGANIZATION ===== =====
+
+    pub async fn find_orga_by_name(&self, name: &str) -> Result<Option<Organization>, error::Error> {
+        let coll: Collection<Organization> = self.orga_coll();
+
+        let filter = doc! {
+            "name": name
+        };
+
+        let find_options = FindOneOptions::default();
+
+        coll.find_one(filter, find_options).await
+    }
 }

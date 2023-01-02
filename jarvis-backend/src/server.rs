@@ -8,8 +8,7 @@ use crate::{api_v1, security};
 use crate::configuration::Configuration;
 use crate::storage::MongoRepo;
 
-pub async fn server() -> std::io::Result<()> {
-    let config = Configuration::new().expect("No configuration found");
+pub async fn server(config: Configuration) -> std::io::Result<()> {
     let mongo_repo = MongoRepo::new(config.database).await;
     let static_file_dir = config.static_file_dir;
 
