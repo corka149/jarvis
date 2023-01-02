@@ -14,6 +14,8 @@ cli contains the following commands:
 
  */
 
+use std::io;
+use std::process::exit;
 use actix_web::rt::Runtime;
 use clap::{Parser, Subcommand};
 
@@ -223,7 +225,7 @@ async fn handle_orga_cmd(orga_cmd: &OrgaCommands, repo: MongoRepo) -> std::io::R
     match orga_cmd {
         OrgaCommands::Add { .. } => {}
         OrgaCommands::Show { name } => show_orga(repo, name).await,
-        OrgaCommands::Delete { .. } => {}
+        OrgaCommands::Delete { name } => delete_orga(repo, name).await
     }
 
     Ok(())
@@ -236,5 +238,48 @@ async fn show_orga(repo: MongoRepo, name: &str) {
         println!("{}", orga);
     } else {
         println!("No organization with name {} exists", name);
+    }
+}
+
+async fn delete_orga(repo: MongoRepo, name: &str) {
+    if !confirm("Are you sure? This will also delete all users!") {
+        exit(0);
+    }
+
+    if let Some (orga) = repo.find_orga_by_name(name).await
+        .expect("Failed to fetch organization") {
+
+        let deleted = repo.delete_users_by_orga(orga).await.expect("Failed to delete user/s");
+        println!("Deleted {} users", deleted);
+    }
+
+
+    if repo
+        .delete_orga(name)
+        .await
+        .expect("Failed to delete organization")
+    {
+        println!("Deleted organization {}", name);
+    } else {
+        println!("No organization with name {} exists", name);
+    }
+}
+
+fn confirm(msg: &str) -> bool {
+    println!("{} - yes or no?", msg);
+
+    loop {
+        let mut user_input = String::new();
+        let stdin = io::stdin();
+        if let Err(err) = stdin.read_line(&mut user_input) {
+            eprintln!("{}", err);
+            exit(1);
+        }
+
+        let user_input = user_input.trim();
+
+        if user_input == "yes" || user_input == "no" {
+            return user_input == "yes";
+        }
     }
 }

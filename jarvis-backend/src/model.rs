@@ -11,7 +11,7 @@ use crate::dto;
 #[derive(Serialize, Deserialize)]
 pub struct Organization {
     _id: ObjectId,
-    uuid: Uuid,
+    pub uuid: Uuid,
     name: String,
 }
 
