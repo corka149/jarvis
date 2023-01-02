@@ -14,10 +14,10 @@ cli contains the following commands:
 
  */
 
-use std::io;
-use std::process::exit;
 use actix_web::rt::Runtime;
 use clap::{Parser, Subcommand};
+use std::io;
+use std::process::exit;
 
 use crate::configuration::Configuration;
 use crate::model::User;
@@ -131,7 +131,7 @@ pub fn exec() -> std::io::Result<()> {
         match &cli.command {
             Commands::Server {} => server(config).await,
             Commands::User { command } => handle_user_cmd(command, repo).await,
-            Commands::Orga { command } => handle_orga_cmd(command, repo).await
+            Commands::Orga { command } => handle_orga_cmd(command, repo).await,
         }
     })
 }
@@ -225,7 +225,7 @@ async fn handle_orga_cmd(orga_cmd: &OrgaCommands, repo: MongoRepo) -> std::io::R
     match orga_cmd {
         OrgaCommands::Add { .. } => {}
         OrgaCommands::Show { name } => show_orga(repo, name).await,
-        OrgaCommands::Delete { name } => delete_orga(repo, name).await
+        OrgaCommands::Delete { name } => delete_orga(repo, name).await,
     }
 
     Ok(())
@@ -246,13 +246,17 @@ async fn delete_orga(repo: MongoRepo, name: &str) {
         exit(0);
     }
 
-    if let Some (orga) = repo.find_orga_by_name(name).await
-        .expect("Failed to fetch organization") {
-
-        let deleted = repo.delete_users_by_orga(orga).await.expect("Failed to delete user/s");
+    if let Some(orga) = repo
+        .find_orga_by_name(name)
+        .await
+        .expect("Failed to fetch organization")
+    {
+        let deleted = repo
+            .delete_users_by_orga(orga)
+            .await
+            .expect("Failed to delete user/s");
         println!("Deleted {} users", deleted);
     }
-
 
     if repo
         .delete_orga(name)

@@ -175,13 +175,18 @@ impl MongoRepo {
             .map(|r| r.modified_count == 1)
     }
 
-    pub async fn delete_users_by_orga(&self, organization: Organization) -> Result<u64, error::Error>  {
+    pub async fn delete_users_by_orga(
+        &self,
+        organization: Organization,
+    ) -> Result<u64, error::Error> {
         let coll = self.user_coll();
 
         let filter = doc! {"organization_uuid": organization.uuid};
         let delete_options = DeleteOptions::default();
 
-        coll.delete_many(filter, delete_options).await.map(|r| r.deleted_count)
+        coll.delete_many(filter, delete_options)
+            .await
+            .map(|r| r.deleted_count)
     }
 
     // ===== ===== ORGANIZATION ===== =====
