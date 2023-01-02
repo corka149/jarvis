@@ -42,6 +42,11 @@ pub enum Commands {
         #[command(subcommand)]
         command: UserCommands,
     },
+    /// Management of organisations
+    Orga {
+        #[command(subcommand)]
+        command: OrgaCommands,
+    },
 }
 
 #[derive(Subcommand)]
@@ -66,13 +71,13 @@ pub enum UserCommands {
     },
     /// Outputs user information
     Show {
-        /// E-Mail of the new user
+        /// E-Mail of user
         #[arg(short, long)]
         email: String,
     },
     /// Updates password of an user
     Passwd {
-        /// E-Mail of the new user
+        /// E-Mail of user
         #[arg(short, long)]
         email: String,
 
@@ -82,9 +87,31 @@ pub enum UserCommands {
     },
     /// Deletes an user from the system
     Delete {
-        /// E-Mail of the new user
+        /// E-Mail of user
         #[arg(short, long)]
         email: String,
+    },
+}
+
+#[derive(Subcommand)]
+pub enum OrgaCommands {
+    /// Adds a new organisation
+    Add {
+        /// Name of the new organization
+        #[arg(short, long)]
+        name: String,
+    },
+    /// Show details of an organisation
+    Show {
+        /// Name of organization
+        #[arg(short, long)]
+        name: String,
+    },
+    /// Deletes an existing organisation
+    Delete {
+        /// E-Mail of user
+        #[arg(short, long)]
+        name: String,
     },
 }
 
@@ -101,7 +128,8 @@ pub fn exec() -> std::io::Result<()> {
 
         match &cli.command {
             Commands::Server {} => server(config).await,
-            Commands::User { command: user_cmd } => handle_user_cmd(user_cmd, repo).await,
+            Commands::User { command } => handle_user_cmd(command, repo).await,
+            Commands::Orga { command } => handle_orga_cmd(command, repo).await
         }
     })
 }
@@ -162,7 +190,9 @@ async fn show_user(repo: MongoRepo, email: &str) {
 }
 
 async fn passwd_user(repo: MongoRepo, email: &str, password: &str) {
-    let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect("Failed to hash password");
+    let msg = "Failed to hash password";
+
+    let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect(msg);
 
     if repo
         .update_user(email, &passwd)
@@ -184,5 +214,27 @@ async fn delete_user(repo: MongoRepo, email: &str) {
         println!("Deleted user {}", email);
     } else {
         println!("No user with email {} exists", email);
+    }
+}
+
+// ===== ===== ORGA CMD ===== =====
+
+async fn handle_orga_cmd(orga_cmd: &OrgaCommands, repo: MongoRepo) -> std::io::Result<()> {
+    match orga_cmd {
+        OrgaCommands::Add { .. } => {}
+        OrgaCommands::Show { name } => show_orga(repo, name).await,
+        OrgaCommands::Delete { .. } => {}
+    }
+
+    Ok(())
+}
+
+async fn show_orga(repo: MongoRepo, name: &str) {
+    let msg = "Failed to fetch orga";
+
+    if let Some(orga) = repo.find_orga_by_name(name).await.expect(msg) {
+        println!("{}", orga);
+    } else {
+        println!("No organization with name {} exists", name);
     }
 }

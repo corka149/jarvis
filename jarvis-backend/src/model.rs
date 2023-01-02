@@ -15,6 +15,12 @@ pub struct Organization {
     name: String,
 }
 
+impl Display for Organization {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{{uuid={}, name={}}}", self.uuid, self.name)
+    }
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct User {
     pub _id: ObjectId,
