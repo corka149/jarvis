@@ -18,6 +18,7 @@ fn main() -> std::io::Result<()> {
     let rt = Runtime::new()?;
 
     match &cli.command {
-        Commands::Server{} => rt.block_on(server())
+        Commands::Server{} => rt.block_on(server()),
+        Commands::User { .. } => Ok(())
     }
 }
