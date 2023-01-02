@@ -14,7 +14,6 @@ cli contains the following commands:
 
  */
 
-
 use actix_web::rt::Runtime;
 use clap::{Parser, Subcommand};
 
@@ -118,7 +117,7 @@ async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> std::io::R
             password,
         } => add_user(repo, organization, name, email, password).await,
         UserCommands::Show { email } => show_user(repo, email).await,
-        UserCommands::Passwd { email, password } => {}
+        UserCommands::Passwd { email, password } => passwd_user(repo, email, password).await,
         UserCommands::Delete { email } => delete_user(repo, email).await,
     }
 
@@ -151,17 +150,39 @@ async fn add_user(repo: MongoRepo, organization: &str, name: &str, email: &str, 
 }
 
 async fn show_user(repo: MongoRepo, email: &str) {
-    if let Some(user) = repo.find_user_by_email(email).await.expect("Could not fetch user from database") {
+    if let Some(user) = repo
+        .find_user_by_email(email)
+        .await
+        .expect("Failed to fetch user from database")
+    {
         println!("{}", user);
     } else {
         println!("Could not find user with email {}", email);
     }
 }
 
+async fn passwd_user(repo: MongoRepo, email: &str, password: &str) {
+    let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect("Failed to hash password");
+
+    if repo
+        .update_user(email, &passwd)
+        .await
+        .expect("Failed to update password of user")
+    {
+        println!("Updated password of user")
+    } else {
+        println!("No user with email {} exists", email);
+    }
+}
+
 async fn delete_user(repo: MongoRepo, email: &str) {
-    if repo.delete_user(email).await.expect("Failed to delete user") {
+    if repo
+        .delete_user(email)
+        .await
+        .expect("Failed to delete user")
+    {
         println!("Deleted user {}", email);
     } else {
-        println!("No user with email {}", email);
+        println!("No user with email {} exists", email);
     }
 }

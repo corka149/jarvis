@@ -1,9 +1,9 @@
-use crate::configuration;
 use futures::stream::TryStreamExt;
 use mongodb::bson::oid::ObjectId;
-use mongodb::options::{DeleteOptions, FindOneAndDeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
+use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
 use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
 
+use crate::configuration;
 use crate::model::{List, Organization, User};
 use crate::security::UserData;
 
@@ -154,7 +154,25 @@ impl MongoRepo {
         let filter = doc! {"email": email};
         let delete_options = DeleteOptions::default();
 
-        coll.delete_one(filter, delete_options).await.map(|r| r.deleted_count == 1)
+        coll.delete_one(filter, delete_options)
+            .await
+            .map(|r| r.deleted_count == 1)
+    }
+
+    pub async fn update_user(
+        &self,
+        email: &str,
+        hashed_passwd: &str,
+    ) -> Result<bool, error::Error> {
+        let coll = self.user_coll();
+
+        let filter = doc! {"email": email};
+        let update = doc! {"$set": doc! {"password": hashed_passwd}};
+        let update_options = UpdateOptions::default();
+
+        coll.update_one(filter, update, update_options)
+            .await
+            .map(|r| r.modified_count == 1)
     }
 
     // ===== ===== ORGANIZATION ===== =====

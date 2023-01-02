@@ -2,8 +2,8 @@ use std::fmt::{Display, Formatter};
 
 use chrono::DateTime;
 use mongodb::bson;
-use mongodb::bson::{doc, Document, Uuid};
 use mongodb::bson::oid::ObjectId;
+use mongodb::bson::{doc, Document, Uuid};
 use serde::{Deserialize, Serialize};
 
 use crate::dto;
@@ -40,7 +40,11 @@ impl User {
 
 impl Display for User {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{{uuid={}, name={}, email={}, organization_uuid={}}}", self.uuid, self.name, self.email, self.organization_uuid)
+        write!(
+            f,
+            "{{uuid={}, name={}, email={}, organization_uuid={}}}",
+            self.uuid, self.name, self.email, self.organization_uuid
+        )
     }
 }
 
