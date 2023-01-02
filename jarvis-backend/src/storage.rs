@@ -150,7 +150,10 @@ impl MongoRepo {
 
     // ===== ===== ORGANIZATION ===== =====
 
-    pub async fn find_orga_by_name(&self, name: &str) -> Result<Option<Organization>, error::Error> {
+    pub async fn find_orga_by_name(
+        &self,
+        name: &str,
+    ) -> Result<Option<Organization>, error::Error> {
         let coll: Collection<Organization> = self.orga_coll();
 
         let filter = doc! {

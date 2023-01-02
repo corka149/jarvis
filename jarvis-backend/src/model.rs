@@ -30,7 +30,7 @@ impl User {
             organization_uuid: organization.uuid,
             name: name.to_string(),
             email: email.to_string(),
-            password: password.to_string()
+            password: password.to_string(),
         }
     }
 }

@@ -1,12 +1,12 @@
 use actix_files as fs;
-use actix_web::{App, HttpServer};
 use actix_web::middleware::Logger;
 use actix_web::web::Data;
+use actix_web::{App, HttpServer};
 use env_logger::Env;
 
-use crate::{api_v1, security};
 use crate::configuration::Configuration;
 use crate::storage::MongoRepo;
+use crate::{api_v1, security};
 
 pub async fn server(config: Configuration) -> std::io::Result<()> {
     let mongo_repo = MongoRepo::new(config.database).await;
@@ -23,7 +23,7 @@ pub async fn server(config: Configuration) -> std::io::Result<()> {
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
     })
-        .bind(("0.0.0.0", 8080))?
-        .run()
-        .await
+    .bind(("0.0.0.0", 8080))?
+    .run()
+    .await
 }

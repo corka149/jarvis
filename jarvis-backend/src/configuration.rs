@@ -47,5 +47,4 @@ impl Configuration {
     pub fn path_from_env() -> String {
         env::var("CONFIG_PATH").unwrap_or_else(|_| "configuration.yaml".into())
     }
-
 }

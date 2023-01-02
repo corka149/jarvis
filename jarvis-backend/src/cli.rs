@@ -19,30 +19,29 @@ use clap::{Parser, Subcommand};
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 pub struct Cli {
-
     /// Path to jARVIS config - will use CONFIG_PATH as fallback
     #[arg(short, long)]
     pub config_path: Option<String>,
 
     #[command(subcommand)]
-    pub command: Commands
+    pub command: Commands,
 }
 
 #[derive(Subcommand)]
 pub enum Commands {
     /// Launches the jARVIS server
-    Server{},
+    Server {},
     /// User management
-    User{
+    User {
         #[command(subcommand)]
-        command: UserCommands
-    }
+        command: UserCommands,
+    },
 }
 
 #[derive(Subcommand)]
 pub enum UserCommands {
     /// Adds a new user
-    Add{
+    Add {
         /// Name of the organization to which the user shall belong
         #[arg(short, long)]
         organization: String,
@@ -60,13 +59,13 @@ pub enum UserCommands {
         password: String,
     },
     /// Outputs user information
-    Show{
+    Show {
         /// E-Mail of the new user
         #[arg(short, long)]
         email: String,
     },
     /// Updates password of an user
-    Passwd{
+    Passwd {
         /// E-Mail of the new user
         #[arg(short, long)]
         email: String,
@@ -76,9 +75,9 @@ pub enum UserCommands {
         password: String,
     },
     /// Deletes an user from the system
-    Delete{
+    Delete {
         /// E-Mail of the new user
         #[arg(short, long)]
         email: String,
-    }
+    },
 }

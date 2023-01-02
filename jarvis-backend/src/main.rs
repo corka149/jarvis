@@ -13,8 +13,8 @@ mod configuration;
 mod dto;
 mod model;
 mod security;
-mod storage;
 mod server;
+mod storage;
 
 fn main() -> std::io::Result<()> {
     let cli: Cli = Cli::parse();
@@ -29,15 +29,19 @@ fn main() -> std::io::Result<()> {
 
         match &cli.command {
             Commands::Server {} => server(config).await,
-            Commands::User { command: user_cmd } => handle_user_cmd(user_cmd, repo).await
+            Commands::User { command: user_cmd } => handle_user_cmd(user_cmd, repo).await,
         }
     })
 }
 
 async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> std::io::Result<()> {
     match user_cmd {
-        UserCommands::Add { organization, name, email, password } =>
-            add_user(repo, organization, name, email, password).await,
+        UserCommands::Add {
+            organization,
+            name,
+            email,
+            password,
+        } => add_user(repo, organization, name, email, password).await,
         UserCommands::Show { .. } => {}
         UserCommands::Passwd { .. } => {}
         UserCommands::Delete { .. } => {}
@@ -47,7 +51,12 @@ async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> std::io::R
 }
 
 async fn add_user(repo: MongoRepo, organization: &str, name: &str, email: &str, password: &str) {
-    if repo.find_user_by_email(email).await.expect("Fail to check e-mail address").is_some() {
+    if repo
+        .find_user_by_email(email)
+        .await
+        .expect("Fail to check e-mail address")
+        .is_some()
+    {
         println!("User with email {} already exists", email);
         return;
     }
