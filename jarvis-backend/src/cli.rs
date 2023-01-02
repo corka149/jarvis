@@ -115,7 +115,7 @@ async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> std::io::R
             email,
             password,
         } => add_user(repo, organization, name, email, password).await,
-        UserCommands::Show { .. } => {}
+        UserCommands::Show { email } => show_user(repo, email).await,
         UserCommands::Passwd { .. } => {}
         UserCommands::Delete { .. } => {}
     }
@@ -145,5 +145,13 @@ async fn add_user(repo: MongoRepo, organization: &str, name: &str, email: &str, 
         println!("Created user with id {}", user.uuid);
     } else {
         println!("Could find organization with name {}", organization);
+    }
+}
+
+async fn show_user(repo: MongoRepo, email: &str) {
+    if let Some(user) = repo.find_user_by_email(email).await.expect("Could not fetch user from database") {
+        println!("{}", user);
+    } else {
+        println!("Could not find user with email {}", email);
     }
 }

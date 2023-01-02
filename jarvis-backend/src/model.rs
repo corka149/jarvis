@@ -1,9 +1,12 @@
-use crate::dto;
+use std::fmt::{Display, Formatter};
+
 use chrono::DateTime;
 use mongodb::bson;
-use mongodb::bson::oid::ObjectId;
 use mongodb::bson::{doc, Document, Uuid};
+use mongodb::bson::oid::ObjectId;
 use serde::{Deserialize, Serialize};
+
+use crate::dto;
 
 #[derive(Serialize, Deserialize)]
 pub struct Organization {
@@ -32,6 +35,12 @@ impl User {
             email: email.to_string(),
             password: password.to_string(),
         }
+    }
+}
+
+impl Display for User {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{{uuid={}, name={}, email={}, organization_uuid={}}}", self.uuid, self.name, self.email, self.organization_uuid)
     }
 }
 
