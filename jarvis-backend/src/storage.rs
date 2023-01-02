@@ -1,7 +1,7 @@
 use crate::configuration;
 use futures::stream::TryStreamExt;
 use mongodb::bson::oid::ObjectId;
-use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
+use mongodb::options::{DeleteOptions, FindOneAndDeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
 use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
 
 use crate::model::{List, Organization, User};
@@ -146,6 +146,15 @@ impl MongoRepo {
         let coll: Collection<User> = self.user_coll();
         coll.insert_one(&user, None).await?;
         Ok(user)
+    }
+
+    pub async fn delete_user(&self, email: &str) -> Result<bool, error::Error> {
+        let coll = self.user_coll();
+
+        let filter = doc! {"email": email};
+        let delete_options = DeleteOptions::default();
+
+        coll.delete_one(filter, delete_options).await.map(|r| r.deleted_count == 1)
     }
 
     // ===== ===== ORGANIZATION ===== =====

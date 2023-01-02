@@ -14,6 +14,7 @@ cli contains the following commands:
 
  */
 
+
 use actix_web::rt::Runtime;
 use clap::{Parser, Subcommand};
 
@@ -106,6 +107,7 @@ pub fn exec() -> std::io::Result<()> {
     })
 }
 
+// ===== ===== USER CMD ===== =====
 
 async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> std::io::Result<()> {
     match user_cmd {
@@ -116,8 +118,8 @@ async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> std::io::R
             password,
         } => add_user(repo, organization, name, email, password).await,
         UserCommands::Show { email } => show_user(repo, email).await,
-        UserCommands::Passwd { .. } => {}
-        UserCommands::Delete { .. } => {}
+        UserCommands::Passwd { email, password } => {}
+        UserCommands::Delete { email } => delete_user(repo, email).await,
     }
 
     Ok(())
@@ -153,5 +155,13 @@ async fn show_user(repo: MongoRepo, email: &str) {
         println!("{}", user);
     } else {
         println!("Could not find user with email {}", email);
+    }
+}
+
+async fn delete_user(repo: MongoRepo, email: &str) {
+    if repo.delete_user(email).await.expect("Failed to delete user") {
+        println!("Deleted user {}", email);
+    } else {
+        println!("No user with email {}", email);
     }
 }
