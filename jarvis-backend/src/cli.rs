@@ -20,6 +20,10 @@ use clap::{Parser, Subcommand};
 #[command(author, version, about, long_about = None)]
 pub struct Cli {
 
+    /// Path to jARVIS config - will use CONFIG_PATH as fallback
+    #[arg(short, long)]
+    pub config_path: Option<String>,
+
     #[command(subcommand)]
     pub command: Commands
 }

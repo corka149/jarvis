@@ -20,9 +20,11 @@ fn main() -> std::io::Result<()> {
     let cli: Cli = Cli::parse();
     let rt = Runtime::new()?;
 
+    let config_path: String = cli.config_path.unwrap_or_else(Configuration::path_from_env);
+
     rt.block_on(async {
-        let msg = "No configuration found (check your environment variable CONFIG_PATH)";
-        let config = Configuration::new().expect(msg);
+        let msg = "No configuration found (check '--help')";
+        let config = Configuration::new(&config_path).expect(msg);
         let repo = MongoRepo::new(config.database.clone()).await;
 
         match &cli.command {
