@@ -1,7 +1,8 @@
 use futures::stream::TryStreamExt;
 use mongodb::bson::oid::ObjectId;
-use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
+use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, InsertOneOptions, UpdateOptions};
 use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
+use mongodb::bson::Uuid;
 
 use crate::configuration;
 use crate::model::{List, Organization, User};
@@ -190,6 +191,16 @@ impl MongoRepo {
     }
 
     // ===== ===== ORGANIZATION ===== =====
+    
+    pub async fn insert_orga(
+        &self,
+        organization: Organization
+    ) -> Result<Organization, error::Error> {
+        let coll = self.orga_coll();
+        let options = InsertOneOptions::default();
+        coll.insert_one(&organization, options).await?;
+        Ok(organization)
+    }
 
     pub async fn find_orga_by_name(
         &self,
@@ -199,6 +210,21 @@ impl MongoRepo {
 
         let filter = doc! {
             "name": name
+        };
+
+        let find_options = FindOneOptions::default();
+
+        coll.find_one(filter, find_options).await
+    }
+    
+    pub async fn find_orga_by_uuid(
+        &self,
+        uuid: &Uuid,
+    ) -> Result<Option<Organization>, error::Error> {
+        let coll = self.orga_coll();
+
+        let filter = doc! {
+            "uuid": uuid
         };
 
         let find_options = FindOneOptions::default();

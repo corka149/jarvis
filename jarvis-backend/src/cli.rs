@@ -14,13 +14,14 @@ cli contains the following commands:
 
  */
 
-use actix_web::rt::Runtime;
-use clap::{Parser, Subcommand};
 use std::io;
 use std::process::exit;
 
+use actix_web::rt::Runtime;
+use clap::{Parser, Subcommand};
+
 use crate::configuration::Configuration;
-use crate::model::User;
+use crate::model::{Organization, User};
 use crate::server::server;
 use crate::storage::MongoRepo;
 
@@ -116,7 +117,7 @@ pub enum OrgaCommands {
         name: String,
         /// Forces to delete organization with user without prompt
         #[arg(short, long)]
-        force: Option<bool>,
+        force: bool,
     },
 }
 
@@ -164,7 +165,7 @@ async fn add_user(repo: MongoRepo, organization: &str, name: &str, email: &str, 
         .expect("Fail to check e-mail address")
         .is_some()
     {
-        println!("User with email {} already exists", email);
+        eprintln!("User with email {} already exists", email);
         return;
     }
 
@@ -178,7 +179,8 @@ async fn add_user(repo: MongoRepo, organization: &str, name: &str, email: &str, 
 
         println!("Created user with id {}", user.uuid);
     } else {
-        println!("Could find organization with name {}", organization);
+        eprintln!("Could find organization with name {}", organization);
+        exit(1);
     }
 }
 
@@ -189,8 +191,18 @@ async fn show_user(repo: MongoRepo, email: &str) {
         .expect("Failed to fetch user from database")
     {
         println!("{}", user);
+        println!("Which belongs to the following organization");
+
+        // Every user **must** belong to an organization
+        let orga = repo
+            .find_orga_by_uuid(&user.organization_uuid)
+            .await
+            .expect("Failed while fetching organization")
+            .expect("User without organization");
+        println!("{}", orga);
     } else {
-        println!("Could not find user with email {}", email);
+        eprintln!("Could not find user with email {}", email);
+        exit(1);
     }
 }
 
@@ -206,7 +218,8 @@ async fn passwd_user(repo: MongoRepo, email: &str, password: &str) {
     {
         println!("Updated password of user")
     } else {
-        println!("No user with email {} exists", email);
+        eprintln!("No user with email {} exists", email);
+        exit(1);
     }
 }
 
@@ -218,20 +231,42 @@ async fn delete_user(repo: MongoRepo, email: &str) {
     {
         println!("Deleted user {}", email);
     } else {
-        println!("No user with email {} exists", email);
+        eprintln!("No user with email {} exists", email);
+        exit(1);
     }
 }
 
 // ===== ===== ORGA CMD ===== =====
 
-async fn handle_orga_cmd(orga_cmd: &OrgaCommands, repo: MongoRepo) -> std::io::Result<()> {
+async fn handle_orga_cmd(orga_cmd: &OrgaCommands, repo: MongoRepo) -> io::Result<()> {
     match orga_cmd {
-        OrgaCommands::Add { .. } => {}
+        OrgaCommands::Add { name } => add_orga(repo, name).await,
         OrgaCommands::Show { name } => show_orga(repo, name).await,
         OrgaCommands::Delete { name, force } => delete_orga(repo, name, force).await,
     }
 
     Ok(())
+}
+
+async fn add_orga(repo: MongoRepo, name: &str) {
+    if repo
+        .find_orga_by_name(name)
+        .await
+        .expect("Failed to check organization name")
+        .is_some()
+    {
+        eprintln!("Organization with name '{}' already exists", name);
+        exit(1);
+    }
+
+    let organization = Organization::new(name);
+
+    let organization = repo
+        .insert_orga(organization)
+        .await
+        .expect("Failed to create organization");
+
+    println!("Create organization with id {}", organization.uuid);
 }
 
 async fn show_orga(repo: MongoRepo, name: &str) {
@@ -241,13 +276,12 @@ async fn show_orga(repo: MongoRepo, name: &str) {
         println!("{}", orga);
     } else {
         println!("No organization with name {} exists", name);
+        exit(1);
     }
 }
 
-async fn delete_orga(repo: MongoRepo, name: &str, force: &Option<bool>) {
-    let force = force.unwrap_or(false);
-
-    if !force && !confirm("Are you sure? This will also delete all users!") {
+async fn delete_orga(repo: MongoRepo, name: &str, force: &bool) {
+    if !*force && !confirm("Are you sure? This will also delete all users!") {
         exit(0);
     }
 
@@ -270,7 +304,8 @@ async fn delete_orga(repo: MongoRepo, name: &str, force: &Option<bool>) {
     {
         println!("Deleted organization {}", name);
     } else {
-        println!("No organization with name {} exists", name);
+        eprintln!("No organization with name {} exists", name);
+        exit(1);
     }
 }
 
