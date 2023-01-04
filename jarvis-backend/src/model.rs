@@ -12,7 +12,7 @@ use crate::dto;
 pub struct Organization {
     _id: ObjectId,
     pub uuid: Uuid,
-    name: String,
+    pub name: String,
 }
 
 impl Organization {

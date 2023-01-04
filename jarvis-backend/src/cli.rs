@@ -327,3 +327,42 @@ fn confirm(msg: &str) -> bool {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::ops::Add;
+
+    use uuid::Uuid;
+
+    use crate::configuration::Database;
+
+    use super::*;
+
+    const CONN_URL: &str = "mongodb://localhost:27017";
+
+    #[test]
+    fn test_add_orga() {
+        Runtime::new().unwrap().block_on(async {
+            // Arrange
+            let config = Database {
+                connection: CONN_URL.to_string(),
+            };
+            let repo = MongoRepo::new(config).await;
+            let orga_name = random_orga();
+
+            // Act
+            add_orga(repo.clone(), &orga_name).await;
+
+            // Assert
+            let orga = repo.find_orga_by_name(&orga_name).await.unwrap();
+            assert!(orga.is_some());
+            let orga = orga.unwrap();
+            assert_eq!(orga.name, orga_name);
+        });
+    }
+
+    fn random_orga() -> String {
+        let uuid = Uuid::new_v4().to_string();
+        String::from("an-orga-").add(&uuid)
+    }
+}
