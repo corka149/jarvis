@@ -30,7 +30,6 @@ docker pull corka149/jarvis
 
 * [Backend](jarvis-backend/README.md)
 * [Frontend](jarvis-fe/README.md)
-* [CLI](jarvis-cli/README.md)
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
