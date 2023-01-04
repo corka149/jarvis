@@ -111,13 +111,16 @@ pub enum OrgaCommands {
     },
     /// Deletes an existing organisation
     Delete {
-        /// E-Mail of user
+        /// Name of organization
         #[arg(short, long)]
         name: String,
+        /// Forces to delete organization with user without prompt
+        #[arg(short, long)]
+        force: Option<bool>,
     },
 }
 
-pub fn exec() -> std::io::Result<()> {
+pub fn exec() -> io::Result<()> {
     let cli: Cli = Cli::parse();
     let runtime = Runtime::new()?;
 
@@ -225,7 +228,7 @@ async fn handle_orga_cmd(orga_cmd: &OrgaCommands, repo: MongoRepo) -> std::io::R
     match orga_cmd {
         OrgaCommands::Add { .. } => {}
         OrgaCommands::Show { name } => show_orga(repo, name).await,
-        OrgaCommands::Delete { name } => delete_orga(repo, name).await,
+        OrgaCommands::Delete { name, force } => delete_orga(repo, name, force).await,
     }
 
     Ok(())
@@ -241,8 +244,10 @@ async fn show_orga(repo: MongoRepo, name: &str) {
     }
 }
 
-async fn delete_orga(repo: MongoRepo, name: &str) {
-    if !confirm("Are you sure? This will also delete all users!") {
+async fn delete_orga(repo: MongoRepo, name: &str, force: &Option<bool>) {
+    let force = force.unwrap_or(false);
+
+    if !force && !confirm("Are you sure? This will also delete all users!") {
         exit(0);
     }
 
