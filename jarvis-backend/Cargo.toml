@@ -1,6 +1,6 @@
 [package]
 name = "jarvis-backend"
-version = "0.1.0"
+version = "5.0.6"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -18,6 +18,10 @@ log = "0.4"
 env_logger = "0.9"
 chrono = { version = "0.4.22", features = ["serde"] }
 bcrypt = "0.13"
+
+[dependencies.clap]
+version = "4.0.32"
+features = ["derive"]
 
 [dependencies.config]
 version = "0.13.1"

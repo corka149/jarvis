@@ -1,10 +1,11 @@
-use crate::configuration;
 use futures::stream::TryStreamExt;
 use mongodb::bson::oid::ObjectId;
-use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, UpdateOptions};
+use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, InsertOneOptions, UpdateOptions};
 use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
+use mongodb::bson::Uuid;
 
-use crate::model::{List, User};
+use crate::configuration;
+use crate::model::{List, Organization, User};
 use crate::security::UserData;
 
 pub struct MongoRepo {
@@ -43,6 +44,13 @@ impl MongoRepo {
         db.collection::<User>("users")
     }
 
+    fn orga_coll(&self) -> Collection<Organization> {
+        let db = self.mongo_client.database("jarvis");
+        db.collection::<Organization>("organizations")
+    }
+
+    // ===== ===== LIST ===== =====
+
     pub async fn find_all_lists(
         &self,
         user_data: UserData,
@@ -76,15 +84,6 @@ impl MongoRepo {
         let coll = self.list_coll();
 
         let filter = doc! { "_id": id, "organization_uuid": user_data.organization_uuid };
-        let find_options = FindOneOptions::default();
-
-        coll.find_one(filter, find_options).await
-    }
-
-    pub async fn find_user_by_email(&self, email: &str) -> Result<Option<User>, error::Error> {
-        let coll = self.user_coll();
-
-        let filter = doc! {"email": email};
         let find_options = FindOneOptions::default();
 
         coll.find_one(filter, find_options).await
@@ -131,5 +130,116 @@ impl MongoRepo {
         };
 
         coll.update_one(filter, update, update_options).await
+    }
+
+    // ===== ===== USER ===== =====
+
+    pub async fn find_user_by_email(&self, email: &str) -> Result<Option<User>, error::Error> {
+        let coll = self.user_coll();
+
+        let filter = doc! {"email": email};
+        let find_options = FindOneOptions::default();
+
+        coll.find_one(filter, find_options).await
+    }
+
+    pub async fn insert_user(&self, user: User) -> Result<User, error::Error> {
+        let coll: Collection<User> = self.user_coll();
+        coll.insert_one(&user, None).await?;
+        Ok(user)
+    }
+
+    pub async fn delete_user(&self, email: &str) -> Result<bool, error::Error> {
+        let coll = self.user_coll();
+
+        let filter = doc! {"email": email};
+        let delete_options = DeleteOptions::default();
+
+        coll.delete_one(filter, delete_options)
+            .await
+            .map(|r| r.deleted_count == 1)
+    }
+
+    pub async fn update_user(
+        &self,
+        email: &str,
+        hashed_passwd: &str,
+    ) -> Result<bool, error::Error> {
+        let coll = self.user_coll();
+
+        let filter = doc! {"email": email};
+        let update = doc! {"$set": doc! {"password": hashed_passwd}};
+        let update_options = UpdateOptions::default();
+
+        coll.update_one(filter, update, update_options)
+            .await
+            .map(|r| r.modified_count == 1)
+    }
+
+    pub async fn delete_users_by_orga(
+        &self,
+        organization: Organization,
+    ) -> Result<u64, error::Error> {
+        let coll = self.user_coll();
+
+        let filter = doc! {"organization_uuid": organization.uuid};
+        let delete_options = DeleteOptions::default();
+
+        coll.delete_many(filter, delete_options)
+            .await
+            .map(|r| r.deleted_count)
+    }
+
+    // ===== ===== ORGANIZATION ===== =====
+    
+    pub async fn insert_orga(
+        &self,
+        organization: Organization
+    ) -> Result<Organization, error::Error> {
+        let coll = self.orga_coll();
+        let options = InsertOneOptions::default();
+        coll.insert_one(&organization, options).await?;
+        Ok(organization)
+    }
+
+    pub async fn find_orga_by_name(
+        &self,
+        name: &str,
+    ) -> Result<Option<Organization>, error::Error> {
+        let coll = self.orga_coll();
+
+        let filter = doc! {
+            "name": name
+        };
+
+        let find_options = FindOneOptions::default();
+
+        coll.find_one(filter, find_options).await
+    }
+    
+    pub async fn find_orga_by_uuid(
+        &self,
+        uuid: &Uuid,
+    ) -> Result<Option<Organization>, error::Error> {
+        let coll = self.orga_coll();
+
+        let filter = doc! {
+            "uuid": uuid
+        };
+
+        let find_options = FindOneOptions::default();
+
+        coll.find_one(filter, find_options).await
+    }
+
+    pub async fn delete_orga(&self, name: &str) -> Result<bool, error::Error> {
+        let coll = self.orga_coll();
+
+        let filter = doc! {"name": name};
+        let delete_options = DeleteOptions::default();
+
+        coll.delete_one(filter, delete_options)
+            .await
+            .map(|r| r.deleted_count == 1)
     }
 }

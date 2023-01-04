@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::dto;
 use crate::security::{AuthTransformer, UserData};
-use crate::MongoRepo;
+use crate::storage::MongoRepo;
 
 use super::model::List;
 

@@ -27,4 +27,4 @@ FROM gcr.io/distroless/cc
 COPY --from=fe-build /opt/jarvis-fe/dist/jarvis-fe /jarvis-fe
 COPY --from=be-build /opt/jarvis-be/target/release/jarvis-backend /
 
-CMD ["./jarvis-backend"]
+CMD ["./jarvis-backend", "server"]
