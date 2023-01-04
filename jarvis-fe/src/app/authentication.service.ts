@@ -39,7 +39,10 @@ export class AuthenticationService {
   check(): Observable<boolean> {
     return this.httpClient
       .head(`${AUTH_API}/check`, { observe: 'response' })
-      .pipe(map((response: HttpResponse<Object>) => response.status === 200));
+      .pipe(
+        map((response: HttpResponse<Object>) => response.status === 200),
+        catchError((_err) => of(false))
+      );
   }
 
   set isLoggedIn(loggedIn: boolean) {

@@ -1,8 +1,10 @@
 use futures::stream::TryStreamExt;
 use mongodb::bson::oid::ObjectId;
-use mongodb::options::{DeleteOptions, FindOneOptions, FindOptions, InsertOneOptions, UpdateOptions};
-use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
 use mongodb::bson::Uuid;
+use mongodb::options::{
+    DeleteOptions, FindOneOptions, FindOptions, InsertOneOptions, UpdateOptions,
+};
+use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
 
 use crate::configuration;
 use crate::model::{List, Organization, User};
@@ -191,10 +193,10 @@ impl MongoRepo {
     }
 
     // ===== ===== ORGANIZATION ===== =====
-    
+
     pub async fn insert_orga(
         &self,
-        organization: Organization
+        organization: Organization,
     ) -> Result<Organization, error::Error> {
         let coll = self.orga_coll();
         let options = InsertOneOptions::default();
@@ -216,7 +218,7 @@ impl MongoRepo {
 
         coll.find_one(filter, find_options).await
     }
-    
+
     pub async fn find_orga_by_uuid(
         &self,
         uuid: &Uuid,

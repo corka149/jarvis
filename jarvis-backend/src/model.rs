@@ -20,7 +20,7 @@ impl Organization {
         Self {
             _id: ObjectId::new(),
             uuid: Uuid::new(),
-            name: name.to_string()
+            name: name.to_string(),
         }
     }
 }
