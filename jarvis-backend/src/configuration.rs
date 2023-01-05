@@ -37,7 +37,7 @@ pub struct Configuration {
 impl Configuration {
     pub fn new(conf_path: &str) -> Result<Self, ConfigError> {
         let c = Config::builder()
-            .add_source(File::with_name(&conf_path).required(false))
+            .add_source(File::with_name(conf_path).required(false))
             .add_source(Environment::with_prefix("jarvis"))
             .build()?;
 
