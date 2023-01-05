@@ -362,19 +362,17 @@ mod tests {
     const CONN_URL: &str = "mongodb://localhost:27017";
 
     #[test]
-    fn test_add_orga() {
-        Runtime::new().unwrap().block_on(async {
+    fn test_add_orga_with_success() {
+        runtime().block_on(async {
             // Arrange
-            let config = Database {
-                connection: CONN_URL.to_string(),
-            };
-            let repo = MongoRepo::new(config).await;
+            let repo = mongo_repo().await;
             let orga_name = random_orga();
 
             // Act
-            add_orga(repo.clone(), &orga_name).await;
+            let success = add_orga(repo.clone(), &orga_name).await;
 
             // Assert
+            assert!(success, "Adding orga failed");
             let orga = repo.find_orga_by_name(&orga_name).await.unwrap();
             assert!(orga.is_some());
             let orga = orga.unwrap();
@@ -382,8 +380,109 @@ mod tests {
         });
     }
 
+    #[test]
+    fn test_add_orga_when_orga_with_name_already_exists() {
+        runtime().block_on(async {
+            // Arrange
+            let repo = mongo_repo().await;
+            let orga_name = random_orga();
+
+            // Act & Assert
+            let success = add_orga(repo.clone(), &orga_name).await;
+            assert!(success, "Adding orga failed");
+
+            let success = add_orga(repo.clone(), &orga_name).await;
+            assert!(
+                !success,
+                "Adding an orga with the same name twice should fail"
+            );
+        });
+    }
+
+    #[test]
+    fn test_show_orga_which_exists() {
+        runtime().block_on(async {
+            // Arrange
+            let repo = mongo_repo().await;
+            let orga_name = random_orga();
+            let success = add_orga(repo.clone(), &orga_name).await;
+            assert!(success, "Adding orga failed");
+
+            // Act
+            let success = show_orga(repo, &orga_name).await;
+
+            // Assert
+            assert!(success);
+        });
+    }
+
+    #[test]
+    fn test_show_orga_which_is_missing() {
+        runtime().block_on(async {
+            // Arrange
+            let repo = mongo_repo().await;
+            let orga_name = random_orga();
+
+            // Act
+            let success = show_orga(repo, &orga_name).await;
+
+            // Assert
+            assert!(
+                !success,
+                "Should not be able to show an orga which does not exists"
+            );
+        });
+    }
+
+    #[test]
+    fn test_delete_orga_with_force() {
+        runtime().block_on(async {
+            // Arrange
+            let repo = mongo_repo().await;
+            let first_orga_name = random_orga();
+            let success = add_orga(repo.clone(), &first_orga_name).await;
+            assert!(success, "Adding second orga failed");
+            let second_orga_name = random_orga();
+            let success = add_orga(repo.clone(), &second_orga_name).await;
+            assert!(success, "Adding first orga failed");
+
+            // Act
+            let success = delete_orga(repo.clone(), &second_orga_name, &true).await;
+
+            // Assert
+            assert!(success);
+
+            let is_missing = repo
+                .find_orga_by_name(&second_orga_name)
+                .await
+                .unwrap()
+                .is_none();
+            assert!(is_missing, "Found deleted orga");
+
+            let should_exists = repo
+                .find_orga_by_name(&first_orga_name)
+                .await
+                .unwrap()
+                .is_some();
+            assert!(should_exists, "Orga is missing which should not be deleted");
+        });
+    }
+
+    // Helper
+
     fn random_orga() -> String {
         let uuid = Uuid::new_v4().to_string();
         String::from("an-orga-").add(&uuid)
+    }
+
+    fn runtime() -> Runtime {
+        Runtime::new().unwrap()
+    }
+
+    async fn mongo_repo() -> MongoRepo {
+        let config = Database {
+            connection: CONN_URL.to_string(),
+        };
+        MongoRepo::new(config).await
     }
 }
