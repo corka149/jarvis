@@ -142,8 +142,8 @@ pub fn exec() -> io::Result<()> {
 
 // ===== ===== USER CMD ===== =====
 
-async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> std::io::Result<()> {
-    match user_cmd {
+async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> io::Result<()> {
+    let success = match user_cmd {
         UserCommands::Add {
             organization,
             name,
@@ -153,12 +153,22 @@ async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> std::io::R
         UserCommands::Show { email } => show_user(repo, email).await,
         UserCommands::Passwd { email, password } => passwd_user(repo, email, password).await,
         UserCommands::Delete { email } => delete_user(repo, email).await,
+    };
+
+    if !success {
+        exit(1)
     }
 
     Ok(())
 }
 
-async fn add_user(repo: MongoRepo, organization: &str, name: &str, email: &str, password: &str) {
+async fn add_user(
+    repo: MongoRepo,
+    organization: &str,
+    name: &str,
+    email: &str,
+    password: &str,
+) -> bool {
     if repo
         .find_user_by_email(email)
         .await
@@ -166,7 +176,7 @@ async fn add_user(repo: MongoRepo, organization: &str, name: &str, email: &str, 
         .is_some()
     {
         eprintln!("User with email {} already exists", email);
-        return;
+        return false;
     }
 
     let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect("Could not hash password");
@@ -178,13 +188,14 @@ async fn add_user(repo: MongoRepo, organization: &str, name: &str, email: &str, 
         let user = repo.insert_user(user).await.expect("Could not create user");
 
         println!("Created user with id {}", user.uuid);
+        true
     } else {
         eprintln!("Could find organization with name {}", organization);
-        exit(1);
+        false
     }
 }
 
-async fn show_user(repo: MongoRepo, email: &str) {
+async fn show_user(repo: MongoRepo, email: &str) -> bool {
     if let Some(user) = repo
         .find_user_by_email(email)
         .await
@@ -200,13 +211,14 @@ async fn show_user(repo: MongoRepo, email: &str) {
             .expect("Failed while fetching organization")
             .expect("User without organization");
         println!("{}", orga);
+        true
     } else {
         eprintln!("Could not find user with email {}", email);
-        exit(1);
+        false
     }
 }
 
-async fn passwd_user(repo: MongoRepo, email: &str, password: &str) {
+async fn passwd_user(repo: MongoRepo, email: &str, password: &str) -> bool {
     let msg = "Failed to hash password";
 
     let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect(msg);
@@ -216,39 +228,45 @@ async fn passwd_user(repo: MongoRepo, email: &str, password: &str) {
         .await
         .expect("Failed to update password of user")
     {
-        println!("Updated password of user")
+        println!("Updated password of user");
+        true
     } else {
         eprintln!("No user with email {} exists", email);
-        exit(1);
+        false
     }
 }
 
-async fn delete_user(repo: MongoRepo, email: &str) {
+async fn delete_user(repo: MongoRepo, email: &str) -> bool {
     if repo
         .delete_user(email)
         .await
         .expect("Failed to delete user")
     {
         println!("Deleted user {}", email);
+        true
     } else {
         eprintln!("No user with email {} exists", email);
-        exit(1);
+        false
     }
 }
 
 // ===== ===== ORGA CMD ===== =====
 
 async fn handle_orga_cmd(orga_cmd: &OrgaCommands, repo: MongoRepo) -> io::Result<()> {
-    match orga_cmd {
+    let success = match orga_cmd {
         OrgaCommands::Add { name } => add_orga(repo, name).await,
         OrgaCommands::Show { name } => show_orga(repo, name).await,
         OrgaCommands::Delete { name, force } => delete_orga(repo, name, force).await,
+    };
+
+    if !success {
+        exit(1)
     }
 
     Ok(())
 }
 
-async fn add_orga(repo: MongoRepo, name: &str) {
+async fn add_orga(repo: MongoRepo, name: &str) -> bool {
     if repo
         .find_orga_by_name(name)
         .await
@@ -256,7 +274,7 @@ async fn add_orga(repo: MongoRepo, name: &str) {
         .is_some()
     {
         eprintln!("Organization with name '{}' already exists", name);
-        exit(1);
+        return false;
     }
 
     let organization = Organization::new(name);
@@ -267,22 +285,24 @@ async fn add_orga(repo: MongoRepo, name: &str) {
         .expect("Failed to create organization");
 
     println!("Create organization with id {}", organization.uuid);
+    true
 }
 
-async fn show_orga(repo: MongoRepo, name: &str) {
+async fn show_orga(repo: MongoRepo, name: &str) -> bool {
     let msg = "Failed to fetch orga";
 
     if let Some(orga) = repo.find_orga_by_name(name).await.expect(msg) {
         println!("{}", orga);
+        true
     } else {
         println!("No organization with name {} exists", name);
-        exit(1);
+        false
     }
 }
 
-async fn delete_orga(repo: MongoRepo, name: &str, force: &bool) {
+async fn delete_orga(repo: MongoRepo, name: &str, force: &bool) -> bool {
     if !*force && !confirm("Are you sure? This will also delete all users!") {
-        exit(0);
+        return true;
     }
 
     if let Some(orga) = repo
@@ -303,9 +323,10 @@ async fn delete_orga(repo: MongoRepo, name: &str, force: &bool) {
         .expect("Failed to delete organization")
     {
         println!("Deleted organization {}", name);
+        true
     } else {
         eprintln!("No organization with name {} exists", name);
-        exit(1);
+        false
     }
 }
 
@@ -317,7 +338,7 @@ fn confirm(msg: &str) -> bool {
         let stdin = io::stdin();
         if let Err(err) = stdin.read_line(&mut user_input) {
             eprintln!("{}", err);
-            exit(1);
+            return false;
         }
 
         let user_input = user_input.trim();
