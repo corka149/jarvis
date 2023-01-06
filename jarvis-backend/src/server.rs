@@ -5,16 +5,17 @@ use actix_web::{App, HttpServer};
 use env_logger::Env;
 
 use crate::configuration::Configuration;
+use crate::error::JarvisError;
 use crate::storage::MongoRepo;
 use crate::{api_v1, security};
 
-pub async fn server(config: Configuration) -> std::io::Result<()> {
+pub async fn server(config: Configuration) -> Result<(), JarvisError> {
     let mongo_repo = MongoRepo::new(config.database).await;
     let static_file_dir = config.static_file_dir;
 
     env_logger::init_from_env(Env::default().default_filter_or(config.logging.level));
 
-    HttpServer::new(move || {
+    let result = HttpServer::new(move || {
         App::new()
             .app_data(Data::new(mongo_repo.clone()))
             .service(api_v1::api_v1())
@@ -25,5 +26,7 @@ pub async fn server(config: Configuration) -> std::io::Result<()> {
     })
     .bind(("0.0.0.0", 8080))?
     .run()
-    .await
+    .await;
+
+    result.map_err(JarvisError::from)
 }

@@ -7,6 +7,44 @@ use mongodb::bson::{doc, Document, Uuid};
 use serde::{Deserialize, Serialize};
 
 use crate::dto;
+use crate::error::JarvisError;
+
+#[derive(Serialize, Deserialize)]
+pub struct Email {
+    local: String,
+    domain: String,
+}
+
+impl Email {
+    pub fn from(email_addr: &str) -> Result<Self, JarvisError> {
+        if !validator::validate_email(email_addr) {
+            return Err(JarvisError::new("E-mail address does not full HTML5 spec"));
+        }
+
+        let split: Vec<&str> = email_addr.split('@').collect();
+
+        let local: &str = split.get(0).map_or_else(
+            || Err(JarvisError::new("Invalid e-mail address (no local)")),
+            |val| Ok(*val),
+        )?;
+
+        let domain: &str = split.get(1).map_or_else(
+            || Err(JarvisError::new("Invalid e-mail address (no domain)")),
+            |val| Ok(*val),
+        )?;
+
+        Ok(Self {
+            local: local.to_string(),
+            domain: domain.to_string(),
+        })
+    }
+}
+
+impl Display for Email {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}@{}", self.local, self.local)
+    }
+}
 
 #[derive(Serialize, Deserialize)]
 pub struct Organization {
@@ -37,18 +75,18 @@ pub struct User {
     pub uuid: Uuid,
     pub organization_uuid: Uuid,
     pub name: String,
-    pub email: String,
+    pub email: Email,
     pub password: String,
 }
 
 impl User {
-    pub fn new(organization: Organization, name: &str, email: &str, password: &str) -> Self {
+    pub fn new(organization: Organization, name: &str, email: Email, password: &str) -> Self {
         Self {
             _id: ObjectId::new(),
             uuid: Uuid::new(),
             organization_uuid: organization.uuid,
             name: name.to_string(),
-            email: email.to_string(),
+            email,
             password: password.to_string(),
         }
     }

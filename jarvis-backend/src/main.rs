@@ -1,12 +1,18 @@
+use std::process::exit;
+
 mod api_v1;
 mod cli;
 mod configuration;
 mod dto;
+mod error;
 mod model;
 mod security;
 mod server;
 mod storage;
 
-fn main() -> std::io::Result<()> {
-    cli::exec()
+fn main() {
+    if let Err(err) = cli::exec() {
+        eprintln!("{}", err);
+        exit(1);
+    }
 }
