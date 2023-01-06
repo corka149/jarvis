@@ -15,13 +15,12 @@ cli contains the following commands:
  */
 
 use std::io;
-use std::process::exit;
 
 use actix_web::rt::Runtime;
 use clap::{Parser, Subcommand};
 
 use crate::configuration::Configuration;
-use crate::model::{Organization, User};
+
 use crate::server::server;
 use crate::storage::MongoRepo;
 
@@ -134,217 +133,233 @@ pub fn exec() -> io::Result<()> {
 
         match &cli.command {
             Commands::Server {} => server(config).await,
-            Commands::User { command } => handle_user_cmd(command, repo).await,
-            Commands::Orga { command } => handle_orga_cmd(command, repo).await,
+            Commands::User { command } => user_cmd::handle_user_cmd(command, repo).await,
+            Commands::Orga { command } => orga_cmd::handle_orga_cmd(command, repo).await,
         }
     })
 }
 
 // ===== ===== USER CMD ===== =====
 
-async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> io::Result<()> {
-    let success = match user_cmd {
-        UserCommands::Add {
-            organization,
-            name,
-            email,
-            password,
-        } => add_user(repo, organization, name, email, password).await,
-        UserCommands::Show { email } => show_user(repo, email).await,
-        UserCommands::Passwd { email, password } => passwd_user(repo, email, password).await,
-        UserCommands::Delete { email } => delete_user(repo, email).await,
-    };
+mod user_cmd {
+    use crate::cli::UserCommands;
+    use crate::model::User;
+    use crate::storage::MongoRepo;
+    use std::io;
+    use std::process::exit;
 
-    if !success {
-        exit(1)
+    pub async fn handle_user_cmd(user_cmd: &UserCommands, repo: MongoRepo) -> io::Result<()> {
+        let success = match user_cmd {
+            UserCommands::Add {
+                organization,
+                name,
+                email,
+                password,
+            } => add_user(repo, organization, name, email, password).await,
+            UserCommands::Show { email } => show_user(repo, email).await,
+            UserCommands::Passwd { email, password } => passwd_user(repo, email, password).await,
+            UserCommands::Delete { email } => delete_user(repo, email).await,
+        };
+
+        if !success {
+            exit(1)
+        }
+
+        Ok(())
     }
 
-    Ok(())
-}
-
-async fn add_user(
-    repo: MongoRepo,
-    organization: &str,
-    name: &str,
-    email: &str,
-    password: &str,
-) -> bool {
-    if repo
-        .find_user_by_email(email)
-        .await
-        .expect("Fail to check e-mail address")
-        .is_some()
-    {
-        eprintln!("User with email {} already exists", email);
-        return false;
-    }
-
-    let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect("Could not hash password");
-
-    let msg = format!("Could not find organization with name {}", organization);
-
-    if let Some(orga) = repo.find_orga_by_name(organization).await.expect(&msg) {
-        let user = User::new(orga, name, email, &passwd);
-        let user = repo.insert_user(user).await.expect("Could not create user");
-
-        println!("Created user with id {}", user.uuid);
-        true
-    } else {
-        eprintln!("Could find organization with name {}", organization);
-        false
-    }
-}
-
-async fn show_user(repo: MongoRepo, email: &str) -> bool {
-    if let Some(user) = repo
-        .find_user_by_email(email)
-        .await
-        .expect("Failed to fetch user from database")
-    {
-        println!("{}", user);
-        println!("Which belongs to the following organization");
-
-        // Every user **must** belong to an organization
-        let orga = repo
-            .find_orga_by_uuid(&user.organization_uuid)
+    pub async fn add_user(
+        repo: MongoRepo,
+        organization: &str,
+        name: &str,
+        email: &str,
+        password: &str,
+    ) -> bool {
+        if repo
+            .find_user_by_email(email)
             .await
-            .expect("Failed while fetching organization")
-            .expect("User without organization");
-        println!("{}", orga);
-        true
-    } else {
-        eprintln!("Could not find user with email {}", email);
-        false
+            .expect("Fail to check e-mail address")
+            .is_some()
+        {
+            eprintln!("User with email {} already exists", email);
+            return false;
+        }
+
+        let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect("Could not hash password");
+
+        let msg = format!("Could not find organization with name {}", organization);
+
+        if let Some(orga) = repo.find_orga_by_name(organization).await.expect(&msg) {
+            let user = User::new(orga, name, email, &passwd);
+            let user = repo.insert_user(user).await.expect("Could not create user");
+
+            println!("Created user with id {}", user.uuid);
+            true
+        } else {
+            eprintln!("Could find organization with name {}", organization);
+            false
+        }
     }
-}
 
-async fn passwd_user(repo: MongoRepo, email: &str, password: &str) -> bool {
-    let msg = "Failed to hash password";
+    pub async fn show_user(repo: MongoRepo, email: &str) -> bool {
+        if let Some(user) = repo
+            .find_user_by_email(email)
+            .await
+            .expect("Failed to fetch user from database")
+        {
+            println!("{}", user);
+            println!("Which belongs to the following organization");
 
-    let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect(msg);
-
-    if repo
-        .update_user(email, &passwd)
-        .await
-        .expect("Failed to update password of user")
-    {
-        println!("Updated password of user");
-        true
-    } else {
-        eprintln!("No user with email {} exists", email);
-        false
+            // Every user **must** belong to an organization
+            let orga = repo
+                .find_orga_by_uuid(&user.organization_uuid)
+                .await
+                .expect("Failed while fetching organization")
+                .expect("User without organization");
+            println!("{}", orga);
+            true
+        } else {
+            eprintln!("Could not find user with email {}", email);
+            false
+        }
     }
-}
 
-async fn delete_user(repo: MongoRepo, email: &str) -> bool {
-    if repo
-        .delete_user(email)
-        .await
-        .expect("Failed to delete user")
-    {
-        println!("Deleted user {}", email);
-        true
-    } else {
-        eprintln!("No user with email {} exists", email);
-        false
+    pub async fn passwd_user(repo: MongoRepo, email: &str, password: &str) -> bool {
+        let msg = "Failed to hash password";
+
+        let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect(msg);
+
+        if repo
+            .update_user(email, &passwd)
+            .await
+            .expect("Failed to update password of user")
+        {
+            println!("Updated password of user");
+            true
+        } else {
+            eprintln!("No user with email {} exists", email);
+            false
+        }
+    }
+
+    pub async fn delete_user(repo: MongoRepo, email: &str) -> bool {
+        if repo
+            .delete_user(email)
+            .await
+            .expect("Failed to delete user")
+        {
+            println!("Deleted user {}", email);
+            true
+        } else {
+            eprintln!("No user with email {} exists", email);
+            false
+        }
     }
 }
 
 // ===== ===== ORGA CMD ===== =====
 
-async fn handle_orga_cmd(orga_cmd: &OrgaCommands, repo: MongoRepo) -> io::Result<()> {
-    let success = match orga_cmd {
-        OrgaCommands::Add { name } => add_orga(repo, name).await,
-        OrgaCommands::Show { name } => show_orga(repo, name).await,
-        OrgaCommands::Delete { name, force } => delete_orga(repo, name, force).await,
-    };
+mod orga_cmd {
+    use crate::cli::OrgaCommands;
+    use crate::model::Organization;
+    use crate::storage::MongoRepo;
+    use std::io;
+    use std::process::exit;
 
-    if !success {
-        exit(1)
+    pub async fn handle_orga_cmd(orga_cmd: &OrgaCommands, repo: MongoRepo) -> io::Result<()> {
+        let success = match orga_cmd {
+            OrgaCommands::Add { name } => add_orga(repo, name).await,
+            OrgaCommands::Show { name } => show_orga(repo, name).await,
+            OrgaCommands::Delete { name, force } => delete_orga(repo, name, force).await,
+        };
+
+        if !success {
+            exit(1)
+        }
+
+        Ok(())
     }
 
-    Ok(())
-}
-
-async fn add_orga(repo: MongoRepo, name: &str) -> bool {
-    if repo
-        .find_orga_by_name(name)
-        .await
-        .expect("Failed to check organization name")
-        .is_some()
-    {
-        eprintln!("Organization with name '{}' already exists", name);
-        return false;
-    }
-
-    let organization = Organization::new(name);
-
-    let organization = repo
-        .insert_orga(organization)
-        .await
-        .expect("Failed to create organization");
-
-    println!("Create organization with id {}", organization.uuid);
-    true
-}
-
-async fn show_orga(repo: MongoRepo, name: &str) -> bool {
-    let msg = "Failed to fetch orga";
-
-    if let Some(orga) = repo.find_orga_by_name(name).await.expect(msg) {
-        println!("{}", orga);
-        true
-    } else {
-        println!("No organization with name {} exists", name);
-        false
-    }
-}
-
-async fn delete_orga(repo: MongoRepo, name: &str, force: &bool) -> bool {
-    if !*force && !confirm("Are you sure? This will also delete all users!") {
-        return true;
-    }
-
-    if let Some(orga) = repo
-        .find_orga_by_name(name)
-        .await
-        .expect("Failed to fetch organization")
-    {
-        let deleted = repo
-            .delete_users_by_orga(orga)
+    pub async fn add_orga(repo: MongoRepo, name: &str) -> bool {
+        if repo
+            .find_orga_by_name(name)
             .await
-            .expect("Failed to delete user/s");
-        println!("Deleted {} users", deleted);
-    }
-
-    if repo
-        .delete_orga(name)
-        .await
-        .expect("Failed to delete organization")
-    {
-        println!("Deleted organization {}", name);
-        true
-    } else {
-        eprintln!("No organization with name {} exists", name);
-        false
-    }
-}
-
-fn confirm(msg: &str) -> bool {
-    println!("{} - yes or no?", msg);
-
-    loop {
-        let mut user_input = String::new();
-        let stdin = io::stdin();
-        if let Err(err) = stdin.read_line(&mut user_input) {
-            eprintln!("{}", err);
+            .expect("Failed to check organization name")
+            .is_some()
+        {
+            eprintln!("Organization with name '{}' already exists", name);
             return false;
         }
 
-        let user_input = user_input.trim();
+        let organization = Organization::new(name);
 
-        if user_input == "yes" || user_input == "no" {
-            return user_input == "yes";
+        let organization = repo
+            .insert_orga(organization)
+            .await
+            .expect("Failed to create organization");
+
+        println!("Create organization with id {}", organization.uuid);
+        true
+    }
+
+    pub async fn show_orga(repo: MongoRepo, name: &str) -> bool {
+        let msg = "Failed to fetch orga";
+
+        if let Some(orga) = repo.find_orga_by_name(name).await.expect(msg) {
+            println!("{}", orga);
+            true
+        } else {
+            println!("No organization with name {} exists", name);
+            false
+        }
+    }
+
+    pub async fn delete_orga(repo: MongoRepo, name: &str, force: &bool) -> bool {
+        if !*force && !confirm("Are you sure? This will also delete all users!") {
+            return true;
+        }
+
+        if let Some(orga) = repo
+            .find_orga_by_name(name)
+            .await
+            .expect("Failed to fetch organization")
+        {
+            let deleted = repo
+                .delete_users_by_orga(orga)
+                .await
+                .expect("Failed to delete user/s");
+            println!("Deleted {} users", deleted);
+        }
+
+        if repo
+            .delete_orga(name)
+            .await
+            .expect("Failed to delete organization")
+        {
+            println!("Deleted organization {}", name);
+            true
+        } else {
+            eprintln!("No organization with name {} exists", name);
+            false
+        }
+    }
+
+    fn confirm(msg: &str) -> bool {
+        println!("{} - yes or no?", msg);
+
+        loop {
+            let mut user_input = String::new();
+            let stdin = io::stdin();
+            if let Err(err) = stdin.read_line(&mut user_input) {
+                eprintln!("{}", err);
+                return false;
+            }
+
+            let user_input = user_input.trim();
+
+            if user_input == "yes" || user_input == "no" {
+                return user_input == "yes";
+            }
         }
     }
 }
@@ -368,7 +383,7 @@ mod tests {
             let orga_name = random_orga();
 
             // Act
-            let success = add_orga(repo.clone(), &orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &orga_name).await;
 
             // Assert
             assert!(success, "Adding orga failed");
@@ -387,10 +402,10 @@ mod tests {
             let orga_name = random_orga();
 
             // Act & Assert
-            let success = add_orga(repo.clone(), &orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &orga_name).await;
             assert!(success, "Adding orga failed");
 
-            let success = add_orga(repo.clone(), &orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &orga_name).await;
             assert!(
                 !success,
                 "Adding an orga with the same name twice should fail"
@@ -404,11 +419,11 @@ mod tests {
             // Arrange
             let repo = mongo_repo().await;
             let orga_name = random_orga();
-            let success = add_orga(repo.clone(), &orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &orga_name).await;
             assert!(success, "Adding orga failed");
 
             // Act
-            let success = show_orga(repo, &orga_name).await;
+            let success = orga_cmd::show_orga(repo, &orga_name).await;
 
             // Assert
             assert!(success);
@@ -423,7 +438,7 @@ mod tests {
             let orga_name = random_orga();
 
             // Act
-            let success = show_orga(repo, &orga_name).await;
+            let success = orga_cmd::show_orga(repo, &orga_name).await;
 
             // Assert
             assert!(
@@ -439,14 +454,14 @@ mod tests {
             // Arrange
             let repo = mongo_repo().await;
             let first_orga_name = random_orga();
-            let success = add_orga(repo.clone(), &first_orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &first_orga_name).await;
             assert!(success, "Adding second orga failed");
             let second_orga_name = random_orga();
-            let success = add_orga(repo.clone(), &second_orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &second_orga_name).await;
             assert!(success, "Adding first orga failed");
 
             // Act
-            let success = delete_orga(repo.clone(), &second_orga_name, &true).await;
+            let success = orga_cmd::delete_orga(repo.clone(), &second_orga_name, &true).await;
 
             // Assert
             assert!(success);
@@ -474,11 +489,12 @@ mod tests {
             let repo = mongo_repo().await;
             let orga_name = random_orga();
             let email = random_email();
-            let success = add_orga(repo.clone(), &orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &orga_name).await;
             assert!(success, "Adding orga failed");
 
             // Act
-            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+            let success =
+                user_cmd::add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
 
             // Assert
             assert!(success, "Failed to create new user");
@@ -506,13 +522,15 @@ mod tests {
             let repo = mongo_repo().await;
             let orga_name = random_orga();
             let email = random_email();
-            let success = add_orga(repo.clone(), &orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &orga_name).await;
             assert!(success, "Adding orga failed");
-            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+            let success =
+                user_cmd::add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
             assert!(success, "Failed to create new user");
 
             // Act
-            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+            let success =
+                user_cmd::add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
 
             // Assert
             assert!(
@@ -529,13 +547,14 @@ mod tests {
             let repo = mongo_repo().await;
             let orga_name = random_orga();
             let email = random_email();
-            let success = add_orga(repo.clone(), &orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &orga_name).await;
             assert!(success, "Adding orga failed");
-            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+            let success =
+                user_cmd::add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
             assert!(success, "Failed to create new user");
 
             // Act
-            let success = delete_user(repo.clone(), &email).await;
+            let success = user_cmd::delete_user(repo.clone(), &email).await;
 
             // Assert
             assert!(success, "Failed to delete user");
@@ -555,13 +574,14 @@ mod tests {
             let repo = mongo_repo().await;
             let orga_name = random_orga();
             let email = random_email();
-            let success = add_orga(repo.clone(), &orga_name).await;
+            let success = orga_cmd::add_orga(repo.clone(), &orga_name).await;
             assert!(success, "Adding orga failed");
-            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+            let success =
+                user_cmd::add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
             assert!(success, "Failed to create new user");
 
             // Act
-            let success = show_user(repo, &email).await;
+            let success = user_cmd::show_user(repo, &email).await;
 
             // Assert
             assert!(success, "Failed to show user");
@@ -576,7 +596,7 @@ mod tests {
             let email = random_email();
 
             // Act
-            let success = delete_user(repo, &email).await;
+            let success = user_cmd::delete_user(repo, &email).await;
 
             // Assert
             assert!(
