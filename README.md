@@ -2,7 +2,8 @@
 
 > Portal for managing household (like housekeeping book).
 
-![Elixir CI](https://github.com/corka149/jarvis/workflows/Elixir%20CI/badge.svg)
+[![jARVIS Backend](https://github.com/corka149/jarvis/actions/workflows/rust.yml/badge.svg)](https://github.com/corka149/jarvis/actions/workflows/rust.yml)
+[![jARVIS Frontend](https://github.com/corka149/jarvis/actions/workflows/fe.yaml/badge.svg)](https://github.com/corka149/jarvis/actions/workflows/fe.yaml)
 
 ## Getting jARVIS
 
