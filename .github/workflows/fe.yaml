@@ -1,5 +1,7 @@
-name: CI Angular app through Github Actions
+name: jARVIS Frontend
+
 on: push
+
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -351,6 +351,7 @@ fn confirm(msg: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use std::env;
     use std::ops::Add;
 
     use uuid::Uuid;
@@ -358,8 +359,6 @@ mod tests {
     use crate::configuration::Database;
 
     use super::*;
-
-    const CONN_URL: &str = "mongodb://localhost:27017";
 
     #[test]
     fn test_add_orga_with_success() {
@@ -470,6 +469,13 @@ mod tests {
 
     // Helper
 
+    fn mongo_url() -> String {
+        let mongo_host = env::var("MONGODB_HOST").unwrap_or_else(|_| "localhost".to_string());
+        let mongo_port = env::var("MONGODB_PORT").unwrap_or_else(|_| "27017".to_string());
+
+        format!("mongodb://{}:{}", mongo_host, mongo_port)
+    }
+
     fn random_orga() -> String {
         let uuid = Uuid::new_v4().to_string();
         String::from("an-orga-").add(&uuid)
@@ -481,7 +487,7 @@ mod tests {
 
     async fn mongo_repo() -> MongoRepo {
         let config = Database {
-            connection: CONN_URL.to_string(),
+            connection: mongo_url(),
         };
         MongoRepo::new(config).await
     }
