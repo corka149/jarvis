@@ -372,6 +372,7 @@ mod tests {
     use uuid::Uuid;
 
     use crate::configuration::Database;
+    use crate::model::Email;
 
     use super::*;
 
@@ -513,7 +514,7 @@ mod tests {
             assert!(user.is_some(), "No user in database");
 
             let user = user.unwrap();
-            assert_eq!(user.email, email);
+            assert_eq!(user.email, Email::from(email).unwrap());
             assert_eq!(user.name, "Alice");
             assert!(
                 !user.password.trim().is_empty(),

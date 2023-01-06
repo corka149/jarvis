@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use crate::dto;
 use crate::error::JarvisError;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Email {
     local: String,
     domain: String,
@@ -18,18 +18,28 @@ pub struct Email {
 impl Email {
     pub fn from(email_addr: &str) -> Result<Self, JarvisError> {
         if !validator::validate_email(email_addr) {
-            return Err(JarvisError::new("E-mail address does not full HTML5 spec"));
+            return Err(JarvisError::new(
+                "E-mail address does not full HTML5 spec".to_string(),
+            ));
         }
 
         let split: Vec<&str> = email_addr.split('@').collect();
 
-        let local: &str = split.get(0).map_or_else(
-            || Err(JarvisError::new("Invalid e-mail address (no local)")),
+        let local: &str = split.first().map_or_else(
+            || {
+                Err(JarvisError::new(
+                    "Invalid e-mail address (no local)".to_string(),
+                ))
+            },
             |val| Ok(*val),
         )?;
 
         let domain: &str = split.get(1).map_or_else(
-            || Err(JarvisError::new("Invalid e-mail address (no domain)")),
+            || {
+                Err(JarvisError::new(
+                    "Invalid e-mail address (no domain)".to_string(),
+                ))
+            },
             |val| Ok(*val),
         )?;
 
