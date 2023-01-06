@@ -24,7 +24,6 @@ docker pull corka149/jarvis
  5. Version: Tech stack switch to
     1. Rust for backend
     2. Angular with TypeScript for frontend
-    3. Go for management cli
 
 ## Getting started
 

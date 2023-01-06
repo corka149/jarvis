@@ -467,6 +467,125 @@ mod tests {
         });
     }
 
+    #[test]
+    fn test_add_user_with_success() {
+        runtime().block_on(async {
+            // Arrange
+            let repo = mongo_repo().await;
+            let orga_name = random_orga();
+            let email = random_email();
+            let success = add_orga(repo.clone(), &orga_name).await;
+            assert!(success, "Adding orga failed");
+
+            // Act
+            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+
+            // Assert
+            assert!(success, "Failed to create new user");
+
+            let user = repo
+                .find_user_by_email(&email)
+                .await
+                .expect("Failed to fetch user");
+            assert!(user.is_some(), "No user in database");
+
+            let user = user.unwrap();
+            assert_eq!(user.email, email);
+            assert_eq!(user.name, "Alice");
+            assert!(
+                !user.password.trim().is_empty(),
+                "Password should not be empty"
+            );
+        });
+    }
+
+    #[test]
+    fn test_add_user_when_already_exists() {
+        runtime().block_on(async {
+            // Arrange
+            let repo = mongo_repo().await;
+            let orga_name = random_orga();
+            let email = random_email();
+            let success = add_orga(repo.clone(), &orga_name).await;
+            assert!(success, "Adding orga failed");
+            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+            assert!(success, "Failed to create new user");
+
+            // Act
+            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+
+            // Assert
+            assert!(
+                !success,
+                "Should not be able to create an user with same email again"
+            );
+        });
+    }
+
+    #[test]
+    fn test_delete_user() {
+        runtime().block_on(async {
+            // Arrange
+            let repo = mongo_repo().await;
+            let orga_name = random_orga();
+            let email = random_email();
+            let success = add_orga(repo.clone(), &orga_name).await;
+            assert!(success, "Adding orga failed");
+            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+            assert!(success, "Failed to create new user");
+
+            // Act
+            let success = delete_user(repo.clone(), &email).await;
+
+            // Assert
+            assert!(success, "Failed to delete user");
+
+            let user = repo
+                .find_user_by_email(&email)
+                .await
+                .expect("Failed to fetch from DB");
+            assert!(user.is_none(), "Found user which should be deleted");
+        });
+    }
+
+    #[test]
+    fn test_show_user() {
+        runtime().block_on(async {
+            // Arrange
+            let repo = mongo_repo().await;
+            let orga_name = random_orga();
+            let email = random_email();
+            let success = add_orga(repo.clone(), &orga_name).await;
+            assert!(success, "Adding orga failed");
+            let success = add_user(repo.clone(), &orga_name, "Alice", &email, "passwd").await;
+            assert!(success, "Failed to create new user");
+
+            // Act
+            let success = show_user(repo, &email).await;
+
+            // Assert
+            assert!(success, "Failed to show user");
+        });
+    }
+
+    #[test]
+    fn test_show_user_when_user_does_not_exists() {
+        runtime().block_on(async {
+            // Arrange
+            let repo = mongo_repo().await;
+            let email = random_email();
+
+            // Act
+            let success = delete_user(repo, &email).await;
+
+            // Assert
+            assert!(
+                !success,
+                "Should not be able to show an user which does not exists"
+            );
+        });
+    }
+
     // Helper
 
     fn mongo_url() -> String {
@@ -479,6 +598,11 @@ mod tests {
     fn random_orga() -> String {
         let uuid = Uuid::new_v4().to_string();
         String::from("an-orga-").add(&uuid)
+    }
+
+    fn random_email() -> String {
+        let uuid = Uuid::new_v4().to_string();
+        format!("{}@example.xyz", uuid)
     }
 
     fn runtime() -> Runtime {
