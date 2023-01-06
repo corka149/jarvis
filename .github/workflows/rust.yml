@@ -12,7 +12,8 @@ jobs:
     services:
       mongodb:
         image: mongo
-
+        ports:
+          - 27017:27017
     steps:
       - uses: actions/cache@v3
         with:
@@ -36,7 +37,7 @@ jobs:
           # use localhost for the host here because we are running the job on the VM.
           # If we were running the job on in a container this would be mongodb
           MONGODB_HOST: localhost
-          MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
+          MONGODB_PORT: 27017
       - name: Run linter
         run: |
           cd jarvis-backend
