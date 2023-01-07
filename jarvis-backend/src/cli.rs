@@ -14,8 +14,6 @@ cli contains the following commands:
 
  */
 
-use std::io;
-
 use actix_web::rt::Runtime;
 use clap::{Parser, Subcommand};
 
@@ -172,8 +170,10 @@ mod user_cmd {
         email: &str,
         password: &str,
     ) -> Result<(), JarvisError> {
+        let email = Email::from(email)?;
+
         if repo
-            .find_user_by_email(email)
+            .find_user_by_email(&email)
             .await
             .expect("Fail to check e-mail address")
             .is_some()
@@ -185,8 +185,6 @@ mod user_cmd {
         let passwd = bcrypt::hash(password, bcrypt::DEFAULT_COST).expect("Could not hash password");
 
         let msg = format!("Could not find organization with name {}", organization);
-
-        let email = Email::from(email)?;
 
         if let Some(orga) = repo.find_orga_by_name(organization).await.expect(&msg) {
             let user = User::new(orga, name, email, &passwd);
@@ -201,8 +199,10 @@ mod user_cmd {
     }
 
     pub async fn show_user(repo: MongoRepo, email: &str) -> Result<(), JarvisError> {
+        let email = Email::from(email)?;
+
         if let Some(user) = repo
-            .find_user_by_email(email)
+            .find_user_by_email(&email)
             .await
             .expect("Failed to fetch user from database")
         {
@@ -246,8 +246,10 @@ mod user_cmd {
     }
 
     pub async fn delete_user(repo: MongoRepo, email: &str) -> Result<(), JarvisError> {
+        let email = Email::from(email)?;
+
         if repo
-            .delete_user(email)
+            .delete_user(&email)
             .await
             .expect("Failed to delete user")
         {
@@ -507,14 +509,16 @@ mod tests {
             // Assert
             assert!(success, "Failed to create new user");
 
+            let expected_email = Email::from(&email).unwrap();
+
             let user = repo
-                .find_user_by_email(&email)
+                .find_user_by_email(&expected_email)
                 .await
                 .expect("Failed to fetch user");
             assert!(user.is_some(), "No user in database");
 
             let user = user.unwrap();
-            assert_eq!(user.email, Email::from(email).unwrap());
+            assert_eq!(user.email, expected_email);
             assert_eq!(user.name, "Alice");
             assert!(
                 !user.password.trim().is_empty(),
@@ -569,6 +573,8 @@ mod tests {
 
             // Assert
             assert!(success, "Failed to delete user");
+
+            let email = Email::from(&email).unwrap();
 
             let user = repo
                 .find_user_by_email(&email)

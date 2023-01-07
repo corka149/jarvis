@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use crate::dto;
 use crate::error::JarvisError;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Email {
     local: String,
     domain: String,
@@ -48,11 +48,24 @@ impl Email {
             domain: domain.to_string(),
         })
     }
+
+    pub fn as_doc(&self) -> Document {
+        doc! {
+            "local": self.local.to_string(),
+            "domain": self.domain.to_string()
+        }
+    }
 }
 
 impl Display for Email {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}@{}", self.local, self.local)
+    }
+}
+
+impl PartialEq<Self> for Email {
+    fn eq(&self, other: &Self) -> bool {
+        self.local == other.local && self.domain == other.domain
     }
 }
 

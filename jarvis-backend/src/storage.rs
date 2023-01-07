@@ -7,7 +7,7 @@ use mongodb::options::{
 use mongodb::{bson::doc, error, options::ClientOptions, results, Client, Collection};
 
 use crate::configuration;
-use crate::model::{List, Organization, User};
+use crate::model::{Email, List, Organization, User};
 use crate::security::UserData;
 
 pub struct MongoRepo {
@@ -136,10 +136,10 @@ impl MongoRepo {
 
     // ===== ===== USER ===== =====
 
-    pub async fn find_user_by_email(&self, email: &str) -> Result<Option<User>, error::Error> {
+    pub async fn find_user_by_email(&self, email: &Email) -> Result<Option<User>, error::Error> {
         let coll = self.user_coll();
 
-        let filter = doc! {"email": email};
+        let filter = doc! {"email": email.as_doc()};
         let find_options = FindOneOptions::default();
 
         coll.find_one(filter, find_options).await
@@ -151,10 +151,10 @@ impl MongoRepo {
         Ok(user)
     }
 
-    pub async fn delete_user(&self, email: &str) -> Result<bool, error::Error> {
+    pub async fn delete_user(&self, email: &Email) -> Result<bool, error::Error> {
         let coll = self.user_coll();
 
-        let filter = doc! {"email": email};
+        let filter = doc! {"email": email.as_doc()};
         let delete_options = DeleteOptions::default();
 
         coll.delete_one(filter, delete_options)

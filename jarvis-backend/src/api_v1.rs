@@ -6,6 +6,8 @@ use mongodb::bson::oid::ObjectId;
 use serde::{Deserialize, Serialize};
 
 use crate::dto;
+
+use crate::model::Email;
 use crate::security::{AuthTransformer, UserData};
 use crate::storage::MongoRepo;
 
@@ -36,7 +38,14 @@ async fn login(
     session: Session,
     repo: web::Data<MongoRepo>,
 ) -> impl Responder {
-    let user = match repo.find_user_by_email(&login_data.email).await {
+    let email = Email::from(&login_data.email);
+
+    let email = match email {
+        Ok(email) => email,
+        Err(err) => return HttpResponse::BadRequest().body(err.to_string()),
+    };
+
+    let user = match repo.find_user_by_email(&email).await {
         Ok(Some(user)) => user,
         Ok(None) => return HttpResponse::Unauthorized().finish(),
         Err(err) => {
