@@ -61,7 +61,7 @@ export class ListDetailsComponent implements OnInit {
       products.push(
         this.fb.group({
           name: '',
-          amount: 0,
+          amount: undefined,
         })
       );
     }
