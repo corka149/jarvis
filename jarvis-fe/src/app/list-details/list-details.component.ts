@@ -47,7 +47,7 @@ export class ListDetailsComponent implements OnInit {
   }
 
   deleteList() {
-    if (!!this.listId) {
+    if (!!this.listId && confirm('Soll die Liste entgültig gelöscht werden?')) {
       this.listService
         .deleteList(this.listId)
         .subscribe((_success) => this.location.back());
@@ -68,7 +68,10 @@ export class ListDetailsComponent implements OnInit {
   }
 
   removeProduct(i: number) {
-    if (!!this.listForm) {
+    if (
+      !!this.listForm &&
+      confirm('Soll der Gegenstand von der Liste entfernt werden?')
+    ) {
       const products = this.listForm.get('products') as FormArray;
       products.removeAt(i);
     }
