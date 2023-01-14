@@ -10,17 +10,29 @@
     <mat-toolbar>Menü</mat-toolbar>
     <!-- LOGGED IN -->
     <mat-nav-list *ngIf="authService.isLoggedIn">
-      <a mat-list-item routerLink="/lists">Offene Listen</a>
-      <a mat-list-item routerLink="/lists" [queryParams]="{ showClosed: true }"
+      <a mat-list-item routerLink="/lists" (click)="drawer.toggle()"
+        >Offene Listen</a
+      >
+      <a
+        mat-list-item
+        routerLink="/lists"
+        (click)="drawer.toggle()"
+        [queryParams]="{ showClosed: true }"
         >Alle Listen</a
       >
-      <a mat-list-item routerLink="/lists/details/new">Neue Liste</a>
+      <a mat-list-item routerLink="/lists/details/new" (click)="drawer.toggle()"
+        >Neue Liste</a
+      >
       <mat-divider></mat-divider>
-      <button mat-list-item type="button" (click)="logOut()">Abmelden</button>
+      <button mat-list-item type="button" (click)="logOut(); drawer.toggle()">
+        Abmelden
+      </button>
     </mat-nav-list>
     <!-- NO LOG IN -->
     <mat-nav-list *ngIf="!authService.isLoggedIn">
-      <a mat-list-item routerLink="/login">Anmelden</a>
+      <a mat-list-item routerLink="/login" (click)="drawer.toggle()"
+        >Anmelden</a
+      >
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
