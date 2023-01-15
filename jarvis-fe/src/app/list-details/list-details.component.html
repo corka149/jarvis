@@ -32,7 +32,12 @@
           <!-- PRODUCT NAME -->
           <mat-form-field style="width: 60%; padding-right: 1%">
             <mat-label *ngIf="i === 0">Gegenstand</mat-label>
-            <input matInput placeholder="" formControlName="name" />
+            <input
+              matInput
+              placeholder=""
+              formControlName="name"
+              style="font-size: 0.8rem"
+            />
           </mat-form-field>
 
           <!-- PRODUCT AMOUNT -->
@@ -43,6 +48,7 @@
               placeholder=""
               formControlName="amount"
               type="number"
+              style="font-size: 0.8rem"
             />
           </mat-form-field>
 
@@ -50,9 +56,15 @@
             (click)="removeProduct(i)"
             mat-icon-button
             style="float: right; margin-top: 10px"
+            *ngIf="!readonly"
           >
             <mat-icon>delete</mat-icon>
           </button>
+
+          <mat-checkbox
+            style="float: right; margin-top: 10px"
+            *ngIf="readonly"
+          ></mat-checkbox>
         </div>
       </div>
     </div>
