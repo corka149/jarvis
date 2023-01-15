@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { catchError, of } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { Credentials } from '../models/credentials';
 
@@ -33,6 +34,13 @@ export class LogInComponent implements OnInit {
       const creds: Credentials = this.loginForm.value;
       this.authService
         .logIn(creds.username, creds.password)
+        .pipe(
+          catchError(err => {
+            this.error = 'Anmeldung fehlgeschlagen';
+            console.log(err);
+            return of(false);
+          })
+        )
         .subscribe((success) => {
           if (success) {
             this.router.navigate(['/welcome']);
