@@ -59,7 +59,7 @@ impl Email {
 
 impl Display for Email {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}@{}", self.local, self.local)
+        write!(f, "{}@{}", self.local, self.domain)
     }
 }
 
