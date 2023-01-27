@@ -56,14 +56,14 @@
             (click)="removeProduct(i)"
             mat-icon-button
             style="float: right; margin-top: 10px"
-            *ngIf="!readonly"
+            *ngIf="!listForm?.disabled"
           >
             <mat-icon>delete</mat-icon>
           </button>
 
           <mat-checkbox
             style="float: right; margin-top: 10px"
-            *ngIf="readonly"
+            *ngIf="listForm?.disabled"
           ></mat-checkbox>
         </div>
       </div>
