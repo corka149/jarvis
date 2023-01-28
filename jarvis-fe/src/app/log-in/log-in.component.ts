@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { Credentials } from '../models/credentials';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-log-in',
@@ -17,7 +18,8 @@ export class LogInComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +37,7 @@ export class LogInComponent implements OnInit {
       this.authService
         .logIn(creds.username, creds.password)
         .pipe(
-          catchError(err => {
+          catchError((err) => {
             this.error = 'Anmeldung fehlgeschlagen';
             console.log(err);
             return of(false);
@@ -43,6 +45,9 @@ export class LogInComponent implements OnInit {
         )
         .subscribe((success) => {
           if (success) {
+            this.snackBar.open('Anmeldung erfolgreich', '❌', {
+              duration: 3 * 1000,
+            });
             this.router.navigate(['/welcome']);
           } else {
             this.error = 'Anmeldung fehlgeschlagen';

@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,12 +24,16 @@ export class AppComponent {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private router: Router,
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    private matSnackBar: MatSnackBar
   ) {}
 
   logOut() {
     this.authService.logOut();
     this.router.navigate(['welcome']);
+    this.matSnackBar.open('Bye bye', '❌', {
+      duration: 3 * 1000,
+    });
   }
 
   toggleDrawer(drawer: MatSidenav) {

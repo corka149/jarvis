@@ -7,6 +7,7 @@ import { Product } from '../models/product';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-details',
@@ -27,7 +28,8 @@ export class ListDetailsComponent implements OnInit {
     private listService: ListService,
     private fb: FormBuilder,
     private _adapter: DateAdapter<any>,
-    private router: Router
+    private router: Router,
+    private matSnackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -85,6 +87,10 @@ export class ListDetailsComponent implements OnInit {
       list.no = this.selectList?.no;
 
       this.listService.saveList(list).subscribe((_list) => {
+        this.matSnackBar.open('Erfolgreich gespeichert', '❌', {
+          duration: 3 * 1000,
+        });
+
         if (!!this.listId) {
           this.location.back();
         } else {
