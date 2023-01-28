@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { AuthenticationService } from './authentication.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+const matSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -11,6 +14,7 @@ describe('AppComponent', () => {
           provide: AuthenticationService,
           useValue: {},
         },
+        { provide: MatSnackBar, useValue: matSnackBar },
       ],
     }).compileComponents();
   });

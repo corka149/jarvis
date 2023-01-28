@@ -8,6 +8,9 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ListService } from '../list.service';
 
 import { ListDetailsComponent } from './list-details.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+const matSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
 
 describe('ListDetailsComponent', () => {
   let component: ListDetailsComponent;
@@ -31,6 +34,7 @@ describe('ListDetailsComponent', () => {
           provide: ListService,
           useValue: {},
         },
+        { provide: MatSnackBar, useValue: matSnackBar },
       ],
     }).compileComponents();
 
