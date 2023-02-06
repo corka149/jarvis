@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from './authentication.service';
 
 import { ErrorHandlerService } from './error-handler.service';
+
+const matSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
 
 describe('ErrorHandlerService', () => {
   let service: ErrorHandlerService;
@@ -13,6 +16,7 @@ describe('ErrorHandlerService', () => {
           provide: AuthenticationService,
           useValue: {},
         },
+        { provide: MatSnackBar, useValue: matSnackBar },
       ],
     });
     service = TestBed.inject(ErrorHandlerService);
