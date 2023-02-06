@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
@@ -9,7 +10,8 @@ import { AuthenticationService } from './authentication.service';
 export class ErrorHandlerService {
   constructor(
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private matSnackBar: MatSnackBar
   ) {}
 
   public handleError<T>(
@@ -25,6 +27,17 @@ export class ErrorHandlerService {
       ) {
         self.authService.logOut();
         self.router.navigate(['/login']);
+      }
+
+      const status = error.status ? error.status : 'Error';
+      const errMsg = error.error ? error.error : 'Something went wrong';
+      const msg = `${status}: ${errMsg}`;
+
+      console.log(msg);
+      self.matSnackBar.open(msg, '❌');
+
+      if (!elseReturn) {
+        throw error;
       }
 
       return of(elseReturn);
