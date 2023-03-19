@@ -8,6 +8,7 @@ mod error;
 mod model;
 mod security;
 mod server;
+mod service;
 mod storage;
 
 fn main() {
