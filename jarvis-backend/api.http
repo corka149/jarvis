@@ -42,7 +42,7 @@ Content-Type: application/json
 }
 
 ### DELETE
-DELETE http://localhost:8080/v1/lists/6334a2ef4740b23e3ed6cb71
+DELETE http://localhost:8080/v1/lists/6418be4a0af144d1eb5bbbd5
 
 ### UPDATE
 PUT http://localhost:8080/v1/lists/63505ceeb7dac520fafd9ad9

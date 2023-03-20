@@ -89,7 +89,8 @@ pub async fn create_list(
     repo: &MongoRepo,
     user_data: UserData,
 ) -> Result<dto::List, JarvisError> {
-    let model: List = list.into();
+    let mut model: List = list.into();
+    model.deleted = Some(false);
 
     match repo.insert_list(model, user_data).await {
         Ok(list) => {

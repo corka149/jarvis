@@ -29,6 +29,7 @@ pub struct List {
     pub(crate) occurs_at: DateTime<chrono::Utc>,
     pub(crate) done: bool,
     pub(crate) products: Option<Vec<Product>>,
+    pub(crate) deleted: Option<bool>,
 }
 
 impl From<model::List> for List {
@@ -54,6 +55,7 @@ impl From<model::List> for List {
             occurs_at: model.occurs_at,
             done: model.done,
             products: Some(products),
+            deleted: model.deleted,
         }
     }
 }

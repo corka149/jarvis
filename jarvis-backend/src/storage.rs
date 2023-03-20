@@ -107,13 +107,17 @@ impl MongoRepo {
         &self,
         id: ObjectId,
         user_data: UserData,
-    ) -> error::Result<results::DeleteResult> {
+    ) -> error::Result<results::UpdateResult> {
         let coll: Collection<List> = self.list_coll();
 
         let filter = doc! { "_id": id, "organization_uuid": user_data.organization_uuid };
-        let delete_options = DeleteOptions::default();
+        let update_options = UpdateOptions::default();
 
-        coll.delete_one(filter, delete_options).await
+        let update = doc! {
+            "$set": doc! {"deleted": true}
+        };
+
+        coll.update_one(filter, update, update_options).await
     }
 
     pub async fn update_list(
