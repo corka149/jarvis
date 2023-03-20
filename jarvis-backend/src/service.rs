@@ -25,12 +25,12 @@ pub enum JarvisError {
 // ===== AUTH =====
 
 #[derive(Serialize, Deserialize)]
-struct LoginData {
+pub struct LoginData {
     email: String,
     password: String,
 }
 
-async fn login(login_data: LoginData, repo: MongoRepo) -> Result<UserData, JarvisError> {
+pub async fn login(login_data: LoginData, repo: &MongoRepo) -> Result<UserData, JarvisError> {
     let email = Email::from(&login_data.email);
 
     let email = match email {
@@ -40,19 +40,19 @@ async fn login(login_data: LoginData, repo: MongoRepo) -> Result<UserData, Jarvi
 
     let user = match repo.find_user_by_email(&email).await {
         Ok(Some(user)) => user,
-        Ok(None) => return Err(JarvisError::Unauthorized()),
+        Ok(None) => return Err(JarvisError::Unauthorized),
         Err(err) => {
             log::error!("Error while fetching user by email: {:?}", err);
-            return Err(JarvisError::ServerFailed());
+            return Err(JarvisError::ServerFailed);
         }
     };
 
     match bcrypt::verify(&login_data.password, &user.password) {
         Ok(true) => {}
-        Ok(false) => return Err(JarvisError::Unauthorized()),
+        Ok(false) => return Err(JarvisError::Unauthorized),
         Err(err) => {
             log::error!("Error while verifying password: {:?}", err);
-            return Err(JarvisError::ServerFailed());
+            return Err(JarvisError::ServerFailed);
         }
     };
 
@@ -61,18 +61,11 @@ async fn login(login_data: LoginData, repo: MongoRepo) -> Result<UserData, Jarvi
 
 // ===== LIST =====
 
-#[derive(Debug, Deserialize)]
-struct GetListsQuery {
-    show_closed: Option<bool>,
-}
-
-async fn get_lists(
-    repo: MongoRepo,
-    query: GetListsQuery,
+pub async fn get_lists(
+    repo: &MongoRepo,
+    show_closed: bool,
     user_data: UserData,
 ) -> Result<Vec<dto::List>, JarvisError> {
-    let show_closed = query.show_closed.unwrap_or(false);
-
     match repo.find_all_lists(user_data, show_closed).await {
         Ok(lists) => {
             let mut dtos: Vec<dto::List> = Vec::new();
@@ -86,14 +79,14 @@ async fn get_lists(
         }
         Err(err) => {
             log::error!("Could not get lists: {:?}", err);
-            Err(JarvisError::ServerFailed())
+            Err(JarvisError::ServerFailed)
         }
     }
 }
 
-async fn create_list(
+pub async fn create_list(
     list: dto::List,
-    repo: MongoRepo,
+    repo: &MongoRepo,
     user_data: UserData,
 ) -> Result<dto::List, JarvisError> {
     let model: List = list.into();
@@ -105,14 +98,14 @@ async fn create_list(
         }
         Err(err) => {
             log::error!("Creating list failed: {:?}", err);
-            Err(JarvisError::ServerFailed())
+            Err(JarvisError::ServerFailed)
         }
     }
 }
 
-async fn get_list(
+pub async fn get_list(
     list_id: String,
-    repo: MongoRepo,
+    repo: &MongoRepo,
     user_data: UserData,
 ) -> Result<dto::List, JarvisError> {
     let id = match ObjectId::parse_str(list_id) {
@@ -125,17 +118,17 @@ async fn get_list(
             let dto: dto::List = list.into();
             Ok(dto)
         }
-        Ok(None) => Err(JarvisError::NotFound()),
+        Ok(None) => Err(JarvisError::NotFound),
         Err(err) => {
             log::error!("Could not get list: {:?}", err);
-            Err(JarvisError::ServerFailed())
+            Err(JarvisError::ServerFailed)
         }
     }
 }
 
-async fn delete_list(
+pub async fn delete_list(
     list_id: String,
-    repo: MongoRepo,
+    repo: &MongoRepo,
     user_data: UserData,
 ) -> Result<(), JarvisError> {
     let id = match ObjectId::parse_str(list_id) {
@@ -150,10 +143,10 @@ async fn delete_list(
     Ok(())
 }
 
-async fn update_list(
+pub async fn update_list(
     list_id: String,
     list: dto::List,
-    repo: MongoRepo,
+    repo: &MongoRepo,
     user_data: UserData,
 ) -> Result<(), JarvisError> {
     let id = match ObjectId::parse_str(list_id) {
@@ -165,7 +158,7 @@ async fn update_list(
 
     if let Err(err) = repo.update_list(id, model, user_data).await {
         log::error!("Could not update list: {:?}", err);
-        return Err(JarvisError::ServerFailed());
+        return Err(JarvisError::ServerFailed);
     }
 
     Ok(())

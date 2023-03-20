@@ -2,28 +2,20 @@ use actix_session::Session;
 use actix_web::body::{BoxBody, EitherBody};
 use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
 use actix_web::{delete, get, head, post, put, web, Error, HttpResponse, Responder, Scope};
-use mongodb::bson::oid::ObjectId;
-use serde::{Deserialize, Serialize};
 
-use crate::dto;
+use serde::Deserialize;
 
-use crate::model::Email;
+use crate::{dto, service};
+
 use crate::security::{AuthTransformer, UserData};
+use crate::service::JarvisError;
 use crate::storage::MongoRepo;
-
-use super::model::List;
 
 pub fn api_v1() -> Scope {
     web::scope("/v1").service(auth_api()).service(list_api())
 }
 
 // ===== AUTH =====
-
-#[derive(Serialize, Deserialize)]
-struct LoginData {
-    email: String,
-    password: String,
-}
 
 fn auth_api() -> Scope {
     web::scope("/auth")
@@ -34,36 +26,14 @@ fn auth_api() -> Scope {
 
 #[post("/login")]
 async fn login(
-    login_data: web::Json<LoginData>,
+    login_data: web::Json<service::LoginData>,
     session: Session,
     repo: web::Data<MongoRepo>,
-) -> impl Responder {
-    let email = Email::from(&login_data.email);
-
-    let email = match email {
-        Ok(email) => email,
-        Err(err) => return HttpResponse::BadRequest().body(err.to_string()),
+) -> HttpResponse {
+    let user_data = match service::login(login_data.0, &repo).await {
+        Ok(user_data) => user_data,
+        Err(err) => return into_response(err),
     };
-
-    let user = match repo.find_user_by_email(&email).await {
-        Ok(Some(user)) => user,
-        Ok(None) => return HttpResponse::Unauthorized().finish(),
-        Err(err) => {
-            log::error!("Error while fetching user by email: {:?}", err);
-            return HttpResponse::InternalServerError().finish();
-        }
-    };
-
-    match bcrypt::verify(&login_data.password, &user.password) {
-        Ok(true) => {}
-        Ok(false) => return HttpResponse::Unauthorized().finish(),
-        Err(err) => {
-            log::error!("Error while verifying password: {:?}", err);
-            return HttpResponse::InternalServerError().finish();
-        }
-    };
-
-    let user_data = UserData::new(&user);
 
     if let Err(err) = session.insert("user", user_data) {
         log::error!("Could not add user data to session: {:?}", err);
@@ -129,21 +99,9 @@ async fn get_lists(
 
     let show_closed = query.show_closed.unwrap_or(false);
 
-    match repo.find_all_lists(user_data, show_closed).await {
-        Ok(lists) => {
-            let mut dtos: Vec<dto::List> = Vec::new();
-
-            for list in lists {
-                let dto: dto::List = list.into();
-                dtos.push(dto)
-            }
-
-            HttpResponse::Ok().json(dtos)
-        }
-        Err(err) => {
-            log::error!("Could not get lists: {:?}", err);
-            HttpResponse::InternalServerError().finish()
-        }
+    match service::get_lists(&repo, show_closed, user_data).await {
+        Ok(lists) => HttpResponse::Ok().json(lists),
+        Err(err) => into_response(err),
     }
 }
 
@@ -158,17 +116,9 @@ async fn create_list(
         Err(failed) => return failed,
     };
 
-    let model: List = list.into_inner().into();
-
-    match repo.insert_list(model, user_data).await {
-        Ok(list) => {
-            let dto: dto::List = list.into();
-            HttpResponse::Ok().json(dto)
-        }
-        Err(err) => {
-            log::error!("Creating list failed: {:?}", err);
-            HttpResponse::InternalServerError().finish()
-        }
+    match service::create_list(list.0, &repo, user_data).await {
+        Ok(list) => HttpResponse::Ok().json(list),
+        Err(err) => into_response(err),
     }
 }
 
@@ -178,26 +128,14 @@ async fn get_list(
     repo: web::Data<MongoRepo>,
     session: Session,
 ) -> impl Responder {
-    let id = match ObjectId::parse_str(list_id.into_inner()) {
-        Ok(id) => id,
-        Err(_err) => return HttpResponse::BadRequest().finish(),
-    };
-
     let user_data = match get_user_data(session) {
         Ok(user_data) => user_data,
         Err(failed) => return failed,
     };
 
-    match repo.find_list_by_id(id, user_data).await {
-        Ok(Some(list)) => {
-            let dto: dto::List = list.into();
-            HttpResponse::Ok().json(dto)
-        }
-        Ok(None) => HttpResponse::NotFound().finish(),
-        Err(err) => {
-            log::error!("Could not get list: {:?}", err);
-            HttpResponse::InternalServerError().finish()
-        }
+    match service::get_list(list_id.into_inner(), &repo, user_data).await {
+        Ok(list) => HttpResponse::Ok().json(list),
+        Err(err) => into_response(err),
     }
 }
 
@@ -207,21 +145,15 @@ async fn delete_list(
     repo: web::Data<MongoRepo>,
     session: Session,
 ) -> impl Responder {
-    let id = match ObjectId::parse_str(list_id.into_inner()) {
-        Ok(id) => id,
-        Err(_err) => return HttpResponse::BadRequest().finish(),
-    };
-
     let user_data = match get_user_data(session) {
         Ok(user_data) => user_data,
         Err(failed) => return failed,
     };
 
-    if let Err(err) = repo.delete_list_by_id(id, user_data).await {
-        log::error!("Error while deleting list {}: {:?}", id, err)
+    match service::delete_list(list_id.into_inner(), &repo, user_data).await {
+        Ok(_) => HttpResponse::NoContent().finish(),
+        Err(err) => into_response(err),
     }
-
-    HttpResponse::NoContent().finish()
 }
 
 #[put("/{list_id}")]
@@ -231,25 +163,18 @@ async fn update_list(
     repo: web::Data<MongoRepo>,
     session: Session,
 ) -> impl Responder {
-    let id = match ObjectId::parse_str(list_id.into_inner()) {
-        Ok(id) => id,
-        Err(_err) => return HttpResponse::BadRequest().finish(),
-    };
-
     let user_data = match get_user_data(session) {
         Ok(user_data) => user_data,
         Err(failed) => return failed,
     };
 
-    let model: List = list.into_inner().into();
-
-    if let Err(err) = repo.update_list(id, model, user_data).await {
-        log::error!("Could not update list: {:?}", err);
-        return HttpResponse::InternalServerError().finish();
+    match service::update_list(list_id.into_inner(), list.0, &repo, user_data).await {
+        Ok(_) => HttpResponse::NoContent().finish(),
+        Err(err) => into_response(err),
     }
-
-    HttpResponse::NoContent().finish()
 }
+
+// ===== ===== HELPER ===== =====
 
 fn get_user_data(session: Session) -> Result<UserData, HttpResponse> {
     match session.get::<UserData>("user") {
@@ -262,5 +187,14 @@ fn get_user_data(session: Session) -> Result<UserData, HttpResponse> {
             log::error!("Error while getting user data: {:?}", err);
             Err(HttpResponse::InternalServerError().finish())
         }
+    }
+}
+
+fn into_response(jarvis_err: service::JarvisError) -> HttpResponse {
+    match jarvis_err {
+        JarvisError::InvalidData(msg) => HttpResponse::BadRequest().body(msg),
+        JarvisError::NotFound => HttpResponse::NotFound().finish(),
+        JarvisError::Unauthorized => HttpResponse::Unauthorized().finish(),
+        JarvisError::ServerFailed => HttpResponse::InternalServerError().finish(),
     }
 }
