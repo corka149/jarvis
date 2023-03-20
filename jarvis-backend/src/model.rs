@@ -190,7 +190,8 @@ impl List {
             "reason": self.reason.clone(),
             "occurs_at": self.occurs_at,
             "done": self.done,
-            "products": product_docs
+            "products": product_docs,
+            "deleted": self.deleted
         };
 
         if with_id {
