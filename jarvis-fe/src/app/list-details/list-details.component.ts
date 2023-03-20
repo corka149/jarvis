@@ -137,6 +137,7 @@ export class ListDetailsComponent implements OnInit {
       occursAt: [formData.occursAt, Validators.required],
       done: formData.done,
       products: this.fb.array(productsForm),
+      deleted: formData.deleted || false,
     });
 
     if (this.isReadonly) {

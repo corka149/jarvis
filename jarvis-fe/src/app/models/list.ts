@@ -7,4 +7,5 @@ export interface List {
   occursAt: moment.Moment;
   done: boolean;
   products?: Product[];
+  deleted?: boolean;
 }
