@@ -165,6 +165,7 @@ pub struct List {
     pub occurs_at: DateTime<chrono::Utc>,
     pub done: bool,
     pub products: Option<Vec<Product>>,
+    pub deleted: Option<bool>,
 }
 
 impl List {
@@ -236,6 +237,7 @@ impl From<dto::List> for List {
             occurs_at: dto.occurs_at,
             done: dto.done,
             products: Some(products),
+            deleted: dto.deleted,
         }
     }
 }
