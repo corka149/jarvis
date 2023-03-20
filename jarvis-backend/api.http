@@ -14,7 +14,7 @@ POST http://localhost:8080/v1/auth/logout
 HEAD http://localhost:8080/v1/auth/check
 
 ### GET ALL
-GET http://localhost:8080/v1/lists
+GET http://localhost:8080/v1/lists?show_closed=false
 
 ### GET ONE
 GET http://localhost:8080/v1/lists/634c705e193c67cbb579395c
@@ -26,9 +26,9 @@ Content-Type: application/json
 
 {
   "no": 1,
-  "reason": "holiday",
+  "reason": "daily",
   "occurs_at": 1664194915,
-  "done": false,
+  "done": true,
   "products": [
     {
       "name": "bread",

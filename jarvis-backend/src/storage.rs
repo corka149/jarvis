@@ -64,6 +64,7 @@ impl MongoRepo {
 
         if !show_closed {
             filter.insert("done", false);
+            filter.insert("deleted", false);
         }
 
         let find_options = FindOptions::default();
