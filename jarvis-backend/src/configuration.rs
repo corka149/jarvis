@@ -15,7 +15,7 @@ pub struct Database {
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Security {
-    secret_key: String,
+    pub secret_key: String,
 }
 
 impl Security {

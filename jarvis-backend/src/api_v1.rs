@@ -2,13 +2,21 @@ use actix_session::Session;
 use actix_web::body::{BoxBody, EitherBody};
 use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
 use actix_web::{delete, get, head, post, put, web, Error, HttpResponse, Responder, Scope};
+use std::collections::HashMap;
+
+use axum::extract::Query;
+use axum::http::StatusCode;
+use axum::response::IntoResponse;
+use axum::{routing, Json, Router};
+use axum_sessions::extractors::{ReadableSession, WritableSession};
 
 use serde::Deserialize;
 
+use crate::dto::List;
 use crate::{dto, service};
 
 use crate::security::{AuthTransformer, UserData};
-use crate::service::JarvisError;
+use crate::service::{JarvisError, LoginData};
 use crate::storage::MongoRepo;
 
 pub fn api_v1() -> Scope {
@@ -24,9 +32,38 @@ fn auth_api() -> Scope {
         .service(check)
 }
 
+fn auth_api_a(repo: MongoRepo) -> Router {
+    Router::new()
+        .route(
+            "login",
+            routing::post(|session, login_data| login_a(repo, session, login_data)),
+        )
+        .route("logout", routing::post(logout_a))
+        .route("check", routing::head(check_a))
+}
+
+/// POST "/login"
+async fn login_a(
+    repo: MongoRepo,
+    mut session: WritableSession,
+    Json(login_data): Json<LoginData>,
+) -> StatusCode {
+    let user_data = match service::login(login_data, &repo).await {
+        Ok(user_data) => user_data,
+        Err(err) => return into_response_a(err),
+    };
+
+    if let Err(err) = session.insert("user", user_data) {
+        log::error!("Error while updating session: {:?}", err);
+        return StatusCode::INTERNAL_SERVER_ERROR;
+    }
+
+    StatusCode::OK
+}
+
 #[post("/login")]
 async fn login(
-    login_data: web::Json<service::LoginData>,
+    login_data: web::Json<LoginData>,
     session: Session,
     repo: web::Data<MongoRepo>,
 ) -> HttpResponse {
@@ -43,11 +80,26 @@ async fn login(
     HttpResponse::Ok().finish()
 }
 
+/// POST "logout"
+async fn logout_a(mut session: WritableSession) -> StatusCode {
+    session.remove("user");
+
+    StatusCode::OK
+}
+
 #[post("/logout")]
 async fn logout(session: Session) -> impl Responder {
     session.purge();
 
     HttpResponse::Ok().finish()
+}
+
+/// HEAD "check"
+async fn check_a(session: ReadableSession) -> StatusCode {
+    match session.get::<UserData>("user") {
+        Some(_) => StatusCode::OK,
+        None => StatusCode::UNAUTHORIZED,
+    }
 }
 
 #[head("/check")]
@@ -86,6 +138,26 @@ struct GetListsQuery {
     show_closed: Option<bool>,
 }
 
+/// GET ""
+async fn get_lists_a(
+    repo: MongoRepo,
+    session: ReadableSession,
+    Query(params): Query<HashMap<String, String>>,
+) -> Result<Json<Vec<List>>, StatusCode> {
+    let user_data = get_user_data_a(session)?;
+
+    let show_closed: bool = params
+        .get("show_closed")
+        .map(|sc| sc == "true")
+        .unwrap_or(false);
+
+    let lists = service::get_lists(&repo, show_closed, user_data)
+        .await
+        .map_err(into_response_a)?;
+
+    Ok(Json(lists))
+}
+
 #[get("")]
 async fn get_lists(
     repo: web::Data<MongoRepo>,
@@ -105,9 +177,22 @@ async fn get_lists(
     }
 }
 
+/// POST ""
+async fn create_list_a(
+    repo: MongoRepo,
+    session: ReadableSession,
+    Json(list): Json<List>,
+) -> Result<List, StatusCode> {
+    let user_data = get_user_data_a(session)?;
+
+    service::create_list(list, &repo, user_data)
+        .await
+        .map_err(into_response_a)
+}
+
 #[post("")]
 async fn create_list(
-    list: web::Json<dto::List>,
+    list: web::Json<List>,
     repo: web::Data<MongoRepo>,
     session: Session,
 ) -> impl Responder {
@@ -190,11 +275,30 @@ fn get_user_data(session: Session) -> Result<UserData, HttpResponse> {
     }
 }
 
+fn get_user_data_a(session: ReadableSession) -> Result<UserData, StatusCode> {
+    match session.get::<UserData>("user") {
+        Some(user_data) => Ok(user_data),
+        None => Err(StatusCode::UNAUTHORIZED),
+    }
+}
+
 fn into_response(jarvis_err: service::JarvisError) -> HttpResponse {
     match jarvis_err {
         JarvisError::InvalidData(msg) => HttpResponse::BadRequest().body(msg),
         JarvisError::NotFound => HttpResponse::NotFound().finish(),
         JarvisError::Unauthorized => HttpResponse::Unauthorized().finish(),
         JarvisError::ServerFailed => HttpResponse::InternalServerError().finish(),
+    }
+}
+
+fn into_response_a(jarvis_err: service::JarvisError) -> StatusCode {
+    match jarvis_err {
+        JarvisError::InvalidData(msg) => {
+            log::warn!("Received invalid data: {}", msg);
+            StatusCode::BAD_REQUEST
+        }
+        JarvisError::NotFound => StatusCode::NOT_FOUND,
+        JarvisError::Unauthorized => StatusCode::UNAUTHORIZED,
+        JarvisError::ServerFailed => StatusCode::INTERNAL_SERVER_ERROR,
     }
 }
