@@ -4,9 +4,8 @@ use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
 use actix_web::{delete, get, head, post, put, web, Error, HttpResponse, Responder, Scope};
 use std::collections::HashMap;
 
-use axum::extract::Query;
+use axum::extract::{Path, Query};
 use axum::http::StatusCode;
-use axum::response::IntoResponse;
 use axum::{routing, Json, Router};
 use axum_sessions::extractors::{ReadableSession, WritableSession};
 
@@ -207,6 +206,19 @@ async fn create_list(
     }
 }
 
+/// POST "/{list_id}"
+async fn get_list_a(
+    repo: MongoRepo,
+    session: ReadableSession,
+    Path(list_id): Path<String>,
+) -> Result<List, StatusCode> {
+    let user_data = get_user_data_a(session)?;
+
+    service::get_list(list_id, &repo, user_data)
+        .await
+        .map_err(into_response_a)
+}
+
 #[get("/{list_id}")]
 async fn get_list(
     list_id: web::Path<String>,
@@ -224,6 +236,20 @@ async fn get_list(
     }
 }
 
+/// DELETE "/{list_id}"
+async fn delete_list_a(
+    repo: MongoRepo,
+    session: ReadableSession,
+    Path(list_id): Path<String>,
+) -> Result<StatusCode, StatusCode> {
+    let user_data = get_user_data_a(session)?;
+
+    service::delete_list(list_id, &repo, user_data)
+        .await
+        .map(|_| StatusCode::NO_CONTENT)
+        .map_err(into_response_a)
+}
+
 #[delete("/{list_id}")]
 async fn delete_list(
     list_id: web::Path<String>,
@@ -239,6 +265,21 @@ async fn delete_list(
         Ok(_) => HttpResponse::NoContent().finish(),
         Err(err) => into_response(err),
     }
+}
+
+/// PUT "/{list_id}"
+async fn update_list_a(
+    repo: MongoRepo,
+    session: ReadableSession,
+    Path(list_id): Path<String>,
+    Json(list): Json<List>,
+) -> Result<StatusCode, StatusCode> {
+    let user_data = get_user_data_a(session)?;
+
+    service::update_list(list_id, list, &repo, user_data)
+        .await
+        .map(|_| StatusCode::NO_CONTENT)
+        .map_err(into_response_a)
 }
 
 #[put("/{list_id}")]

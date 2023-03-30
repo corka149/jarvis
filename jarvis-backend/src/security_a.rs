@@ -3,12 +3,12 @@ use axum_sessions::{async_session::MemoryStore, SessionLayer};
 
 // TODO
 /*
-    let session_layer = new_session_layer(config);
+   let session_layer = new_session_layer(config);
 
-    let app = Router::new()
-        .route(...)
-        .layer(session_layer);
- */
+   let app = Router::new()
+       .route(...)
+       .layer(session_layer);
+*/
 pub fn new_session_layer(security: &configuration::Security) -> SessionLayer<MemoryStore> {
     let store = MemoryStore::new();
     let secret_key = security.secret_key.clone();
