@@ -2,6 +2,7 @@ use actix_session::Session;
 use actix_web::body::{BoxBody, EitherBody};
 use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
 use actix_web::{delete, get, head, post, put, web, Error, HttpResponse, Responder, Scope};
+use mongodb::change_stream::session;
 use std::collections::HashMap;
 
 use axum::extract::{Path, Query};
@@ -132,6 +133,36 @@ fn list_api() -> Scope<
         .service(update_list)
 }
 
+fn list_api_a(repo: MongoRepo) -> Router {
+    let lists_repo = repo.clone();
+    let create_repo = repo.clone();
+    let list_repo = repo.clone();
+    let delete_repo = repo.clone();
+    let patch_repo = repo.clone();
+
+    Router::new()
+        .route(
+            "",
+            routing::get(move |session, query| get_lists_a(lists_repo, session, query)),
+        )
+        .route(
+            "",
+            routing::post(|session, list| create_list_a(create_repo, session, list)),
+        )
+        .route(
+            "/:list_id",
+            routing::get(|session, list_id| get_list_a(list_repo, session, list_id)),
+        )
+        .route(
+            "/:list_id",
+            routing::delete(|session, list_id| delete_list_a(delete_repo, session, list_id)),
+        )
+        .route(
+            "/:list_id",
+            routing::put(|session, path, list| update_list_a(patch_repo, session, path, list)),
+        )
+}
+
 #[derive(Debug, Deserialize)]
 struct GetListsQuery {
     show_closed: Option<bool>,
@@ -181,11 +212,12 @@ async fn create_list_a(
     repo: MongoRepo,
     session: ReadableSession,
     Json(list): Json<List>,
-) -> Result<List, StatusCode> {
+) -> Result<Json<List>, StatusCode> {
     let user_data = get_user_data_a(session)?;
 
     service::create_list(list, &repo, user_data)
         .await
+        .map(|l| Json(l))
         .map_err(into_response_a)
 }
 
@@ -206,16 +238,17 @@ async fn create_list(
     }
 }
 
-/// POST "/{list_id}"
+/// GET "/:list_id"
 async fn get_list_a(
     repo: MongoRepo,
     session: ReadableSession,
     Path(list_id): Path<String>,
-) -> Result<List, StatusCode> {
+) -> Result<Json<List>, StatusCode> {
     let user_data = get_user_data_a(session)?;
 
     service::get_list(list_id, &repo, user_data)
         .await
+        .map(|l| Json(l))
         .map_err(into_response_a)
 }
 
