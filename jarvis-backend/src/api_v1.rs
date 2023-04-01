@@ -12,33 +12,33 @@ use crate::security::UserData;
 use crate::service::{JarvisError, LoginData};
 use crate::storage::MongoRepo;
 
-pub fn api_v1_a(repo: MongoRepo) -> Router {
+pub fn api_v1(repo: MongoRepo) -> Router {
     Router::new()
-        .nest("/auth", auth_api_a(repo.clone()))
-        .nest("/lists", list_api_a(repo))
+        .nest("/auth", auth_api(repo.clone()))
+        .nest("/lists", list_api(repo))
 }
 
 // ===== AUTH =====
 
-fn auth_api_a(repo: MongoRepo) -> Router {
+fn auth_api(repo: MongoRepo) -> Router {
     Router::new()
         .route(
-            "login",
-            routing::post(|session, login_data| login_a(repo, session, login_data)),
+            "/login",
+            routing::post(|session, login_data| login(repo, session, login_data)),
         )
-        .route("logout", routing::post(logout_a))
-        .route("check", routing::head(check_a))
+        .route("/logout", routing::post(logout))
+        .route("/check", routing::head(check))
 }
 
 /// POST "/login"
-async fn login_a(
+async fn login(
     repo: MongoRepo,
     mut session: WritableSession,
     Json(login_data): Json<LoginData>,
 ) -> StatusCode {
     let user_data = match service::login(login_data, &repo).await {
         Ok(user_data) => user_data,
-        Err(err) => return into_response_a(err),
+        Err(err) => return into_response(err),
     };
 
     if let Err(err) = session.insert("user", user_data) {
@@ -50,14 +50,14 @@ async fn login_a(
 }
 
 /// POST "logout"
-async fn logout_a(mut session: WritableSession) -> StatusCode {
+async fn logout(mut session: WritableSession) -> StatusCode {
     session.remove("user");
 
     StatusCode::OK
 }
 
 /// HEAD "check"
-async fn check_a(session: ReadableSession) -> StatusCode {
+async fn check(session: ReadableSession) -> StatusCode {
     match session.get::<UserData>("user") {
         Some(_) => StatusCode::OK,
         None => StatusCode::UNAUTHORIZED,
@@ -66,7 +66,7 @@ async fn check_a(session: ReadableSession) -> StatusCode {
 
 // ===== LIST =====
 
-fn list_api_a(repo: MongoRepo) -> Router {
+fn list_api(repo: MongoRepo) -> Router {
     let lists_repo = repo.clone();
     let create_repo = repo.clone();
     let list_repo = repo.clone();
@@ -75,34 +75,34 @@ fn list_api_a(repo: MongoRepo) -> Router {
 
     Router::new()
         .route(
-            "",
-            routing::get(move |session, query| get_lists_a(lists_repo, session, query)),
+            "/",
+            routing::get(move |session, query| get_lists(lists_repo, session, query)),
         )
         .route(
-            "",
-            routing::post(|session, list| create_list_a(create_repo, session, list)),
-        )
-        .route(
-            "/:list_id",
-            routing::get(|session, list_id| get_list_a(list_repo, session, list_id)),
+            "/",
+            routing::post(|session, list| create_list(create_repo, session, list)),
         )
         .route(
             "/:list_id",
-            routing::delete(|session, list_id| delete_list_a(delete_repo, session, list_id)),
+            routing::get(|session, list_id| get_list(list_repo, session, list_id)),
         )
         .route(
             "/:list_id",
-            routing::put(|session, path, list| update_list_a(patch_repo, session, path, list)),
+            routing::delete(|session, list_id| delete_list(delete_repo, session, list_id)),
+        )
+        .route(
+            "/:list_id",
+            routing::put(|session, path, list| update_list(patch_repo, session, path, list)),
         )
 }
 
 /// GET ""
-async fn get_lists_a(
+async fn get_lists(
     repo: MongoRepo,
     session: ReadableSession,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<Json<Vec<List>>, StatusCode> {
-    let user_data = get_user_data_a(session)?;
+    let user_data = get_user_data(session)?;
 
     let show_closed: bool = params
         .get("show_closed")
@@ -112,76 +112,76 @@ async fn get_lists_a(
     service::get_lists(&repo, show_closed, user_data)
         .await
         .map(Json)
-        .map_err(into_response_a)
+        .map_err(into_response)
 }
 
 /// POST ""
-async fn create_list_a(
+async fn create_list(
     repo: MongoRepo,
     session: ReadableSession,
     Json(list): Json<List>,
 ) -> Result<Json<List>, StatusCode> {
-    let user_data = get_user_data_a(session)?;
+    let user_data = get_user_data(session)?;
 
     service::create_list(list, &repo, user_data)
         .await
         .map(Json)
-        .map_err(into_response_a)
+        .map_err(into_response)
 }
 
 /// GET "/:list_id"
-async fn get_list_a(
+async fn get_list(
     repo: MongoRepo,
     session: ReadableSession,
     Path(list_id): Path<String>,
 ) -> Result<Json<List>, StatusCode> {
-    let user_data = get_user_data_a(session)?;
+    let user_data = get_user_data(session)?;
 
     service::get_list(list_id, &repo, user_data)
         .await
         .map(Json)
-        .map_err(into_response_a)
+        .map_err(into_response)
 }
 
 /// DELETE "/{list_id}"
-async fn delete_list_a(
+async fn delete_list(
     repo: MongoRepo,
     session: ReadableSession,
     Path(list_id): Path<String>,
 ) -> Result<StatusCode, StatusCode> {
-    let user_data = get_user_data_a(session)?;
+    let user_data = get_user_data(session)?;
 
     service::delete_list(list_id, &repo, user_data)
         .await
         .map(|_| StatusCode::NO_CONTENT)
-        .map_err(into_response_a)
+        .map_err(into_response)
 }
 
 /// PUT "/{list_id}"
-async fn update_list_a(
+async fn update_list(
     repo: MongoRepo,
     session: ReadableSession,
     Path(list_id): Path<String>,
     Json(list): Json<List>,
 ) -> Result<StatusCode, StatusCode> {
-    let user_data = get_user_data_a(session)?;
+    let user_data = get_user_data(session)?;
 
     service::update_list(list_id, list, &repo, user_data)
         .await
         .map(|_| StatusCode::NO_CONTENT)
-        .map_err(into_response_a)
+        .map_err(into_response)
 }
 
 // ===== ===== HELPER ===== =====
 
-fn get_user_data_a(session: ReadableSession) -> Result<UserData, StatusCode> {
+fn get_user_data(session: ReadableSession) -> Result<UserData, StatusCode> {
     match session.get::<UserData>("user") {
         Some(user_data) => Ok(user_data),
         None => Err(StatusCode::UNAUTHORIZED),
     }
 }
 
-fn into_response_a(jarvis_err: service::JarvisError) -> StatusCode {
+fn into_response(jarvis_err: service::JarvisError) -> StatusCode {
     match jarvis_err {
         JarvisError::InvalidData(msg) => {
             log::warn!("Received invalid data: {}", msg);

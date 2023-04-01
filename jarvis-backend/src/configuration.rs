@@ -1,4 +1,3 @@
-use actix_web::cookie::Key;
 use config::{Config, ConfigError, Environment, File};
 use serde::Deserialize;
 use std::env;
@@ -16,14 +15,6 @@ pub struct Database {
 #[derive(Debug, Deserialize, Clone)]
 pub struct Security {
     pub secret_key: String,
-}
-
-impl Security {
-    pub fn get_key(&self) -> Key {
-        let base = self.secret_key.clone();
-        let key = base.as_ref();
-        Key::from(key)
-    }
 }
 
 #[derive(Debug, Deserialize)]
