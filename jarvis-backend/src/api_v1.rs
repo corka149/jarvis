@@ -14,8 +14,8 @@ use crate::storage::MongoRepo;
 
 pub fn api_v1(repo: MongoRepo) -> Router {
     Router::new()
-        .nest("/auth", auth_api(repo.clone()))
-        .nest("/lists", list_api(repo))
+        .nest("/v1/auth", auth_api(repo.clone()))
+        .nest("/v1/lists", list_api(repo))
 }
 
 // ===== AUTH =====
