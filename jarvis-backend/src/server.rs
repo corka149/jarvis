@@ -1,47 +1,37 @@
-use actix_files as fs;
-use actix_web::middleware::Logger;
-use actix_web::web::Data;
-use actix_web::{App, HttpServer};
 use axum_sessions::{async_session::MemoryStore, SessionLayer};
 use env_logger::Env;
+use tower_http::services::{ServeDir, ServeFile};
 
+use crate::api_v1;
 use crate::configuration;
 use crate::configuration::Configuration;
 use crate::error::JarvisError;
 use crate::storage::MongoRepo;
-use crate::{api_v1, security};
 
 pub async fn server(config: Configuration) -> Result<(), JarvisError> {
     let mongo_repo = MongoRepo::new(config.database).await;
+    let session_layer = new_session_layer(&config.security);
+
     let static_file_dir = config.static_file_dir;
+    let index_html = format!("{}/index.html", static_file_dir);
+    let serve_dir = ServeDir::new(static_file_dir).not_found_service(ServeFile::new(index_html));
 
     env_logger::init_from_env(Env::default().default_filter_or(config.logging.level));
 
-    let result = HttpServer::new(move || {
-        App::new()
-            .app_data(Data::new(mongo_repo.clone()))
-            .service(api_v1::api_v1())
-            .service(fs::Files::new("/", static_file_dir.clone()).index_file("index.html"))
-            .wrap(security::new_session_store(&config.security))
-            .wrap(Logger::default())
-            .wrap(Logger::new("%a %{User-Agent}i"))
-    })
-    .bind(("0.0.0.0", 8080))?
-    .run()
-    .await;
+    let app = api_v1::api_v1_a(mongo_repo)
+        .layer(session_layer)
+        .nest_service("", serve_dir);
 
-    result.map_err(JarvisError::from)
+    axum::Server::bind(&"0.0.0.0:8080".parse().unwrap())
+        .serve(app.into_make_service())
+        .await
+        .map_err(|e| {
+            let err = format!("{:?}", e);
+            JarvisError::new(err)
+        })
 }
 
-// TODO
-/*
-   let session_layer = new_session_layer(config);
-
-   let app = Router::new()
-       .route(...)
-       .layer(session_layer);
-*/
-pub fn new_session_layer(security: &configuration::Security) -> SessionLayer<MemoryStore> {
+fn new_session_layer(security: &configuration::Security) -> SessionLayer<MemoryStore> {
     let store = MemoryStore::new();
     let secret_key = security.secret_key.clone();
     let secret = secret_key.as_ref();

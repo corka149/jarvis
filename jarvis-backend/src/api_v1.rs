@@ -2,7 +2,6 @@ use actix_session::Session;
 use actix_web::body::{BoxBody, EitherBody};
 use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
 use actix_web::{delete, get, head, post, put, web, Error, HttpResponse, Responder, Scope};
-use mongodb::change_stream::session;
 use std::collections::HashMap;
 
 use axum::extract::{Path, Query};
@@ -21,6 +20,12 @@ use crate::storage::MongoRepo;
 
 pub fn api_v1() -> Scope {
     web::scope("/v1").service(auth_api()).service(list_api())
+}
+
+pub fn api_v1_a(repo: MongoRepo) -> Router {
+    Router::new()
+        .nest("/auth", auth_api_a(repo.clone()))
+        .nest("/lists", list_api_a(repo))
 }
 
 // ===== AUTH =====
