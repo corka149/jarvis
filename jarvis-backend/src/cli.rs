@@ -14,8 +14,8 @@ cli contains the following commands:
 
  */
 
-use actix_web::rt::Runtime;
 use clap::{Parser, Subcommand};
+use tokio::runtime::Runtime;
 
 use crate::configuration::Configuration;
 use crate::error::JarvisError;
