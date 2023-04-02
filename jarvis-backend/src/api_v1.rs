@@ -181,7 +181,7 @@ fn get_user_data(session: ReadableSession) -> Result<UserData, StatusCode> {
     }
 }
 
-fn into_response(jarvis_err: service::JarvisError) -> StatusCode {
+fn into_response(jarvis_err: JarvisError) -> StatusCode {
     match jarvis_err {
         JarvisError::InvalidData(msg) => {
             log::warn!("Received invalid data: {}", msg);
