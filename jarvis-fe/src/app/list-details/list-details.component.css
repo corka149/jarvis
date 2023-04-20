@@ -20,8 +20,3 @@ input[type="number"] {
   background-color: white;
   z-index: 2;
 }
-
-.spacer {
-  display: inline-block;
-  width: 30%;
-}
