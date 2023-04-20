@@ -34,8 +34,58 @@
 
     <mat-divider style="margin: 1rem 0"></mat-divider>
 
+    <div class="button-bar">
+      <span class="spacer"></span>
+
+      <!-- DELETE -->
+      <button
+        mat-mini-fab
+        (click)="deleteList()"
+        color="danger"
+        type="button"
+        style="margin-right: 1rem"
+        *ngIf="
+          !!listId && listId !== 'new' && selectList && !selectList.deleted
+        "
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <!-- EDIT -->
+      <button
+        mat-mini-fab
+        (click)="toggleReadonly()"
+        color="secondary"
+        type="button"
+        style="margin-right: 1rem"
+        *ngIf="!!listId && listId !== 'new'"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <!-- SAVE -->
+      <button
+        mat-mini-fab
+        style="margin-right: 1rem"
+        color="primary"
+        [disabled]="!listForm.valid"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+
+      <!-- ADD -->
+      <button
+        mat-mini-fab
+        (click)="addProduct()"
+        type="button"
+        [disabled]="readonly && listId !== 'new'"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
     <!-- PRODUCTS -->
-    <div *ngIf="!!products" formArrayName="products">
+    <div *ngIf="!!products" formArrayName="products" style="padding-top: 20px">
       <div *ngFor="let product of products.controls; let i = index">
         <div [formGroupName]="i">
           <!-- PRODUCT NAME -->
@@ -76,54 +126,6 @@
           ></mat-checkbox>
         </div>
       </div>
-    </div>
-
-    <div>
-      <!-- DELETE -->
-      <button
-        mat-mini-fab
-        (click)="deleteList()"
-        color="danger"
-        type="button"
-        style="margin-right: 1rem"
-        *ngIf="
-          !!listId && listId !== 'new' && selectList && !selectList.deleted
-        "
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-
-      <!-- EDIT -->
-      <button
-        mat-mini-fab
-        (click)="toggleReadonly()"
-        color="secondary"
-        type="button"
-        *ngIf="!!listId && listId !== 'new'"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-
-      <!-- SAVE -->
-      <button
-        mat-mini-fab
-        style="float: right; margin-left: 1rem"
-        color="primary"
-        [disabled]="!listForm.valid"
-      >
-        <mat-icon>save</mat-icon>
-      </button>
-
-      <!-- ADD -->
-      <button
-        mat-mini-fab
-        style="float: right"
-        (click)="addProduct()"
-        type="button"
-        [disabled]="readonly && listId !== 'new'"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
     </div>
   </form>
 </div>

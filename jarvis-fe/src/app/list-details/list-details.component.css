@@ -9,5 +9,19 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
   text-align: end;
+}
+
+.button-bar {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 65px;
+  background-color: white;
+  z-index: 2;
+}
+
+.spacer {
+  display: inline-block;
+  width: 30%;
 }
