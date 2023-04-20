@@ -1,6 +1,6 @@
 {
   "name": "jarvis-fe",
-  "version": "5.0.17",
+  "version": "5.0.18",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
