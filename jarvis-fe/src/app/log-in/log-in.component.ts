@@ -39,7 +39,6 @@ export class LogInComponent implements OnInit {
         .pipe(
           catchError((err) => {
             this.error = 'Anmeldung fehlgeschlagen';
-            console.log(err);
             return of(false);
           })
         )

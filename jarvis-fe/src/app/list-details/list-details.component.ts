@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-details',
@@ -46,6 +47,27 @@ export class ListDetailsComponent implements OnInit {
     } else {
       this.setupForm(this.selectList);
     }
+
+    this.setupAutosave();
+  }
+
+  setupAutosave() {
+    if (this.listForm) {
+      this.listForm.valueChanges.pipe(debounceTime(400)).subscribe((list) => {
+        if (this.listForm?.valid) {
+          list.id = this.selectList?.id;
+          list.no = this.selectList?.no;
+
+          this.listService.saveList(list).subscribe((savedList) => {
+            if (savedList) {
+              this.selectList = savedList;
+              this.listId = savedList.id;
+              this.readonly = false;
+            }
+          });
+        }
+      });
+    }
   }
 
   deleteList() {
@@ -80,7 +102,7 @@ export class ListDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!!this.listForm && this.listForm.valid) {
+    if (this.listForm?.valid) {
       const list: List = this.listForm.value;
 
       list.id = this.selectList?.id;

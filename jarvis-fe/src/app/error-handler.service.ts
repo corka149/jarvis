@@ -33,7 +33,6 @@ export class ErrorHandlerService {
       const errMsg = error.error ? error.error : 'Something went wrong';
       const msg = `${status}: ${errMsg}`;
 
-      console.log(msg);
       self.matSnackBar.open(msg, '❌');
 
       if (!elseReturn) {
