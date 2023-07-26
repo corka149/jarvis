@@ -7,7 +7,6 @@ defmodule Jarvis.MixProject do
       version: "4.3.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -40,32 +39,32 @@ defmodule Jarvis.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.6.6"},
+      {:phoenix, "~> 1.7"},
       {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
+      {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 3.0"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.6"},
-      {:phoenix_pubsub, "~> 2.0"},
+      {:phoenix_html, "~> 3.3"},
+      {:phoenix_live_reload, "~> 1.4", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.8"},
+      {:phoenix_pubsub, "~> 2.1"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.18"},
-      {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"},
-      {:argon2_elixir, "~> 2.4"},
+      {:gettext, "~> 0.22.3"},
+      {:jason, "~> 1.4"},
+      {:plug_cowboy, "~> 2.6"},
+      {:argon2_elixir, "~> 3.1"},
       {:uuid, "~> 1.1"},
-      {:phoenix_live_view, "~> 0.17.5"},
-      {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
+      {:phoenix_live_view, "~> 0.19.5"},
+      {:esbuild, "~> 0.7.1", runtime: Mix.env() == :dev},
 
       # tools
       ## linting
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       ## type checking
-      {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.3", only: [:dev], runtime: false},
 
       # testing
-      {:floki, ">= 0.30.0", only: :test}
+      {:floki, ">= 0.34.3", only: :test}
     ]
   end
 
