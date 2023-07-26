@@ -1,0 +1,55 @@
+<!-- Menu toggle -->
+<a href="#menu" id="menuLink" class="menu-link">
+  <!-- Hamburger icon -->
+  <span></span>
+</a>
+<div id="menu">
+  <div class="pure-menu">
+    <a class="pure-menu-heading" href="#jarvis">jARVIS</a>
+    <ul class="pure-menu-list">
+      <%= if @conn.assigns[:user] do %>
+        <!-- SHOPPING LIST -->
+        <li class="pure-menu-item menu-item-divided menu-item-header">
+          <%= gettext("Shopping list") %>
+        </li>
+        <li class="pure-menu-item">
+          <%= link gettext("All lists"), to: Routes.shopping_list_path(@conn, :index), class: "pure-menu-link" %>
+        </li>
+        <li class="pure-menu-item">
+          <%= link gettext("Current lists"), to: Routes.shopping_list_path(@conn, :index_open_lists), class: "pure-menu-link" %>
+        </li>
+        <!-- USER GROUPS -->
+        <li class="pure-menu-item menu-item-divided menu-item-header">
+          <%= gettext("User groups") %>
+        </li>
+        <li class="pure-menu-item">
+          <%= link gettext("Management"), to: Routes.user_group_path(@conn, :index), class: "pure-menu-link" %>
+        </li>
+        <li class="pure-menu-item">
+          <%= link gettext("Membership"), to: Routes.invitation_path(@conn, :index), class: "pure-menu-link" %>
+        </li>
+        <!-- Inventory -->
+        <li class="pure-menu-item menu-item-divided menu-item-header">
+          <%= gettext("Inventory") %>
+        </li>
+        <li class="pure-menu-item">
+          <%= link gettext("Places"), to: Routes.place_index_path(@conn, :index), class: "pure-menu-link" %>
+        </li>
+        <li class="pure-menu-item">
+          <%= link gettext("Items"), to: Routes.item_index_path(@conn, :index), class: "pure-menu-link" %>
+        </li>
+        <!-- OTHER -->
+        <li class="pure-menu-item menu-item-divided">
+          <%= link gettext("User"), to: Routes.user_path(@conn, :show), class: "pure-menu-link" %>
+        </li>
+        <li class="pure-menu-item">
+          <%= link gettext("Sign out"), to: Routes.auth_path(@conn, :signout), class: "pure-menu-link" %>
+        </li>
+      <% else %>
+        <li class="pure-menu-item">
+          <%= link gettext("Sign in"), to: Routes.auth_path(@conn, :signin), class: "pure-menu-link" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

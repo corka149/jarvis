@@ -1,0 +1,1 @@
+call "%~dp0\jarvis" eval Jarvis.Release.migrate

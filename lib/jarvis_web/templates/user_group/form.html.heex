@@ -1,0 +1,13 @@
+<%= form_for @changeset, @action, [class: "pure-form pure-form-aligned"], fn form -> %>
+<fieldset>
+  <!-- NAME -->
+  <div class="pure-control-group">
+    <%= label form, :name, dgettext("accounts", "Name") %>
+    <%= text_input form, :name, required: true %>
+    <%= error_tag form, :name %>
+  </div>
+  <div>
+    <%= save_button() %>
+  </div>
+</fieldset>
+<% end %>

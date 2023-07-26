@@ -1,0 +1,29 @@
+<div>
+  <h2 class="content-subhead">
+    <%= dgettext "accounts", "New invitation" %>
+  </h2>
+</div>
+<!-- Buttons -->
+<div class="button-bar">
+  <%= back_button(Routes.invitation_path(@conn, :index)) %>
+</div>
+<!-- Form -->
+<%= form_for @changeset, Routes.invitation_path(@conn, :create), [class: "pure-form pure-form-aligned"], fn form -> %>
+<fieldset>
+  <!-- Invitee email -->
+  <div class="pure-control-group">
+    <%= label form, :invitee_email, dgettext("accounts", "Invitee e-mail address") %>
+    <%= email_input form, :invitee_email, required: true %>
+    <%= error_tag form, :invitee_email %>
+  </div>
+  <!-- Invite into group -->
+  <div class="pure-control-group">
+    <%= label form, :usergroup_id, dgettext("accounts", "Belongs to") %>
+    <%= select form, :usergroup_id, @user_groups %>
+    <%= error_tag form, :usergroup_id %>
+  </div>
+  <div>
+    <%= save_button() %>
+  </div>
+</fieldset>
+<% end %>

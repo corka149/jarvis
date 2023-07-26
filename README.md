@@ -2,8 +2,7 @@
 
 > Portal for managing household (like housekeeping book).
 
-[![jARVIS Backend](https://github.com/corka149/jarvis/actions/workflows/rust.yml/badge.svg)](https://github.com/corka149/jarvis/actions/workflows/rust.yml)
-[![jARVIS Frontend](https://github.com/corka149/jarvis/actions/workflows/fe.yaml/badge.svg)](https://github.com/corka149/jarvis/actions/workflows/fe.yaml)
+![Elixir CI](https://github.com/corka149/jarvis/workflows/Elixir%20CI/badge.svg)
 
 ## Getting jARVIS
 
@@ -28,11 +27,47 @@ docker pull corka149/jarvis
 
 ## Getting started
 
-* [Backend](jarvis-backend/README.md)
-* [Frontend](jarvis-fe/README.md)
+To start your Phoenix server:
+
+  * Install dependencies with `mix deps.get`
+  * Run `make launch-database`
+  * Create and migrate your database with `mix ecto.setup`
+  * Install Node.js dependencies with `cd assets && npm install`
+  * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Building
 
-Just run `build.sh`. It will take care of everything for you. :)
+Just run `mix docker`. It will take care of everything for you. :)
+
+## Configuration
+
+Important environment variables for prod release:
+
+ * HOST - used by Phoenix for URL creation
+ * PORT - on which jARVIS should listen
+ * SECRET_KEY_BASE - encryption base for cookies
+ * DB_USERNAME - username for access to database
+ * DB_PASSWORD - password for access to database
+ * DB_NAME - name of the selected database
+ * DB_HOST - host of database
+ * GITHUB_CLIENT_ID - oauth with github
+ * GITHUB_CLIENT_SECRET - oauth with github
+ * GITHUB_CALLBACK_PATH_PREFIX - will be added to callback url (useful for ingress)
+
+## Architecture
+
+This services follows the explicit architecture.
+* [Explicit architecture by Herberto Graça](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/)
+* [Explicit architecture](https://miro.com/app/board/o9J_lY8cG_k=/)
+* [Explicit architecture by Peter and Code for Elixir](https://www.youtube.com/watch?v=iGTCZt9Z8A8)
+
+## Important notes
+
+Execute the following as often as possible and fix what you can:
+
+ * `mix format` - formats code
+ * `mix test` - for ExUnit tests
+ * `mix dialyzer` - for type checking
+ * `mix credo` - for linting

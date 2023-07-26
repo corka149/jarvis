@@ -1,0 +1,79 @@
+## `msgid`s in this file come from POT (.pot) files.
+##
+## Do not add, change, or remove `msgid`s manually here as
+## they're tied to the ones in the corresponding POT file
+## (with the same domain).
+##
+## Use `mix gettext.extract --merge` or `mix gettext.merge`
+## to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: de\n"
+"Plural-Forms: nplurals=2\n"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/form.html.eex:11
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:16 lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:16
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:22
+msgid "Belongs to"
+msgstr "Von"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:18
+msgid "Done"
+msgstr "Erledigt"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/form.html.eex:5
+#: lib/jarvis_web/templates/shopping_list/show.html.eex:18
+msgid "Planned for"
+msgstr "Geplant für"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/edit.html.eex:3
+msgid "Edit shopping list"
+msgstr "Editiere Einkaufsliste"
+
+#, elixir-format
+#: lib/jarvis_web/templates/product/form.html.eex:20
+#: lib/jarvis_web/templates/product/list.html.eex:9
+msgid "Amount"
+msgstr "Betrag"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:3
+msgid "All shopping lists"
+msgstr "Neue Einkaufsliste"
+
+#, elixir-format
+#: lib/jarvis_web/templates/product/form.html.eex:14
+#: lib/jarvis_web/templates/product/list.html.eex:6
+msgid "Product name"
+msgstr "Gegenstandsname"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/new.html.eex:3
+msgid "New shopping list"
+msgstr "Neue Einkaufsliste"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index.html.eex:17
+#: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:17
+msgid "On"
+msgstr "Am"
+
+#, elixir-format
+#: lib/jarvis_web/templates/shopping_list/index_open_lists.html.eex:3
+msgid "Open shopping lists"
+msgstr "Aktuelle Einkaufsliste"
+
+#, elixir-format
+#: lib/jarvis_web/templates/product/form.html.eex:3
+#: lib/jarvis_web/templates/product/index.html.eex:3 lib/jarvis_web/templates/shopping_list/show.html.eex:3
+msgid "Shopping list"
+msgstr "Einkaufsliste"
+
+#, elixir-format
+#: lib/jarvis_web/controllers/shopping_list_controller.ex:55
+msgid "Sucessful created shopping list"
+msgstr "Erfolgreich Einkaufsliste erstellt"

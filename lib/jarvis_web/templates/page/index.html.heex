@@ -1,0 +1,9 @@
+<div>
+  <h2 class="content-subhead">
+    <%= gettext "Welcome to %{name}!", name: "jARVIS" %>
+  </h2>
+</div>
+<p>
+  <%= gettext "How can I help you?" %>
+</p>
+<img class="pure-img" alt="jARVIS" src={Routes.static_path(@conn, "/images/jarvis.png")}>

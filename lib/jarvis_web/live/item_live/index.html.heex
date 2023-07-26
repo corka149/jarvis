@@ -1,0 +1,44 @@
+<div>
+  <h2 class="content-subhead">
+    <%= dgettext "inventory", "All Items" %>
+  </h2>
+</div>
+<!-- Buttons -->
+<div class="button-bar">
+  <%= add_button Routes.item_index_path(@socket, :new) %>
+</div>
+<!-- Form -->
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal JarvisWeb.ItemLive.FormComponent,
+    id: @item.id || :new,
+    title: @page_title,
+    action: @live_action,
+    item: @item,
+    user: @user,
+    return_to: Routes.item_index_path(@socket, :index) %>
+<% end %>
+<!-- Data table -->
+<div>
+  <table class="pure-table">
+    <thead>
+      <tr>
+        <th><%= dgettext "inventory", "Name" %></th>
+        <th><%= dgettext "inventory", "Belongs to" %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="items">
+      <%= for item <- @items do %>
+        <tr id={"item-#{item.id}"}>
+          <td><%= item.name %></td>
+          <td><%= item.place.name %></td>
+          <td>
+            <span><%= show_button Routes.item_show_path(@socket, :show, item) %></span>
+            <span><%= edit_button Routes.item_index_path(@socket, :edit, item) %></span>
+            <span><%= delete_button item.id %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

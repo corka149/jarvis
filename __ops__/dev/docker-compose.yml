@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:11
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: jarvis_dev
+    networks:
+      - jarvis_network
+
+  jarvis:
+    image: jarvis:4.2.7
+    restart: always
+    environment:
+      HOST: localhost
+      HTTP_PORT: 443
+      SECRET_KEY_BASE: "AHl7ZQB7tSi+LMYr7OsKFmfc8L8VpyhWOdUzAcPrvExEQemcrlJYR6ONJhqcqPLC"
+      DB_USERNAME: postgres
+      DB_PASSWORD: secret
+      DB_NAME: jarvis_dev
+      DB_HOST: postgres
+      DB_PORT: 5432
+    ports:
+      - 127.0.0.1:4000:443
+    networks:
+      - jarvis_network
+
+networks:
+  jarvis_network:

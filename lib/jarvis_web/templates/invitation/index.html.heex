@@ -1,0 +1,20 @@
+<div>
+  <h2 class="content-subhead">
+    <%= dgettext "accounts", "Group membership" %>
+  </h2>
+</div>
+<div class="hint">
+  <%= dgettext "accounts", "Users can gain access to groups through invitations." %>
+</div>
+<!-- Buttons -->
+<div class="button-bar">
+  <%= link dgettext("accounts", "Invite someone"),
+      to: Routes.invitation_path(@conn, :new),
+      class: "pure-button primary-button"
+    %>
+</div>
+<div>
+  <%= render "created_invitations.html", assigns %>
+  <%= render "received_invitations.html", assigns %>
+  <%= render "group_membership.html", assigns %>
+</div>
