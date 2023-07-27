@@ -1,5 +1,5 @@
 defmodule JarvisWeb.UserView do
-  use JarvisWeb, :view
+  use JarvisWeb, :html
 
   @doc """
   Defines available languages for selection

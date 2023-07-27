@@ -1,5 +1,5 @@
 defmodule JarvisWeb.ErrorView do
-  use JarvisWeb, :view
+  use JarvisWeb, :html
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

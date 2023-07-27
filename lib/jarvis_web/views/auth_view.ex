@@ -1,3 +1,3 @@
 defmodule JarvisWeb.AuthView do
-  use JarvisWeb, :view
+  use JarvisWeb, :html
 end

@@ -2,7 +2,7 @@ defmodule JarvisWeb.UserGroupApiView do
   @moduledoc """
   This view represents all possible response structure.
   """
-  use JarvisWeb, :view
+  use JarvisWeb, :html
   alias JarvisWeb.UserGroupApiView
 
   def render("index.json", %{user_groups_api: user_groups}) do

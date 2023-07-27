@@ -1,5 +1,5 @@
 defmodule JarvisWeb.SystemView do
-  use JarvisWeb, :view
+  use JarvisWeb, :html
 
   def render("ready.json", %{statuses: statuses}) do
     statuses

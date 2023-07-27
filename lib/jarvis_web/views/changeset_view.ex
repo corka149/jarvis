@@ -1,5 +1,5 @@
 defmodule JarvisWeb.ChangesetView do
-  use JarvisWeb, :view
+  use JarvisWeb, :html
 
   @doc """
   Traverses and translates changeset errors.

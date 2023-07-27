@@ -1,3 +1,3 @@
 defmodule JarvisWeb.PageView do
-  use JarvisWeb, :view
+  use JarvisWeb, :html
 end

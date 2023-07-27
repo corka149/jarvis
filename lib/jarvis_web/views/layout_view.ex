@@ -1,3 +1,3 @@
 defmodule JarvisWeb.LayoutView do
-  use JarvisWeb, :view
+  use JarvisWeb, :html
 end

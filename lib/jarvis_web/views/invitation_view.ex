@@ -1,5 +1,5 @@
 defmodule JarvisWeb.InvitationView do
-  use JarvisWeb, :view
+  use JarvisWeb, :html
 
   def accept_button(conn, invitation) do
     link(
