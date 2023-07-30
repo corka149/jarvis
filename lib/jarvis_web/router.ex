@@ -88,17 +88,5 @@ defmodule JarvisWeb.Router do
 
       get "/ready", SystemController, :ready
     end
-
-    scope "/accounts" do
-      pipe_through :api
-
-      get "/usergroups", UserGroupApiController, :index
-    end
-
-    scope "/shoppinglists" do
-      pipe_through :api
-
-      get "/", ShoppingListApiController, :index
-    end
   end
 end
