@@ -1,6 +1,6 @@
 
 launch-database:
-	docker-compose -p jarvis_backend -f __ops__/dev/docker-compose.yml up -d
+	docker-compose -p jarvis_backend -f __ops__/dev/docker-compose.yml up -d postgres
 	mix ecto.migrate
 	mix run scripts/create_user.exs
 
