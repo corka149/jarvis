@@ -1,5 +1,7 @@
-defmodule JarvisWeb.UserView do
+defmodule JarvisWeb.UserHTML do
   use JarvisWeb, :html
+
+  embed_templates "user_html/*"
 
   @doc """
   Defines available languages for selection

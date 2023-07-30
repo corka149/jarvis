@@ -31,7 +31,6 @@ defmodule JarvisWeb do
     quote do
       import Phoenix.Component
       require Phoenix.Template
-      embed_templates "../templates/*"
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
@@ -47,6 +46,8 @@ defmodule JarvisWeb do
       use Phoenix.LiveView,
         layout: {JarvisWeb.LayoutView, :live}
 
+      import JarvisWeb.LiveHelpers
+
       unquote(html_helpers())
     end
   end
@@ -54,6 +55,8 @@ defmodule JarvisWeb do
   def live_component do
     quote do
       use Phoenix.LiveComponent
+
+      import JarvisWeb.LiveHelpers
 
       unquote(html_helpers())
     end
@@ -84,7 +87,6 @@ defmodule JarvisWeb do
 
       # Import LiveView helpers (live_render, live_component, live_patch, etc)
       import Phoenix.LiveView.Helpers
-      import JarvisWeb.LiveHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.Component

@@ -1,5 +1,7 @@
-defmodule JarvisWeb.InvitationView do
+defmodule JarvisWeb.InvitationHTML do
   use JarvisWeb, :html
+
+  embed_templates "invitation_html/*"
 
   def accept_button(conn, invitation) do
     link(

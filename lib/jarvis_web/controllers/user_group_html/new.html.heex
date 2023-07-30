@@ -8,4 +8,4 @@
   <%= back_button(Routes.user_group_path(@conn, :index)) %>
 </div>
 <!-- Form -->
-<%= render "form.html", Map.put(assigns, :action, Routes.user_group_path(@conn, :create)) %>
+<%= _form(Map.put(assigns, :action, Routes.user_group_path(@conn, :create))) %>

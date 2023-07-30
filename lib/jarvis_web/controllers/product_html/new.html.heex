@@ -1,0 +1,5 @@
+<!-- Form -->
+<%= _form(Map.put(assigns, :action, Routes.product_path(@conn, :create, @shopping_list.id))) %>
+
+<!-- product list -->
+<%= list(assigns) %>

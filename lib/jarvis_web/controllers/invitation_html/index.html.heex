@@ -14,7 +14,7 @@
     %>
 </div>
 <div>
-  <%= render "created_invitations.html", assigns %>
-  <%= render "received_invitations.html", assigns %>
-  <%= render "group_membership.html", assigns %>
+  <%= created_invitations(assigns) %>
+  <%= received_invitations(assigns) %>
+  <%= group_membership(assigns) %>
 </div>

@@ -1,6 +1,6 @@
 <div>
   <h2 class="content-subhead">
-    <%= dgettext "shoppinglists", "New shopping list" %>
+    <%= dgettext "shoppinglists", "Edit shopping list" %>
   </h2>
 </div>
 <!-- Buttons -->
@@ -8,4 +8,4 @@
   <%= back_button(Routes.shopping_list_path(@conn, :index_open_lists)) %>
 </div>
 <!-- Form -->
-<%= render "form.html", Map.put(assigns, :action, Routes.shopping_list_path(@conn, :create)) %>
+<%= _form(Map.put(assigns, :action, Routes.shopping_list_path(@conn, :update, @shopping_list))) %>
