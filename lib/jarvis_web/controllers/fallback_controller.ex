@@ -16,7 +16,7 @@ defmodule JarvisWeb.FallbackController do
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)
-    |> put_view(JarvisWeb.ErrorView)
+    |> put_view(JarvisWeb.ErrorHTML)
     |> render(:"404")
   end
 end
