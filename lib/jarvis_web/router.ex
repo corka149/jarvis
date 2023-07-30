@@ -18,7 +18,7 @@ defmodule JarvisWeb.Router do
     plug :put_secure_browser_headers
     plug JarvisWeb.Plugs.SetUser
     plug JarvisWeb.Plugs.SetLocale, default: "en"
-    plug :put_root_layout, {JarvisWeb.LayoutView, :root}
+    plug :put_root_layout, {JarvisWeb.Layouts, :root}
   end
 
   # ### ### ### ### ### #

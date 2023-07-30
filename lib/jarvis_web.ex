@@ -44,7 +44,7 @@ defmodule JarvisWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {JarvisWeb.LayoutView, :live}
+        layout: {JarvisWeb.Layouts, :live}
 
       import JarvisWeb.LiveHelpers
 

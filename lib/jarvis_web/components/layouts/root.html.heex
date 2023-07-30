@@ -15,7 +15,7 @@
   <body>
     <div id="layout">
       <!-- MENU -->
-      <%= render "menu.html", assigns %>
+      <%= menu(assigns) %>
       <div id="main">
         <div class="header">
           <h1>
@@ -26,8 +26,8 @@
           <h2><%= gettext "Your friendly assistent" %></h2>
         </div>
         <div class="content">
-          <p class="alert alert-info center-align" role="alert"><%= get_flash(@conn, :info) %></p>
-          <p class="alert alert-danger center-align" role="alert"><%= get_flash(@conn, :error) %></p>
+          <p class="alert alert-info center-align" role="alert"><%= Phoenix.Flash.get(@flash, :info) %></p>
+          <p class="alert alert-danger center-align" role="alert"><%= Phoenix.Flash.get(@flash, :error) %></p>
           <%= @inner_content %>
         </div>
       </div>
