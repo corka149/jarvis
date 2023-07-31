@@ -19,28 +19,28 @@ defmodule JarvisWeb.ShoppingListController do
       |> ShoppingListsRepo.list_shoppinglists_for_user()
 
     conn
-    |> render("index.html", shopping_lists: shopping_lists)
+    |> render(:index, shopping_lists: shopping_lists)
   end
 
   def index_open_lists(conn, _params) do
     shopping_lists = ShoppingListsRepo.list_open_shoppinglists(conn.assigns.user)
 
     conn
-    |> render("index_open_lists.html", shopping_lists: shopping_lists)
+    |> render(:index_open_lists, shopping_lists: shopping_lists)
   end
 
   def show(conn, %{"id" => id}) do
     shopping_list = ShoppingListsRepo.get_shopping_list!(id)
 
     conn
-    |> render("show.html", shopping_list: shopping_list)
+    |> render(:show, shopping_list: shopping_list)
   end
 
   def new(conn, _params) do
     changeset = ShoppingListsRepo.change_shopping_list(%ShoppingList{})
 
     conn
-    |> render("new.html",
+    |> render(:new,
       changeset: changeset,
       user_groups: group_names_with_ids(conn.assigns.user)
     )
@@ -58,7 +58,7 @@ defmodule JarvisWeb.ShoppingListController do
       {:error, changeset} ->
         conn
         |> put_status(400)
-        |> render("new.html",
+        |> render(:new,
           changeset: changeset,
           user_groups: group_names_with_ids(conn.assigns.user)
         )
@@ -70,7 +70,7 @@ defmodule JarvisWeb.ShoppingListController do
     changeset = shopping_list |> ShoppingListsRepo.change_shopping_list()
 
     conn
-    |> render("edit.html",
+    |> render(:edit,
       changeset: changeset,
       user_groups: group_names_with_ids(conn.assigns.user),
       shopping_list: shopping_list
@@ -88,7 +88,7 @@ defmodule JarvisWeb.ShoppingListController do
       {:error, changeset} ->
         conn
         |> put_status(400)
-        |> render("edit.html",
+        |> render(:edit,
           changeset: changeset,
           user_groups: group_names_with_ids(conn.assigns.user),
           shopping_list: shopping_list

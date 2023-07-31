@@ -5,10 +5,10 @@ defmodule JarvisWeb.SystemController do
     case Application.started_applications()
          |> Enum.find(:not_found, fn {app, _desc, _version} -> app == :jarvis end) do
       :not_found ->
-        conn |> put_status(500) |> render("ready.json", statuses: [%{jarvis: "Not started"}])
+        conn |> put_status(500) |> render(:ready, statuses: [%{jarvis: "Not started"}])
 
       {:jarvis, _, _} ->
-        conn |> put_status(200) |> render("ready.json", statuses: [%{jarvis: "Was started"}])
+        conn |> put_status(200) |> render(:ready, statuses: [%{jarvis: "Was started"}])
     end
   end
 end

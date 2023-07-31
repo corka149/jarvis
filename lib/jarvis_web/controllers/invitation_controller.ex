@@ -11,7 +11,7 @@ defmodule JarvisWeb.InvitationController do
   plug JarvisWeb.Plugs.RequireAuthentication
 
   def index(conn, _params) do
-    render(conn, "index.html",
+    render(conn, :index,
       received_invitations: AccountsRepo.list_initations_by_invitee(conn.assigns.user),
       created_invitations: AccountsRepo.list_invitations_by_host(conn.assigns.user),
       memberships: AccountsRepo.list_usergroups_by_membership(conn.assigns.user)
@@ -21,7 +21,7 @@ defmodule JarvisWeb.InvitationController do
   def new(conn, _params) do
     changeset = AccountsRepo.change_invitation(%Invitation{})
 
-    render(conn, "new.html",
+    render(conn, :new,
       changeset: changeset,
       user_groups: group_names_with_ids(conn.assigns.user)
     )

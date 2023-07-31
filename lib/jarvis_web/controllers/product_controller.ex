@@ -86,7 +86,7 @@ defmodule JarvisWeb.ProductController do
     products = ShoppingListsRepo.list_products_by_shopping_list(shopping_list)
 
     conn
-    |> render("new.html", changeset: changeset, shopping_list: shopping_list, products: products)
+    |> render(:new, changeset: changeset, shopping_list: shopping_list, products: products)
   end
 
   defp edit_form(conn, shopping_list_id, product, changeset) do
@@ -94,7 +94,7 @@ defmodule JarvisWeb.ProductController do
     products = ShoppingListsRepo.list_products_by_shopping_list(shopping_list)
 
     conn
-    |> render("edit.html",
+    |> render(:edit,
       changeset: changeset,
       shopping_list: shopping_list,
       products: products,

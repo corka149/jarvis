@@ -11,24 +11,24 @@ defmodule JarvisWeb.UserGroupController do
 
   def index(conn, %{"by_membership" => "true"}) do
     user_groups = AccountsRepo.list_usergroups_by_membership_or_owner(conn.assigns.user)
-    render(conn, "index.html", user_groups: user_groups)
+    render(conn, :index, user_groups: user_groups)
   end
 
   def index(conn, _params) do
     user_groups = AccountsRepo.list_usergroups_by_owner(conn.assigns.user)
-    render(conn, "index.html", user_groups: user_groups)
+    render(conn, :index, user_groups: user_groups)
   end
 
   def show(conn, %{"id" => id}) do
     user_group = AccountsRepo.get_user_group!(id)
-    render(conn, "show.html", user_group: user_group)
+    render(conn, :show, user_group: user_group)
   end
 
   def new(conn, _params) do
     changeset = AccountsRepo.change_user_group(%UserGroup{})
 
     conn
-    |> render("new.html", changeset: changeset)
+    |> render(:new, changeset: changeset)
   end
 
   def create(conn, %{"user_group" => user_group_params}) do
@@ -41,7 +41,7 @@ defmodule JarvisWeb.UserGroupController do
       {:error, changeset} ->
         conn
         |> put_status(400)
-        |> render("new.html", changeset: changeset)
+        |> render(:new, changeset: changeset)
     end
   end
 
@@ -53,7 +53,7 @@ defmodule JarvisWeb.UserGroupController do
       |> AccountsRepo.change_user_group()
 
     conn
-    |> render("edit.html", changeset: changeset, user_group: user_group)
+    |> render(:edit, changeset: changeset, user_group: user_group)
   end
 
   def update(conn, %{"id" => id, "user_group" => user_group_params}) do
@@ -67,7 +67,7 @@ defmodule JarvisWeb.UserGroupController do
       {:error, changeset} ->
         conn
         |> put_status(400)
-        |> render("edit.html", changeset: changeset, user_group: user_group)
+        |> render(:edit, changeset: changeset, user_group: user_group)
     end
   end
 

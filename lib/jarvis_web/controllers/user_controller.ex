@@ -14,7 +14,7 @@ defmodule JarvisWeb.UserController do
 
   def show(conn, _params) do
     user = AccountsRepo.get_user!(conn.assigns.user.id)
-    render(conn, "show.html", user: user)
+    render(conn, :show, user: user)
   end
 
   def edit(conn, _params) do
@@ -22,7 +22,7 @@ defmodule JarvisWeb.UserController do
       AccountsRepo.get_user!(conn.assigns.user.id)
       |> AccountsRepo.change_user()
 
-    render(conn, "edit.html", changeset: changeset, errors: [])
+    render(conn, :edit, changeset: changeset, errors: [])
   end
 
   def update(conn, %{"user" => user_params}) do
@@ -36,7 +36,7 @@ defmodule JarvisWeb.UserController do
         changset = AccountsRepo.change_user(user, user_params)
 
         conn
-        |> render("edit.html",
+        |> render(:edit,
           changeset: changset,
           errors: [confirm_password: {"confirm password does not match", []}]
         )
@@ -58,7 +58,7 @@ defmodule JarvisWeb.UserController do
 
     conn
     |> put_root_layout(false)
-    |> render("rotate_api_token.html", api_token: api_token)
+    |> render(:rotate_api_token, api_token: api_token)
   end
 
   ## Private functions
@@ -81,7 +81,7 @@ defmodule JarvisWeb.UserController do
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(400)
-        |> render("edit.html", changeset: changeset, errors: [])
+        |> render(:edit, changeset: changeset, errors: [])
     end
   end
 end

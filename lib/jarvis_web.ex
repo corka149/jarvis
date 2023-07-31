@@ -19,7 +19,9 @@ defmodule JarvisWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: JarvisWeb
+      use Phoenix.Controller,
+        formats: [:html, :json],
+        layouts: [html: JarvisWeb.Layouts]
 
       import Plug.Conn
       import JarvisWeb.Gettext

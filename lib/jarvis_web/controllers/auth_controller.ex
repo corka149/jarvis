@@ -10,7 +10,7 @@ defmodule JarvisWeb.AuthController do
   end
 
   def signin(conn, _params) do
-    render(conn, "signin.html")
+    render(conn, :signin)
   end
 
   def signout(conn, _params) do
@@ -33,6 +33,6 @@ defmodule JarvisWeb.AuthController do
     conn
     |> put_flash(:error, dgettext("accounts", "Sign in failed"))
     |> put_status(403)
-    |> render("signin.html")
+    |> render(:signin)
   end
 end
