@@ -20,7 +20,7 @@ config :jarvis, JarvisWeb.Endpoint,
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
 # LOGGING
-config :logger, level: :warn
+config :logger, level: :warning
 
 config :phoenix, :serve_endpoints, true
 

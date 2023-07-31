@@ -18,7 +18,7 @@ config :jarvis, JarvisWeb.Endpoint,
   version: Application.spec(:jarvis, :vsn)
 
 # Do not print debug messages in production
-config :logger, level: :warn
+config :logger, level: :warning
 
 # ## SSL Support
 #
