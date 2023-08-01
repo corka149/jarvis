@@ -26,6 +26,8 @@ defmodule JarvisWeb do
       import Plug.Conn
       import JarvisWeb.Gettext
       alias JarvisWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
@@ -64,7 +66,7 @@ defmodule JarvisWeb do
     end
   end
 
-  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt manifest.json htmx.min.js)
 
   def router do
     quote do
@@ -96,6 +98,9 @@ defmodule JarvisWeb do
       import JarvisWeb.ErrorHelpers
       import JarvisWeb.Gettext
       alias JarvisWeb.Router.Helpers, as: Routes
+
+      # Routes generation with the ~p sigil
+      unquote(verified_routes())
     end
   end
 
