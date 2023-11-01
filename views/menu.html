@@ -1,0 +1,25 @@
+
+<link rel="stylesheet" href="css/menu.css"  />
+
+<div class="topnav" id="jarvisTopnav">
+    <a href="/">
+        <img class="logo" src="images/logo_jarvis_small.png" alt="home"/>
+    </a>
+    <a class="right" href="/logout">Abmelden</a>
+    <a class="right" href="/lists">Listen</a>
+    <a href="javascript:void(0);" class="icon" onclick="initMenu()">
+        <i class="fa fa-bars"></i>
+    </a>
+</div>
+
+<script>
+    function initMenu() {
+        const jarvisTopnav = document.getElementById("jarvisTopnav");
+
+        if (jarvisTopnav.className === "topnav") {
+            jarvisTopnav.className += " responsive";
+        } else {
+            jarvisTopnav.className = "topnav";
+        }
+    }
+</script>
