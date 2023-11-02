@@ -8,10 +8,11 @@ import (
 )
 
 func main() {
-	engine := html.New("./views", ".html")
+	engine := html.New("./views", ".gohtml")
 
 	app := fiber.New(fiber.Config{
-		Views: engine,
+		Views:       engine,
+		ViewsLayout: "_root",
 	})
 
 	app.Use(recover.New())
@@ -22,6 +23,10 @@ func main() {
 		return c.Render("index", fiber.Map{
 			"Title": "Welcome to Jarvis!",
 		})
+	})
+
+	app.Get("/lists", func(c *fiber.Ctx) error {
+		return c.Render("lists", fiber.Map{})
 	})
 
 	log.Fatal(app.Listen(":3000"))

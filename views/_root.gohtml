@@ -12,22 +12,17 @@
     <title>jARVIS</title>
 </head>
 <body>
-    
 
-    {{ template "menu" }}
 
-    <main class="container">
-        <div>
-            <h2 class="content-subhead">
-                Willkommen bei jARVIS!
-            </h2>
-        </div>
-        <p>
-            Wie kann ich helfen?
-        </p>
-        <img class="pure-img" alt="jARVIS" src="/images/jarvis.png">
+{{ template "menu" }}
 
-        <script src="js/index.js"></script>
-    </main>
+<main class="container">
+
+     {{ embed }}
+
+</main>
+
+<script src="js/index.js"></script>
+<script src="https://unpkg.com/htmx.org@1.9.6"></script>
 </body>
 </html>
