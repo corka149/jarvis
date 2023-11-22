@@ -22,7 +22,10 @@ func RegisterEndpoints(app *fiber.App) {
 	app.Get("/login", func(c *fiber.Ctx) error {
 		return c.Render("login", fiber.Map{})
 	})
+	app.Post("/login", func(c *fiber.Ctx) error {
+		return c.Redirect("/")
+	})
 	app.Get("/logout", func(c *fiber.Ctx) error {
-		return c.Render("logout", fiber.Map{})
+		return c.Redirect("/")
 	})
 }
