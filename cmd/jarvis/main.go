@@ -3,10 +3,9 @@ package main
 import (
 	"github.com/corka149/jarvis/internal/migrations"
 	"github.com/corka149/jarvis/internal/routes"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/template/html/v2"
+	"github.com/julienschmidt/httprouter"
 	"log"
+	"net/http"
 )
 
 func main() {
@@ -16,19 +15,16 @@ func main() {
 
 	// ===== WEB =====
 
-	engine := html.New("./views", ".gohtml")
+	router := httprouter.New()
+	routes.RegisterEndPoints(router)
 
-	app := fiber.New(fiber.Config{
-		Views:       engine,
-		ViewsLayout: "_root",
-	})
+	// router serves static files from ./public directory
+	router.ServeFiles("/public/*filepath", http.Dir("./public"))
 
-	app.Static("/", "./public")
+	// ===== MIDDLEWARE =====
+	router.PanicHandler = func(w http.ResponseWriter, r *http.Request, err interface{}) {
+		log.Printf("%s\n", err)
+	}
 
-	// Middleware
-	app.Use(recover.New())
-
-	routes.RegisterEndpoints(app)
-
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(http.ListenAndServe(":3000", router))
 }

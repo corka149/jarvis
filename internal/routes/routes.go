@@ -1,31 +1,48 @@
 package routes
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/corka149/jarvis/internal/views"
+	"github.com/julienschmidt/httprouter"
+	"html/template"
+	"net/http"
+)
 
-func RegisterEndpoints(app *fiber.App) {
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("index", fiber.Map{
-			"Title": "Welcome to Jarvis!",
-		})
+func RegisterEndPoints(router *httprouter.Router) *httprouter.Router {
+
+	// Templates
+	templates := views.Templates()
+
+	router.GET("/", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		renderTemplate(w, templates, "index.gohtml", nil)
 	})
 
 	// Lists
-	app.Get("/lists", func(c *fiber.Ctx) error {
-		return c.Render("lists", fiber.Map{})
+	router.GET("/lists", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		renderTemplate(w, templates, "lists.gohtml", nil)
 	})
-
-	app.Get("/lists/:id", func(c *fiber.Ctx) error {
-		return c.Render("lists_details", fiber.Map{})
+	router.GET("/lists/:id", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		renderTemplate(w, templates, "lists_details.gohtml", nil)
 	})
 
 	// Auth
-	app.Get("/login", func(c *fiber.Ctx) error {
-		return c.Render("login", fiber.Map{})
+	router.GET("/login", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		renderTemplate(w, templates, "login.gohtml", nil)
 	})
-	app.Post("/login", func(c *fiber.Ctx) error {
-		return c.Redirect("/")
+	router.POST("/login", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		http.Redirect(w, r, "/", http.StatusFound)
 	})
-	app.Get("/logout", func(c *fiber.Ctx) error {
-		return c.Redirect("/")
+	router.GET("/logout", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		http.Redirect(w, r, "/", http.StatusFound)
 	})
+
+	return router
+}
+
+func renderTemplate(w http.ResponseWriter, templates *template.Template, name string, data any) {
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusOK)
+
+	if err := templates.ExecuteTemplate(w, name, data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }

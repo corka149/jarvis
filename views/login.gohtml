@@ -1,3 +1,5 @@
+{{ template "_header.gohtml" . }}
+
 <form action="/login" method="post" class="login">
     <label for="email">E-Mail</label>
     <input type="email" name="email" id="email">
@@ -7,3 +9,5 @@
 
     <button type="submit">Anmelden</button>
 </form>
+
+{{ template "_footer.gohtml" . }}
