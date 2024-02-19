@@ -15,21 +15,30 @@
         </div>
     </div>
 
-    <button type="submit">Speichern</button>
+    <table>
+        <tr>
+            <th>Gegenstand</th>
+            <th>Anzahl</th>
+            <th>Aktion</th>
+        </tr>
+
+        <tr>
+            <td><input type="text" name="item" placeholder="Gegenstand" aria-label="Gegenstand" value="Bread"/></td>
+            <td><input type="number" name="amount" placeholder="Anzahl" aria-label="Anzahl" value="1"/></td>
+            <td><button class="secondary"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+        </tr>
+
+        <tr>
+            <td><input type="text" name="item" placeholder="Gegenstand" aria-label="Gegenstand"/></td>
+            <td><input type="number" name="amount" placeholder="Anzahl" aria-label="Anzahl"/></td>
+            <td><button class="secondary" disabled><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+        </tr>
+    </table>
+
+    <div class="grid">
+        <button type="submit" class="contrast">Archivieren</button>
+        <button type="submit">Speichern</button>
+    </div>
 </form>
-
-<table>
-    <tr>
-        <th>Gegenstand</th>
-        <th>Anzahl</th>
-        <th>Aktion</th>
-    </tr>
-
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
 
 {{ template "_footer.gohtml" . }}
