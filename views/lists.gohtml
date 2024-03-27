@@ -6,8 +6,8 @@
     <div>
         <label for="stateFilter">Status</label>
         <select name="filter" id="stateFilter">
-            <option value="all">Alle</option>
-            <option value="open" selected>Offen</option>
+            <option value="all" hx-target="#lists-overview" hx-get="/lists-overview?filter=all">Alle</option>
+            <option value="open" hx-target="#lists-overview" hx-get="/lists-overview?filter=open" selected>Offen</option>
         </select>
     </div>
     <div></div>
@@ -16,22 +16,6 @@
     </div>
 </div>
 
-<table>
-    <tr>
-        <th>Für</th>
-        <th>Am</th>
-        <th></th>
-    </tr>
-
-    <tr>
-        <td>Bäcker</td>
-        <td>01.01.2023</td>
-        <td style="width: 10%">
-            <a href="/lists/1">
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </a>
-        </td>
-    </tr>
-</table>
+{{ template "lists_overview" }}
 
 {{ template "_footer.gohtml" . }}

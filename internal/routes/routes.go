@@ -4,6 +4,7 @@ import (
 	"github.com/corka149/jarvis/internal/views"
 	"github.com/julienschmidt/httprouter"
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -19,6 +20,11 @@ func RegisterEndPoints(router *httprouter.Router) *httprouter.Router {
 	// Lists
 	router.GET("/lists", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		renderTemplate(w, templates, "lists.gohtml", nil)
+	})
+	router.GET("/lists-overview", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		log.Printf("status = %s", r.URL.Query().Get("filter"))
+
+		renderTemplate(w, templates, "lists_overview", nil)
 	})
 	router.GET("/lists/:id", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		renderTemplate(w, templates, "lists_details.gohtml", nil)
