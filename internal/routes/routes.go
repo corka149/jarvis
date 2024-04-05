@@ -17,7 +17,7 @@ func RegisterEndPoints(router *httprouter.Router) *httprouter.Router {
 		renderTemplate(w, templates, "index.gohtml", nil)
 	})
 
-	// Lists
+	// Display lists
 	router.GET("/lists", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		renderTemplate(w, templates, "lists.gohtml", nil)
 	})
@@ -28,6 +28,15 @@ func RegisterEndPoints(router *httprouter.Router) *httprouter.Router {
 	})
 	router.GET("/lists/:id", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		renderTemplate(w, templates, "lists_details.gohtml", nil)
+	})
+
+	// Save lists
+	router.POST("/lists/:id", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		renderTemplate(w, templates, "lists_details.gohtml", nil)
+	})
+	// Archive lists
+	router.GET("/lists/:id/archived", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		http.Redirect(w, r, "/lists", http.StatusFound)
 	})
 
 	// Auth
