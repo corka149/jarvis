@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { Credentials } from '../models/credentials';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 @Component({
   selector: 'app-log-in',

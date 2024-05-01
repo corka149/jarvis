@@ -5,7 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

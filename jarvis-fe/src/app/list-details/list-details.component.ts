@@ -7,7 +7,7 @@ import { Product } from '../models/product';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
