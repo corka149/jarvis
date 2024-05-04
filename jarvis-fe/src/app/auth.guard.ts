@@ -17,14 +17,14 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
   ) {
     this.loginUrl = router.parseUrl('/login');
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
       tap((success: boolean) => {
         if (!success) this.authService.logOut();
       }),
-      map((success: boolean) => (success ? success : this.loginUrl))
+      map((success: boolean) => (success ? success : this.loginUrl)),
     );
   }
 }

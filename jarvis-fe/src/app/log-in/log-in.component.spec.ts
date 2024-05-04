@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 
 import { LogInComponent } from './log-in.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 const authService = jasmine.createSpyObj('AuthenticationService', ['logIn']);

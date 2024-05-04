@@ -8,7 +8,7 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ListService } from '../list.service';
 
 import { ListDetailsComponent } from './list-details.component';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const matSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
 

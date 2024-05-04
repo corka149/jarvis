@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +11,11 @@ export class ErrorHandlerService {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
   ) {}
 
   public handleError<T>(
-    elseReturn: T
+    elseReturn: T,
   ): (error: any, caught: Observable<T>) => Observable<T> {
     const self = this;
 

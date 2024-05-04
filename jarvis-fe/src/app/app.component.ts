@@ -5,7 +5,8 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,14 +19,14 @@ export class AppComponent {
     .observe(Breakpoints.Handset)
     .pipe(
       map((result) => result.matches),
-      shareReplay()
+      shareReplay(),
     );
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private router: Router,
     public authService: AuthenticationService,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
   ) {}
 
   logOut() {

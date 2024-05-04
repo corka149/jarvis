@@ -16,7 +16,7 @@ const LIST_API = 'v1/lists';
 export class ListService {
   constructor(
     private httpClient: HttpClient,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
   ) {}
 
   getLists(showClosed = false): Observable<List[]> {
@@ -28,7 +28,7 @@ export class ListService {
       .get<List[]>(LIST_API, { params: params })
       .pipe(
         map(this.mapFromDtos()),
-        catchError(this.errorHandler.handleError(emptyList))
+        catchError(this.errorHandler.handleError(emptyList)),
       );
   }
 
@@ -37,7 +37,7 @@ export class ListService {
       .get<List>(`${LIST_API}/${id}`)
       .pipe(
         map(this.mapFromDto),
-        catchError(this.errorHandler.handleError(undefined))
+        catchError(this.errorHandler.handleError(undefined)),
       );
   }
 
@@ -49,14 +49,14 @@ export class ListService {
         .post<List>(`${LIST_API}`, dto)
         .pipe(
           map(this.mapFromDto),
-          catchError(this.errorHandler.handleError(undefined))
+          catchError(this.errorHandler.handleError(undefined)),
         );
     } else {
       return this.httpClient
         .put<List>(`${LIST_API}/${list.id}`, dto)
         .pipe(
           map(this.mapFromDto),
-          catchError(this.errorHandler.handleError(undefined))
+          catchError(this.errorHandler.handleError(undefined)),
         );
     }
   }

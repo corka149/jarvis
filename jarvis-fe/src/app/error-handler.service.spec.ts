@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { AuthenticationService } from './authentication.service';
 
 import { ErrorHandlerService } from './error-handler.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const matSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
 

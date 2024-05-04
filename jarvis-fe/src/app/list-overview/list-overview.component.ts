@@ -16,7 +16,7 @@ export class ListOverviewComponent implements OnInit {
   constructor(
     private listService: ListService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {

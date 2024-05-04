@@ -41,7 +41,7 @@ export class AuthenticationService {
       .head(`${AUTH_API}/check`, { observe: 'response' })
       .pipe(
         map((response: HttpResponse<Object>) => response.status === 200),
-        catchError((_err) => of(false))
+        catchError((_err) => of(false)),
       );
   }
 

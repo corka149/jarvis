@@ -7,8 +7,8 @@ import { Product } from '../models/product';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { debounceTime } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-details',
@@ -30,7 +30,7 @@ export class ListDetailsComponent implements OnInit {
     private fb: FormBuilder,
     private _adapter: DateAdapter<any>,
     private router: Router,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +86,7 @@ export class ListDetailsComponent implements OnInit {
         this.fb.group({
           name: ['', Validators.required],
           amount: [undefined, Validators.required],
-        })
+        }),
       );
     }
   }
@@ -151,7 +151,7 @@ export class ListDetailsComponent implements OnInit {
     const products = formData.products ?? [];
 
     const productsForm = products.map((product: Product) =>
-      this.fb.group(product, {})
+      this.fb.group(product, {}),
     );
 
     this.listForm = this.fb.group({
