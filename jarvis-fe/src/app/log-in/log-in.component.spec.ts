@@ -16,14 +16,14 @@ describe('LogInComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LogInComponent],
-      providers: [
+    imports: [LogInComponent],
+    providers: [
         { provide: Router, useValue: routerSpy },
         { provide: FormBuilder },
         { provide: AuthenticationService, useValue: authService },
         { provide: MatSnackBar, useValue: matSnackBar },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(LogInComponent);
     component = fixture.componentInstance;

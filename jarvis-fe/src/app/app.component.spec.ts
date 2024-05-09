@@ -8,15 +8,15 @@ const matSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      providers: [
+    imports: [AppComponent],
+    providers: [
         {
-          provide: AuthenticationService,
-          useValue: {},
+            provide: AuthenticationService,
+            useValue: {},
         },
         { provide: MatSnackBar, useValue: matSnackBar },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   it('should create the app', () => {

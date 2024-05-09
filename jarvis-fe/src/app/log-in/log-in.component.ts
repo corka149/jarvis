@@ -1,15 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { Credentials } from '../models/credentials';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatButton } from '@angular/material/button';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-log-in',
-  templateUrl: './log-in.component.html',
-  styleUrls: ['./log-in.component.css'],
+    selector: 'app-log-in',
+    templateUrl: './log-in.component.html',
+    styleUrls: ['./log-in.component.css'],
+    standalone: true,
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatButton,
+        MatError,
+    ],
 })
 export class LogInComponent implements OnInit {
   loginForm?: FormGroup;

@@ -18,25 +18,25 @@ describe('ListDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListDetailsComponent],
-      providers: [
+    imports: [ListDetailsComponent],
+    providers: [
         { provide: FormBuilder },
         {
-          provide: DateAdapter,
-          useClass: MomentDateAdapter,
-          deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
         },
         {
-          provide: ListDetailsComponent,
-          useValue: {},
+            provide: ListDetailsComponent,
+            useValue: {},
         },
         {
-          provide: ListService,
-          useValue: {},
+            provide: ListService,
+            useValue: {},
         },
         { provide: MatSnackBar, useValue: matSnackBar },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ListDetailsComponent);
     component = fixture.componentInstance;

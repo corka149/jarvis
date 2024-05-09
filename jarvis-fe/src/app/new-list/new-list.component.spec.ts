@@ -8,8 +8,8 @@ describe('NewListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NewListComponent],
-    }).compileComponents();
+    imports: [NewListComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(NewListComponent);
     component = fixture.componentInstance;

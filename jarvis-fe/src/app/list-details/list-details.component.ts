@@ -1,19 +1,47 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ListService } from '../list.service';
 import { List } from '../models/list';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { Product } from '../models/product';
-import { Location } from '@angular/common';
+import { Location, NgIf, NgFor } from '@angular/common';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatIcon } from '@angular/material/icon';
+import { MatMiniFabButton, MatIconButton } from '@angular/material/button';
+import { MatDivider } from '@angular/material/divider';
+import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel, MatHint, MatSuffix } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-list-details',
-  templateUrl: './list-details.component.html',
-  styleUrls: ['./list-details.component.css'],
+    selector: 'app-list-details',
+    templateUrl: './list-details.component.html',
+    styleUrls: ['./list-details.component.css'],
+    standalone: true,
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatSlideToggle,
+        MatDatepickerInput,
+        MatHint,
+        MatDatepickerToggle,
+        MatSuffix,
+        MatDatepicker,
+        MatDivider,
+        MatMiniFabButton,
+        MatIcon,
+        NgFor,
+        MatIconButton,
+        MatCheckbox,
+    ],
 })
 export class ListDetailsComponent implements OnInit {
   listForm?: FormGroup;

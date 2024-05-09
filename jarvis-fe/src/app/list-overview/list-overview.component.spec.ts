@@ -16,18 +16,18 @@ describe('ListOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListOverviewComponent],
-      providers: [
+    imports: [ListOverviewComponent],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: activatedRoute,
+            provide: ActivatedRoute,
+            useValue: activatedRoute,
         },
         {
-          provide: ListService,
-          useValue: {},
+            provide: ListService,
+            useValue: {},
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ListOverviewComponent);
     component = fixture.componentInstance;
