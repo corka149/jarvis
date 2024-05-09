@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "jarvis-fe:build:production"
+              "buildTarget": "jarvis-fe:build:production"
             },
             "development": {
-              "browserTarget": "jarvis-fe:build:development"
+              "buildTarget": "jarvis-fe:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "jarvis-fe:build"
+            "buildTarget": "jarvis-fe:build"
           }
         },
         "test": {
