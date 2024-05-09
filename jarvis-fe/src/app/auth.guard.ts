@@ -1,18 +1,12 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import {inject, Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import { map, Observable, tap } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+class PermissionsService  {
   private loginUrl: UrlTree;
 
   constructor(
@@ -25,11 +19,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+  ): Observable<boolean | UrlTree> {
     return this.authService.check().pipe(
       tap((success: boolean) => {
         if (!success) this.authService.logOut();
@@ -37,4 +27,8 @@ export class AuthGuard implements CanActivate {
       map((success: boolean) => (success ? success : this.loginUrl)),
     );
   }
+}
+
+export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> => {
+  return inject(PermissionsService).canActivate(next, state);
 }
