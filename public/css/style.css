@@ -3,6 +3,10 @@
     --secondary-color: #4c1683;
 }
 
+.container {
+    max-width: 768px;
+}
+
 form.login {
     padding-left: 15rem;
     padding-right: 15rem;
