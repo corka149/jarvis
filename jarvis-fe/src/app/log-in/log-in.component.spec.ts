@@ -5,6 +5,7 @@ import { AuthenticationService } from '../authentication.service';
 
 import { LogInComponent } from './log-in.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 const authService = jasmine.createSpyObj('AuthenticationService', ['logIn']);
@@ -16,7 +17,7 @@ describe('LogInComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [LogInComponent],
+    imports: [LogInComponent, NoopAnimationsModule],
     providers: [
         { provide: Router, useValue: routerSpy },
         { provide: FormBuilder },
