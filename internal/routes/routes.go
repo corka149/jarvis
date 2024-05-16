@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"github.com/corka149/jarvis/internal/store"
 	"github.com/corka149/jarvis/internal/views"
 	"github.com/julienschmidt/httprouter"
 	"html/template"
@@ -8,7 +9,7 @@ import (
 	"net/http"
 )
 
-func RegisterEndPoints(router *httprouter.Router) *httprouter.Router {
+func RegisterEndPoints(router *httprouter.Router, store *store.Store) *httprouter.Router {
 
 	// Templates
 	templates := views.Templates()
@@ -19,7 +20,9 @@ func RegisterEndPoints(router *httprouter.Router) *httprouter.Router {
 
 	// Display lists
 	router.GET("/lists", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		renderTemplate(w, templates, "lists.gohtml", nil)
+		listPage := store.FetchLists(0, 25)
+
+		renderTemplate(w, templates, "lists.gohtml", listPage)
 	})
 	router.GET("/lists-overview", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		log.Printf("status = %s", r.URL.Query().Get("filter"))

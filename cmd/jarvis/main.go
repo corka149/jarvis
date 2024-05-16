@@ -3,9 +3,11 @@ package main
 import (
 	"github.com/corka149/jarvis/internal/migrations"
 	"github.com/corka149/jarvis/internal/routes"
+	"github.com/corka149/jarvis/internal/store"
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -13,10 +15,23 @@ func main() {
 		log.Fatal(err)
 	}
 
+	s := store.NewStore()
+	s.SaveList(store.List{
+		UpdateOn: time.Now(),
+		Reason:   "Food",
+		On:       time.Now(),
+		Items: []store.Item{
+			{
+				Name:   "Bread",
+				Amount: 1,
+			},
+		},
+	})
+
 	// ===== WEB =====
 
 	router := httprouter.New()
-	routes.RegisterEndPoints(router)
+	routes.RegisterEndPoints(router, s)
 
 	// router serves static files from ./public directory
 	router.ServeFiles("/public/*filepath", http.Dir("./public"))
