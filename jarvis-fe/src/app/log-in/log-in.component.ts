@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-log-in',
@@ -16,14 +16,13 @@ import { NgIf } from '@angular/common';
     styleUrls: ['./log-in.component.css'],
     standalone: true,
     imports: [
-        NgIf,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatButton,
-        MatError,
-    ],
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatButton,
+    MatError
+],
 })
 export class LogInComponent implements OnInit {
   loginForm?: FormGroup;

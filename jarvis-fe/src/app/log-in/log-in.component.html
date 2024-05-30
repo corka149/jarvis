@@ -1,32 +1,35 @@
 <h1 style="text-align: center">Anmelden</h1>
-<div *ngIf="!!loginForm">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <!-- NAME -->
-    <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label>Benutzername</mat-label>
-      <input matInput formControlName="username" autocomplete="off" />
-    </mat-form-field>
-    <!-- PASSWD -->
-    <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label>Passwort</mat-label>
-      <input
-        matInput
-        type="password"
-        formControlName="password"
-        autocomplete="off"
-      />
-    </mat-form-field>
-
-    <button
-      mat-raised-button
-      style="float: right"
-      color="primary"
-      [disabled]="!loginForm.valid"
-    >
-      Anmelden
-    </button>
-  </form>
-  <mat-error *ngIf="error">
-    {{ error }}
-  </mat-error>
-</div>
+@if (!!loginForm) {
+  <div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- NAME -->
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Benutzername</mat-label>
+        <input matInput formControlName="username" autocomplete="off" />
+      </mat-form-field>
+      <!-- PASSWD -->
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Passwort</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          autocomplete="off"
+          />
+      </mat-form-field>
+      <button
+        mat-raised-button
+        style="float: right"
+        color="primary"
+        [disabled]="!loginForm.valid"
+        >
+        Anmelden
+      </button>
+    </form>
+    @if (error) {
+      <mat-error>
+        {{ error }}
+      </mat-error>
+    }
+  </div>
+}

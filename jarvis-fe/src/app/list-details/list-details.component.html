@@ -1,133 +1,139 @@
-<div *ngIf="!!listForm">
-  <form [formGroup]="listForm" (ngSubmit)="onSubmit()">
-    <!-- REASON -->
-    <div>
-      <mat-form-field appearance="fill" style="width: 100%">
-        <mat-label>Für</mat-label>
-        <input matInput formControlName="reason" />
-      </mat-form-field>
-    </div>
-
-    <div>
-      <!-- DONE -->
-      <mat-slide-toggle matInput formControlName="done" style="width: 45%"
-        >Erledigt</mat-slide-toggle
-      >
-      <!-- OCCURS AT -->
-      <mat-form-field appearance="fill" style="width: 55%">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="occursAt" />
-        <mat-hint>DD.MM.YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker disabled="false"></mat-datepicker>
-      </mat-form-field>
-    </div>
-
-    <!-- DELETED -->
-    <mat-slide-toggle
-      matInput
-      formControlName="deleted"
-      style="width: 45%"
-      *ngIf="selectList && selectList.deleted"
-      >Gelöscht</mat-slide-toggle
-    >
-
-    <mat-divider style="margin: 1rem 0"></mat-divider>
-
-    <div class="button-bar">
-      <!-- DELETE -->
-      <button
-        mat-mini-fab
-        (click)="deleteList()"
-        color="danger"
-        type="button"
-        style="margin-right: 1rem"
-        *ngIf="
-          !!listId && listId !== 'new' && selectList && !selectList.deleted
-        "
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-
-      <!-- EDIT -->
-      <button
-        mat-mini-fab
-        (click)="toggleReadonly()"
-        color="secondary"
-        type="button"
-        style="margin-right: 1rem"
-        *ngIf="!!listId && listId !== 'new'"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-
-      <!-- SAVE -->
-      <button
-        mat-mini-fab
-        style="margin-right: 1rem"
-        color="primary"
-        [disabled]="!listForm.valid"
-      >
-        <mat-icon>save</mat-icon>
-      </button>
-
-      <!-- ADD -->
-      <button
-        mat-mini-fab
-        (click)="addProduct()"
-        type="button"
-        [disabled]="readonly && listId !== 'new'"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-
-    <!-- PRODUCTS -->
-    <div *ngIf="!!products" formArrayName="products" style="padding-top: 20px">
-      <div *ngFor="let product of products.controls; let i = index">
-        <div [formGroupName]="i">
-          <!-- PRODUCT NAME -->
-          <mat-form-field style="width: 60%; padding-right: 1%">
-            <mat-label *ngIf="i === 0">Gegenstand</mat-label>
-            <input
-              matInput
-              placeholder=""
-              formControlName="name"
-              style="font-size: 0.8rem"
-            />
-          </mat-form-field>
-
-          <!-- PRODUCT AMOUNT -->
-          <mat-form-field style="width: 20%">
-            <mat-label *ngIf="i === 0">Menge</mat-label>
-            <input
-              matInput
-              placeholder=""
-              formControlName="amount"
-              type="number"
-              style="font-size: 0.8rem"
-            />
-          </mat-form-field>
-
-          <button
-            (click)="removeProduct(i)"
-            mat-icon-button
-            style="float: right; margin-top: 10px"
-            *ngIf="!listForm?.disabled"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-
-          <mat-checkbox
-            style="float: right; margin-top: 10px"
-            *ngIf="listForm?.disabled"
-          ></mat-checkbox>
-        </div>
+@if (!!listForm) {
+  <div>
+    <form [formGroup]="listForm" (ngSubmit)="onSubmit()">
+      <!-- REASON -->
+      <div>
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label>Für</mat-label>
+          <input matInput formControlName="reason" />
+        </mat-form-field>
       </div>
-    </div>
-  </form>
-</div>
+      <div>
+        <!-- DONE -->
+        <mat-slide-toggle matInput formControlName="done" style="width: 45%"
+          >Erledigt</mat-slide-toggle
+          >
+          <!-- OCCURS AT -->
+          <mat-form-field appearance="fill" style="width: 55%">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="occursAt" />
+            <mat-hint>DD.MM.YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <!-- DELETED -->
+        @if (selectList && selectList.deleted) {
+          <mat-slide-toggle
+            matInput
+            formControlName="deleted"
+            style="width: 45%"
+            >Gelöscht</mat-slide-toggle
+            >
+          }
+          <mat-divider style="margin: 1rem 0"></mat-divider>
+          <div class="button-bar">
+            <!-- DELETE -->
+            @if (
+              !!listId && listId !== 'new' && selectList && !selectList.deleted
+              ) {
+              <button
+                mat-mini-fab
+                (click)="deleteList()"
+                color="danger"
+                type="button"
+                style="margin-right: 1rem"
+                >
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+            <!-- EDIT -->
+            @if (!!listId && listId !== 'new') {
+              <button
+                mat-mini-fab
+                (click)="toggleReadonly()"
+                color="secondary"
+                type="button"
+                style="margin-right: 1rem"
+                >
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
+            <!-- SAVE -->
+            <button
+              mat-mini-fab
+              style="margin-right: 1rem"
+              color="primary"
+              [disabled]="!listForm.valid"
+              >
+              <mat-icon>save</mat-icon>
+            </button>
+            <!-- ADD -->
+            <button
+              mat-mini-fab
+              (click)="addProduct()"
+              type="button"
+              [disabled]="readonly && listId !== 'new'"
+              >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <!-- PRODUCTS -->
+          @if (!!products) {
+            <div formArrayName="products" style="padding-top: 20px">
+              @for (product of products.controls; track product; let i = $index) {
+                <div>
+                  <div [formGroupName]="i">
+                    <!-- PRODUCT NAME -->
+                    <mat-form-field style="width: 60%; padding-right: 1%">
+                      @if (i === 0) {
+                        <mat-label>Gegenstand</mat-label>
+                      }
+                      <input
+                        matInput
+                        placeholder=""
+                        formControlName="name"
+                        style="font-size: 0.8rem"
+                        />
+                    </mat-form-field>
+                    <!-- PRODUCT AMOUNT -->
+                    <mat-form-field style="width: 20%">
+                      @if (i === 0) {
+                        <mat-label>Menge</mat-label>
+                      }
+                      <input
+                        matInput
+                        placeholder=""
+                        formControlName="amount"
+                        type="number"
+                        style="font-size: 0.8rem"
+                        />
+                    </mat-form-field>
+                    @if (!listForm?.disabled) {
+                      <button
+                        (click)="removeProduct(i)"
+                        mat-icon-button
+                        style="float: right; margin-top: 10px"
+                        >
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    }
+                    @if (listForm?.disabled) {
+                      <mat-checkbox
+                        style="float: right; margin-top: 10px"
+                      ></mat-checkbox>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </form>
+      </div>
+    }
 
-<div *ngIf="!listForm">
-  <p>Loading...</p>
-</div>
+    @if (!listForm) {
+      <div>
+        <p>Loading...</p>
+      </div>
+    }

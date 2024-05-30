@@ -1,4 +1,6 @@
 <h1>Listendetails</h1>
-<div *ngIf="!!listId">
-  <app-list-details [list-id]="listId"></app-list-details>
-</div>
+@if (!!listId) {
+  <div>
+    <app-list-details [list-id]="listId"></app-list-details>
+  </div>
+}

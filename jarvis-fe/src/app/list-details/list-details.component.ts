@@ -4,7 +4,7 @@ import { List } from '../models/list';
 import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { Product } from '../models/product';
-import { Location, NgIf, NgFor } from '@angular/common';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
@@ -24,24 +24,22 @@ import { MatFormField, MatLabel, MatHint, MatSuffix } from '@angular/material/fo
     styleUrls: ['./list-details.component.css'],
     standalone: true,
     imports: [
-        NgIf,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatSlideToggle,
-        MatDatepickerInput,
-        MatHint,
-        MatDatepickerToggle,
-        MatSuffix,
-        MatDatepicker,
-        MatDivider,
-        MatMiniFabButton,
-        MatIcon,
-        NgFor,
-        MatIconButton,
-        MatCheckbox,
-    ],
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatSlideToggle,
+    MatDatepickerInput,
+    MatHint,
+    MatDatepickerToggle,
+    MatSuffix,
+    MatDatepicker,
+    MatDivider,
+    MatMiniFabButton,
+    MatIcon,
+    MatIconButton,
+    MatCheckbox
+],
 })
 export class ListDetailsComponent implements OnInit {
   listForm?: FormGroup;
