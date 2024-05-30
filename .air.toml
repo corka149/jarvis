@@ -1,9 +1,9 @@
 root = "."
 tmp_dir = "tmp"
 [build]
-cmd = "go build -o ./tmp/main ."
+cmd = "go build -o ./tmp/main ./cmd/jarvis/main.go"
 bin = "./tmp/main"
 delay = 1000 # ms
 exclude_dir = ["assets", "tmp", "vendor"]
-include_ext = ["go", "tpl", "tmpl", "html"]
+include_ext = ["go", "tpl", "tmpl", "html", "gohtml"]
 exclude_regex = ["_test\\.go"]
