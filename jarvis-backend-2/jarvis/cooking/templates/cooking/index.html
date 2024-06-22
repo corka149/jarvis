@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cooking</title>
+  </head>
+  <body>
+  <h1>Vorschläge für Gerichte</h1>
+    <ul>
+        {% for meal in meals %}
+            <li>{{ meal.name }}</li>
+        {% endfor %}
+    </ul>
+  <a href="{% url "cooking:index" %}">Neuer Vorschlag</a>
+  </body>
+</html>
