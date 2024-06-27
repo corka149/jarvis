@@ -16,7 +16,9 @@ class Meal(models.Model):
     }
 
     name = models.CharField(max_length=50)
-    category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default=COMPLETE)
+    category = models.CharField(
+        max_length=10, choices=CATEGORY_CHOICES, default=COMPLETE
+    )
 
     def __str__(self):
         return self.name
@@ -24,7 +26,11 @@ class Meal(models.Model):
     @classmethod
     def random_meal(cls) -> List["Meal"]:
         meals = cls.objects.all()
-        random_meal = random.choice(meals)
+
+        if not meals:
+            return []
+
+        random_meal = random.choice(meals) if len(meals) > 1 else meals[0]
 
         if random_meal.category == cls.MAIN:
             supplements = cls.objects.filter(category=cls.SUPPLEMENT)

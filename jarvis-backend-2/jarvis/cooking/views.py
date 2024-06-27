@@ -8,8 +8,6 @@ from .models import Meal
 def index(request):
     meals = Meal.random_meal()
 
-    context = {
-        'meals': meals
-    }
+    context = {"meals": meals}
 
-    return render(request, 'cooking/index.html', context)
+    return render(request, "cooking/index.html", context)
