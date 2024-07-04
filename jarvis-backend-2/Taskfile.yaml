@@ -1,0 +1,7 @@
+version: 3
+
+tasks:
+  generate-ds:
+    desc: Generate data source
+    cmds:
+      - sqlc generate
