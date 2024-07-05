@@ -1,7 +1,8 @@
 version: 3
 
 tasks:
-  generate-ds:
-    desc: Generate data source
+  generate:
+    desc: Generate all code
     cmds:
       - sqlc generate
+      - templ generate

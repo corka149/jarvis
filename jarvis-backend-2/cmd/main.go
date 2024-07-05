@@ -1,17 +1,30 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"errors"
+	"fmt"
 	"log"
+	"os"
 
+	"github.com/corka149/jarvis"
 	"github.com/corka149/jarvis/datastore"
-	pgx "github.com/jackc/pgx/v5"
+	templates "github.com/corka149/jarvis/templ"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	ctx := context.Background()
 
-	conn, err := pgx.Connect(ctx, "postgres://myadmin:mypassword@localhost:5432/jarvis_db")
+	// Load .env file
+	err := godotenv.Load()
+
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
+		log.Printf("Error loading .env file, reading from system env: %s\n", err)
+	}
+
+	conn, err := jarvis.CreateDbConn(ctx)
 
 	if err != nil {
 		log.Fatal(err)
@@ -36,7 +49,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	for _, meal := range meals {
-		log.Printf("Meal: %s", meal.Name)
+	var buf bytes.Buffer
+	err = templates.MealsIndex(meals).Render(ctx, &buf)
+
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	fmt.Println(buf.String())
 }
