@@ -13,6 +13,7 @@ import (
 func Meals(router *gin.Engine, ctx context.Context, queries *datastore.Queries) {
 
 	router.GET("/meals", indexMeals(ctx, queries))
+	router.POST("/meals", createMeal(ctx, queries))
 	router.GET("/meals/:id", editMeal(ctx, queries))
 	router.POST("/meals/:id", updateMeal(ctx, queries))
 	router.POST("/meals/:id/delete", deleteMeal(ctx, queries))
@@ -31,6 +32,24 @@ func indexMeals(ctx context.Context, queries *datastore.Queries) gin.HandlerFunc
 		}
 
 		templates.Layout(templates.MealsIndex(meals)).Render(ctx, c.Writer)
+	}
+}
+
+func createMeal(ctx context.Context, queries *datastore.Queries) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		name := c.PostForm("name")
+		category := c.PostForm("category")
+
+		_, err := queries.CreateMeal(ctx, datastore.CreateMealParams{
+			Name:     name,
+			Category: category,
+		})
+
+		if err != nil {
+			log.Println("Error creating meal: ", err)
+		}
+
+		c.Redirect(302, "/meals")
 	}
 }
 

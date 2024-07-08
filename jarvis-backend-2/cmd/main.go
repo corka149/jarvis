@@ -9,7 +9,6 @@ import (
 	"github.com/corka149/jarvis"
 	"github.com/corka149/jarvis/app"
 	"github.com/corka149/jarvis/datastore"
-	"github.com/corka149/jarvis/templates"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -37,9 +36,7 @@ func main() {
 
 	app.Meals(router, ctx, queries)
 
-	router.GET("/", func(c *gin.Context) {
-		templates.Layout(templates.Index()).Render(ctx, c.Writer)
-	})
+	router.GET("/", app.Home(ctx, queries))
 	router.Static("/static", "./static")
 
 	log.Fatal(router.Run())

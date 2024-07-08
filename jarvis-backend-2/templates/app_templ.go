@@ -8,6 +8,10 @@ package templates
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
+import (
+	"github.com/corka149/jarvis/datastore"
+)
+
 func Layout(contents templ.Component) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -110,7 +114,7 @@ func Footer() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"bg-gray-800 text-white p-2 absolute inset-x-0 bottom-0\"><div class=\"max-w-6xl mx-auto px-2 py-2\"><div class=\"text-center\"><span>Made with love in Go ❤️</span> - <a href=\"https://github.com/corka149/jarvis\" class=\"text-blue-400 hover:text-blue-600\">github.com/corka149/jarvis</a></div></div></footer>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"bg-orange-500 text-white p-2 absolute inset-x-0 bottom-0\"><div class=\"max-w-6xl mx-auto px-2 py-2\"><div class=\"text-center\"><span>Made with love in Go ❤️</span> - <a href=\"https://github.com/corka149/jarvis\" class=\"text-blue-400 hover:text-blue-600\">github.com/corka149/jarvis</a></div></div></footer>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -136,7 +140,7 @@ func Menu() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-gray-800 text-white\"><nav class=\"max-w-6xl mx-auto px-4\"><div class=\"flex justify-between\"><div class=\"flex space-x-4\"><!-- Logo or Brand --><div><a href=\"#\" class=\"flex items-center py-5 px-2 text-gray-700 hover:text-gray-900\"><svg class=\"h-6 w-6 mr-1 text-white\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><!-- SVG content for logo --></svg> <span class=\"font-bold\">Brand</span></a></div><!-- Primary Navbar items --><div class=\"hidden md:flex items-center space-x-1\"><a href=\"/\" class=\"py-5 px-3 hover:underline\">Home</a> <a href=\"/meals\" class=\"py-5 px-3 hover:underline\">Gerichte</a></div></div><!-- Mobile menu button --><div class=\"md:hidden flex items-center\"><button class=\"mobile-menu-button\"><svg class=\"w-6 h-6\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 6h16M4 12h16m-7 6h7\"></path></svg></button></div></div></nav><!-- Mobile Menu --><div class=\"mobile-menu hidden md:hidden\"><a href=\"/\" class=\"block py-2 px-4 text-sm hover:bg-gray-700\">Home</a> <a href=\"/meals\" class=\"block py-2 px-4 text-sm hover:bg-gray-700\">Gerichte</a></div></div><script>\n  const btn = document.querySelector(\".mobile-menu-button\");\n  const menu = document.querySelector(\".mobile-menu\");\n\n  btn.addEventListener(\"click\", () => {\n    menu.classList.toggle(\"hidden\");\n  });\n</script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-orange-500 text-white\"><nav class=\"max-w-6xl mx-auto px-4\"><div class=\"flex justify-between\"><div class=\"flex space-x-4\"><!-- Logo or Brand --><div><a href=\"#\" class=\"flex items-center px-2 text-orange-400 hover:text-orange-600\"><img src=\"/static/img/logo_jarvis.svg\" alt=\"jARVIS\" class=\"h-20 w-20 mr-2\"></a></div><!-- Primary Navbar items --><div class=\"hidden md:flex items-center space-x-1\"><a href=\"/\" class=\"py-5 px-3 hover:underline\">Home</a> <a href=\"/meals\" class=\"py-5 px-3 hover:underline\">Gerichte</a></div></div><!-- Mobile menu button --><div class=\"md:hidden flex items-center\"><button class=\"mobile-menu-button\"><svg class=\"w-6 h-6\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 6h16M4 12h16m-7 6h7\"></path></svg></button></div></div></nav><!-- Mobile Menu --><div class=\"mobile-menu hidden md:hidden\"><a href=\"/\" class=\"block py-2 px-4 text-sm hover:bg-orange-400\">Home</a> <a href=\"/meals\" class=\"block py-2 px-4 text-sm hover:bg-orange-400\">Gerichte</a></div></div><script>\n  const btn = document.querySelector(\".mobile-menu-button\");\n  const menu = document.querySelector(\".mobile-menu\");\n\n  btn.addEventListener(\"click\", () => {\n    menu.classList.toggle(\"hidden\");\n  });\n</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -144,7 +148,7 @@ func Menu() templ.Component {
 	})
 }
 
-func Index() templ.Component {
+func Index(meals []datastore.Meal) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -162,7 +166,43 @@ func Index() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"max-w-4xl mx-auto px-4 sm:px-6 lg:px-8\"><h1 class=\"text-2xl font-bold text-center my-8\">Zufallsgericht</h1>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, meal := range meals {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-white shadow overflow-hidden sm:rounded-lg mb-6\"><div class=\"px-4 py-5 sm:px-6\"><h2 class=\"text-lg leading-6 font-medium text-gray-900\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 string
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(meal.Name)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/app.templ`, Line: 93, Col: 87}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><p class=\"mt-1 max-w-2xl text-sm text-gray-500\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(meal.Category)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/app.templ`, Line: 94, Col: 83}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
