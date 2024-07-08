@@ -1,16 +1,16 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"os"
 
 	"github.com/corka149/jarvis"
+	"github.com/corka149/jarvis/app"
 	"github.com/corka149/jarvis/datastore"
-	templates "github.com/corka149/jarvis/templ"
+	"github.com/corka149/jarvis/templates"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -33,28 +33,14 @@ func main() {
 	defer conn.Close(ctx)
 
 	queries := datastore.New(conn)
+	router := gin.Default()
 
-	_, err = queries.CreateMeal(ctx, datastore.CreateMealParams{
-		Name:     "Pizza",
-		Category: "COMPLETE",
+	app.Meals(router, ctx, queries)
+
+	router.GET("/", func(c *gin.Context) {
+		templates.Layout(templates.Index()).Render(ctx, c.Writer)
 	})
+	router.Static("/static", "./static")
 
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	meals, err := queries.GetMeals(ctx)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var buf bytes.Buffer
-	err = templates.MealsIndex(meals).Render(ctx, &buf)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(buf.String())
+	log.Fatal(router.Run())
 }
