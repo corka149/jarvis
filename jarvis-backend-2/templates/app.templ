@@ -1,8 +1,6 @@
 package templates
 
-import (
-	"github.com/corka149/jarvis/datastore"
-)
+import "github.com/corka149/jarvis/datastore"
 
 templ Layout(contents templ.Component) {
 	<!DOCTYPE html>
@@ -25,12 +23,14 @@ templ Header() {
 		<title>jARVIS</title>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<!-- favicon -->
+		<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon"/>
 		<link rel="stylesheet" href="/static/css/styles.css"/>
 	</head>
 }
 
 templ Footer() {
-	<footer class="bg-orange-500 text-white p-2 absolute inset-x-0 bottom-0">
+	<footer class="bg-orange-500 text-white p-2 inset-x-0 bottom-0">
 		<div class="max-w-6xl mx-auto px-2 py-2">
 			<div class="text-center">
 				<span>Made with love in Go ❤️</span>
@@ -48,7 +48,7 @@ templ Menu() {
 				<div class="flex space-x-4">
 					<!-- Logo or Brand -->
 					<div>
-						<a href="#" class="flex items-center px-2 text-orange-400 hover:text-orange-600">
+						<a href="/" class="flex items-center px-2 text-orange-400 hover:text-orange-600">
 							<img src="/static/img/logo_jarvis.svg" alt="jARVIS" class="h-20 w-20 mr-2"/>
 						</a>
 					</div>
@@ -85,15 +85,24 @@ templ Menu() {
 }
 
 templ Index(meals []datastore.Meal) {
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-2xl font-bold text-center my-8">Zufallsgericht</h1>
-        for _, meal := range meals {
-            <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
-                <div class="px-4 py-5 sm:px-6">
-                    <h2 class="text-lg leading-6 font-medium text-gray-900">{ meal.Name }</h2>
-                    <p class="mt-1 max-w-2xl text-sm text-gray-500">{ meal.Category }</p>
-                </div>
-            </div>
-        }
-    </div>
+	<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+		<h1 class="text-2xl font-bold text-center my-8">Zufallsgericht</h1>
+		<!-- Random meals -->
+		for _, meal := range meals {
+			<div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+				<div class="px-4 py-5 sm:px-6">
+					<h2 class="text-lg leading-6 font-medium text-gray-900">{ meal.Name }</h2>
+					<p class="mt-1 max-w-2xl text-sm text-gray-500">{ meal.Category }</p>
+				</div>
+			</div>
+		}
+		<!-- Refresh button -->
+		<a href="/" class="flex text-gray-900 justify-center px-4 py-2 font-semibold text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out sm:text-sm md:text-base lg:px-6 lg:py-3 mx-2 lg:mx-60">
+			Nächstes Gericht
+		</a>
+		<!-- jARVIS robot -->
+		<div class="flex justify-center">
+			<img src="/static/img/jarvis.png" alt="Jarvis" class="max-w-full h-auto py-5"/>
+		</div>
+	</div>
 }

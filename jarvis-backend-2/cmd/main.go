@@ -4,12 +4,17 @@ import (
 	"context"
 	"errors"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/corka149/jarvis"
 	"github.com/corka149/jarvis/app"
 	"github.com/corka149/jarvis/datastore"
+	"github.com/corka149/jarvis/schema"
+	"github.com/corka149/jarvis/static"
 	"github.com/gin-gonic/gin"
+
+	"github.com/gin-contrib/gzip"
 	"github.com/joho/godotenv"
 )
 
@@ -23,21 +28,29 @@ func main() {
 		log.Printf("Error loading .env file, reading from system env: %s\n", err)
 	}
 
-	conn, err := jarvis.CreateDbConn(ctx)
+	config, err := jarvis.Setup(ctx)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	defer conn.Close(ctx)
+	defer config.DbPool.Close()
 
-	queries := datastore.New(conn)
+	err = schema.RunMigration(ctx, config)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	queries := datastore.New(config.DbPool)
+
 	router := gin.Default()
+	router.Use(gzip.Gzip(gzip.DefaultCompression))
 
-	app.Meals(router, ctx, queries)
+	app.Meals(router, ctx, queries, config)
 
 	router.GET("/", app.Home(ctx, queries))
-	router.Static("/static", "./static")
+	router.StaticFS("/static", http.FS(static.Assets))
 
 	log.Fatal(router.Run())
 }
