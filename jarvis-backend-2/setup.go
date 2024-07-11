@@ -8,7 +8,6 @@ package jarvis
 import (
 	"cmp"
 	"context"
-	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -20,9 +19,11 @@ type Config struct {
 }
 
 const defaultDbURL = "postgres://myadmin:mypassword@localhost:5432/jarvis_db"
+const defaultAdminUser = "admin"
+const defaultAdminPassword = "password"
 
-func Setup(ctx context.Context) (*Config, error) {
-	dbUrl := cmp.Or(os.Getenv("DB_URL"), defaultDbURL)
+func Setup(ctx context.Context, getenv func(string) string) (*Config, error) {
+	dbUrl := cmp.Or(getenv("DB_URL"), defaultDbURL)
 
 	dbpool, err := pgxpool.New(ctx, dbUrl)
 
@@ -30,8 +31,8 @@ func Setup(ctx context.Context) (*Config, error) {
 		return nil, err
 	}
 
-	adminUser := cmp.Or(os.Getenv("ADMIN_USER"), "admin")
-	adminPassword := cmp.Or(os.Getenv("ADMIN_PASSWORD"), "password")
+	adminUser := cmp.Or(getenv("ADMIN_USER"), defaultAdminUser)
+	adminPassword := cmp.Or(getenv("ADMIN_PASSWORD"), defaultAdminPassword)
 
 	return &Config{
 		AdminUsername:     adminUser,

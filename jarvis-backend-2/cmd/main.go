@@ -28,7 +28,7 @@ func main() {
 		log.Printf("Error loading .env file, reading from system env: %s\n", err)
 	}
 
-	config, err := jarvis.Setup(ctx)
+	config, err := jarvis.Setup(ctx, os.Getenv)
 
 	if err != nil {
 		log.Fatal(err)
@@ -48,8 +48,8 @@ func main() {
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	app.Meals(router, ctx, queries, config)
+	app.Home(router, ctx, queries)
 
-	router.GET("/", app.Home(ctx, queries))
 	router.StaticFS("/static", http.FS(static.Assets))
 
 	log.Fatal(router.Run())
