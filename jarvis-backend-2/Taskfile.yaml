@@ -7,3 +7,9 @@ tasks:
       - sqlc generate
       - templ generate
       - tailwindcss -i ./static/css/input.css -o ./static/css/styles.css
+
+  release:
+    desc: Release
+    cmds:
+      - docker build -t corka149/jarvis:6.0 .
+      - docker push corka149/jarvis:6.0
