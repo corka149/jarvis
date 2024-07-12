@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 
 	"github.com/corka149/jarvis"
 	"github.com/corka149/jarvis/app"
@@ -24,6 +25,8 @@ func main() {
 }
 
 func Run(ctx context.Context, getenv func(string) string) error {
+	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
+	defer cancel()
 
 	// Load .env file
 	err := godotenv.Load()
