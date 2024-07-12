@@ -26,7 +26,7 @@ func TestIndexMeals(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.Meals(router, ctx, queries, config)
+	app.RegisterRoutes(router, ctx, queries, config)
 
 	w := httptest.NewRecorder()
 	req, err := http.NewRequest("GET", "/meals", nil)
@@ -52,7 +52,7 @@ func TestCreateMeal(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.Meals(router, ctx, queries, config)
+	app.RegisterRoutes(router, ctx, queries, config)
 
 	w := httptest.NewRecorder()
 
@@ -89,7 +89,7 @@ func TestUpdateMeal(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.Meals(router, ctx, queries, config)
+	app.RegisterRoutes(router, ctx, queries, config)
 
 	bread, err := queries.CreateMeal(ctx, datastore.CreateMealParams{
 		Name:     "Bread",
@@ -132,7 +132,7 @@ func TestDeleteMeal(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.Meals(router, ctx, queries, config)
+	app.RegisterRoutes(router, ctx, queries, config)
 
 	bread, err := queries.CreateMeal(ctx, datastore.CreateMealParams{
 		Name:     "Bread",

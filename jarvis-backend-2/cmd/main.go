@@ -3,15 +3,14 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/corka149/jarvis"
 	"github.com/corka149/jarvis/app"
 	"github.com/corka149/jarvis/datastore"
 	"github.com/corka149/jarvis/schema"
-	"github.com/corka149/jarvis/static"
 	"github.com/gin-gonic/gin"
 
 	"github.com/gin-contrib/gzip"
@@ -19,19 +18,24 @@ import (
 )
 
 func main() {
-	ctx := context.Background()
+	err := Run(context.Background(), os.Getenv)
+
+	log.Fatalln(err)
+}
+
+func Run(ctx context.Context, getenv func(string) string) error {
 
 	// Load .env file
 	err := godotenv.Load()
 
 	if err != nil && !errors.Is(err, os.ErrNotExist) {
-		log.Printf("Error loading .env file, reading from system env: %s\n", err)
+		return fmt.Errorf("failed to load .env file: %w", err)
 	}
 
-	config, err := jarvis.Setup(ctx, os.Getenv)
+	config, err := jarvis.Setup(ctx, getenv)
 
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to setup config: %w", err)
 	}
 
 	defer config.DbPool.Close()
@@ -39,7 +43,7 @@ func main() {
 	err = schema.RunMigration(ctx, config)
 
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to run migration: %w", err)
 	}
 
 	queries := datastore.New(config.DbPool)
@@ -47,10 +51,13 @@ func main() {
 	router := gin.Default()
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
 
-	app.Meals(router, ctx, queries, config)
-	app.Home(router, ctx, queries)
+	app.RegisterRoutes(router, ctx, queries, config)
 
-	router.StaticFS("/static", http.FS(static.Assets))
+	err = router.Run()
 
-	log.Fatal(router.Run())
+	if err != nil {
+		return fmt.Errorf("failed to run server: %w", err)
+	}
+
+	return nil
 }

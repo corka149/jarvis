@@ -5,24 +5,10 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/corka149/jarvis"
 	"github.com/corka149/jarvis/datastore"
 	"github.com/corka149/jarvis/templates"
 	"github.com/gin-gonic/gin"
 )
-
-func Meals(router *gin.Engine, ctx context.Context, queries *datastore.Queries, config *jarvis.Config) {
-
-	admin := router.Group("/meals", gin.BasicAuth(gin.Accounts{
-		config.AdminUsername: config.AdminUserPassword,
-	}))
-
-	admin.GET("", indexMeals(ctx, queries))
-	admin.POST("", createMeal(ctx, queries))
-	admin.GET("/:id", editMeal(ctx, queries))
-	admin.POST("/:id", updateMeal(ctx, queries))
-	admin.POST("/:id/delete", deleteMeal(ctx, queries))
-}
 
 func indexMeals(ctx context.Context, queries *datastore.Queries) gin.HandlerFunc {
 	return func(c *gin.Context) {

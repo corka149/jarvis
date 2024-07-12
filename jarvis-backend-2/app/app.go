@@ -11,10 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Home(router *gin.Engine, ctx context.Context, queries *datastore.Queries) {
-	router.GET("/", indexHome(ctx, queries))
-}
-
 func indexHome(ctx context.Context, queries *datastore.Queries) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Pick one random meal from DB

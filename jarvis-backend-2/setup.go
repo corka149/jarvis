@@ -16,11 +16,15 @@ type Config struct {
 	AdminUsername     string
 	AdminUserPassword string
 	DbPool            *pgxpool.Pool
+	UrlPrefix         string
 }
 
-const defaultDbURL = "postgres://myadmin:mypassword@localhost:5432/jarvis_db"
-const defaultAdminUser = "admin"
-const defaultAdminPassword = "password"
+const (
+	defaultDbURL         = "postgres://myadmin:mypassword@localhost:5432/jarvis_db"
+	defaultAdminUser     = "admin"
+	defaultAdminPassword = "password"
+	defaultUrlPrefix     = "/"
+)
 
 func Setup(ctx context.Context, getenv func(string) string) (*Config, error) {
 	dbUrl := cmp.Or(getenv("DB_URL"), defaultDbURL)
@@ -33,10 +37,12 @@ func Setup(ctx context.Context, getenv func(string) string) (*Config, error) {
 
 	adminUser := cmp.Or(getenv("ADMIN_USER"), defaultAdminUser)
 	adminPassword := cmp.Or(getenv("ADMIN_PASSWORD"), defaultAdminPassword)
+	urlPrefix := cmp.Or(getenv("URL_PREFIX"), defaultUrlPrefix)
 
 	return &Config{
 		AdminUsername:     adminUser,
 		AdminUserPassword: adminPassword,
 		DbPool:            dbpool,
+		UrlPrefix:         urlPrefix,
 	}, nil
 }

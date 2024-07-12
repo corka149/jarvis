@@ -26,7 +26,7 @@ func TestHomeWithoutMealsAvailable(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.Home(router, ctx, queries)
+	app.RegisterRoutes(router, ctx, queries, config)
 
 	w := httptest.NewRecorder()
 	req, err := http.NewRequest("GET", "/", nil)
@@ -51,7 +51,7 @@ func TestHomeWithCompleteMeal(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.Home(router, ctx, queries)
+	app.RegisterRoutes(router, ctx, queries, config)
 
 	pizza, err := queries.CreateMeal(ctx, datastore.CreateMealParams{
 		Name:     "Pizza",
@@ -83,7 +83,7 @@ func TestHomeWithMainAndSupplementMeal(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.Home(router, ctx, queries)
+	app.RegisterRoutes(router, ctx, queries, config)
 
 	cheese, err := queries.CreateMeal(ctx, datastore.CreateMealParams{
 		Name:     "Cheese",
