@@ -3,6 +3,7 @@
 // / - ADMIN_USER: The username for the admin user. Default is "admin".
 // / - ADMIN_PASSWORD: The password for the admin user. Default is "password".
 // / - DB_URL: The URL for the database. Default is "postgres://myadmin:mypassword@localhost:5432/jarvis_db".
+// / - URL_PREFIX: The URL prefix for the application. Default is "".
 package jarvis
 
 import (
@@ -23,7 +24,7 @@ const (
 	defaultDbURL         = "postgres://myadmin:mypassword@localhost:5432/jarvis_db"
 	defaultAdminUser     = "admin"
 	defaultAdminPassword = "password"
-	defaultUrlPrefix     = "/"
+	defaultUrlPrefix     = ""
 )
 
 func Setup(ctx context.Context, getenv func(string) string) (*Config, error) {

@@ -11,6 +11,7 @@ import (
 	"github.com/corka149/jarvis"
 	"github.com/corka149/jarvis/app"
 	"github.com/corka149/jarvis/datastore"
+	"github.com/corka149/jarvis/middleware"
 	"github.com/corka149/jarvis/schema"
 	"github.com/gin-gonic/gin"
 
@@ -53,6 +54,7 @@ func Run(ctx context.Context, getenv func(string) string) error {
 
 	router := gin.Default()
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
+	router.Use(middleware.RewriteURL(config.UrlPrefix))
 
 	app.RegisterRoutes(router, ctx, queries, config)
 
