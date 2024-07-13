@@ -1,60 +1,68 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 
 	"github.com/corka149/jarvis"
+	"github.com/corka149/jarvis/app"
 	"github.com/corka149/jarvis/datastore"
-	templates "github.com/corka149/jarvis/templ"
+	"github.com/corka149/jarvis/middleware"
+	"github.com/corka149/jarvis/schema"
+	"github.com/gin-gonic/gin"
+
+	"github.com/gin-contrib/gzip"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	ctx := context.Background()
+	err := Run(context.Background(), os.Getenv)
+
+	log.Fatalln(err)
+}
+
+func Run(ctx context.Context, getenv func(string) string) error {
+	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
+	defer cancel()
 
 	// Load .env file
 	err := godotenv.Load()
 
 	if err != nil && !errors.Is(err, os.ErrNotExist) {
-		log.Printf("Error loading .env file, reading from system env: %s\n", err)
+		return fmt.Errorf("failed to load .env file: %w", err)
 	}
 
-	conn, err := jarvis.CreateDbConn(ctx)
+	config, err := jarvis.Setup(ctx, getenv)
 
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to setup config: %w", err)
 	}
 
-	defer conn.Close(ctx)
+	defer config.DbPool.Close()
 
-	queries := datastore.New(conn)
-
-	_, err = queries.CreateMeal(ctx, datastore.CreateMealParams{
-		Name:     "Pizza",
-		Category: "COMPLETE",
-	})
+	err = schema.RunMigration(ctx, config)
 
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to run migration: %w", err)
 	}
 
-	meals, err := queries.GetMeals(ctx)
+	queries := datastore.New(config.DbPool)
+
+	router := gin.Default()
+	router.Use(gzip.Gzip(gzip.DefaultCompression))
+	router.Use(middleware.RewriteURL(config.UrlPrefix))
+
+	app.RegisterRoutes(router, ctx, queries, config)
+
+	err = router.Run()
 
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to run server: %w", err)
 	}
 
-	var buf bytes.Buffer
-	err = templates.MealsIndex(meals).Render(ctx, &buf)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(buf.String())
+	return nil
 }

@@ -14,3 +14,10 @@ tasks:
       - go install github.com/a-h/templ/cmd/templ@latest
       - go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
       - go install github.com/air-verse/air@latest
+      - tailwindcss -i ./static/css/input.css -o ./static/css/styles.css
+
+  release:
+    desc: Release
+    cmds:
+      - docker build -t corka149/jarvis:6.0.2 .
+      - docker push corka149/jarvis:6.0.2
