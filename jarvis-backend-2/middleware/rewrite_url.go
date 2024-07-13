@@ -39,8 +39,10 @@ func (w responseBodyWriter) Write(b []byte) (int, error) {
 
 func RewriteURL(urlPrefix string) gin.HandlerFunc {
 	return func(c *gin.Context) {
+
 		if urlPrefix == "" {
 			c.Next()
+			return
 		}
 
 		w := &responseBodyWriter{urlPrefix: urlPrefix, ResponseWriter: c.Writer}
@@ -48,5 +50,12 @@ func RewriteURL(urlPrefix string) gin.HandlerFunc {
 
 		// Process request
 		c.Next()
+
+		currentLocation := c.Writer.Header().Get("Location")
+
+		if c.Writer.Status() == 302 && currentLocation != "" {
+			newLocation := urlPrefix + currentLocation
+			c.Writer.Header().Set("Location", newLocation)
+		}
 	}
 }
