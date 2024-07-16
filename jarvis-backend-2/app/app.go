@@ -7,6 +7,7 @@ import (
 	"math/rand"
 
 	"github.com/corka149/jarvis/datastore"
+	"github.com/corka149/jarvis/dto"
 	"github.com/corka149/jarvis/templates"
 	"github.com/gin-gonic/gin"
 )
@@ -14,43 +15,61 @@ import (
 func indexHome(ctx context.Context, queries *datastore.Queries) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Pick one random meal from DB
-		meals, err := queries.GetMeals(ctx)
+		mealCombo, err := pickRandomMeals(ctx, queries)
 
 		if err != nil {
-			log.Println(err)
+			log.Printf("Error while picking random meals: %v\n", err)
 			c.Redirect(302, "/")
 			return
 		}
 
-		rand.Shuffle(len(meals), func(i, j int) {
-			meals[i], meals[j] = meals[j], meals[i]
-		})
+		templates.Layout(templates.Index(mealCombo)).Render(ctx, c.Writer)
+	}
+}
 
-		randomMeals := make([]datastore.Meal, 0, 2)
-		main := false
-		supplement := false
+func pickRandomMeals(ctx context.Context, queries *datastore.Queries) (dto.MealCombo, error) {
+	// Pick one random meal from DB
+	meals, err := queries.GetMeals(ctx)
 
-		for _, meal := range meals {
-			if meal.Category == datastore.COMPLETE_CATEGORY && !main && !supplement {
-				randomMeals = append(randomMeals, meal)
-				break
-			}
+	if err != nil {
+		return dto.MealCombo{}, err
+	}
 
-			if meal.Category == datastore.MAIN_CATEGORY && !main {
-				randomMeals = append(randomMeals, meal)
-				main = true
-			}
+	rand.Shuffle(len(meals), func(i, j int) {
+		meals[i], meals[j] = meals[j], meals[i]
+	})
 
-			if meal.Category == datastore.SUPPLEMENT_CATEGORY && !supplement {
-				randomMeals = append(randomMeals, meal)
-				supplement = true
-			}
+	main := false
+	supplement := false
 
-			if main && supplement {
-				break
-			}
+	var first, second datastore.Meal
+
+	for _, meal := range meals {
+		if meal.Category == datastore.COMPLETE_CATEGORY && !main && !supplement {
+			first = meal
+			break
 		}
 
-		templates.Layout(templates.Index(randomMeals)).Render(ctx, c.Writer)
+		if meal.Category == datastore.MAIN_CATEGORY && !main {
+			first = meal
+			main = true
+		}
+
+		if meal.Category == datastore.SUPPLEMENT_CATEGORY && !supplement {
+			second = meal
+			supplement = true
+		}
+
+		if main && supplement {
+			break
+		}
 	}
+
+	mealCombo := dto.MealCombo{
+		First:          dto.Meal{Name: first.Name, Category: first.Category},
+		Second:         dto.Meal{Name: second.Name, Category: second.Category},
+		WithSupplement: second.ID != 0,
+	}
+
+	return mealCombo, nil
 }
