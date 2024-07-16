@@ -1,12 +1,12 @@
 package dto
 
 type Meal struct {
-	Name     string
-	Category string
+	Name     string `json:"name"`
+	Category string `json:"category"`
 }
 
 type MealCombo struct {
-	First          Meal
-	Second         Meal
-	WithSupplement bool
+	First          Meal `json:"first"`
+	Second         Meal `json:"second"`
+	WithSupplement bool `json:"withSupplement"`
 }
