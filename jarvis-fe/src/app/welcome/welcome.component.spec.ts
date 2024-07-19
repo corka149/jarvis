@@ -6,8 +6,8 @@ import { of } from "rxjs";
 import {MealCombo} from "../models/meal";
 
 const pizza: MealCombo = {
-  first: {name: "Pizza", category: "MAIN"},
-  second: {name: "", category: ""},
+  first: {id: 1, name: "Pizza", category: "MAIN"},
+  second: {id: 2, name: "", category: ""},
   withSupplement: false
 }
 

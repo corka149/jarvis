@@ -19,5 +19,5 @@ tasks:
   release:
     desc: Release
     cmds:
-      - docker build -t corka149/jarvis:6.0.4 .
-      - docker push corka149/jarvis:6.0.4
+      - docker build -t corka149/jarvis:6.0.5 .
+      - docker push corka149/jarvis:6.0.5
