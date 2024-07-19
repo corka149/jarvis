@@ -10,6 +10,7 @@ import (
 
 	"github.com/corka149/jarvis"
 	"github.com/corka149/jarvis/app"
+	"github.com/corka149/jarvis/auth"
 	"github.com/corka149/jarvis/datastore"
 	"github.com/corka149/jarvis/middleware"
 	"github.com/corka149/jarvis/schema"
@@ -51,14 +52,17 @@ func Run(ctx context.Context, getenv func(string) string) error {
 	}
 
 	queries := datastore.New(config.DbPool)
+	authClient := auth.NewAuthClient(config.AuthServerUrl)
 
 	router := gin.Default()
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
 	router.Use(middleware.RewriteURL(config.UrlPrefix))
 
-	app.RegisterRoutes(router, ctx, queries, config)
+	app.RegisterRoutes(router, ctx, queries, config, authClient)
 
-	err = router.Run()
+	address := fmt.Sprintf(":%s", config.Port)
+
+	err = router.Run(address)
 
 	if err != nil {
 		return fmt.Errorf("failed to run server: %w", err)

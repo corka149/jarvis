@@ -1,6 +1,7 @@
 package dto
 
 type Meal struct {
+	ID       int32  `json:"id"`
 	Name     string `json:"name"`
 	Category string `json:"category"`
 }

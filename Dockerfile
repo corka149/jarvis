@@ -1,6 +1,6 @@
 # ===== ===== FE BUILD ===== =====
 
-FROM node:16 as fe-build
+FROM node:20.12 as fe-build
 
 ADD ./jarvis-fe /opt/jarvis-fe
 
@@ -12,7 +12,7 @@ RUN npm run ng build --optimization
 
 # ===== ===== BE BUILD ===== =====
 
-FROM rust:1.65 as be-build
+FROM rust:1.78 as be-build
 
 ADD ./jarvis-backend /opt/jarvis-be
 

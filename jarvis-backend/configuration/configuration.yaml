@@ -2,7 +2,7 @@ logging:
   level: debug
 
 database:
-  connection: mongodb://localhost:27017
+  connection: mongodb://myadmin:mypassword@localhost:27017
 
 security:
   secret_key: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

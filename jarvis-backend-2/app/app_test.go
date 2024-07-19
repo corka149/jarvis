@@ -26,7 +26,7 @@ func TestHomeWithoutMealsAvailable(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.RegisterRoutes(router, ctx, queries, config)
+	app.RegisterRoutes(router, ctx, queries, config, NewMockAuthChecker())
 
 	w := httptest.NewRecorder()
 	req, err := http.NewRequest("GET", "/", nil)
@@ -51,7 +51,7 @@ func TestHomeWithCompleteMeal(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.RegisterRoutes(router, ctx, queries, config)
+	app.RegisterRoutes(router, ctx, queries, config, NewMockAuthChecker())
 
 	pizza, err := queries.CreateMeal(ctx, datastore.CreateMealParams{
 		Name:     "Pizza",
@@ -83,7 +83,7 @@ func TestHomeWithMainAndSupplementMeal(t *testing.T) {
 	prepareDb(ctx, queries, config)
 
 	router := gin.Default()
-	app.RegisterRoutes(router, ctx, queries, config)
+	app.RegisterRoutes(router, ctx, queries, config, NewMockAuthChecker())
 
 	cheese, err := queries.CreateMeal(ctx, datastore.CreateMealParams{
 		Name:     "Cheese",
@@ -133,4 +133,16 @@ func getenv(key string) string {
 		return "password"
 	}
 	return ""
+}
+
+type mockAuthChecker struct {
+	ShouldPass bool
+}
+
+func NewMockAuthChecker() mockAuthChecker {
+	return mockAuthChecker{ShouldPass: true}
+}
+
+func (m mockAuthChecker) CheckAuthenticated(ctx context.Context, token string) (bool, error) {
+	return m.ShouldPass, nil
 }

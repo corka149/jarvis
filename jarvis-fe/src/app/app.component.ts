@@ -10,7 +10,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton, MatMiniFabAnchor } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatNavList, MatListItem } from '@angular/material/list';
-import { AsyncPipe } from '@angular/common';
+import {AsyncPipe, NgOptimizedImage} from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
@@ -18,7 +18,7 @@ import { MatToolbar } from '@angular/material/toolbar';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     standalone: true,
-    imports: [
+  imports: [
     MatSidenavContainer,
     MatSidenav,
     MatToolbar,
@@ -31,8 +31,9 @@ import { MatToolbar } from '@angular/material/toolbar';
     MatIcon,
     MatMiniFabAnchor,
     RouterOutlet,
-    AsyncPipe
-],
+    AsyncPipe,
+    NgOptimizedImage
+  ],
 })
 export class AppComponent {
   title = 'jARVIS';

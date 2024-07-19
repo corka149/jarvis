@@ -6,11 +6,13 @@ import (
 
 	"github.com/corka149/jarvis"
 	"github.com/corka149/jarvis/datastore"
+	"github.com/corka149/jarvis/middleware"
 	"github.com/corka149/jarvis/static"
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRoutes(router *gin.Engine, ctx context.Context, queries *datastore.Queries, config *jarvis.Config) {
+func RegisterRoutes(router *gin.Engine, ctx context.Context, queries *datastore.Queries, config *jarvis.Config,
+	authChecker middleware.AuthChecker) {
 
 	// ==================== HOME ====================
 	router.GET("/", indexHome(ctx, queries))
@@ -28,6 +30,12 @@ func RegisterRoutes(router *gin.Engine, ctx context.Context, queries *datastore.
 	router.StaticFS("/static", http.FS(static.Assets))
 
 	// ==================== API ====================
-	mealsApi := router.Group("/api/meals")
-	mealsApi.GET("/random", randomMeals(ctx, queries))
+	mealsApi := router.Group(config.UrlPrefix + "/api/meals")
+	mealsApi.Use(middleware.AuthCheck(ctx, authChecker))
+
+	mealsApi.GET("/random", randomMealsViaApi(ctx, queries))
+	mealsApi.GET("/:id", getMealViaApi(ctx, queries))
+	mealsApi.PUT("/:id", updateMealViaApi(ctx, queries))
+	mealsApi.GET("", getMealsViaApi(ctx, queries))
+	mealsApi.POST("", createMealViaApi(ctx, queries))
 }

@@ -6,6 +6,7 @@ import { ListOverviewComponent } from './list-overview/list-overview.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { NewListComponent } from './new-list/new-list.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import {MealOverviewComponent} from "./meal-overview/meal-overview.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -19,6 +20,11 @@ const routes: Routes = [
   {
     path: 'lists/details/:id',
     component: EditListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'meals',
+    component: MealOverviewComponent,
     canActivate: [AuthGuard],
   },
   { path: 'login', component: LogInComponent },

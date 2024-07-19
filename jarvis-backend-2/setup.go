@@ -4,6 +4,7 @@
 // / - ADMIN_PASSWORD: The password for the admin user. Default is "password".
 // / - DB_URL: The URL for the database. Default is "postgres://myadmin:mypassword@localhost:5432/jarvis_db".
 // / - URL_PREFIX: The URL prefix for the application. Default is "".
+// / - PORT: The port for the application. Default is "8081".
 package jarvis
 
 import (
@@ -18,6 +19,8 @@ type Config struct {
 	AdminUserPassword string
 	DbPool            *pgxpool.Pool
 	UrlPrefix         string
+	Port              string
+	AuthServerUrl     string
 }
 
 const (
@@ -25,6 +28,8 @@ const (
 	defaultAdminUser     = "admin"
 	defaultAdminPassword = "password"
 	defaultUrlPrefix     = ""
+	defaultPort          = "8081"
+	defaultAuthServerUrl = "http://localhost:8080"
 )
 
 func Setup(ctx context.Context, getenv func(string) string) (*Config, error) {
@@ -39,11 +44,15 @@ func Setup(ctx context.Context, getenv func(string) string) (*Config, error) {
 	adminUser := cmp.Or(getenv("ADMIN_USER"), defaultAdminUser)
 	adminPassword := cmp.Or(getenv("ADMIN_PASSWORD"), defaultAdminPassword)
 	urlPrefix := cmp.Or(getenv("URL_PREFIX"), defaultUrlPrefix)
+	port := cmp.Or(getenv("PORT"), defaultPort)
+	authServerUrl := cmp.Or(getenv("AUTH_SERVER_URL"), defaultAuthServerUrl)
 
 	return &Config{
 		AdminUsername:     adminUser,
 		AdminUserPassword: adminPassword,
 		DbPool:            dbpool,
 		UrlPrefix:         urlPrefix,
+		Port:              port,
+		AuthServerUrl:     authServerUrl,
 	}, nil
 }
