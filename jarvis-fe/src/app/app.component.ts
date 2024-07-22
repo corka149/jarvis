@@ -4,20 +4,24 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
+import {
+  MatSidenav,
+  MatSidenavContainer,
+  MatSidenavContent,
+} from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton, MatMiniFabAnchor } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatNavList, MatListItem } from '@angular/material/list';
-import {AsyncPipe, NgOptimizedImage} from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    standalone: true,
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  standalone: true,
   imports: [
     MatSidenavContainer,
     MatSidenav,
@@ -32,7 +36,7 @@ import { MatToolbar } from '@angular/material/toolbar';
     MatMiniFabAnchor,
     RouterOutlet,
     AsyncPipe,
-    NgOptimizedImage
+    NgOptimizedImage,
   ],
 })
 export class AppComponent {

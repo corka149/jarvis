@@ -1,7 +1,6 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -23,8 +22,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
+import {
+  withInterceptorsFromDi,
+  provideHttpClient,
+} from '@angular/common/http';
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MatMomentDateModule,
+} from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
 if (environment.production) {
@@ -32,20 +38,39 @@ if (environment.production) {
 }
 
 bootstrapApplication(AppComponent, {
-    providers: [
-        importProvidersFrom(BrowserModule, MatToolbarModule, MatIconModule, LayoutModule, MatButtonModule, MatSidenavModule, MatListModule, MatDividerModule, AppRoutingModule, MatTableModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule, MatDatepickerModule, MatMomentDateModule, MatCheckboxModule, MatSnackBarModule, ServiceWorkerModule.register('ngsw-worker.js', {
-            enabled: environment.production,
-            // Register the ServiceWorker as soon as the application is stable
-            // or after 30 seconds (whichever comes first).
-            registrationStrategy: 'registerWhenStable:30000',
-        })),
-        {
-            provide: DateAdapter,
-            useClass: MomentDateAdapter,
-            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-        },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideAnimations(),
-    ]
-})
-  .catch((err) => console.error(err));
+  providers: [
+    importProvidersFrom(
+      BrowserModule,
+      MatToolbarModule,
+      MatIconModule,
+      LayoutModule,
+      MatButtonModule,
+      MatSidenavModule,
+      MatListModule,
+      MatDividerModule,
+      AppRoutingModule,
+      MatTableModule,
+      ReactiveFormsModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatSlideToggleModule,
+      MatDatepickerModule,
+      MatMomentDateModule,
+      MatCheckboxModule,
+      MatSnackBarModule,
+      ServiceWorkerModule.register('ngsw-worker.js', {
+        enabled: environment.production,
+        // Register the ServiceWorker as soon as the application is stable
+        // or after 30 seconds (whichever comes first).
+        registrationStrategy: 'registerWhenStable:30000',
+      }),
+    ),
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    provideHttpClient(withInterceptorsFromDi()),
+    provideAnimations(),
+  ],
+}).catch((err) => console.error(err));

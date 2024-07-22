@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
@@ -9,20 +14,19 @@ import { MatButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 
-
 @Component({
-    selector: 'app-log-in',
-    templateUrl: './log-in.component.html',
-    styleUrls: ['./log-in.component.css'],
-    standalone: true,
-    imports: [
+  selector: 'app-log-in',
+  templateUrl: './log-in.component.html',
+  styleUrls: ['./log-in.component.css'],
+  standalone: true,
+  imports: [
     ReactiveFormsModule,
     MatFormField,
     MatLabel,
     MatInput,
     MatButton,
-    MatError
-],
+    MatError,
+  ],
 })
 export class LogInComponent implements OnInit {
   loginForm?: FormGroup;

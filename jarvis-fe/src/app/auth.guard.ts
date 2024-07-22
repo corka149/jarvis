@@ -1,12 +1,18 @@
-import {inject, Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import { inject, Injectable } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
 })
-class PermissionsService  {
+class PermissionsService {
   private loginUrl: UrlTree;
 
   constructor(
@@ -29,6 +35,9 @@ class PermissionsService  {
   }
 }
 
-export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> => {
+export const AuthGuard: CanActivateFn = (
+  next: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+): Observable<boolean | UrlTree> => {
   return inject(PermissionsService).canActivate(next, state);
-}
+};

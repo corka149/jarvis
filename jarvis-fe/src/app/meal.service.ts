@@ -1,18 +1,18 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Meal, MealCombo} from "./models/meal";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Meal, MealCombo } from './models/meal';
 
-const MEAL_URL = "v6/api/meals";
+const MEAL_URL = 'v6/api/meals';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MealService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getRandomMeals(): Observable<MealCombo> {
-    return this.http.get<MealCombo>(MEAL_URL + "/random");
+    return this.http.get<MealCombo>(MEAL_URL + '/random');
   }
 
   getMeals(): Observable<Meal[]> {

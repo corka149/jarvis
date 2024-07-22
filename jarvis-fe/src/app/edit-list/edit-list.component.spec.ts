@@ -15,14 +15,14 @@ describe('EditListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [EditListComponent],
-    providers: [
+      imports: [EditListComponent],
+      providers: [
         {
-            provide: ActivatedRoute,
-            useValue: activatedRoute,
+          provide: ActivatedRoute,
+          useValue: activatedRoute,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EditListComponent);
     component = fixture.componentInstance;

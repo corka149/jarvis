@@ -1,7 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ListService } from '../list.service';
 import { List } from '../models/list';
-import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { Product } from '../models/product';
 import { Location } from '@angular/common';
@@ -13,18 +19,27 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
 import { MatMiniFabButton, MatIconButton } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
-import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
+import {
+  MatDatepickerInput,
+  MatDatepickerToggle,
+  MatDatepicker,
+} from '@angular/material/datepicker';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatInput } from '@angular/material/input';
-import { MatFormField, MatLabel, MatHint, MatSuffix } from '@angular/material/form-field';
-import Swal from "sweetalert2";
+import {
+  MatFormField,
+  MatLabel,
+  MatHint,
+  MatSuffix,
+} from '@angular/material/form-field';
+import Swal from 'sweetalert2';
 
 @Component({
-    selector: 'app-list-details',
-    templateUrl: './list-details.component.html',
-    styleUrls: ['./list-details.component.css'],
-    standalone: true,
-    imports: [
+  selector: 'app-list-details',
+  templateUrl: './list-details.component.html',
+  styleUrls: ['./list-details.component.css'],
+  standalone: true,
+  imports: [
     ReactiveFormsModule,
     MatFormField,
     MatLabel,
@@ -39,8 +54,8 @@ import Swal from "sweetalert2";
     MatMiniFabButton,
     MatIcon,
     MatIconButton,
-    MatCheckbox
-],
+    MatCheckbox,
+  ],
 })
 export class ListDetailsComponent implements OnInit {
   listForm?: FormGroup;

@@ -15,34 +15,28 @@
         <mat-divider></mat-divider>
         <!-- LISTS -->
         <a mat-list-item routerLink="/lists" (click)="toggleDrawer(drawer)"
-        >Offene Listen</a
+          >Offene Listen</a
         >
         <a
           mat-list-item
           routerLink="/lists"
           (click)="toggleDrawer(drawer)"
           [queryParams]="{ showClosed: true }"
-        >Alle Listen</a
+          >Alle Listen</a
         >
         <a
           mat-list-item
           routerLink="/lists/details/new"
           (click)="toggleDrawer(drawer)"
-        >Neue Liste</a
+          >Neue Liste</a
         >
         <mat-divider></mat-divider>
         <!-- MEALS -->
-        <a
-          mat-list-item
-          routerLink="/meals"
-          (click)="toggleDrawer(drawer)"
-        >Gerichte</a
+        <a mat-list-item routerLink="/meals" (click)="toggleDrawer(drawer)"
+          >Gerichte</a
         >
-        <a
-          mat-list-item
-          routerLink="/meals/new"
-          (click)="toggleDrawer(drawer)"
-        >Neues Gericht</a
+        <a mat-list-item routerLink="/meals/new" (click)="toggleDrawer(drawer)"
+          >Neues Gericht</a
         >
         <mat-divider></mat-divider>
         <!-- OTHER -->
@@ -60,16 +54,21 @@
     @if (!authService.isLoggedIn) {
       <mat-nav-list>
         <a mat-list-item routerLink="/login" (click)="toggleDrawer(drawer)"
-        >Anmelden</a
+          >Anmelden</a
         >
       </mat-nav-list>
     }
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar style="background-color: #F97316; height: 6rem">
+    <mat-toolbar style="background-color: #f97316; height: 6rem">
       <span style="width: 50%"></span>
-      <a routerLink="/welcome" style="cursor: pointer;">
-        <img ngSrc="assets/images/logo_jarvis.svg" [alt]="title" fill style="width: 5rem; height: 5rem; margin: 0 1rem; inset: 1%"/>
+      <a routerLink="/welcome" style="cursor: pointer">
+        <img
+          ngSrc="assets/images/logo_jarvis.svg"
+          [alt]="title"
+          fill
+          style="width: 5rem; height: 5rem; margin: 0 1rem; inset: 1%"
+        />
       </a>
       <span style="width: 100%"></span>
       @if (isHandset$ | async) {

@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {MealService} from "../meal.service";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Meal} from "../models/meal";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {Observable, Observer} from "rxjs";
-import {MatIcon} from "@angular/material/icon";
-import {MatMiniFabButton} from "@angular/material/button";
-import Swal from 'sweetalert2'
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MealService } from '../meal.service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Meal } from '../models/meal';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { Observable, Observer } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
+import { MatMiniFabButton } from '@angular/material/button';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-meal-details',
@@ -20,20 +24,21 @@ import Swal from 'sweetalert2'
     MatInput,
     MatLabel,
     MatIcon,
-    MatMiniFabButton
+    MatMiniFabButton,
   ],
   templateUrl: './meal-details.component.html',
-  styleUrl: './meal-details.component.css'
+  styleUrl: './meal-details.component.css',
 })
 export class MealDetailsComponent implements OnInit {
   mealId?: number;
   mealForm?: FormGroup;
 
-  constructor(private route: ActivatedRoute,
-              private fb: FormBuilder,
-              private router: Router,
-              private mealService: MealService) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private router: Router,
+    private mealService: MealService,
+  ) {}
 
   ngOnInit(): void {
     const maybeId = this.route.snapshot.paramMap.get('id');
@@ -52,8 +57,8 @@ export class MealDetailsComponent implements OnInit {
 
   setupForm(meal?: Meal) {
     this.mealForm = this.fb.group({
-      name: [meal ? meal.name : "", Validators.required],
-      category: [meal ? meal.category : "", Validators.required],
+      name: [meal ? meal.name : '', Validators.required],
+      category: [meal ? meal.category : '', Validators.required],
     });
   }
 

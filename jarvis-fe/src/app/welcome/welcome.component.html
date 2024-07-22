@@ -3,17 +3,17 @@
 </div>
 @if (!!mealCombo) {
   <div style="text-align: center; margin: 3rem">
-    <h3>
-      Zufallsgericht
-    </h3>
+    <h3>Zufallsgericht</h3>
     <div>
       <span style="font-weight: bold">{{ mealCombo.first.name }}</span> -
       <span style="color: grey">{{ mealCombo.first.category }}</span>
-      <br>
+      <br />
       <span style="font-weight: bold">{{ mealCombo.second.name }}</span> -
       <span style="color: grey">{{ mealCombo.second.category }}</span>
     </div>
-    <button mat-raised-button style="margin: 1rem 0" (click)="nextMeal()">Nächstes Gericht</button>
+    <button mat-raised-button style="margin: 1rem 0" (click)="nextMeal()">
+      Nächstes Gericht
+    </button>
   </div>
 } @else {
   <div style="padding: 2rem 0px">Wie kann ich helfen?</div>

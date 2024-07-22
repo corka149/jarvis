@@ -3,26 +3,37 @@ import { ListService } from '../list.service';
 import { List } from '../models/list';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import {
+  MatTable,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderCell,
+  MatCellDef,
+  MatCell,
+  MatHeaderRowDef,
+  MatHeaderRow,
+  MatRowDef,
+  MatRow,
+} from '@angular/material/table';
 
 @Component({
-    selector: 'app-list-overview',
-    templateUrl: './list-overview.component.html',
-    styleUrls: ['./list-overview.component.css'],
-    standalone: true,
-    imports: [
-        MatTable,
-        MatColumnDef,
-        MatHeaderCellDef,
-        MatHeaderCell,
-        MatCellDef,
-        MatCell,
-        MatHeaderRowDef,
-        MatHeaderRow,
-        MatRowDef,
-        MatRow,
-        DatePipe,
-    ],
+  selector: 'app-list-overview',
+  templateUrl: './list-overview.component.html',
+  styleUrls: ['./list-overview.component.css'],
+  standalone: true,
+  imports: [
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    DatePipe,
+  ],
 })
 export class ListOverviewComponent implements OnInit {
   displayedColumns: string[] = ['no', 'reason', 'occursAt'];
