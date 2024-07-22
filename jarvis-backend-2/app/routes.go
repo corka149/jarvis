@@ -30,7 +30,7 @@ func RegisterRoutes(router *gin.Engine, ctx context.Context, queries *datastore.
 	router.StaticFS("/static", http.FS(static.Assets))
 
 	// ==================== API ====================
-	mealsApi := router.Group(config.UrlPrefix + "/api/meals")
+	mealsApi := router.Group(config.ApiPrefix + "/api/meals")
 	mealsApi.Use(middleware.AuthCheck(ctx, authChecker))
 
 	mealsApi.GET("/random", randomMealsViaApi(ctx, queries))

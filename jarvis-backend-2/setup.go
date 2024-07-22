@@ -20,6 +20,7 @@ type Config struct {
 	AdminUserPassword string
 	DbPool            *pgxpool.Pool
 	UrlPrefix         string
+	ApiPrefix         string
 	Port              string
 	AuthServerUrl     string
 }
@@ -29,6 +30,7 @@ const (
 	defaultAdminUser     = "admin"
 	defaultAdminPassword = "password"
 	defaultUrlPrefix     = ""
+	defaultApiPrefix     = ""
 	defaultPort          = "8081"
 	defaultAuthServerUrl = "http://localhost:8080"
 )
@@ -45,6 +47,7 @@ func Setup(ctx context.Context, getenv func(string) string) (*Config, error) {
 	adminUser := cmp.Or(getenv("ADMIN_USER"), defaultAdminUser)
 	adminPassword := cmp.Or(getenv("ADMIN_PASSWORD"), defaultAdminPassword)
 	urlPrefix := cmp.Or(getenv("URL_PREFIX"), defaultUrlPrefix)
+	apiPrefix := cmp.Or(getenv("API_PREFIX"), defaultApiPrefix)
 	port := cmp.Or(getenv("PORT"), defaultPort)
 	authServerUrl := cmp.Or(getenv("AUTH_SERVER_URL"), defaultAuthServerUrl)
 
@@ -53,6 +56,7 @@ func Setup(ctx context.Context, getenv func(string) string) (*Config, error) {
 		AdminUserPassword: adminPassword,
 		DbPool:            dbpool,
 		UrlPrefix:         urlPrefix,
+		ApiPrefix:         apiPrefix,
 		Port:              port,
 		AuthServerUrl:     authServerUrl,
 	}, nil
