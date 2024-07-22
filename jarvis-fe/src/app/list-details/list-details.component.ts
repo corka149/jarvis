@@ -6,7 +6,7 @@ import { DateAdapter } from '@angular/material/core';
 import { Product } from '../models/product';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -17,6 +17,7 @@ import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatLabel, MatHint, MatSuffix } from '@angular/material/form-field';
+import Swal from "sweetalert2";
 
 @Component({
     selector: 'app-list-details',
@@ -97,10 +98,21 @@ export class ListDetailsComponent implements OnInit {
   }
 
   deleteList() {
-    if (!!this.listId && confirm('Soll die Liste entgültig gelöscht werden?')) {
-      this.listService
-        .deleteList(this.listId)
-        .subscribe((_success) => this.location.back());
+    if (this.listId) {
+      const listId = this.listId;
+
+      Swal.fire({
+        title: 'Soll die Liste entgültig gelöscht werden?',
+        showDenyButton: true,
+        confirmButtonText: `Ja`,
+        denyButtonText: `Nein`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.listService
+            .deleteList(listId)
+            .subscribe((_success) => this.location.back());
+        }
+      });
     }
   }
 

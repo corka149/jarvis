@@ -38,4 +38,5 @@ func RegisterRoutes(router *gin.Engine, ctx context.Context, queries *datastore.
 	mealsApi.PUT("/:id", updateMealViaApi(ctx, queries))
 	mealsApi.GET("", getMealsViaApi(ctx, queries))
 	mealsApi.POST("", createMealViaApi(ctx, queries))
+	mealsApi.DELETE("/:id", deleteMealViaApi(ctx, queries))
 }

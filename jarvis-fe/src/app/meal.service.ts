@@ -27,7 +27,11 @@ export class MealService {
     return this.http.post<Meal>(MEAL_URL, meal);
   }
 
-  updateMeal(meal: Meal): Observable<Meal> {
-    return this.http.put<Meal>(`${MEAL_URL}/${meal.id}`, meal);
+  updateMeal(mealId: number, meal: Meal): Observable<Meal> {
+    return this.http.put<Meal>(`${MEAL_URL}/${mealId}`, meal);
+  }
+
+  deleteMeal(mealId: number): Observable<void> {
+    return this.http.delete<void>(`${MEAL_URL}/${mealId}`);
   }
 }

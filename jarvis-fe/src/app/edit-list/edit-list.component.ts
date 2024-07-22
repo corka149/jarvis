@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ListDetailsComponent } from '../list-details/list-details.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 type MaybeString = string | null;
@@ -10,7 +11,7 @@ type MaybeString = string | null;
     templateUrl: './edit-list.component.html',
     styleUrls: ['./edit-list.component.css'],
     standalone: true,
-    imports: [ListDetailsComponent],
+  imports: [ListDetailsComponent, ReactiveFormsModule],
 })
 export class EditListComponent implements OnInit {
   listId?: MaybeString;

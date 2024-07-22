@@ -1,0 +1,51 @@
+<h1>Details des Gerichts</h1>
+
+@if (mealForm) {
+  <div>
+    <form [formGroup]="mealForm" (ngSubmit)="onSubmit()">
+      <!-- NAME -->
+      <div>
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name"/>
+        </mat-form-field>
+      </div>
+
+      <!-- CATEGORY -->
+      <div>
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label>Wähle die Kategorie des Gerichts</mat-label>
+          <select matNativeControl required formControlName="category">
+            <option value="Komplettgericht" [selected]="category === 'Komplettgericht'">Komplettgericht</option>
+            <option value="Hauptgericht" [selected]="category === 'Hauptgericht'">Hauptgericht</option>
+            <option value="Beilage" [selected]="category === 'Beilage'">Beilage</option>
+          </select>
+        </mat-form-field>
+      </div>
+
+      <!-- DELETE -->
+      @if (!!mealId && mealForm) {
+        <button
+          mat-mini-fab
+          (click)="deleteMeal()"
+          color="danger"
+          type="button"
+          style="margin-right: 1rem"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      }
+      <!-- SAVE -->
+      <button
+        mat-mini-fab
+        style="margin-right: 1rem"
+        color="primary"
+        [disabled]="!mealForm.valid"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+    </form>
+  </div>
+} @else {
+  <div>Gericht nicht verfügbar</div>
+}

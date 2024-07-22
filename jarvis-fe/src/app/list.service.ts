@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { List } from './models/list';
 import { catchError, map, Observable, of } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ErrorHandlerService } from './error-handler.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 type MaybeList = List | undefined;
 

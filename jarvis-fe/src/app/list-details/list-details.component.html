@@ -109,7 +109,7 @@
                         style="font-size: 0.8rem"
                         />
                     </mat-form-field>
-                    @if (!listForm?.disabled) {
+                    @if (!listForm.disabled) {
                       <button
                         (click)="removeProduct(i)"
                         mat-icon-button
@@ -118,7 +118,7 @@
                         <mat-icon>delete</mat-icon>
                       </button>
                     }
-                    @if (listForm?.disabled) {
+                    @if (listForm.disabled) {
                       <mat-checkbox
                         style="float: right; margin-top: 10px"
                       ></mat-checkbox>

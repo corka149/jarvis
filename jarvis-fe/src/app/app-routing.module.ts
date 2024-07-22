@@ -7,6 +7,7 @@ import { LogInComponent } from './log-in/log-in.component';
 import { NewListComponent } from './new-list/new-list.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import {MealOverviewComponent} from "./meal-overview/meal-overview.component";
+import {MealDetailsComponent} from "./meal-details/meal-details.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -25,6 +26,16 @@ const routes: Routes = [
   {
     path: 'meals',
     component: MealOverviewComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'meals/:id',
+    component: MealDetailsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'meals/new',
+    component: MealDetailsComponent,
     canActivate: [AuthGuard],
   },
   { path: 'login', component: LogInComponent },

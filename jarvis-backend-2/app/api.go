@@ -143,3 +143,27 @@ func updateMealViaApi(ctx context.Context, queries *datastore.Queries) gin.Handl
 		c.JSON(http.StatusOK, updatedMeal)
 	}
 }
+
+func deleteMealViaApi(ctx context.Context, queries *datastore.Queries) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		mealIdParam := c.Param("id")
+
+		mealID, err := strconv.Atoi(mealIdParam)
+
+		if err != nil {
+			log.Printf("Error while parsing meal ID: %v\n", err)
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
+		err = queries.DeleteMeal(ctx, int32(mealID))
+
+		if err != nil {
+			log.Printf("Error while deleting meal: %v\n", err)
+			c.Status(http.StatusInternalServerError)
+			return
+		}
+
+		c.Status(http.StatusNoContent)
+	}
+}

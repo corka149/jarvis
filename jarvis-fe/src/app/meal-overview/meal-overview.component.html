@@ -1,3 +1,13 @@
 <div style="text-align: center">
   <h1>Gerichte</h1>
 </div>
+
+<mat-list>
+  @for (meal of meals; track meal.id) {
+    <mat-list-item>
+      <a mat-button style="cursor: pointer" [routerLink]="['/meals', meal.id]">{{ meal.name }}
+        <span style="font-weight: lighter; font-size: small; color: lightslategray"> {{ meal.category }} </span>
+      </a>
+    </mat-list-item>
+  }
+</mat-list>

@@ -2,12 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {MealService} from "../meal.service";
 import {Meal} from "../models/meal";
 import {RouterLink} from "@angular/router";
+import {MatList, MatListItem} from "@angular/material/list";
+import {MatLine} from "@angular/material/core";
+import {MatAnchor} from "@angular/material/button";
 
 @Component({
   selector: 'app-meal-overview',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    MatList,
+    MatLine,
+    MatListItem,
+    MatAnchor
   ],
   templateUrl: './meal-overview.component.html',
   styleUrl: './meal-overview.component.css'
