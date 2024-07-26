@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Meal, MealCombo } from './models/meal';
 
@@ -15,8 +15,14 @@ export class MealService {
     return this.http.get<MealCombo>(MEAL_URL + '/random');
   }
 
-  getMeals(): Observable<Meal[]> {
-    return this.http.get<Meal[]>(MEAL_URL);
+  getMeals(searchTerm?: string): Observable<Meal[]> {
+    let params = new HttpParams();
+
+    if (searchTerm) {
+      params = params.set('search', searchTerm);
+    }
+
+    return this.http.get<Meal[]>(MEAL_URL, { params });
   }
 
   getMeal(id: number): Observable<Meal> {

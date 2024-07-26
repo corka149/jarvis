@@ -4,6 +4,7 @@
 // ADMIN_PASSWORD: The password for the admin user. Default is "password".
 // DB_URL: The URL for the database. Default is "postgres://myadmin:mypassword@localhost:5432/jarvis_db".
 // URL_PREFIX: The URL prefix for the application. Default is "".
+// API_PREFIX: The API prefix for the application. Default is "".
 // PORT: The port for the application. Default is "8081".
 // AUTH_SERVER_URL: The URL for the authentication server. Default is "http://localhost:8080".
 package jarvis

@@ -67,7 +67,12 @@ impl MongoRepo {
             filter.insert("deleted", false);
         }
 
-        let find_options = FindOptions::default();
+        let mut find_options = FindOptions::default();
+        find_options.sort = Some(doc! {
+            "occurs_at": -1,
+            "_id": 1
+        });
+
         let mut cursor = coll.find(filter, find_options).await?;
 
         let mut lists: Vec<List> = Vec::new();

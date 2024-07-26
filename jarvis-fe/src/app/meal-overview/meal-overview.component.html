@@ -1,18 +1,23 @@
-<div style="text-align: center">
-  <h1>Gerichte</h1>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+  <h1 class="text-2xl font-bold text-center sm:text-3xl lg:text-4xl mt-6 mb-8">Gerichte</h1>
+  <!-- SEARCH -->
+  <div class="flex justify-center mt-4">
+    <input
+      type="text"
+      placeholder="Suche..."
+      class="w-full max-w-md px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      [formControl]="searchControl"
+    />
+  </div>
+  <!-- MEALS -->
+  <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    @for (meal of meals; track meal.id) {
+      <li class="max-w-sm mx-auto">
+        <a [routerLink]="['/meals', meal.id]" class="block p-4 hover:bg-gray-100 rounded-lg">
+          {{ meal.name }}
+          <span class="font-light text-gray-500 text-sm">({{ meal.category }})</span>
+        </a>
+      </li>
+    }
+  </ul>
 </div>
-
-<mat-list>
-  @for (meal of meals; track meal.id) {
-    <mat-list-item>
-      <a mat-button style="cursor: pointer" [routerLink]="['/meals', meal.id]"
-        >{{ meal.name }}
-        <span
-          style="font-weight: lighter; font-size: small; color: lightslategray"
-        >
-          {{ meal.category }}
-        </span>
-      </a>
-    </mat-list-item>
-  }
-</mat-list>

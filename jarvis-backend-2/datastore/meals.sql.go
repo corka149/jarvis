@@ -69,6 +69,30 @@ func (q *Queries) GetMeals(ctx context.Context) ([]Meal, error) {
 	return items, nil
 }
 
+const searchMeals = `-- name: SearchMeals :many
+SELECT id, name, category FROM meals WHERE name ILIKE '%' || $1::text || '%'
+`
+
+func (q *Queries) SearchMeals(ctx context.Context, searchterm string) ([]Meal, error) {
+	rows, err := q.db.Query(ctx, searchMeals, searchterm)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Meal
+	for rows.Next() {
+		var i Meal
+		if err := rows.Scan(&i.ID, &i.Name, &i.Category); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateMeal = `-- name: UpdateMeal :one
 UPDATE meals SET name = $1, category = $2 WHERE id = $3 RETURNING id, name, category
 `

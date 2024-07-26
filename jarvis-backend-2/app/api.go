@@ -36,7 +36,16 @@ func randomMealsViaApi(ctx context.Context, queries *datastore.Queries) gin.Hand
 
 func getMealsViaApi(ctx context.Context, queries *datastore.Queries) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		meals, err := queries.GetMeals(ctx)
+		var meals []datastore.Meal
+		var err error
+
+		searchTerm := c.Query("search")
+
+		if searchTerm != "" {
+			meals, err = queries.SearchMeals(ctx, searchTerm)
+		} else {
+			meals, err = queries.GetMeals(ctx)
+		}
 
 		if err != nil {
 			log.Printf("Error while fetching meals: %v\n", err)

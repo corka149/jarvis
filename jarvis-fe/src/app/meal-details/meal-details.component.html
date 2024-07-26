@@ -1,61 +1,45 @@
-<h1>Details des Gerichts</h1>
-
 @if (mealForm) {
-  <div>
-    <form [formGroup]="mealForm" (ngSubmit)="onSubmit()">
-      <!-- NAME -->
+  <div class="max-w-lg mx-auto my-10 p-5 shadow-lg rounded-lg">
+    <h1 class="text-2xl font-bold mb-6 text-center">Details des Gerichts</h1>
+    <form [formGroup]="mealForm" (ngSubmit)="onSubmit()" method="post" class="space-y-4 py-2">
       <div>
-        <mat-form-field appearance="fill" style="width: 100%">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" />
-        </mat-form-field>
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input required type="text" name="name" id="name" formControlName="name"
+               class="mt-1 w-full max-w-md px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
       </div>
-
-      <!-- CATEGORY -->
       <div>
-        <mat-form-field appearance="fill" style="width: 100%">
-          <mat-label>Wähle die Kategorie des Gerichts</mat-label>
-          <select matNativeControl required formControlName="category">
-            <option
-              value="Komplettgericht"
-              [selected]="category === 'Komplettgericht'"
-            >
-              Komplettgericht
-            </option>
-            <option
-              value="Hauptgericht"
-              [selected]="category === 'Hauptgericht'"
-            >
-              Hauptgericht
-            </option>
-            <option value="Beilage" [selected]="category === 'Beilage'">
-              Beilage
-            </option>
-          </select>
-        </mat-form-field>
+        <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+        <select required name="category" id="category" formControlName="category"
+                class="mt-1 w-full max-w-md px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option
+            value="Komplettgericht"
+            [selected]="category === 'Komplettgericht'"
+          >
+            Komplettgericht
+          </option>
+          <option
+            value="Hauptgericht"
+            [selected]="category === 'Hauptgericht'"
+          >
+            Hauptgericht
+          </option>
+          <option value="Beilage" [selected]="category === 'Beilage'">
+            Beilage
+          </option>
+        </select>
       </div>
-
-      <!-- DELETE -->
-      @if (!!mealId && mealForm) {
-        <button
-          mat-mini-fab
-          (click)="deleteMeal()"
-          color="danger"
-          type="button"
-          style="margin-right: 1rem"
-        >
-          <mat-icon>delete</mat-icon>
+      <div class="flex">
+        <!-- DELETE -->
+        <button type="button"
+                class="flex justify-center py-2 px-4 my-2 mx-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 w-1/2"
+                (click)="deleteMeal()">Löschen
         </button>
-      }
-      <!-- SAVE -->
-      <button
-        mat-mini-fab
-        style="margin-right: 1rem"
-        color="primary"
-        [disabled]="!mealForm.valid"
-      >
-        <mat-icon>save</mat-icon>
-      </button>
+        <!-- SAVE -->
+        <button type="submit"
+                class="flex justify-center py-2 px-4 my-2 mx-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-1/2"
+                [disabled]="!mealForm.valid">Speichern
+        </button>
+      </div>
     </form>
   </div>
 } @else {
