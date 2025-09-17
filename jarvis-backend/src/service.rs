@@ -42,7 +42,10 @@ pub async fn login(login_data: LoginData, repo: &MongoRepo) -> Result<UserData, 
 
     let user = match repo.find_user_by_email(&email).await {
         Ok(Some(user)) => user,
-        Ok(None) => return Err(JarvisError::Unauthorized),
+        Ok(None) => {
+            log::info!("No user found for email: {}", email);
+            return Err(JarvisError::Unauthorized);
+        }
         Err(err) => {
             log::error!("Error while fetching user by email: {:?}", err);
             return Err(JarvisError::ServerFailed);
@@ -51,7 +54,10 @@ pub async fn login(login_data: LoginData, repo: &MongoRepo) -> Result<UserData, 
 
     match bcrypt::verify(&login_data.password, &user.password) {
         Ok(true) => {}
-        Ok(false) => return Err(JarvisError::Unauthorized),
+        Ok(false) => {
+            log::info!("Invalid password attempt for email: {}", login_data.email);
+            return Err(JarvisError::Unauthorized);
+        }
         Err(err) => {
             log::error!("Error while verifying password: {:?}", err);
             return Err(JarvisError::ServerFailed);
