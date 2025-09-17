@@ -31,6 +31,8 @@ pub struct LoginData {
 }
 
 pub async fn login(login_data: LoginData, repo: &MongoRepo) -> Result<UserData, JarvisError> {
+    log::info!("Login attempt for email: {}", login_data.email);
+
     let email = Email::from(&login_data.email);
 
     let email = match email {

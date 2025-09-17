@@ -38,7 +38,10 @@ async fn login(
 ) -> StatusCode {
     let user_data = match service::login(login_data, &repo).await {
         Ok(user_data) => user_data,
-        Err(err) => return into_response(err),
+        Err(err) => {
+            log::warn!("Login failed: {:?}", err);
+            return into_response(err);
+        }
     };
 
     if let Err(err) = session.insert("user", user_data) {
