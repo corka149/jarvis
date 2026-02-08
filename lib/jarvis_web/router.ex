@@ -18,6 +18,11 @@ defmodule JarvisWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/shopping_lists", ListLive.Index, :index
+    live "/shopping_lists/new", ListLive.Form, :new
+    live "/shopping_lists/:id", ListLive.Show, :show
+    live "/shopping_lists/:id/edit", ListLive.Form, :edit
   end
 
   # Other scopes may use custom stacks.
