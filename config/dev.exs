@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :jarvis, Jarvis.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "db_admin",
+  password: "a_secret",
   hostname: "localhost",
   database: "jarvis_dev",
   stacktrace: true,
