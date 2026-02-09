@@ -9,7 +9,6 @@ defmodule JarvisWeb.ListLive.Show do
     <Layouts.app flash={@flash}>
       <.header>
         List {@list.id}
-        <:subtitle>This is a list record from your database.</:subtitle>
         <:actions>
           <.button navigate={~p"/shopping_lists"}>
             <.icon name="hero-arrow-left" />
@@ -22,7 +21,6 @@ defmodule JarvisWeb.ListLive.Show do
 
       <.list>
         <:item title="Title">{@list.title}</:item>
-        <:item title="Status">{@list.status}</:item>
         <:item title="Purchase at">{@list.purchase_at}</:item>
       </.list>
     </Layouts.app>

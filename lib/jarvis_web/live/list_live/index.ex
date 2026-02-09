@@ -22,22 +22,7 @@ defmodule JarvisWeb.ListLive.Index do
         row_click={fn {_id, list} -> JS.navigate(~p"/shopping_lists/#{list}") end}
       >
         <:col :let={{_id, list}} label="Title">{list.title}</:col>
-        <:col :let={{_id, list}} label="Status">{list.status}</:col>
         <:col :let={{_id, list}} label="Purchase at">{list.purchase_at}</:col>
-        <:action :let={{_id, list}}>
-          <div class="sr-only">
-            <.link navigate={~p"/shopping_lists/#{list}"}>Show</.link>
-          </div>
-          <.link navigate={~p"/shopping_lists/#{list}/edit"}>Edit</.link>
-        </:action>
-        <:action :let={{id, list}}>
-          <.link
-            phx-click={JS.push("delete", value: %{id: list.id}) |> hide("##{id}")}
-            data-confirm="Are you sure?"
-          >
-            Delete
-          </.link>
-        </:action>
       </.table>
     </Layouts.app>
     """

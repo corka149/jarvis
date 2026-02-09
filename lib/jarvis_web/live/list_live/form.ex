@@ -15,13 +15,6 @@ defmodule JarvisWeb.ListLive.Form do
 
       <.form for={@form} id="list-form" phx-change="validate" phx-submit="save">
         <.input field={@form[:title]} type="text" label="Title" />
-        <.input
-          field={@form[:status]}
-          type="select"
-          label="Status"
-          prompt="Choose a value"
-          options={Ecto.Enum.values(Jarvis.Shopping.List, :status)}
-        />
         <.input field={@form[:purchase_at]} type="date" label="Purchase at" />
         <footer>
           <.button phx-disable-with="Saving..." variant="primary">Save List</.button>

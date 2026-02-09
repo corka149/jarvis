@@ -4,7 +4,7 @@ defmodule Jarvis.Shopping.List do
 
   schema "shopping_lists" do
     field :title, :string
-    field :status, Ecto.Enum, values: [:open, :done, :deleted]
+    field :status, Ecto.Enum, values: [:open, :done, :deleted], default: :open
     field :purchase_at, :date
 
     timestamps(type: :utc_datetime)
