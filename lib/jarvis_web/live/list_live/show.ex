@@ -13,11 +13,18 @@ defmodule JarvisWeb.ListLive.Show do
           <.button navigate={~p"/shopping_lists"}>
             <.icon name="hero-arrow-left" />
           </.button>
-          <.button variant="warning" onclick="confirm_delete.showModal()">
+          <.button :if={@list.status == :open} variant="warning" onclick="confirm_delete.showModal()">
             <.icon name="hero-trash" />
           </.button>
-          <.button variant="primary" navigate={~p"/shopping_lists/#{@list}/edit?return_to=show"}>
+          <.button
+            :if={@list.status == :open}
+            variant="primary"
+            navigate={~p"/shopping_lists/#{@list}/edit?return_to=show"}
+          >
             <.icon name="hero-pencil-square" />
+          </.button>
+          <.button :if={@list.status == :deleted} variant="primary" phx-click="undo_delete">
+            Undo delete
           </.button>
         </:actions>
       </.header>
@@ -58,5 +65,11 @@ defmodule JarvisWeb.ListLive.Show do
     {:ok, _} = socket.assigns.list |> Shopping.update_list(%{"status" => "deleted"})
 
     {:noreply, push_navigate(socket, to: ~p"/shopping_lists")}
+  end
+
+  def handle_event("undo_delete", _params, socket) do
+    {:ok, _} = socket.assigns.list |> Shopping.update_list(%{"status" => "open"})
+
+    {:noreply, assign(socket, :list, Shopping.get_list!(socket.assigns.list.id))}
   end
 end

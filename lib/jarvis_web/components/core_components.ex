@@ -90,13 +90,14 @@ defmodule JarvisWeb.CoreComponents do
   """
   attr :rest, :global, include: ~w(href navigate patch method download name value disabled)
   attr :class, :any
-  attr :variant, :string, values: ~w(primary warning)
+  attr :variant, :string, values: ~w(primary warning neutral)
   slot :inner_block, required: true
 
   def button(%{rest: rest} = assigns) do
     variants = %{
       "primary" => "btn-primary",
       "warning" => "btn-warning",
+      "neutral" => "btn-neutral",
       nil => "btn-primary btn-soft"
     }
 

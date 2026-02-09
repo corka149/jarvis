@@ -10,8 +10,11 @@ defmodule JarvisWeb.ListLive.Index do
       <.header>
         Listing Shopping lists
         <:actions>
+          <.button variant="neutral" phx-click="show_all">
+            <.icon name="hero-eye" />
+          </.button>
           <.button variant="primary" navigate={~p"/shopping_lists/new"}>
-            <.icon name="hero-plus" /> New List
+            <.icon name="hero-plus" />
           </.button>
         </:actions>
       </.header>
@@ -33,10 +36,28 @@ defmodule JarvisWeb.ListLive.Index do
     {:ok,
      socket
      |> assign(:page_title, "Listing Shopping lists")
-     |> stream(:shopping_lists, list_shopping_lists())}
+     |> stream(:shopping_lists, list_open_shopping_lists())}
+  end
+
+  @impl true
+  def handle_event("show_all", _params, socket) do
+    show_all = not Map.get(socket.assigns, :show_all, false)
+
+    lists = if show_all, do: list_shopping_lists(), else: list_open_shopping_lists()
+
+    socket =
+      socket
+      |> stream(:shopping_lists, lists, reset: true)
+      |> assign(:show_all, show_all)
+
+    {:noreply, socket}
   end
 
   defp list_shopping_lists() do
+    Shopping.list_shopping_lists()
+  end
+
+  defp list_open_shopping_lists() do
     Shopping.list_open_shopping_lists()
   end
 end
