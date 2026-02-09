@@ -21,6 +21,10 @@ defmodule Jarvis.Shopping do
     Repo.all(List)
   end
 
+  def list_open_shopping_lists do
+    Repo.all(from l in List, where: l.status == :open)
+  end
+
   @doc """
   Gets a single list.
 

@@ -8,16 +8,34 @@ defmodule JarvisWeb.ListLive.Show do
     ~H"""
     <Layouts.app flash={@flash}>
       <.header>
-        List {@list.id}
+        List #{@list.id}
         <:actions>
           <.button navigate={~p"/shopping_lists"}>
             <.icon name="hero-arrow-left" />
           </.button>
+          <.button variant="warning" onclick="confirm_delete.showModal()">
+            <.icon name="hero-trash" />
+          </.button>
           <.button variant="primary" navigate={~p"/shopping_lists/#{@list}/edit?return_to=show"}>
-            <.icon name="hero-pencil-square" /> Edit list
+            <.icon name="hero-pencil-square" />
           </.button>
         </:actions>
       </.header>
+
+      <dialog id="confirm_delete" class="modal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold">Delete List #{@list.id}</h3>
+          <p class="py-4">Confirm deletion of this list?</p>
+          <div class="modal-action">
+            <form method="dialog">
+              <.button variant="primary">Cancel</.button>
+              <.button variant="warning" phx-click="delete">
+                Delete
+              </.button>
+            </form>
+          </div>
+        </div>
+      </dialog>
 
       <.list>
         <:item title="Title">{@list.title}</:item>
@@ -33,5 +51,12 @@ defmodule JarvisWeb.ListLive.Show do
      socket
      |> assign(:page_title, "Show List")
      |> assign(:list, Shopping.get_list!(id))}
+  end
+
+  @impl true
+  def handle_event("delete", _params, socket) do
+    {:ok, _} = socket.assigns.list |> Shopping.update_list(%{"status" => "deleted"})
+
+    {:noreply, push_navigate(socket, to: ~p"/shopping_lists")}
   end
 end

@@ -36,15 +36,7 @@ defmodule JarvisWeb.ListLive.Index do
      |> stream(:shopping_lists, list_shopping_lists())}
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    list = Shopping.get_list!(id)
-    {:ok, _} = Shopping.delete_list(list)
-
-    {:noreply, stream_delete(socket, :shopping_lists, list)}
-  end
-
   defp list_shopping_lists() do
-    Shopping.list_shopping_lists()
+    Shopping.list_open_shopping_lists()
   end
 end
