@@ -35,23 +35,62 @@ defmodule JarvisWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <header class="navbar px-4 sm:px-6 lg:px-8 bg-primary shadow-sm">
-      <div class="flex-1">
+    <div class="navbar bg-primary shadow-sm">
+      <div class="navbar-start">
+        <div class="dropdown">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h7"
+              />
+            </svg>
+          </div>
+          <ul
+            tabindex="-1"
+            class="menu menu-sm dropdown-content bg-base-200 rounded-box z-1 mt-3 w-52 p-2 shadow"
+          >
+            <li>
+              <a href={~p"/shopping_lists"} class="btn btn-ghost">Shopping Lists</a>
+            </li>
+            <li>
+              <a href={~p"/shopping_lists"} class="btn btn-ghost">Meals</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="navbar-center">
         <a href="/" class="flex-1 flex w-fit items-center gap-2">
           <img src={~p"/images/logo_jarvis.svg"} width="128" />
         </a>
       </div>
-      <div class="flex-none">
-        <ul class="flex flex-column px-1 space-x-4 items-center">
-          <li>
-            <a href={~p"/shopping_lists"} class="btn btn-ghost">Shopping Lists</a>
-          </li>
-          <li>
-            <a href={~p"/shopping_lists"} class="btn btn-ghost">Meals</a>
-          </li>
-        </ul>
+      <div class="navbar-end">
+        <button class="btn btn-ghost btn-circle">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+            />
+          </svg>
+        </button>
       </div>
-    </header>
+    </div>
 
     <main class="px-4 py-4 sm:px-6 lg:px-8" style="min-height: 80vh">
       <div class="mx-auto max-w-2xl space-y-4">
@@ -60,7 +99,9 @@ defmodule JarvisWeb.Layouts do
     </main>
 
     <.flash_group flash={@flash} />
-    <.theme_toggle />
+    <div class="bg-base-200">
+      <.theme_toggle />
+    </div>
     """
   end
 
@@ -114,7 +155,7 @@ defmodule JarvisWeb.Layouts do
   """
   def theme_toggle(assigns) do
     ~H"""
-    <div class="card relative flex flex-row items-center border-2 border-base-300 bg-base-300 rounded-full">
+    <div class="m-1 w-24 card relative flex flex-row items-center border-2 border-base-300 bg-base-300 rounded-full">
       <div class="absolute w-1/3 h-full rounded-full border-1 border-base-200 bg-base-100 brightness-200 left-0 [[data-theme=light]_&]:left-1/3 [[data-theme=dark]_&]:left-2/3 transition-[left]" />
 
       <button
