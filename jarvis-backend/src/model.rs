@@ -126,12 +126,6 @@ impl Display for User {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct Credentials {
-    name: String,
-    password: String,
-}
-
-#[derive(Serialize, Deserialize)]
 pub struct Product {
     pub name: String,
     pub amount: i32,
