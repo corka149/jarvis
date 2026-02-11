@@ -1,9 +1,10 @@
 use crate::configuration;
 use crate::model::User;
-use axum_sessions::async_session::MemoryStore;
-use axum_sessions::SessionLayer;
 use mongodb::bson;
 use serde::{Deserialize, Serialize};
+use tower_sessions_cookie_store::{
+    CookieSessionConfig, CookieSessionManagerLayer, Key, PrivateCookie,
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct UserData {
@@ -20,9 +21,12 @@ impl UserData {
     }
 }
 
-pub fn new_session_layer(security: &configuration::Security) -> SessionLayer<MemoryStore> {
-    let store = MemoryStore::new();
+pub fn new_session_layer(
+    security: &configuration::Security,
+) -> CookieSessionManagerLayer<PrivateCookie> {
     let secret_key = security.secret_key.clone();
-    let secret = secret_key.as_ref();
-    SessionLayer::new(store, secret).with_secure(false)
+    let key: Key = Key::from(secret_key.as_bytes());
+
+    let config = CookieSessionConfig::default().with_secure(false); // set true in production (HTTPS)
+    CookieSessionManagerLayer::private(key).with_config(config)
 }

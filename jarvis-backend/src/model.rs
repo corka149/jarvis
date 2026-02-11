@@ -17,7 +17,7 @@ pub struct Email {
 
 impl Email {
     pub fn from(email_addr: &str) -> Result<Self, JarvisError> {
-        if !validator::validate_email(email_addr) {
+        if !validator::ValidateEmail::validate_email(&email_addr) {
             return Err(JarvisError::new(
                 "E-mail address does not full HTML5 spec".to_string(),
             ));

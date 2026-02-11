@@ -1,4 +1,5 @@
 use env_logger::Env;
+use std::net::SocketAddr;
 use tower_http::services::{ServeDir, ServeFile};
 
 use crate::configuration::Configuration;
@@ -18,10 +19,12 @@ pub async fn server(config: Configuration) -> Result<(), JarvisError> {
 
     let app = api_v1::api_v1(mongo_repo)
         .layer(session_layer)
-        .nest_service("", serve_dir);
+        .fallback_service(serve_dir);
 
-    axum::Server::bind(&"0.0.0.0:8080".parse().unwrap())
-        .serve(app.into_make_service())
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+
+    axum::serve(listener, app.into_make_service())
         .await
         .map_err(|e| {
             let err = format!("{:?}", e);

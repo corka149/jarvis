@@ -12,23 +12,24 @@ futures-util = "0.3"
 mongodb = { version = "2.3.0", features = ["bson-chrono-0_4"] }
 futures = "0.3.24"
 log = "0.4"
-env_logger = "0.9"
+env_logger = "0.11"
 chrono = { version = "0.4.22", features = ["serde"] }
-bcrypt = "0.13"
-validator = { version = "0.16.0", features = ["derive"] }
-axum = "0.6.11"
+bcrypt = "0.18"
+validator = { version = "0.20.0", features = ["derive"] }
+axum = "0.8.8"
 anyhow = "1.0.69"
-thiserror = "1.0.40"
-axum-sessions = "0.5.0"
-tower-http = { version = "0.4.0", features = ["fs"]}
+thiserror = "2.0"
+tower-sessions = "0.15"
+tower-http = { version = "0.6.8", features = ["fs"] }
 tokio = { version = "1.27.0", features = ["full"] }
+tower-sessions-cookie-store = { version = "0.5.2", features = ["private"] }
 
 [dependencies.clap]
 version = "4.0.32"
 features = ["derive"]
 
 [dependencies.config]
-version = "0.13.1"
+version = "0.15"
 features = ["yaml"]
 
 [dependencies.uuid]

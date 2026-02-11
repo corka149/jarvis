@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use axum::extract::{Path, Query};
 use axum::http::StatusCode;
 use axum::{routing, Json, Router};
-use axum_sessions::extractors::{ReadableSession, WritableSession};
+use tower_sessions::Session;
 
 use crate::dto::List;
 use crate::service;
@@ -31,11 +31,7 @@ fn auth_api(repo: MongoRepo) -> Router {
 }
 
 /// POST "/login"
-async fn login(
-    repo: MongoRepo,
-    mut session: WritableSession,
-    Json(login_data): Json<LoginData>,
-) -> StatusCode {
+async fn login(repo: MongoRepo, session: Session, Json(login_data): Json<LoginData>) -> StatusCode {
     let user_data = match service::login(login_data, &repo).await {
         Ok(user_data) => user_data,
         Err(err) => {
@@ -44,7 +40,7 @@ async fn login(
         }
     };
 
-    if let Err(err) = session.insert("user", user_data) {
+    if let Err(err) = session.insert("user", user_data).await {
         log::error!("Error while updating session: {:?}", err);
         return StatusCode::INTERNAL_SERVER_ERROR;
     }
@@ -53,17 +49,18 @@ async fn login(
 }
 
 /// POST "logout"
-async fn logout(mut session: WritableSession) -> StatusCode {
-    session.remove("user");
+async fn logout(session: Session) -> StatusCode {
+    let _ = session.remove::<UserData>("user").await;
 
     StatusCode::OK
 }
 
 /// HEAD "check"
-async fn check(session: ReadableSession) -> StatusCode {
-    match session.get::<UserData>("user") {
-        Some(_) => StatusCode::OK,
-        None => StatusCode::UNAUTHORIZED,
+async fn check(session: Session) -> StatusCode {
+    match session.get::<UserData>("user").await {
+        Ok(Some(_)) => StatusCode::OK,
+        Ok(None) => StatusCode::UNAUTHORIZED,
+        Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
 }
 
@@ -86,15 +83,15 @@ fn list_api(repo: MongoRepo) -> Router {
             routing::post(|session, list| create_list(create_repo, session, list)),
         )
         .route(
-            "/:list_id",
+            "/{list_id}",
             routing::get(|session, list_id| get_list(list_repo, session, list_id)),
         )
         .route(
-            "/:list_id",
+            "/{list_id}",
             routing::delete(|session, list_id| delete_list(delete_repo, session, list_id)),
         )
         .route(
-            "/:list_id",
+            "/{list_id}",
             routing::put(|session, path, list| update_list(patch_repo, session, path, list)),
         )
 }
@@ -102,10 +99,10 @@ fn list_api(repo: MongoRepo) -> Router {
 /// GET ""
 async fn get_lists(
     repo: MongoRepo,
-    session: ReadableSession,
+    session: Session,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<Json<Vec<List>>, StatusCode> {
-    let user_data = get_user_data(session)?;
+    let user_data = get_user_data(session).await?;
 
     let show_closed: bool = params
         .get("show_closed")
@@ -121,10 +118,10 @@ async fn get_lists(
 /// POST ""
 async fn create_list(
     repo: MongoRepo,
-    session: ReadableSession,
+    session: Session,
     Json(list): Json<List>,
 ) -> Result<Json<List>, StatusCode> {
-    let user_data = get_user_data(session)?;
+    let user_data = get_user_data(session).await?;
 
     service::create_list(list, &repo, user_data)
         .await
@@ -135,10 +132,10 @@ async fn create_list(
 /// GET "/:list_id"
 async fn get_list(
     repo: MongoRepo,
-    session: ReadableSession,
+    session: Session,
     Path(list_id): Path<String>,
 ) -> Result<Json<List>, StatusCode> {
-    let user_data = get_user_data(session)?;
+    let user_data = get_user_data(session).await?;
 
     service::get_list(list_id, &repo, user_data)
         .await
@@ -149,10 +146,10 @@ async fn get_list(
 /// DELETE "/{list_id}"
 async fn delete_list(
     repo: MongoRepo,
-    session: ReadableSession,
+    session: Session,
     Path(list_id): Path<String>,
 ) -> Result<StatusCode, StatusCode> {
-    let user_data = get_user_data(session)?;
+    let user_data = get_user_data(session).await?;
 
     service::delete_list(list_id, &repo, user_data)
         .await
@@ -163,11 +160,11 @@ async fn delete_list(
 /// PUT "/{list_id}"
 async fn update_list(
     repo: MongoRepo,
-    session: ReadableSession,
+    session: Session,
     Path(list_id): Path<String>,
     Json(list): Json<List>,
 ) -> Result<StatusCode, StatusCode> {
-    let user_data = get_user_data(session)?;
+    let user_data = get_user_data(session).await?;
 
     service::update_list(list_id, list, &repo, user_data)
         .await
@@ -177,10 +174,11 @@ async fn update_list(
 
 // ===== ===== HELPER ===== =====
 
-fn get_user_data(session: ReadableSession) -> Result<UserData, StatusCode> {
-    match session.get::<UserData>("user") {
-        Some(user_data) => Ok(user_data),
-        None => Err(StatusCode::UNAUTHORIZED),
+async fn get_user_data(session: Session) -> Result<UserData, StatusCode> {
+    match session.get::<UserData>("user").await {
+        Ok(Some(user_data)) => Ok(user_data),
+        Ok(None) => Err(StatusCode::UNAUTHORIZED),
+        Err(_) => Err(StatusCode::INTERNAL_SERVER_ERROR),
     }
 }
 
