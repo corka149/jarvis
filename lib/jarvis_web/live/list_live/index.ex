@@ -25,7 +25,7 @@ defmodule JarvisWeb.ListLive.Index do
         row_click={fn {_id, list} -> JS.navigate(~p"/shopping_lists/#{list}") end}
       >
         <:col :let={{_id, list}} label="Title">{list.title}</:col>
-        <:col :let={{_id, list}} label="Purchase at">{list.purchase_at}</:col>
+        <:col :let={{_id, list}} label="Purchase at">{format_date(list.purchase_at)}</:col>
       </.table>
     </Layouts.app>
     """
@@ -60,4 +60,6 @@ defmodule JarvisWeb.ListLive.Index do
   defp list_open_shopping_lists() do
     Shopping.list_open_shopping_lists()
   end
+
+  defp format_date(date), do: Calendar.strftime(date, "%d.%m.%Y")
 end

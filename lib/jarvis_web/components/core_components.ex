@@ -90,12 +90,13 @@ defmodule JarvisWeb.CoreComponents do
   """
   attr :rest, :global, include: ~w(href navigate patch method download name value disabled)
   attr :class, :any
-  attr :variant, :string, values: ~w(primary warning neutral)
+  attr :variant, :string, values: ~w(primary  success warning neutral)
   slot :inner_block, required: true
 
   def button(%{rest: rest} = assigns) do
     variants = %{
       "primary" => "btn-primary",
+      "success" => "btn-success",
       "warning" => "btn-warning",
       "neutral" => "btn-neutral",
       nil => "btn-primary btn-soft"
@@ -319,7 +320,10 @@ defmodule JarvisWeb.CoreComponents do
 
   def header(assigns) do
     ~H"""
-    <header class={[@actions != [] && "flex items-center justify-between gap-6", "pb-4"]}>
+    <header class={[
+      @actions != [] && "flex flex-col md:flex-row items-center justify-between gap-6",
+      "pb-4"
+    ]}>
       <div>
         <h1 class="text-lg font-semibold leading-8">
           {render_slot(@inner_block)}

@@ -10,22 +10,43 @@ defmodule JarvisWeb.ListLive.Show do
       <.header>
         List #{@list.id}
         <:actions>
+          <!-- Back button -->
           <.button navigate={~p"/shopping_lists"}>
             <.icon name="hero-arrow-left" />
           </.button>
-          <.button :if={@list.status == :open} variant="warning" onclick="confirm_delete.showModal()">
+          <!-- Delete button -->
+          <.button
+            :if={@list.status != :deleted}
+            variant="warning"
+            disabled={@list.status == :done}
+            onclick="confirm_delete.showModal()"
+          >
             <.icon name="hero-trash" />
           </.button>
+          <!-- Edit button -->
+          <.button :if={@list.status == :deleted} variant="primary" phx-click="undo_delete">
+            Undo delete
+          </.button>
+          <!-- Edit button -->
           <.button
-            :if={@list.status == :open}
+            :if={@list.status != :deleted}
             variant="primary"
+            disabled={@list.status == :done}
             navigate={~p"/shopping_lists/#{@list}/edit?return_to=show"}
           >
             <.icon name="hero-pencil-square" />
           </.button>
-          <.button :if={@list.status == :deleted} variant="primary" phx-click="undo_delete">
-            Undo delete
-          </.button>
+          <!-- Done toggle -->
+          <div :if={@list.status != :deleted} class="inline-block align-middle">
+            <label class="label">
+              <input
+                type="checkbox"
+                checked={@list.status == :done}
+                class="toggle toggle-xl"
+                phx-click="toggle_done"
+              /> Done
+            </label>
+          </div>
         </:actions>
       </.header>
 
@@ -46,7 +67,7 @@ defmodule JarvisWeb.ListLive.Show do
 
       <.list>
         <:item title="Title">{@list.title}</:item>
-        <:item title="Purchase at">{@list.purchase_at}</:item>
+        <:item title="Purchase at">{format_date(@list.purchase_at)}</:item>
       </.list>
     </Layouts.app>
     """
@@ -62,14 +83,31 @@ defmodule JarvisWeb.ListLive.Show do
 
   @impl true
   def handle_event("delete", _params, socket) do
-    {:ok, _} = socket.assigns.list |> Shopping.update_list(%{"status" => "deleted"})
-
-    {:noreply, push_navigate(socket, to: ~p"/shopping_lists")}
+    change_list_status(socket, "deleted")
   end
 
   def handle_event("undo_delete", _params, socket) do
-    {:ok, _} = socket.assigns.list |> Shopping.update_list(%{"status" => "open"})
+    change_list_status(socket, "open")
+  end
+
+  def handle_event("mark_done", _params, socket) do
+    change_list_status(socket, "done")
+  end
+
+  def handle_event("undo_done", _params, socket) do
+    change_list_status(socket, "open")
+  end
+
+  def handle_event("toggle_done", _params, socket) do
+    new_status = if socket.assigns.list.status == :done, do: "open", else: "done"
+    change_list_status(socket, new_status)
+  end
+
+  defp change_list_status(socket, status) do
+    {:ok, _} = socket.assigns.list |> Shopping.update_list(%{"status" => status})
 
     {:noreply, assign(socket, :list, Shopping.get_list!(socket.assigns.list.id))}
   end
+
+  defp format_date(date), do: Calendar.strftime(date, "%d.%m.%Y")
 end
