@@ -118,11 +118,19 @@
         <form method="dialog">
           <!-- if there is a button in form, it will close the modal -->
           <button class="btn btn-neutral">{% translate "Cancel" %}</button>
-          <a
-            href="{% url 'shopping:delete_list' shopping_list.id %}"
-            class="btn btn-warning"
-            >{% translate "Delete" %}</a
-          >
+          {% if shopping_list.deleted %}
+            <a
+              href="{% url 'shopping:delete_finally_list' shopping_list.id %}"
+              class="btn btn-warning"
+              >{% translate "Delete finally" %}</a
+            >
+          {% else %}
+            <a
+              href="{% url 'shopping:delete_list' shopping_list.id %}"
+              class="btn btn-warning"
+              >{% translate "Delete" %}</a
+            >
+          {% endif %}
         </form>
       </div>
     </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-25 18:31+0100\n"
+"POT-Creation-Date: 2026-03-31 19:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,7 +110,7 @@ msgstr "Kategoria"
 #: shopping/templates/shopping/meal_form.html:72
 #: shopping/templates/shopping/meal_form.html:92
 #: shopping/templates/shopping/shopping_list_form.html:104
-#: shopping/templates/shopping/shopping_list_form.html:124
+#: shopping/templates/shopping/shopping_list_form.html:131
 msgid "Delete"
 msgstr "Usuń"
 
@@ -165,3 +165,7 @@ msgstr "Usuń listę"
 #: shopping/templates/shopping/shopping_list_form.html:116
 msgid "Do you really want to delete this shopping list?"
 msgstr "Czy na pewno chcesz usunąć tę listę zakupów?"
+
+#: shopping/templates/shopping/shopping_list_form.html:125
+msgid "Delete finally"
+msgstr "Usuń ostatecznie"

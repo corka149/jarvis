@@ -12,6 +12,11 @@ urlpatterns = [
     path("lists/new", views.create_list, name="create_list"),
     path("lists/<int:pk>", views.edit_list, name="edit_list"),
     path("lists/<int:pk>/delete", views.delete_list, name="delete_list"),
+    path(
+        "lists/<int:pk>/delete_finally",
+        views.delete_finally_list,
+        name="delete_finally_list",
+    ),
     path("lists/<int:pk>/items", views.manage_items, name="manage_items"),
     # Meals
     path("meals/", views.MealsView.as_view(), name="meals"),

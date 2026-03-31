@@ -116,6 +116,9 @@ def edit_list(request, pk):
     sl.done = request.POST.get("done") == "on"
     sl.save()
 
+    if sl.done:
+        return HttpResponseRedirect(reverse("shopping:shopping_lists"))
+
     return HttpResponseRedirect(reverse("shopping:manage_items", args=[sl.id]))
 
 
@@ -124,6 +127,14 @@ def delete_list(request, pk):
     sl = get_object_or_404(ShoppingList, pk=pk)
     sl.deleted = True
     sl.save()
+
+    return HttpResponseRedirect(reverse("shopping:shopping_lists"))
+
+
+@login_required
+def delete_finally_list(request, pk):
+    sl = get_object_or_404(ShoppingList, pk=pk)
+    sl.delete()
 
     return HttpResponseRedirect(reverse("shopping:shopping_lists"))
 
