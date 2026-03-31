@@ -1,18 +1,52 @@
-# ===== ===== BE BUILD ===== =====
+### Stage 1: Build - install Python deps using `uv`
+FROM python:3.14-slim AS django-builder
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+WORKDIR /app
 
-FROM rust:1.78 AS be-build
+# System deps for building some Python packages (keep minimal)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-ADD ./jarvis-backend /opt/jarvis-be
+# Create a venv where dependencies will be installed
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-WORKDIR /opt/jarvis-be
+# Upgrade pip and install `uv` using pip cache mount
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --upgrade pip setuptools wheel uv
 
-RUN cargo build --release
+# Copy pyproject so uv can read dependencies (and the app code)
+COPY pyproject.toml ./pyproject.toml
+COPY src/ /app/
 
-# ===== ===== jarvis ===== =====
+# Install production dependencies using `uv` (use pip cache mount)
+RUN --mount=type=cache,target=/root/.cache/pip \
+    uv sync
 
-FROM gcr.io/distroless/cc
+ENV PATH="/app/.venv/bin:$PATH"
+RUN python manage.py collectstatic --noinput
 
-COPY jarvis-fe/dist/jarvis-fe /jarvis-fe
-COPY --from=be-build /opt/jarvis-be/target/release/jarvis-backend /
+### Stage 2: Runtime image
+FROM python:3.14-slim AS runtime
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+WORKDIR /app
 
-CMD ["./jarvis-backend", "server"]
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Copy application code
+COPY --from=django-builder /app /app
+
+# Create a non-root user for running the app
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+USER appuser
+
+# Expose the port the app listens on
+EXPOSE 8000
+
+# Use granian
+CMD ["granian", "--interface", "asgi", "--host", "0.0.0.0", "--port", "8000", "--loop", "uvloop", "web_jarvis.asgi:application", "--static-path-mount", "assets"]

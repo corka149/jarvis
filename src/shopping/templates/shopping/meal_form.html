@@ -1,0 +1,101 @@
+{% extends "shopping/base.html" %} {% load i18n %} {% block title %}Shopping Lists{% endblock %}
+{% block content %} {% load static %}
+
+<div class="flex flex-col items-center justify-center text-center">
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><a href="{% url 'shopping:meals' %}">{% translate "Meals" %}</a></li>
+      <li>{% if meal.id %} {{ meal.id }} {% else %} {% translate "New" %} {% endif %}</li>
+    </ul>
+  </div>
+
+  {% if meal.id %}
+  <h1 class="text-xl font-semibold leading-8">{{ meal.name }}</h1>
+  {% else %}
+  <h1 class="text-xl font-semibold leading-8">{% translate "New meal" %}</h1>
+  {% endif %}
+
+  <form
+    method="POST"
+    action="{% if meal.id %}
+                {% url 'shopping:edit_meal' meal.id %}
+              {% else %}
+                {% url 'shopping:create_meal' %}
+              {% endif %}"
+  >
+    {% csrf_token %}
+    <!-- Name --->
+    <fieldset class="fieldset my-2">
+      <legend class="fieldset-legend">{% translate "Meal name" %}</legend>
+      <input
+        name="name"
+        type="text"
+        class="input"
+        placeholder="My awesome meal"
+        value="{{ meal.name }}"
+        required
+      />
+    </fieldset>
+
+    <!-- Category -->
+    <fieldset class="fieldset my-2">
+      <legend class="fieldset-legend">{% translate "Category" %}</legend>
+      <select name="category" class="select">
+        {% for category in categories %}
+        <option value="{{category}}">{{ category }}</option>
+        {% endfor %}
+      </select>
+    </fieldset>
+
+    <a class="btn btn-soft" href="{% url 'shopping:meals' %}">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill="currentColor"
+        class="size-4"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M12.5 9.75A2.75 2.75 0 0 0 9.75 7H4.56l2.22 2.22a.75.75 0 1 1-1.06 1.06l-3.5-3.5a.75.75 0 0 1 0-1.06l3.5-3.5a.75.75 0 0 1 1.06 1.06L4.56 5.5h5.19a4.25 4.25 0 0 1 0 8.5h-1a.75.75 0 0 1 0-1.5h1a2.75 2.75 0 0 0 2.75-2.75Z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <span>{% translate "Back" %}</span>
+    </a>
+
+    {% if meal.id %}
+    <button
+      type="button"
+      onclick="delete_modal.showModal()"
+      class="btn btn-warning"
+    >
+      {% translate "Delete" %}
+    </button>
+
+    {% endif %}
+    <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+  </form>
+
+  {% if meal.id %}
+  <!-- delete dialog -->
+  <dialog id="delete_modal" class="modal">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold">{% translate "Delete the meal" %}</h3>
+      <p class="py-4">{% translate "Do you really want to delete this meal?" %}</p>
+      <div class="modal-action">
+        <form method="dialog">
+          <!-- if there is a button in form, it will close the modal -->
+          <button class="btn btn-neutral">{% translate "Cancel" %}</button>
+          <a
+            href="{% url 'shopping:delete_meal' meal.id %}"
+            class="btn btn-warning"
+            >{% translate "Delete" %}</a
+          >
+        </form>
+      </div>
+    </div>
+  </dialog>
+  {% endif %}
+</div>
+
+{% endblock %}

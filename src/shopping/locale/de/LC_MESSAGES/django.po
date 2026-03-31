@@ -1,0 +1,164 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-25 18:31+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: shopping/templates/shopping/base.html:51
+#: shopping/templates/shopping/shopping_list.html:1
+#: shopping/templates/shopping/shopping_list.html:9
+#: shopping/templates/shopping/shopping_list_form.html:1
+msgid "Shopping Lists"
+msgstr "Einkaufsliste"
+
+#: shopping/templates/shopping/base.html:56
+#: shopping/templates/shopping/meal_form.html:7
+#: shopping/templates/shopping/meals.html:1
+#: shopping/templates/shopping/meals.html:9
+msgid "Meals"
+msgstr "Gerichte"
+
+#: shopping/templates/shopping/base.html:61
+msgid "Logout"
+msgstr "Abmelden"
+
+#: shopping/templates/shopping/base.html:72
+#: shopping/templates/shopping/login.html:12
+#: shopping/templates/shopping/login.html:30
+msgid "Login"
+msgstr "Anmelden"
+
+#: shopping/templates/shopping/index.html:6
+#, python-format
+msgid "Welcome %(username)s to Jarvis!"
+msgstr "Willkommen %(username)s bei Jarvis!"
+
+#: shopping/templates/shopping/index.html:10
+msgid "Your personal assistant for managing tasks and projects efficiently."
+msgstr ""
+"Dein persönlicher Assistent zum effizienten Verwalten von Aufgaben und "
+"Projekten"
+
+#: shopping/templates/shopping/index.html:14
+msgid "Random meal of today"
+msgstr "Zufälliges Gericht für heute"
+
+#: shopping/templates/shopping/items.html:10
+#: shopping/templates/shopping/shopping_list_form.html:7
+msgid "Shopping lists"
+msgstr "Einkaufsliste"
+
+#: shopping/templates/shopping/items.html:18
+#: shopping/templates/shopping/shopping_list.html:76
+msgid "Items"
+msgstr "Gegenstände"
+
+#: shopping/templates/shopping/items.html:28
+#, python-format
+msgid "Items of %(name)s"
+msgstr "Gegenstände in %(name)s"
+
+#: shopping/templates/shopping/items.html:125
+#: shopping/templates/shopping/meal_form.html:63
+#: shopping/templates/shopping/shopping_list_form.html:95
+msgid "Back"
+msgstr "Zurück"
+
+#: shopping/templates/shopping/login.html:14
+msgid "User name"
+msgstr "Benutzername"
+
+#: shopping/templates/shopping/login.html:22
+msgid "Password"
+msgstr "Passwort"
+
+#: shopping/templates/shopping/meal_form.html:8
+#: shopping/templates/shopping/shopping_list_form.html:12
+msgid "New"
+msgstr "Neu"
+
+#: shopping/templates/shopping/meal_form.html:15
+msgid "New meal"
+msgstr "Neues Gericht"
+
+#: shopping/templates/shopping/meal_form.html:29
+msgid "Meal name"
+msgstr "Gerichtname"
+
+#: shopping/templates/shopping/meal_form.html:42
+#: shopping/templates/shopping/meals.html:36
+msgid "Category"
+msgstr "Kategorie"
+
+#: shopping/templates/shopping/meal_form.html:72
+#: shopping/templates/shopping/meal_form.html:92
+#: shopping/templates/shopping/shopping_list_form.html:104
+#: shopping/templates/shopping/shopping_list_form.html:124
+msgid "Delete"
+msgstr "Löschen"
+
+#: shopping/templates/shopping/meal_form.html:76
+#: shopping/templates/shopping/shopping_list_form.html:108
+msgid "Save"
+msgstr "Speichern"
+
+#: shopping/templates/shopping/meal_form.html:83
+msgid "Delete the meal"
+msgstr "Löschen des Gerichts"
+
+#: shopping/templates/shopping/meal_form.html:84
+msgid "Do you really want to delete this meal?"
+msgstr "Möchtest du wirklich dieses Gericht löschen?"
+
+#: shopping/templates/shopping/meal_form.html:88
+#: shopping/templates/shopping/shopping_list_form.html:120
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: shopping/templates/shopping/meals.html:35
+#: shopping/templates/shopping/shopping_list.html:74
+msgid "Name"
+msgstr "Name"
+
+#: shopping/templates/shopping/shopping_list.html:75
+#: shopping/templates/shopping/shopping_list_form.html:48
+msgid "Purchase date"
+msgstr "Einkaufdatum"
+
+#: shopping/templates/shopping/shopping_list_form.html:21
+msgid "New shopping list"
+msgstr "Neue Einkaufsliste"
+
+#: shopping/templates/shopping/shopping_list_form.html:35
+msgid "List name"
+msgstr "Listenname"
+
+#: shopping/templates/shopping/shopping_list_form.html:70
+msgid "Purchase done?"
+msgstr "Einkauf erledigt?"
+
+#: shopping/templates/shopping/shopping_list_form.html:86
+msgid "Undo delete"
+msgstr "Löschen zurücknehmen"
+
+#: shopping/templates/shopping/shopping_list_form.html:115
+msgid "Delete the list"
+msgstr "Löschen der Liste"
+
+#: shopping/templates/shopping/shopping_list_form.html:116
+msgid "Do you really want to delete this shopping list?"
+msgstr "Möchtest du wirklich diese Einkaufsliste löschen?"

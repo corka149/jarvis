@@ -1,0 +1,44 @@
+{% extends "shopping/base.html" %}
+{% block content %} {% load static %}{% load i18n %}
+
+<div class="flex flex-col items-center justify-center text-center">
+  <h1 class="text-xl font-semibold leading-8">
+    {% blocktranslate with username=request.user.username trimmed %}
+    Welcome {{ username }} to Jarvis!
+    {% endblocktranslate %}
+  </h1>
+  <p>{% translate "Your personal assistant for managing tasks and projects efficiently." %}</p>
+  {% if meals %}
+  <div class="my-4">
+    <div class="flex items-center gap-2">
+      <h2 class="text-base font-semibold leading-8">{% translate "Random meal of today" %}</h2>
+      <a class="btn btn-ghost" href="{% url "shopping:index" %}">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="size-4"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M13.836 2.477a.75.75 0 0 1 .75.75v3.182a.75.75 0 0 1-.75.75h-3.182a.75.75 0 0 1 0-1.5h1.37l-.84-.841a4.5 4.5 0 0 0-7.08.932.75.75 0 0 1-1.3-.75 6 6 0 0 1 9.44-1.242l.842.84V3.227a.75.75 0 0 1 .75-.75Zm-.911 7.5A.75.75 0 0 1 13.199 11a6 6 0 0 1-9.44 1.241l-.84-.84v1.371a.75.75 0 0 1-1.5 0V9.591a.75.75 0 0 1 .75-.75H5.35a.75.75 0 0 1 0 1.5H3.98l.841.841a4.5 4.5 0 0 0 7.08-.932.75.75 0 0 1 1.025-.273Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </a>
+    </div>
+    <ul>
+      {% for meal in meals %}
+      <li>{{meal}}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  <img
+    src="{% static 'shopping/img/jarvis.png' %}"
+    alt="Welcome to Jarvis"
+    class="w-1/2 h-auto rounded-lg shadow-md mt-4"
+  />
+</div>
+
+{% endblock %}

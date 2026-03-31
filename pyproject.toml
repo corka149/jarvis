@@ -1,0 +1,22 @@
+[project]
+name = "jarvis-py"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "channels-redis>=4.3.0",
+    "channels[daphne]>=4.3.2",
+    "django>=6.0.2",
+    "django-pwa>=2.0.1",
+    "granian[dotenv,uvloop]>=2.7.2",
+    "psycopg[binary]>=3.3.2",
+]
+
+[dependency-groups]
+dev = [
+    "playwright>=1.58.0",
+    "pytest>=9.0.2",
+    "pytest-django>=4.12.0",
+    "pytest-playwright>=0.7.2",
+]

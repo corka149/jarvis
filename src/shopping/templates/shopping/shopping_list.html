@@ -1,0 +1,112 @@
+{% extends "shopping/base.html" %} {% load i18n %} {% block title %}{% translate "Shopping Lists" %}{% endblock %}
+<!-- Content -->
+{% block content %} {% load static %}
+<div class="flex flex-col items-center justify-center text-center">
+  <header
+    class="flex flex-col md:flex-row items-center justify-between gap-6 mb-4 w-full"
+  >
+    <div>
+      <h1 class="text-xl font-semibold leading-8">{% translate "Shopping Lists" %}</h1>
+    </div>
+    <div class="flex-none">
+      {% if not request.GET.showAll %}
+      <!-- Show all -->
+      <a
+        class="btn btn-circle btn-neutral"
+        href="{% url 'shopping:shopping_lists' %}?showAll=true"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="size-4"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </a>
+      {% else %}
+      <!-- Show all -->
+      <a
+        class="btn btn-circle btn-neutral"
+        href="{% url 'shopping:shopping_lists' %}"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="size-4"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </a>
+      {% endif %}
+      <!-- Add -->
+      <a
+        class="btn btn-circle btn-primary"
+        href="{% url 'shopping:create_list' %}"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="size-4"
+        >
+          <path
+            d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z"
+          />
+        </svg>
+      </a>
+    </div>
+  </header>
+  <div class="overflow-x-auto w-full">
+    <table class="table table-zebra">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>{% translate "Name" %}</th>
+          <th>{% translate "Purchase date" %}</th>
+          <th>{% translate "Items" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for shopping_list in shopping_lists %}
+        <tr>
+          <td>
+            <a
+              class="underline"
+              href="{% url 'shopping:edit_list' shopping_list.id %}"
+              >{{ shopping_list.name }}</a
+            >
+          </td>
+          <td>{{ shopping_list.purchase_date }}</td>
+          <td>
+            <a href="{% url 'shopping:manage_items' shopping_list.id %}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                class="size-4"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

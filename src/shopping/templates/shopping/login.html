@@ -1,0 +1,33 @@
+{% extends "shopping/base.html" %} {% block title %}Shopping Lists{% endblock %}
+{% block content %}{% load i18n %}
+<form
+  method="POST"
+  action="{% url 'shopping:login' %}"
+  class="flex flex-col items-center justify-center text-center"
+>
+  {% csrf_token %}
+  <fieldset
+    class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
+  >
+    <legend class="fieldset-legend">{% translate "Login" %}</legend>
+
+    <label class="label">{% translate "User name" %}</label>
+    <input
+      type="username"
+      class="input"
+      name="username"
+      placeholder="User name"
+    />
+
+    <label class="label">{% translate "Password" %}</label>
+    <input
+      type="password"
+      class="input"
+      name="password"
+      placeholder="Password"
+    />
+
+    <button type="submit" class="btn btn-neutral mt-4">{% translate "Login" %}</button>
+  </fieldset>
+</form>
+{% endblock %}

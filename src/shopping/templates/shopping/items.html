@@ -1,0 +1,230 @@
+{% extends "shopping/base.html" %} {% block title %}Shopping Lists{% endblock %}
+{% block content %} {% load static %}{% load i18n %}
+
+<div class="flex flex-col items-center justify-center text-center">
+  <!-- ITEMS -->
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li>
+        <a href="{% url 'shopping:shopping_lists' %}"
+          >{% translate "Shopping lists" %}</a
+        >
+      </li>
+      <li>
+        <a href="{% url 'shopping:edit_list' shopping_list.id %}"
+          >{{ shopping_list.id }}</a
+        >
+      </li>
+      <li>{% translate "Items" %}</li>
+    </ul>
+  </div>
+
+  <!-- Id -->
+  {{ shopping_list.id|json_script:"shopping-list-id" }}
+  <!-- Items -->
+  {{ shopping_list_items|json_script:"shopping-list-items" }}
+
+  <h1 class="text-xl font-semibold leading-8">
+    {% blocktranslate with name=shopping_list.name trimmed %} 
+      Items of {{ name }}
+    {% endblocktranslate %}
+  </h1>
+
+  {% verbatim %}
+  <div id="app" class="my-10">
+    <ul>
+      <li v-for="item in items" :key="item.id">
+        <input
+          type="text"
+          placeholder=""
+          class="input w-6/12 m-1"
+          v-model="item.name"
+          :disabled="this.isDisconnected"
+          @input="edit(item)"
+        />
+        <input
+          type="number"
+          placeholder=""
+          class="input w-4/12 m-1"
+          v-model="item.quantity"
+          :disabled="this.isDisconnected"
+          @input="edit(item)"
+        />
+        <button class="btn btn-square"
+            :disabled="this.isDisconnected"
+            @click="deleteItem(item)"
+          >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="size-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </li>
+      <li>
+        <input
+          type="text"
+          placeholder=""
+          class="input w-6/12 m-1"
+          :disabled="this.isDisconnected"
+          v-model="newItemName"
+        />
+        <input
+          type="number"
+          placeholder=""
+          class="input w-4/12 m-1"
+          :disabled="this.isDisconnected"
+          v-model="newItemQuantity"
+        />
+        <button
+            class="btn btn-square"
+            :disabled="this.isDisconnected"
+            @click="add()"
+          >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="size-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </div>
+  {% endverbatim %}
+
+  <a
+    class="btn btn-soft"
+    href="{% url 'shopping:edit_list' shopping_list.id %}"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      fill="currentColor"
+      class="size-4"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M12.5 9.75A2.75 2.75 0 0 0 9.75 7H4.56l2.22 2.22a.75.75 0 1 1-1.06 1.06l-3.5-3.5a.75.75 0 0 1 0-1.06l3.5-3.5a.75.75 0 0 1 1.06 1.06L4.56 5.5h5.19a4.25 4.25 0 0 1 0 8.5h-1a.75.75 0 0 1 0-1.5h1a2.75 2.75 0 0 0 2.75-2.75Z"
+        clip-rule="evenodd"
+      />
+    </svg>
+    <span>{% translate "Back" %}</span>
+  </a>
+
+  <script type="module">
+    const shoppingListId = JSON.parse(
+      document.getElementById("shopping-list-id").textContent,
+    );
+
+    const proto = window.location.protocol === "http:" ? "ws" : "wss";
+    const url = proto +
+        "://" +
+        window.location.host +
+        "/ws/lists/" +
+        shoppingListId +
+        "/items";
+
+
+    {% if debug_enabled %}
+      import { createApp } from "{% static 'shopping/js/vendor/vue.esm-browser.js' %}";
+    {% else %}
+      import { createApp } from "{% static 'shopping/js/vendor/vue.esm-browser.prod.js' %}";
+    {% endif %}
+
+    import { WebSocketClient } from "{% static 'shopping/js/ws-client.js' %}";
+
+    createApp({
+      data() {
+        return {
+          newItemName: "",
+          newItemQuantity: 0,
+          isDisconnected: true,
+          items: JSON.parse(
+            document.getElementById("shopping-list-items").textContent,
+          ),
+        };
+      },
+      methods: {
+        deleteItem(item) {
+          this.ws.send(
+            JSON.stringify({
+              op: "delete",
+              value: item,
+            }),
+          );
+        },
+        add() {
+          this.ws.send(
+            JSON.stringify({
+              op: "add",
+              value: { name: this.newItemName, quantity: this.newItemQuantity },
+            }),
+          );
+          this.newItemName = "";
+          this.newItemQuantity = 0;
+        },
+        edit(item) {
+          if (!item.name || !item.quantity) {
+            return;
+          }
+
+          this.ws.send({
+            op: "update",
+            value: item,
+          });
+        },
+        onMessage(e) {
+          const change = JSON.parse(e);
+
+          if (change.op === "delete") {
+            this.items = this.items.filter((i) => i.id !== change.value.id);
+            return;
+          }
+
+          if (change.op === "update") {
+            const edited = this.items
+              .filter((i) => i.id === change.value.id)
+              .pop();
+
+            if (!edited) {
+              return;
+            }
+
+            edited.name = change.value.name;
+            edited.quantity = change.value.quantity;
+          }
+
+          if (change.op === "add") {
+            this.items.push(change.value);
+          }
+        },
+      },
+      mounted() {
+        this.ws = new WebSocketClient(url, {
+          maxRetries: 25,
+          baseDelay: 1_000,
+          maxDelay: 5 * 60_000,
+        });
+
+        this.ws.on("onMessage", (e) => this.onMessage(e));
+        this.ws.on("onConnect", (e) => this.isDisconnected = false);
+        this.ws.on("onDisconnect", (e) => this.isDisconnected = true);
+      },
+    }).mount("#app");
+  </script>
+</div>
+{% endblock %}
