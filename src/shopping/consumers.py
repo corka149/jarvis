@@ -38,6 +38,7 @@ class ChatConsumer(WebsocketConsumer):
             item = Item.objects.get(id=val["id"])
             item.name = val["name"]
             item.quantity = val["quantity"]
+            item.collected = val["collected"]
             item.save()
         elif op == "add":
             item = Item(

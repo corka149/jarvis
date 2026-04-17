@@ -34,7 +34,6 @@ if IS_PRODUCTION:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
-    print(ALLOWED_HOSTS)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     # Load balance will take care
     SECURE_SSL_REDIRECT = False

@@ -7,11 +7,29 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms.models import model_to_dict
+from django.utils.translation import gettext as _
 
 from django.views.generic import ListView
 
 from .models import ShoppingList, Meal, MealCategory
 from web_jarvis import settings
+
+
+class Flash:
+    success: list[str]
+    warning: list[str]
+    error: list[str]
+
+    def __init__(
+        self,
+        *_,
+        success: list[str] = [],
+        warning: list[str] = [],
+        error: list[str] = [],
+    ):
+        self.success = success
+        self.warning = warning
+        self.error = error
 
 
 def index(request):
@@ -66,7 +84,9 @@ def login_user(request):
         login(request, user)
         return HttpResponseRedirect(reverse("shopping:index"))
 
-    return HttpResponseRedirect(reverse("shopping:login"))
+    flush = Flash(error=[_("Login failed.")])
+
+    return render(request, "shopping/login.html", {"flush": flush})
 
 
 @login_required

@@ -19,6 +19,7 @@ class Item(models.Model):
     )
     name = models.CharField(max_length=100, null=False)
     quantity = models.FloatField(default=0, null=False)
+    collected = models.BooleanField("Collected", null=False, default=False)
 
     def __str__(self):
         return self.name

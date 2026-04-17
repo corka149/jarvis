@@ -34,73 +34,94 @@
   <div id="app" class="my-10">
     <ul>
       <li v-for="item in items" :key="item.id">
-        <input
-          type="text"
-          placeholder=""
-          class="input w-6/12 m-1"
-          v-model="item.name"
-          :disabled="this.isDisconnected"
-          @input="edit(item)"
-        />
-        <input
-          type="number"
-          placeholder=""
-          class="input w-4/12 m-1"
-          v-model="item.quantity"
-          :disabled="this.isDisconnected"
-          @input="edit(item)"
-        />
-        <button class="btn btn-square"
-            :disabled="this.isDisconnected"
-            @click="deleteItem(item)"
-          >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            class="size-4"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
-              clip-rule="evenodd"
+        <div>
+          <span class="w-1/12 ">
+            <input 
+              type="checkbox"
+              v-model="item.collected"
+              class="checkbox m-1" 
+              :disabled="this.isDisconnected"
+              @change="edit(item)"
             />
-          </svg>
-        </button>
+          </span>
+          <input
+            type="text"
+            placeholder=""
+            class="input w-10/12 m-1"
+            v-model="item.name"
+            :disabled="this.isDisconnected"
+            @input="edit(item)"
+          />
+        </div>
+        <div class="justify-end flex">
+          <input
+            type="number"
+            placeholder=""
+            class="input w-4/12 m-1"
+            v-model="item.quantity"
+            :disabled="this.isDisconnected"
+            @input="edit(item)"
+          />
+          <button class="btn btn-square m-1"
+              :disabled="this.isDisconnected"
+              @click="deleteItem(item)"
+            >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="size-4"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="divider divider-neutral"></div>
       </li>
       <li>
-        <input
-          type="text"
-          placeholder=""
-          class="input w-6/12 m-1"
-          :disabled="this.isDisconnected"
-          v-model="newItemName"
-        />
-        <input
-          type="number"
-          placeholder=""
-          class="input w-4/12 m-1"
-          :disabled="this.isDisconnected"
-          v-model="newItemQuantity"
-        />
-        <button
-            class="btn btn-square"
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 inline m-1">
+              <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
+            </svg>
+          <input
+            type="text"
+            placeholder=""
+            class="input w-10/12 m-1"
             :disabled="this.isDisconnected"
-            @click="add()"
-          >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            class="size-4"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
+            v-model="newItemName"
+          />
+        </div>
+        <div class="justify-end flex">
+          <input
+            type="number"
+            placeholder=""
+            class="input w-4/12 m-1"
+            :disabled="this.isDisconnected"
+            v-model="newItemQuantity"
+          />
+          <button
+              class="btn btn-square m-1"
+              :disabled="this.isDisconnected"
+              @click="add()"
+            >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="size-4"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
       </li>
     </ul>
   </div>
@@ -206,6 +227,7 @@
 
             edited.name = change.value.name;
             edited.quantity = change.value.quantity;
+            edited.collected = change.value.collected;
           }
 
           if (change.op === "add") {
