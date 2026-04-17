@@ -49,4 +49,4 @@ USER appuser
 EXPOSE 8000
 
 # Use granian
-CMD ["granian", "--interface", "asgi", "--host", "0.0.0.0", "--port", "8000", "--loop", "uvloop", "web_jarvis.asgi:application", "--static-path-mount", "assets"]
+CMD ["granian", "--interface", "asginl", "--host", "0.0.0.0", "--port", "8000", "--loop", "uvloop", "web_jarvis.asgi:application", "--static-path-mount", "assets"]
