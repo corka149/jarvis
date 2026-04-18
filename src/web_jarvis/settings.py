@@ -37,7 +37,7 @@ if IS_PRODUCTION:
     # Load balance will take care
     SECURE_SSL_REDIRECT = False
     CSRF_COOKIE_SECURE = True
-    CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
+    CSRF_TRUSTED_ORIGINS = [f"https://{h}" for h in ALLOWED_HOSTS]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not IS_PRODUCTION
