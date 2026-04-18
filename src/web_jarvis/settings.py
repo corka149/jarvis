@@ -32,11 +32,12 @@ if IS_PRODUCTION:
     SECURE_HSTS_PRELOAD = True
     SECRET_KEY = os.getenv("SECRET_KEY")
     SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
     ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     # Load balance will take care
     SECURE_SSL_REDIRECT = False
+    CSRF_COOKIE_SECURE = True
+    CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not IS_PRODUCTION
