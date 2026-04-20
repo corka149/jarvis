@@ -31,10 +31,10 @@
   </h1>
 
   {% verbatim %}
-  <div id="app" class="my-10">
+  <div id="app" class="my-10 w-11/12">
     <ul>
       <li v-for="item in items" :key="item.id">
-        <div>
+        <div class="justify-end flex items-center">
           <span class="w-1/12 ">
             <input 
               type="checkbox"
@@ -83,7 +83,7 @@
         <div class="divider divider-neutral"></div>
       </li>
       <li>
-        <div>
+        <div class="justify-end flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 inline m-1">
               <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
             </svg>

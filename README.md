@@ -22,7 +22,8 @@ docker pull corka149/jarvis
 5. Version: Tech stack switch to
     1. Rust for backend
     2. Angular with TypeScript for frontend
-6. Version: Rewrite in Python with Django
+6. Go backend for managing meals
+7. Version: Rewrite in Python with Django
 
 ## Configurations
 
