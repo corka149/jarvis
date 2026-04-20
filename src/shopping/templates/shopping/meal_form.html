@@ -16,6 +16,7 @@
   {% endif %}
 
   <form
+    class="w-80"
     method="POST"
     action="{% if meal.id %}
                 {% url 'shopping:edit_meal' meal.id %}

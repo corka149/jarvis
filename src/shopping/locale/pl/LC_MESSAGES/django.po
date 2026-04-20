@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-14 21:41+0200\n"
+"POT-Creation-Date: 2026-04-20 21:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,14 +70,14 @@ msgstr "Listy zakupów"
 msgid "Items"
 msgstr "Produkty"
 
-#: shopping/templates/shopping/items.html:28
+#: shopping/templates/shopping/items.html:30
 #, python-format
 msgid "Items of %(name)s"
 msgstr "Produkty marki %(name)s"
 
-#: shopping/templates/shopping/items.html:125
-#: shopping/templates/shopping/meal_form.html:63
-#: shopping/templates/shopping/shopping_list_form.html:95
+#: shopping/templates/shopping/items.html:161
+#: shopping/templates/shopping/meal_form.html:64
+#: shopping/templates/shopping/shopping_list_form.html:96
 msgid "Back"
 msgstr "Powrót"
 
@@ -90,7 +90,7 @@ msgid "Password"
 msgstr "Hasło"
 
 #: shopping/templates/shopping/meal_form.html:8
-#: shopping/templates/shopping/shopping_list_form.html:12
+#: shopping/templates/shopping/shopping_list_form.html:12 shopping/views.py:178
 msgid "New"
 msgstr "Nowość"
 
@@ -98,37 +98,37 @@ msgstr "Nowość"
 msgid "New meal"
 msgstr "Nowy posiłek"
 
-#: shopping/templates/shopping/meal_form.html:29
+#: shopping/templates/shopping/meal_form.html:30
 msgid "Meal name"
 msgstr "Nazwa posiłku"
 
-#: shopping/templates/shopping/meal_form.html:42
+#: shopping/templates/shopping/meal_form.html:43
 #: shopping/templates/shopping/meals.html:36
 msgid "Category"
 msgstr "Kategoria"
 
-#: shopping/templates/shopping/meal_form.html:72
-#: shopping/templates/shopping/meal_form.html:92
-#: shopping/templates/shopping/shopping_list_form.html:104
-#: shopping/templates/shopping/shopping_list_form.html:131
+#: shopping/templates/shopping/meal_form.html:73
+#: shopping/templates/shopping/meal_form.html:93
+#: shopping/templates/shopping/shopping_list_form.html:105
+#: shopping/templates/shopping/shopping_list_form.html:132
 msgid "Delete"
 msgstr "Usuń"
 
-#: shopping/templates/shopping/meal_form.html:76
-#: shopping/templates/shopping/shopping_list_form.html:108
+#: shopping/templates/shopping/meal_form.html:77
+#: shopping/templates/shopping/shopping_list_form.html:109
 msgid "Save"
 msgstr "Zapisz"
 
-#: shopping/templates/shopping/meal_form.html:83
+#: shopping/templates/shopping/meal_form.html:84
 msgid "Delete the meal"
 msgstr "Usuń posiłek"
 
-#: shopping/templates/shopping/meal_form.html:84
+#: shopping/templates/shopping/meal_form.html:85
 msgid "Do you really want to delete this meal?"
 msgstr "Czy na pewno chcesz usunąć ten posiłek?"
 
-#: shopping/templates/shopping/meal_form.html:88
-#: shopping/templates/shopping/shopping_list_form.html:120
+#: shopping/templates/shopping/meal_form.html:89
+#: shopping/templates/shopping/shopping_list_form.html:121
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -138,38 +138,50 @@ msgid "Name"
 msgstr "Imię"
 
 #: shopping/templates/shopping/shopping_list.html:75
-#: shopping/templates/shopping/shopping_list_form.html:48
+#: shopping/templates/shopping/shopping_list_form.html:49
 msgid "Purchase date"
 msgstr "Data zakupu"
+
+#: shopping/templates/shopping/shopping_list.html:95
+msgid "Cart"
+msgstr "Koszyk"
 
 #: shopping/templates/shopping/shopping_list_form.html:21
 msgid "New shopping list"
 msgstr "Nowa lista zakupów"
 
-#: shopping/templates/shopping/shopping_list_form.html:35
+#: shopping/templates/shopping/shopping_list_form.html:36
 msgid "List name"
 msgstr "Nazwa listy"
 
-#: shopping/templates/shopping/shopping_list_form.html:70
+#: shopping/templates/shopping/shopping_list_form.html:71
 msgid "Purchase done?"
 msgstr "Zakup zakończony?"
 
-#: shopping/templates/shopping/shopping_list_form.html:86
+#: shopping/templates/shopping/shopping_list_form.html:87
 msgid "Undo delete"
 msgstr "Cofnij usunięcie"
 
-#: shopping/templates/shopping/shopping_list_form.html:115
+#: shopping/templates/shopping/shopping_list_form.html:116
 msgid "Delete the list"
 msgstr "Usuń listę"
 
-#: shopping/templates/shopping/shopping_list_form.html:116
+#: shopping/templates/shopping/shopping_list_form.html:117
 msgid "Do you really want to delete this shopping list?"
 msgstr "Czy na pewno chcesz usunąć tę listę zakupów?"
 
-#: shopping/templates/shopping/shopping_list_form.html:125
+#: shopping/templates/shopping/shopping_list_form.html:126
 msgid "Delete finally"
 msgstr "Usuń ostatecznie"
 
 #: shopping/views.py:87
 msgid "Login failed."
 msgstr "Rejestracja nie powiodła się."
+
+#: shopping/views.py:178
+msgid "Amount"
+msgstr "Ilość"
+
+#: shopping/views.py:178
+msgid "Item"
+msgstr "Przedmiot"

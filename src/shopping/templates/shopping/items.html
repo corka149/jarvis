@@ -24,6 +24,8 @@
   <!-- Items -->
   {{ shopping_list_items|json_script:"shopping-list-items" }}
 
+  {{ translations|json_script:"translations"}}
+
   <h1 class="text-xl font-semibold leading-8">
     {% blocktranslate with name=shopping_list.name trimmed %} 
       Items of {{ name }}
@@ -34,35 +36,42 @@
   <div id="app" class="my-10 w-11/12">
     <ul>
       <li v-for="item in items" :key="item.id">
+        <div class="divider divider-neutral"></div>
         <div class="justify-end flex items-center">
           <span class="w-1/12 ">
             <input 
               type="checkbox"
               v-model="item.collected"
-              class="checkbox m-1" 
+              class="checkbox m-1 mt-8" 
               :disabled="this.isDisconnected"
               @change="edit(item)"
             />
           </span>
-          <input
-            type="text"
-            placeholder=""
-            class="input w-10/12 m-1"
-            v-model="item.name"
-            :disabled="this.isDisconnected"
-            @input="edit(item)"
-          />
+          <fieldset class="fieldset w-10/12 m-1">
+            <legend class="fieldset-legend">{{ translations.item }}</legend>
+            <input
+              type="text"
+              placeholder=""
+              class="input w-full"
+              v-model="item.name"
+              :disabled="this.isDisconnected"
+              @input="edit(item)"
+            />
+          </fieldset>
         </div>
-        <div class="justify-end flex">
-          <input
-            type="number"
-            placeholder=""
-            class="input w-4/12 m-1"
-            v-model="item.quantity"
-            :disabled="this.isDisconnected"
-            @input="edit(item)"
-          />
-          <button class="btn btn-square m-1"
+        <div class="justify-end flex items-end">
+          <fieldset class="fieldset w-4/12 m-1">
+            <legend class="fieldset-legend">{{ translations.amount }}</legend>
+            <input
+              type="number"
+              placeholder=""
+              class="input w-full"
+              v-model="item.quantity"
+              :disabled="this.isDisconnected"
+              @input="edit(item)"
+            />
+          </fieldset>
+          <button class="btn btn-square m-2"
               :disabled="this.isDisconnected"
               @click="deleteItem(item)"
             >
@@ -80,31 +89,37 @@
             </svg>
           </button>
         </div>
-        <div class="divider divider-neutral"></div>
       </li>
+      <div class="divider divider-neutral">{{ translations.new }}</div>
       <li>
         <div class="justify-end flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 inline m-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 inline m-1 mt-8">
               <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
             </svg>
-          <input
-            type="text"
-            placeholder=""
-            class="input w-10/12 m-1"
-            :disabled="this.isDisconnected"
-            v-model="newItemName"
+          <fieldset class="fieldset w-10/12 m-1">
+            <legend class="fieldset-legend">{{ translations.item }}</legend>
+            <input
+              type="text"
+              placeholder=""
+              class="input w-full"
+              :disabled="this.isDisconnected"
+              v-model="newItemName"
           />
+          </fieldset>
         </div>
-        <div class="justify-end flex">
-          <input
-            type="number"
-            placeholder=""
-            class="input w-4/12 m-1"
-            :disabled="this.isDisconnected"
-            v-model="newItemQuantity"
-          />
+        <div class="justify-end flex items-end">
+          <fieldset class="fieldset w-4/12 m-1">
+            <legend class="fieldset-legend">{{ translations.amount }}</legend>
+            <input
+              type="number"
+              placeholder=""
+              class="input w-full"
+              :disabled="this.isDisconnected"
+              v-model="newItemQuantity"
+            />
+          </fieldset>
           <button
-              class="btn btn-square m-1"
+              class="btn btn-square m-2"
               :disabled="this.isDisconnected"
               @click="add()"
             >
@@ -150,6 +165,9 @@
     const shoppingListId = JSON.parse(
       document.getElementById("shopping-list-id").textContent,
     );
+    const translations = JSON.parse(
+      document.getElementById("translations").textContent,
+    );
 
     const proto = window.location.protocol === "http:" ? "ws" : "wss";
     const url = proto +
@@ -177,6 +195,7 @@
           items: JSON.parse(
             document.getElementById("shopping-list-items").textContent,
           ),
+          translations
         };
       },
       methods: {

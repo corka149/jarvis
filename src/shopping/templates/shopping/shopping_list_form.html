@@ -22,6 +22,7 @@
   {% endif %}
 
   <form
+    class="w-80"
     method="POST"
     action="{% if shopping_list.id %}
                 {% url 'shopping:edit_list' shopping_list.id %}
@@ -58,7 +59,7 @@
     <!-- Done? --->
     {% if shopping_list.id %}
     <fieldset
-      class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4 my-2"
+      class="fieldset bg-base-100 border-base-300 rounded-box w-10/12 border p-4 my-2"
     >
       <label class="label">
         <input
