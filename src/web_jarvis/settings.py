@@ -25,7 +25,10 @@ IS_PRODUCTION = os.getenv("ENVIRONMENT") == "PRODUCTION"
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-ej)pa1p)a^!1(kc&zpcrg9+hxh6j+)1g_(wxmnffv!fyv%pbb_"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
+
+if extra_allowed_hosts := os.getenv("EXTRA_ALLOWED_HOSTS"):
+    ALLOWED_HOSTS += extra_allowed_hosts.split(",")
 
 if IS_PRODUCTION:
     SECURE_HSTS_SECONDS = 3600

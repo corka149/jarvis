@@ -175,7 +175,12 @@ def manage_items(request, pk):
             "shopping_list": sl,
             "shopping_list_items": data,
             "debug_enabled": debug_enabled,
-            "translations": {"new": _("New"), "amount": _("Amount"), "item": _("Item")},
+            "translations": {
+                "new": _("New"),
+                "amount": _("Amount"),
+                "item": _("Item"),
+                "collected": _("Collected"),
+            },
         },
     )
 

@@ -36,19 +36,10 @@
   <div id="app" class="my-10 w-11/12">
     <ul>
       <li v-for="item in items" :key="item.id">
-        <div class="divider divider-neutral"></div>
+        <div class="divider divider-neutral mx-1"></div>
         <div class="justify-end flex items-center">
-          <span class="w-1/12 ">
-            <input 
-              type="checkbox"
-              v-model="item.collected"
-              class="checkbox m-1 mt-8" 
-              :disabled="this.isDisconnected"
-              @change="edit(item)"
-            />
-          </span>
-          <fieldset class="fieldset w-10/12 m-1">
-            <legend class="fieldset-legend">{{ translations.item }}</legend>
+          <fieldset class="fieldset w-11/12 mx-1">
+            <legend class="fieldset-legend p-0">{{ translations.item }}</legend>
             <input
               type="text"
               placeholder=""
@@ -60,8 +51,8 @@
           </fieldset>
         </div>
         <div class="justify-end flex items-end">
-          <fieldset class="fieldset w-4/12 m-1">
-            <legend class="fieldset-legend">{{ translations.amount }}</legend>
+          <fieldset class="fieldset w-4/12 mx-1">
+            <legend class="fieldset-legend p-0">{{ translations.amount }}</legend>
             <input
               type="number"
               placeholder=""
@@ -71,7 +62,7 @@
               @input="edit(item)"
             />
           </fieldset>
-          <button class="btn btn-square m-2"
+          <button class="btn btn-square m-1 mx-4"
               :disabled="this.isDisconnected"
               @click="deleteItem(item)"
             >
@@ -88,16 +79,23 @@
               />
             </svg>
           </button>
+          <fieldset class="fieldset w-1/12 mb-2">
+            <legend class="fieldset-legend pb-2">{{ translations.collected }}</legend>
+            <input 
+              type="checkbox"
+              v-model="item.collected"
+              class="checkbox mx-2" 
+              :disabled="this.isDisconnected"
+              @change="edit(item)"
+            />
+          </fieldset>
         </div>
       </li>
-      <div class="divider divider-neutral">{{ translations.new }}</div>
+      <div class="divider divider-neutral mx-1">{{ translations.new }}</div>
       <li>
         <div class="justify-end flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 inline m-1 mt-8">
-              <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
-            </svg>
-          <fieldset class="fieldset w-10/12 m-1">
-            <legend class="fieldset-legend">{{ translations.item }}</legend>
+          <fieldset class="fieldset w-11/12 mx-1">
+            <legend class="fieldset-legend p-0">{{ translations.item }}</legend>
             <input
               type="text"
               placeholder=""
@@ -108,8 +106,8 @@
           </fieldset>
         </div>
         <div class="justify-end flex items-end">
-          <fieldset class="fieldset w-4/12 m-1">
-            <legend class="fieldset-legend">{{ translations.amount }}</legend>
+          <fieldset class="fieldset w-4/12 mx-1">
+            <legend class="fieldset-legend p-0">{{ translations.amount }}</legend>
             <input
               type="number"
               placeholder=""
@@ -119,7 +117,7 @@
             />
           </fieldset>
           <button
-              class="btn btn-square m-2"
+              class="btn btn-square m-1 ml-4"
               :disabled="this.isDisconnected"
               @click="add()"
             >

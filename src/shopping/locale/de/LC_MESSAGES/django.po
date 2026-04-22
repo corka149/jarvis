@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-20 21:46+0200\n"
+"POT-Creation-Date: 2026-04-21 12:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,7 +72,7 @@ msgstr "Gegenstände"
 msgid "Items of %(name)s"
 msgstr "Gegenstände in %(name)s"
 
-#: shopping/templates/shopping/items.html:161
+#: shopping/templates/shopping/items.html:159
 #: shopping/templates/shopping/meal_form.html:64
 #: shopping/templates/shopping/shopping_list_form.html:96
 msgid "Back"
@@ -87,7 +87,7 @@ msgid "Password"
 msgstr "Passwort"
 
 #: shopping/templates/shopping/meal_form.html:8
-#: shopping/templates/shopping/shopping_list_form.html:12 shopping/views.py:178
+#: shopping/templates/shopping/shopping_list_form.html:12 shopping/views.py:179
 msgid "New"
 msgstr "Neu"
 
@@ -175,10 +175,14 @@ msgstr "Endgültig löschen"
 msgid "Login failed."
 msgstr "Die Anmeldung ist fehlgeschlagen."
 
-#: shopping/views.py:178
+#: shopping/views.py:180
 msgid "Amount"
 msgstr "Menge"
 
-#: shopping/views.py:178
+#: shopping/views.py:181
 msgid "Item"
 msgstr "Gegenstand"
+
+#: shopping/views.py:182
+msgid "Collected"
+msgstr "Eingesammelt"
