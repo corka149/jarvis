@@ -1,5 +1,17 @@
-*.md
-**/node_modules
-**/__pycache__
-**/*.pyc
-**/*.env
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+**/*.sqlite3
+**/tailwindcss
+
+src/assets
+**/.DS_Store
+**/.env

@@ -20,12 +20,16 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade pip setuptools wheel uv
 
 # Copy pyproject so uv can read dependencies (and the app code)
-COPY pyproject.toml ./pyproject.toml
-COPY src/ /app/
+COPY requirements.txt ./requirements.txt
+
+RUN uv venv
 
 # Install production dependencies using `uv` (use pip cache mount)
 RUN --mount=type=cache,target=/root/.cache/pip \
-    uv sync
+    uv pip sync requirements.txt
+
+COPY pyproject.toml ./pyproject.toml
+COPY src/ /app/
 
 ENV PATH="/app/.venv/bin:$PATH"
 RUN python manage.py collectstatic --noinput
