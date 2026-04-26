@@ -179,7 +179,7 @@ def manage_items(request, pk):
                 "new": _("New"),
                 "amount": _("Amount"),
                 "item": _("Item"),
-                "collected": _("Collected"),
+                "delete": _("Delete item?"),
             },
         },
     )

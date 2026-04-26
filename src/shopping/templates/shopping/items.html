@@ -35,35 +35,27 @@
   {% verbatim %}
   <div id="app" class="my-10 w-11/12">
     <ul>
-      <li v-for="item in items" :key="item.id">
-        <div class="divider divider-neutral mx-1"></div>
-        <div class="justify-end flex items-center">
-          <fieldset class="fieldset w-11/12 mx-1">
-            <legend class="fieldset-legend p-0">{{ translations.item }}</legend>
-            <input
-              type="text"
-              placeholder=""
-              class="input w-full"
-              v-model="item.name"
-              :disabled="this.isDisconnected"
-              @input="edit(item)"
-            />
-          </fieldset>
-        </div>
-        <div class="justify-end flex items-end">
-          <fieldset class="fieldset w-4/12 mx-1">
-            <legend class="fieldset-legend p-0">{{ translations.amount }}</legend>
-            <input
-              type="number"
-              placeholder=""
-              class="input w-full"
-              v-model="item.quantity"
-              :disabled="this.isDisconnected"
-              @input="edit(item)"
-            />
-          </fieldset>
-          <button class="btn btn-square m-1 mx-4"
-              :disabled="this.isDisconnected"
+      <li v-for="item in items" :key="item.id" class="my-2">
+        <div class="join">
+          <input
+            type="text"
+            :placeholder="translations.item"
+            class="input join-item"
+            v-model="item.name"
+            :disabled="this.isDisconnected || item.collected"
+            @input="edit(item)"
+          />
+          <input
+            type="number"
+            style="flex: 1 1 25%;"
+            :placeholder="translations.amount"
+            class="input join-item no-spinner"
+            v-model="item.quantity"
+            :disabled="this.isDisconnected || item.collected"
+            @input="edit(item)"
+          />
+          <button class="btn btn-square join-item"
+              :disabled="this.isDisconnected || item.collected"
               @click="deleteItem(item)"
             >
             <svg
@@ -79,45 +71,35 @@
               />
             </svg>
           </button>
-          <fieldset class="fieldset w-1/12 mb-2">
-            <legend class="fieldset-legend pb-2">{{ translations.collected }}</legend>
-            <input 
-              type="checkbox"
-              v-model="item.collected"
-              class="checkbox mx-2" 
-              :disabled="this.isDisconnected"
-              @change="edit(item)"
-            />
-          </fieldset>
+          <input 
+            type="checkbox"
+            v-model="item.collected"
+            class="checkbox join-item h-10 w-10" 
+            :disabled="this.isDisconnected"
+            @change="edit(item)"
+          />
         </div>
       </li>
       <div class="divider divider-neutral mx-1">{{ translations.new }}</div>
       <li>
-        <div class="justify-end flex items-center">
-          <fieldset class="fieldset w-11/12 mx-1">
-            <legend class="fieldset-legend p-0">{{ translations.item }}</legend>
-            <input
-              type="text"
-              placeholder=""
-              class="input w-full"
-              :disabled="this.isDisconnected"
-              v-model="newItemName"
+        <div class="join">
+          <input
+            type="text"
+            :placeholder="translations.item"
+            class="input join-item"
+            v-model="newItemName"
+            :disabled="this.isDisconnected"
           />
-          </fieldset>
-        </div>
-        <div class="justify-end flex items-end">
-          <fieldset class="fieldset w-4/12 mx-1">
-            <legend class="fieldset-legend p-0">{{ translations.amount }}</legend>
-            <input
-              type="number"
-              placeholder=""
-              class="input w-full"
-              :disabled="this.isDisconnected"
-              v-model="newItemQuantity"
-            />
-          </fieldset>
+          <input
+            type="number"
+            style="flex: 1 1 25%;"
+            :placeholder="translations.amount"
+            class="input join-item no-spinner"
+            v-model="newItemQuantity"
+            :disabled="this.isDisconnected"
+          />
           <button
-              class="btn btn-square m-1 ml-4"
+              class="btn btn-square join-item"
               :disabled="this.isDisconnected"
               @click="add()"
             >
@@ -198,6 +180,10 @@
       },
       methods: {
         deleteItem(item) {
+          if (!confirm(translations.delete)) {
+            return;
+          }
+
           this.ws.send(
             JSON.stringify({
               op: "delete",

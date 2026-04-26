@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-21 12:53+0200\n"
+"POT-Creation-Date: 2026-04-26 07:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgstr "Produkty"
 msgid "Items of %(name)s"
 msgstr "Produkty marki %(name)s"
 
-#: shopping/templates/shopping/items.html:159
+#: shopping/templates/shopping/items.html:142
 #: shopping/templates/shopping/meal_form.html:64
 #: shopping/templates/shopping/shopping_list_form.html:96
 msgid "Back"
@@ -187,5 +187,5 @@ msgid "Item"
 msgstr "Przedmiot"
 
 #: shopping/views.py:182
-msgid "Collected"
-msgstr "Zebrane"
+msgid "Usunąć element?"
+msgstr "Usunąć obiekt?"

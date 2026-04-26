@@ -5,6 +5,14 @@
 
 @plugin "./daisyui.mjs";
 
+@utility no-spinner {
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    appearance: none;
+  }
+}
+
 @plugin "./daisyui-theme.mjs" {
   name: "dark";
   default: false;
@@ -74,3 +82,4 @@
   --depth: 1;
   --noise: 1;
 }
+
