@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-26 07:07+0200\n"
+"POT-Creation-Date: 2026-05-08 22:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: shopping/models.py:30
+msgid "main"
+msgstr "Hauptgericht"
+
+#: shopping/models.py:31
+msgid "garnish"
+msgstr "Beilage"
+
+#: shopping/models.py:32
+msgid "full"
+msgstr "Komplett"
 
 #: shopping/templates/shopping/base.html:51
 #: shopping/templates/shopping/shopping_list.html:1
@@ -72,7 +84,7 @@ msgstr "Gegenstände"
 msgid "Items of %(name)s"
 msgstr "Gegenstände in %(name)s"
 
-#: shopping/templates/shopping/items.html:142
+#: shopping/templates/shopping/items.html:141
 #: shopping/templates/shopping/meal_form.html:64
 #: shopping/templates/shopping/shopping_list_form.html:96
 msgid "Back"

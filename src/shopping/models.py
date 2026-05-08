@@ -1,6 +1,7 @@
 from enum import StrEnum
 
 from django.db import models
+from django.utils.translation import gettext_noop as _
 
 
 class ShoppingList(models.Model):
@@ -26,9 +27,9 @@ class Item(models.Model):
 
 
 class MealCategory(StrEnum):
-    MAIN = "main"
-    GARNISH = "garnish"
-    FULL = "full"
+    MAIN = _("main")
+    GARNISH = _("garnish")
+    FULL = _("full")
 
 
 class Meal(models.Model):

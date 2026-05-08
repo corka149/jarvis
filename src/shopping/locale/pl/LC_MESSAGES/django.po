@@ -189,3 +189,12 @@ msgstr "Przedmiot"
 #: shopping/views.py:182
 msgid "Usunąć element?"
 msgstr "Usunąć obiekt?"
+
+msgid "main"
+msgstr "Danie główne"
+
+msgid "garnish"
+msgstr "Załącznik"
+
+msgid "full"
+msgstr "Kompletny"

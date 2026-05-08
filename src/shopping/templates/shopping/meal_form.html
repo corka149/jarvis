@@ -43,7 +43,11 @@
       <legend class="fieldset-legend">{% translate "Category" %}</legend>
       <select name="category" class="select">
         {% for category in categories %}
-        <option value="{{category}}">{{ category }}</option>
+          {% if meal.category == category %}
+            <option value="{{category}}" selected>{% translate category %}</option>
+          {% else %}
+            <option value="{{category}}">{% translate category %}</option>
+          {% endif %}
         {% endfor %}
       </select>
     </fieldset>
