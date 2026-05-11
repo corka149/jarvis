@@ -2,8 +2,10 @@ import json
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
+from channels.layers import get_channel_layer
+from django.forms.models import model_to_dict
 
-from .models import Item
+from .models import Item, ShoppingList
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -28,10 +30,20 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         # {"op": "edit", "value": {"id": 1, "name": "bread", "quantity": 1.1}}
         change = json.loads(text_data)
-        op = change["op"]
-        val = change["value"]
+        op = change.get("op")
+        val = change.get("value")
 
-        if op == "delete":
+        if op == "reload":
+            sl = ShoppingList.objects.get(id=self.shopping_list_id)
+            items = sl.item_set.all()
+            change["value"] = [model_to_dict(item) for item in items]
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.send)(
+                self.channel_name,
+                {"type": "list.change", "change": change},
+            )
+            return
+        elif op == "delete":
             item = Item.objects.get(id=val["id"])
             item.delete()
         elif op == "update":

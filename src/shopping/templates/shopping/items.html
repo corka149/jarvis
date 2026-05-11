@@ -214,6 +214,11 @@
         onMessage(e) {
           const change = JSON.parse(e);
 
+          if (change.op === "reload") {
+            this.items = change.value;
+            return;
+          }
+
           if (change.op === "delete") {
             this.items = this.items.filter((i) => i.id !== change.value.id);
             return;
@@ -246,7 +251,12 @@
         });
 
         this.ws.on("onMessage", (e) => this.onMessage(e));
-        this.ws.on("onConnect", (e) => this.isDisconnected = false);
+        this.ws.on("onConnect", (e) => {
+          this.ws.send({
+            op: "reload"
+          })
+          this.isDisconnected = false;
+        });
         this.ws.on("onDisconnect", (e) => this.isDisconnected = true);
       },
     }).mount("#app");
